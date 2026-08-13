@@ -1,0 +1,984 @@
+/* ==========================================================================
+   खान्देशी जत्रा (Khandeshi Jatra) - Cinematic Animation Stylesheet
+   Theme: Subtle, Decent, Festive Glassmorphism & Soft Floating Particles
+   ========================================================================== */
+
+:root {
+  /* Color Palette */
+  --bg-dark: #0a0805;
+  
+  /* High-Transparency Glassmorphism */
+  --bg-glass-player: rgba(10, 8, 5, 0.45);
+  --bg-glass-badge: rgba(10, 8, 5, 0.45);
+  --glass-blur: blur(10px);
+  --border-subtle: 1px solid rgba(255, 255, 255, 0.15);
+
+  /* Warm Brand Highlights */
+  --gold-300: #fde68a;
+  --gold-400: #fbbf24;
+  --gold-500: #f59e0b;
+  --gold-600: #d97706;
+  --gold-glow: rgba(245, 158, 11, 0.22);
+  --green-live: #22c55e;
+
+  /* Typography */
+  --text-primary: #ffffff;
+  --text-secondary: #e6ded7;
+  --text-muted: #b5a79b;
+
+  --font-marathi: 'Yatra One', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   1. Fullscreen 16:9 Hero Background & Cinematic Motion
+   -------------------------------------------------------------------------- */
+.bg-wrapper {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  background-color: #000;
+  pointer-events: none;
+  animation: pageInitialFadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.bg-image {
+  position: absolute;
+  inset: -8px;
+  width: calc(100% + 16px);
+  height: calc(100% + 16px);
+  background-size: cover;
+  background-position: center 40%;
+  background-repeat: no-repeat;
+  will-change: transform;
+  animation: cinematicBreathing 18s ease-in-out infinite alternate;
+}
+
+/* Edge Vignette */
+.bg-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0.22) 85%,
+    rgba(10, 8, 5, 0.65) 100%
+  );
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   2. Hanging Festival Lights & Firework Ambient Glow
+   -------------------------------------------------------------------------- */
+.lights-glow-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 35%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bulb-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(14px);
+}
+
+.glow-1 {
+  top: 8%;
+  left: 22%;
+  width: 90px;
+  height: 90px;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.22) 0%, transparent 70%);
+  animation: ambientBulbPulse 4s ease-in-out infinite alternate;
+}
+
+.glow-2 {
+  top: 5%;
+  left: 50%;
+  width: 110px;
+  height: 110px;
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.18) 0%, transparent 70%);
+  animation: ambientBulbPulse 4.8s ease-in-out 1.2s infinite alternate;
+}
+
+.glow-3 {
+  top: 9%;
+  right: 24%;
+  width: 95px;
+  height: 95px;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.2) 0%, transparent 70%);
+  animation: ambientBulbPulse 3.8s ease-in-out 2.4s infinite alternate;
+}
+
+.firework-ambient-glow {
+  position: absolute;
+  top: 4%;
+  right: 18%;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(244, 114, 182, 0.12) 0%, rgba(251, 191, 36, 0.08) 40%, transparent 70%);
+  filter: blur(18px);
+  animation: ambientFirework 7s ease-in-out infinite alternate;
+}
+
+/* --------------------------------------------------------------------------
+   3. Night Sky Twinkling Stars
+   -------------------------------------------------------------------------- */
+.sky-stars-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 28%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.sky-star {
+  position: absolute;
+  border-radius: 50%;
+  background: #ffffff;
+  pointer-events: none;
+  animation: softTwinkle 4.5s ease-in-out infinite alternate;
+}
+
+/* --------------------------------------------------------------------------
+   4. Floating Festive Dust Particles (Soft glowing upward float)
+   -------------------------------------------------------------------------- */
+.festive-dust-container {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.dust-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: floatUpward linear infinite;
+}
+
+.dust-gold {
+  background: #fbbf24;
+  box-shadow: 0 0 4px rgba(251, 191, 36, 0.55);
+}
+
+.dust-amber {
+  background: #f59e0b;
+  box-shadow: 0 0 3px rgba(245, 158, 11, 0.45);
+}
+
+.dust-white {
+  background: #fffbf5;
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
+/* --------------------------------------------------------------------------
+   5. Central Artwork Soft Golden Highlight Sweep
+   -------------------------------------------------------------------------- */
+.center-shine-sweep {
+  position: absolute;
+  top: 32%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 480px;
+  height: 260px;
+  background: radial-gradient(ellipse at center, rgba(251, 191, 36, 0.14) 0%, transparent 68%);
+  filter: blur(20px);
+  pointer-events: none;
+  opacity: 0;
+  animation: goldenSweep 10s ease-in-out 3s infinite;
+}
+
+/* --------------------------------------------------------------------------
+   6. Top Header Badges & Tagline (Sequential Entrance)
+   -------------------------------------------------------------------------- */
+.top-badge {
+  position: fixed;
+  top: 20px;
+  z-index: 15;
+  background: var(--bg-glass-badge);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--border-subtle);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+/* Top Left: Listener Count */
+.top-left-badge {
+  left: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.75rem;
+  animation: fadeTranslateDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green-live);
+  box-shadow: 0 0 8px var(--green-live);
+  animation: pulseGreen 2s infinite ease-in-out;
+}
+
+.listener-text {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Top Center: Tagline */
+.top-tagline {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 10;
+  pointer-events: none;
+  text-align: center;
+  white-space: nowrap;
+  animation: taglineFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+}
+
+.tagline-text {
+  font-family: var(--font-marathi);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #fff2e4;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 14px rgba(245, 158, 11, 0.35);
+  letter-spacing: 0.02em;
+}
+
+/* Top Right: Date & Clock Widget */
+.top-right-badge {
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0.35rem 0.75rem;
+  gap: 0.1rem;
+  animation: fadeTranslateDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.38s both;
+}
+
+.widget-time {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.widget-date {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--gold-300);
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* --------------------------------------------------------------------------
+   7. Ultra-Transparent Floating Music Controller Bar
+   -------------------------------------------------------------------------- */
+.player-container {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 2rem);
+  max-width: 470px;
+  z-index: 20;
+  animation: fadeTranslateUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.65s both;
+}
+
+.mini-player-bar {
+  background: var(--bg-glass-player);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--border-subtle);
+  border-radius: 14px;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5), 0 0 16px var(--gold-glow);
+  padding: 0.55rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  transition: border-color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-normal);
+}
+
+.mini-player-bar:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(10, 8, 5, 0.52);
+}
+
+/* Top Mini Row: Track Thumb & Title */
+.track-info-section {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.track-thumb {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: rgba(20, 14, 10, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.track-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Mini Soundwave inside thumb */
+.mini-soundwave {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 8, 5, 0.65);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
+  padding-bottom: 5px;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  pointer-events: none;
+}
+
+.mini-soundwave.active {
+  opacity: 1;
+}
+
+.mini-soundwave span {
+  width: 2.5px;
+  background: var(--gold-400);
+  border-radius: 1px;
+  height: 3px;
+  transition: height var(--transition-fast);
+}
+
+.mini-soundwave.active span {
+  animation: wave 0.8s ease-in-out infinite alternate;
+}
+
+.mini-soundwave.active span:nth-child(2) { animation-delay: 0.2s; }
+.mini-soundwave.active span:nth-child(3) { animation-delay: 0.4s; }
+
+.track-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  overflow: hidden;
+}
+
+.track-title {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: var(--font-marathi);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.01em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.track-artist {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;
+}
+
+/* Bottom Mini Row: Playback Buttons + Scrubber + Volume */
+.player-main-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+/* Playback Buttons */
+.playback-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  flex-shrink: 0;
+}
+
+.ctrl-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.ctrl-btn:hover {
+  color: #ffffff;
+  transform: scale(1.12);
+}
+
+.ctrl-btn:active {
+  transform: scale(0.95);
+}
+
+.play-toggle-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-400), var(--gold-600));
+  border: none;
+  color: #140a05;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 2px 8px var(--gold-glow);
+  transition: transform var(--transition-fast), box-shadow var(--transition-normal);
+  flex-shrink: 0;
+}
+
+.play-toggle-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 3px 12px rgba(245, 158, 11, 0.5);
+}
+
+.play-toggle-btn.playing {
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.55);
+}
+
+.play-toggle-btn:active {
+  transform: scale(0.94);
+}
+
+/* Progress Bar & Time */
+.progress-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.time-display {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  min-width: 28px;
+}
+
+.current-time {
+  text-align: right;
+  color: var(--gold-300);
+}
+
+.progress-bar-wrapper {
+  flex: 1;
+  position: relative;
+  padding: 6px 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.progress-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+  position: relative;
+  overflow: hidden;
+  transition: height var(--transition-fast);
+}
+
+.progress-bar-wrapper:hover .progress-track {
+  height: 5px;
+}
+
+.progress-buffered {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+}
+
+.progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold-600), var(--gold-400));
+  border-radius: 9999px;
+}
+
+.progress-thumb {
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%) scale(0);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1.5px solid var(--gold-500);
+  box-shadow: 0 0 6px var(--gold-glow);
+  transition: transform var(--transition-fast);
+}
+
+.progress-bar-wrapper:hover .progress-thumb {
+  transform: translateY(-50%) scale(1);
+}
+
+.scrub-tooltip {
+  position: absolute;
+  top: -20px;
+  left: 0%;
+  transform: translateX(-50%);
+  background: rgba(10, 8, 5, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1px 4px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--gold-300);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.progress-bar-wrapper:hover .scrub-tooltip {
+  opacity: 1;
+}
+
+/* Mini Volume Box */
+.mini-volume-box {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  flex-shrink: 0;
+}
+
+.vol-btn {
+  width: 24px;
+  height: 24px;
+  color: var(--text-muted);
+}
+
+.vol-btn:hover {
+  color: var(--gold-300);
+}
+
+.mini-volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 44px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 9999px;
+  outline: none;
+  cursor: pointer;
+}
+
+.mini-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold-400);
+  box-shadow: 0 0 4px var(--gold-glow);
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.mini-volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+  background: #ffffff;
+}
+
+.mini-volume-slider::-moz-range-thumb {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold-400);
+  border: none;
+  box-shadow: 0 0 4px var(--gold-glow);
+  cursor: pointer;
+}
+
+/* Hidden YouTube Player container */
+.hidden-yt-frame {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   8. Keyframes & Subtle Cinematic Animations
+   -------------------------------------------------------------------------- */
+@keyframes pageInitialFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cinematicBreathing {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.015);
+  }
+}
+
+@keyframes taglineFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes fadeTranslateDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeTranslateUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 15px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes ambientBulbPulse {
+  0% {
+    opacity: 0.4;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes ambientFirework {
+  0% {
+    opacity: 0.15;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 0.38;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes softTwinkle {
+  0% {
+    opacity: 0.15;
+    transform: scale(0.85);
+  }
+  100% {
+    opacity: 0.7;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes floatUpward {
+  0% {
+    transform: translateY(105vh) translateX(0) scale(0.6);
+    opacity: 0;
+  }
+  12% {
+    opacity: var(--p-opacity, 0.6);
+  }
+  50% {
+    transform: translateY(50vh) translateX(var(--drift-x, 15px)) scale(1);
+    opacity: var(--p-opacity, 0.6);
+  }
+  85% {
+    opacity: var(--p-opacity, 0.6);
+  }
+  100% {
+    transform: translateY(-8vh) translateX(var(--drift-end, -10px)) scale(0.85);
+    opacity: 0;
+  }
+}
+
+@keyframes goldenSweep {
+  0%, 82% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  88% {
+    opacity: 0.45;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+  95%, 100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+@keyframes pulseGreen {
+  0%, 100% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
+    box-shadow: 0 0 10px var(--green-live);
+  }
+}
+
+@keyframes wave {
+  0% { height: 3px; }
+  100% { height: 11px; }
+}
+
+/* --------------------------------------------------------------------------
+   9. Mobile Responsive Adjustments
+   -------------------------------------------------------------------------- */
+@media (max-width: 680px) {
+  .bg-image {
+    animation: none; /* Keep background static on mobile for performance */
+  }
+
+  .center-shine-sweep {
+    width: 320px;
+    height: 180px;
+  }
+
+  .top-left-badge {
+    top: 14px;
+    left: 12px;
+    padding: 0.3rem 0.55rem;
+  }
+
+  .listener-text {
+    font-size: 0.64rem;
+    letter-spacing: 0.03em;
+  }
+
+  .top-right-badge {
+    top: 14px;
+    right: 12px;
+    padding: 0.25rem 0.55rem;
+  }
+
+  .widget-time {
+    font-size: 0.68rem;
+  }
+
+  .widget-date {
+    font-size: 0.6rem;
+  }
+
+  .top-tagline {
+    top: 15px;
+  }
+
+  .tagline-text {
+    font-size: 0.78rem;
+  }
+
+  .player-container {
+    bottom: 0.75rem;
+    width: calc(100% - 1.25rem);
+    max-width: none;
+  }
+
+  .mini-player-bar {
+    padding: 0.45rem 0.65rem;
+    gap: 0.25rem;
+    border-radius: 12px;
+  }
+
+  .track-thumb {
+    width: 28px;
+    height: 28px;
+  }
+
+  .track-title {
+    font-size: 0.82rem;
+  }
+
+  .track-artist {
+    font-size: 0.7rem;
+  }
+
+  .mini-volume-slider {
+    display: none;
+  }
+
+  .time-display {
+    font-size: 0.66rem;
+    min-width: 24px;
+  }
+
+  .play-toggle-btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .ctrl-btn {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   10. Click/Tap Interactive Heart & "जय खान्देश" Celebration
+   -------------------------------------------------------------------------- */
+.click-heart-element {
+  position: fixed;
+  pointer-events: none;
+  z-index: 999;
+  font-size: 1.4rem;
+  line-height: 1;
+  user-select: none;
+  filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.7));
+  animation: heartFloat 1s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes heartFloat {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4) rotate(var(--rot, 0deg));
+  }
+  18% {
+    opacity: 1;
+    transform: translate(calc(-50% + var(--drift-x, 0px) * 0.3), calc(-50% - 16px)) scale(1.2) rotate(var(--rot, 0deg));
+  }
+  55% {
+    opacity: 0.95;
+    transform: translate(calc(-50% + var(--drift-x, 0px) * 0.7), calc(-50% - 46px)) scale(1) rotate(var(--rot, 0deg));
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--drift-x, 0px)), calc(-50% - 72px)) scale(0.85) rotate(var(--rot, 0deg));
+  }
+}
+
+.click-khandesh-text {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1000;
+  font-family: var(--font-marathi);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fef08a;
+  text-shadow: 0 0 16px rgba(251, 191, 36, 0.9), 0 2px 8px rgba(0, 0, 0, 0.95);
+  white-space: nowrap;
+  user-select: none;
+  animation: khandeshFloat 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes khandeshFloat {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -30%) scale(0.6);
+  }
+  16% {
+    opacity: 1;
+    transform: translate(-50%, -75%) scale(1.12);
+  }
+  45% {
+    opacity: 1;
+    transform: translate(-50%, -105%) scale(1);
+  }
+  80% {
+    opacity: 0.9;
+    transform: translate(-50%, -140%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -170%) scale(0.92);
+  }
+}
+

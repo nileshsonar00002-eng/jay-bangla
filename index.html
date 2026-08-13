@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>खान्देशी जत्रा | Khandeshi Songs</title>
+  <meta name="description" content="खान्देशी जत्रा — मना गाव, मना देश, जय खान्देश. ऐका लोकप्रिय खान्देशी गाणी एकाच ठिकाणी.">
+  <meta name="theme-color" content="#0a0805">
+
+  <!-- OpenGraph -->
+  <meta property="og:type" content="music.playlist">
+  <meta property="og:title" content="खान्देशी जत्रा | Khandeshi Songs">
+  <meta property="og:description" content="खान्देशी जत्रा — मना गाव, मना देश, जय खान्देश.">
+  <meta property="og:image" content="assets/khandeshi-jatra-bg.jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Yatra+One&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Full-Screen 16:9 Hero Background with Cinematic Motion -->
+  <div class="bg-wrapper" id="bgWrapper">
+    <div class="bg-image" id="bgImage" style="background-image: url('assets/khandeshi-jatra-bg.jpg');"></div>
+    
+    <!-- Subtle Ambient Festival Lights Glow Overlay -->
+    <div class="lights-glow-layer" aria-hidden="true">
+      <div class="bulb-glow glow-1"></div>
+      <div class="bulb-glow glow-2"></div>
+      <div class="bulb-glow glow-3"></div>
+      <div class="firework-ambient-glow"></div>
+    </div>
+
+    <!-- Soft Sky Twinkle Stars -->
+    <div class="sky-stars-container" id="skyStars" aria-hidden="true"></div>
+
+    <!-- Central Artwork Soft Golden Light Sweep -->
+    <div class="center-shine-sweep" aria-hidden="true"></div>
+
+    <!-- Edge Vignette -->
+    <div class="bg-vignette"></div>
+  </div>
+
+  <!-- Soft Glowing Festive Dust & Floating Upward Particles -->
+  <div class="festive-dust-container" id="festiveDust" aria-hidden="true"></div>
+
+  <!-- Top Left: Real-Time Live Listener Presence Badge -->
+  <div class="top-badge top-left-badge" id="listenerBadge" aria-label="Real-Time Active Listeners">
+    <span class="live-dot" aria-hidden="true"></span>
+    <span class="listener-text" id="listenerCountText">501 LISTENING</span>
+  </div>
+
+  <!-- Top Center: Slogan Tagline -->
+  <header class="top-tagline" id="topTagline">
+    <p class="tagline-text">“मना गाव, मना देश, जय खान्देश”</p>
+  </header>
+
+  <!-- Top Right: Real-time Date & Clock Widget -->
+  <div class="top-badge top-right-badge" id="dateTimeWidget" aria-label="Current Date and Time">
+    <span class="widget-time" id="widgetTime">--:-- --</span>
+    <span class="widget-date" id="widgetDate">-- --- ----</span>
+  </div>
+
+  <!-- Bottom Center: Ultra-Transparent Floating Music Controller Bar -->
+  <main class="player-container">
+    <div class="mini-player-bar" id="playerBar" role="region" aria-label="Music Player">
+      
+      <!-- Top mini row: Song Thumbnail & Title -->
+      <div class="track-info-section">
+        <div class="track-thumb" id="trackThumb">
+          <img src="assets/khandeshi-jatra-bg.jpg" alt="Track Cover" id="trackCoverImg">
+          <div class="mini-soundwave" id="miniSoundwave" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <div class="track-text">
+          <h2 class="track-title" id="trackTitle">Zim Zim Pani Ma</h2>
+          <p class="track-artist" id="trackArtist">Bhaiya More</p>
+        </div>
+      </div>
+
+      <!-- Bottom mini row: Playback Buttons, Progress & Volume -->
+      <div class="player-main-controls">
+        
+        <div class="playback-btn-group">
+          <!-- Previous Button -->
+          <button class="ctrl-btn" id="prevBtn" title="Previous (P)" aria-label="Previous Song">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+            </svg>
+          </button>
+
+          <!-- Play / Pause Button -->
+          <button class="play-toggle-btn" id="playBtn" title="Play / Pause (Space)" aria-label="Play or Pause">
+            <svg id="playIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <polygon points="6 4 20 12 6 20 6 4"></polygon>
+            </svg>
+            <svg id="pauseIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display: none;">
+              <rect x="6" y="4" width="4" height="16" rx="1"></rect>
+              <rect x="14" y="4" width="4" height="16" rx="1"></rect>
+            </svg>
+          </button>
+
+          <!-- Next Button -->
+          <button class="ctrl-btn" id="nextBtn" title="Next (N)" aria-label="Next Song">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Progress Bar & Time -->
+        <div class="progress-section">
+          <span class="time-display current-time" id="currentTime">00:00</span>
+          
+          <div class="progress-bar-wrapper" id="progressBarWrapper" role="slider" aria-label="Track progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+            <div class="progress-track">
+              <div class="progress-buffered" id="progressBuffered"></div>
+              <div class="progress-fill" id="progressFill">
+                <div class="progress-thumb"></div>
+              </div>
+            </div>
+            <div class="scrub-tooltip" id="scrubTooltip">00:00</div>
+          </div>
+
+          <span class="time-display total-duration" id="totalDuration">03:30</span>
+        </div>
+
+        <!-- Mini Volume Control -->
+        <div class="mini-volume-box">
+          <button class="ctrl-btn vol-btn" id="volumeBtn" title="Mute/Unmute (M)" aria-label="Mute or Unmute">
+            <svg id="volumeIcon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+            </svg>
+          </button>
+          <input type="range" class="mini-volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.85" aria-label="Volume">
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Audio Element for direct files -->
+  <audio id="audioElement" preload="metadata"></audio>
+
+  <!-- YouTube Hidden Frame for background streaming -->
+  <div id="youtubePlayerContainer" class="hidden-yt-frame" aria-hidden="true"></div>
+
+  <!-- Firebase App & Realtime Database for Active Presence Tracking -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>
