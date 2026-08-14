@@ -24,118 +24,173 @@ const firebaseConfig = {
 const BASE_LISTENER_COUNT = 110;
 
 /* --------------------------------------------------------------------------
-   1. Real-Time Active Presence Manager (Firebase + Cross-Tab Sync)
+   1. Real-Time Active Presence Manager (Live Multi-Device + Cross-Tab Sync)
    -------------------------------------------------------------------------- */
 class RealtimePresenceTracker {
   constructor(baseCount = 110) {
     this.baseCount = baseCount;
     this.badgeEl = document.getElementById('listenerCountText');
-    this.sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
-    this.firebaseConnected = false;
-    this.activeCount = 1;
-
+    this.sessionId = 'kj_' + Math.random().toString(36).substring(2, 9) + '_' + Date.now();
+    this.activeTabs = 1;
+    this.networkActive = 0;
+    this.storageKey = 'kj_live_presence_registry';
+    this.channelName = 'kj_presence_broadcast';
+    
     this.init();
   }
 
   init() {
+    // 1. Initial display: 110 + 1 active tab = 111 LISTENING
     this.updateBadge(this.baseCount + 1);
-    this.initLocalTabCoordinator();
-    this.initFirebasePresence();
+
+    // 2. Setup cross-tab sync via localStorage + storage event
+    this.initCrossTabSync();
+
+    // 3. Setup BroadcastChannel for instant inter-tab communication
+    this.initBroadcastChannel();
+
+    // 4. Setup Public Realtime WebSocket presence for multi-device live sync
+    this.initNetworkPresence();
   }
 
   updateBadge(totalCount) {
     if (!this.badgeEl) return;
-    this.badgeEl.textContent = `${totalCount} LISTENING`;
+    const finalCount = Math.max(this.baseCount + 1, totalCount);
+    this.badgeEl.textContent = `${finalCount} LISTENING`;
   }
 
-  initFirebasePresence() {
-    if (typeof firebase === 'undefined' || !firebase.initializeApp) return;
-
+  getCleanLocalSessions() {
     try {
-      if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
+      const raw = localStorage.getItem(this.storageKey);
+      const sessions = raw ? JSON.parse(raw) : {};
+      const now = Date.now();
+      const cleaned = {};
+      for (const [id, ts] of Object.entries(sessions)) {
+        // Keep active if heartbeated in last 7 seconds
+        if (now - Number(ts) < 7000) {
+          cleaned[id] = ts;
+        }
       }
-
-      const db = firebase.database();
-      const connectedRef = db.ref('.info/connected');
-      const presenceListRef = db.ref('khandeshi_jatra_presence');
-      const myPresenceRef = db.ref('khandeshi_jatra_presence/' + this.sessionId);
-
-      connectedRef.on('value', (snap) => {
-        if (snap.val() === true) {
-          this.firebaseConnected = true;
-          myPresenceRef.onDisconnect().remove();
-          myPresenceRef.set({
-            session: this.sessionId,
-            connectedAt: firebase.database.ServerValue.TIMESTAMP
-          });
-        }
-      });
-
-      presenceListRef.on('value', (snapshot) => {
-        if (this.firebaseConnected && snapshot.exists()) {
-          const realActive = snapshot.numChildren() || 1;
-          this.activeCount = realActive;
-          this.updateBadge(this.baseCount + realActive);
-        }
-      });
-    } catch (err) {
-      console.warn('Firebase presence initialized in local mode:', err);
+      return cleaned;
+    } catch (e) {
+      return {};
     }
   }
 
-  initLocalTabCoordinator() {
-    const STORAGE_KEY = 'kj_active_presence_sessions';
-    const CHANNEL_NAME = 'kj_presence_channel';
+  syncLocalPresence() {
+    const sessions = this.getCleanLocalSessions();
+    sessions[this.sessionId] = Date.now();
+    try {
+      localStorage.setItem(this.storageKey, JSON.stringify(sessions));
+    } catch (e) {}
 
-    const getStoredSessions = () => {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        const data = raw ? JSON.parse(raw) : {};
-        const now = Date.now();
-        const cleaned = {};
-        for (const [id, ts] of Object.entries(data)) {
-          if (now - ts < 4000) cleaned[id] = ts;
-        }
-        return cleaned;
-      } catch (e) {
-        return {};
+    const localCount = Object.keys(sessions).length || 1;
+    this.activeTabs = localCount;
+    this.recalculateTotal();
+  }
+
+  recalculateTotal() {
+    const totalActive = Math.max(this.activeTabs, this.networkActive, 1);
+    this.updateBadge(this.baseCount + totalActive);
+  }
+
+  initCrossTabSync() {
+    // Heartbeat every 1.5 seconds
+    this.syncLocalPresence();
+    this.heartbeatTimer = setInterval(() => this.syncLocalPresence(), 1500);
+
+    // Listen for storage changes from other tabs
+    window.addEventListener('storage', (e) => {
+      if (e.key === this.storageKey) {
+        const sessions = this.getCleanLocalSessions();
+        this.activeTabs = Object.keys(sessions).length || 1;
+        this.recalculateTotal();
       }
-    };
+    });
 
-    const updatePresenceStorage = () => {
-      if (this.firebaseConnected) return;
-      const sessions = getStoredSessions();
-      sessions[this.sessionId] = Date.now();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
-      const count = Object.keys(sessions).length || 1;
-      this.activeCount = count;
-      this.updateBadge(this.baseCount + count);
-    };
+    // Cleanup on tab close/navigate
+    window.addEventListener('beforeunload', () => {
+      try {
+        const sessions = this.getCleanLocalSessions();
+        delete sessions[this.sessionId];
+        localStorage.setItem(this.storageKey, JSON.stringify(sessions));
+        if (this.bc) {
+          this.bc.postMessage({ type: 'LEAVE', sessionId: this.sessionId });
+        }
+      } catch (e) {}
+    });
+  }
 
-    updatePresenceStorage();
-    setInterval(updatePresenceStorage, 1500);
+  initBroadcastChannel() {
+    if (!('BroadcastChannel' in window)) return;
+    try {
+      this.bc = new BroadcastChannel(this.channelName);
+      this.bc.postMessage({ type: 'JOIN', sessionId: this.sessionId });
 
-    if ('BroadcastChannel' in window) {
-      const channel = new BroadcastChannel(CHANNEL_NAME);
-      channel.postMessage({ type: 'JOIN', sessionId: this.sessionId });
-
-      channel.onmessage = (e) => {
-        if (this.firebaseConnected) return;
-        if (e.data && (e.data.type === 'JOIN' || e.data.type === 'LEAVE' || e.data.type === 'PING')) {
-          updatePresenceStorage();
+      this.bc.onmessage = (e) => {
+        if (!e.data) return;
+        if (e.data.type === 'JOIN' || e.data.type === 'PING') {
+          this.syncLocalPresence();
+        } else if (e.data.type === 'LEAVE') {
+          setTimeout(() => {
+            const sessions = this.getCleanLocalSessions();
+            delete sessions[e.data.sessionId];
+            try {
+              localStorage.setItem(this.storageKey, JSON.stringify(sessions));
+            } catch (err) {}
+            this.activeTabs = Object.keys(sessions).length || 1;
+            this.recalculateTotal();
+          }, 100);
         }
       };
+    } catch (e) {}
+  }
 
-      window.addEventListener('beforeunload', () => {
-        try {
-          const sessions = getStoredSessions();
-          delete sessions[this.sessionId];
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
-          channel.postMessage({ type: 'LEAVE', sessionId: this.sessionId });
-        } catch (e) {}
-      });
-    }
+  initNetworkPresence() {
+    // Connect to public presence pubsub relay for real-time multi-device synchronization
+    const connectWS = () => {
+      try {
+        const ws = new WebSocket('wss://socketsbay.com/wss/v2/1/demo/');
+        let pingInterval = null;
+
+        ws.onopen = () => {
+          ws.send(JSON.stringify({ action: 'join', channel: 'kj_presence_room_2026', session: this.sessionId }));
+          pingInterval = setInterval(() => {
+            if (ws.readyState === WebSocket.OPEN) {
+              ws.send(JSON.stringify({ action: 'ping', channel: 'kj_presence_room_2026', session: this.sessionId }));
+            }
+          }, 4000);
+        };
+
+        const activePeers = new Map();
+        ws.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data);
+            if (data && data.session && data.channel === 'kj_presence_room_2026') {
+              activePeers.set(data.session, Date.now());
+              const now = Date.now();
+              for (const [sId, ts] of activePeers.entries()) {
+                if (now - ts > 10000) activePeers.delete(sId);
+              }
+              this.networkActive = Math.max(activePeers.size, this.activeTabs);
+              this.recalculateTotal();
+            }
+          } catch (e) {}
+        };
+
+        ws.onclose = () => {
+          if (pingInterval) clearInterval(pingInterval);
+          setTimeout(connectWS, 6000);
+        };
+
+        ws.onerror = () => {
+          try { ws.close(); } catch (e) {}
+        };
+      } catch (e) {}
+    };
+
+    // Attempt network connect after slight delay
+    setTimeout(connectWS, 1000);
   }
 }
 
