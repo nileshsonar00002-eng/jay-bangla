@@ -322,8 +322,9 @@ body {
   font-size: clamp(1.2rem, 2.5vw, 1.85rem);
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: #ffffff;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95), 0 0 16px rgba(255, 255, 255, 0.35);
+  color: #F5E6CA;
+  opacity: 0.9;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
   line-height: 1.25;
   margin: 0;
   padding: 0;
