@@ -267,27 +267,6 @@ html, body {
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* Top Center: Tagline */
-.top-tagline {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  z-index: 10;
-  pointer-events: none;
-  text-align: center;
-  white-space: nowrap;
-  animation: taglineFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
-}
-
-.tagline-text {
-  font-family: var(--font-marathi);
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #fff2e4;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 14px rgba(245, 158, 11, 0.35);
-  letter-spacing: 0.02em;
-}
 
 /* Top Right: Date & Clock Widget */
 .top-right-badge {
@@ -702,16 +681,6 @@ html, body {
   }
 }
 
-@keyframes taglineFadeIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -10px);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-}
 
 @keyframes fadeTranslateDown {
   from {
@@ -863,13 +832,6 @@ html, body {
     font-size: 0.6rem;
   }
 
-  .top-tagline {
-    top: 15px;
-  }
-
-  .tagline-text {
-    font-size: 0.78rem;
-  }
 
   .player-container {
     bottom: 0.75rem;
