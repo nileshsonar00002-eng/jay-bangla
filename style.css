@@ -988,7 +988,51 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   10. Mobile Responsive Adjustments
+   10. Minimal Professional Credit Line
+   -------------------------------------------------------------------------- */
+.site-credit-line {
+  width: 100%;
+  max-width: 740px;
+  padding: 3rem 1.5rem 0.5rem;
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.credit-lead {
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  opacity: 0.85;
+}
+
+.credit-names {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 1.6vw, 0.95rem);
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+  line-height: 1.6;
+}
+
+.credit-bullet {
+  color: var(--gold-400);
+  opacity: 0.65;
+  margin: 0 0.4rem;
+  font-size: 0.72rem;
+  display: inline-block;
+}
+
+/* --------------------------------------------------------------------------
+   11. Mobile Responsive Adjustments
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
   .player-container {
@@ -1000,7 +1044,27 @@ body {
   }
 
   .cultural-section {
-    padding: 4.5rem 1.25rem 3.5rem;
+    padding: 4.5rem 1.25rem 2.5rem;
+  }
+
+  .site-credit-line {
+    padding: 2.2rem 1rem 0.5rem;
+    margin-top: 0.8rem;
+  }
+
+  .credit-lead {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+  }
+
+  .credit-names {
+    font-size: 0.82rem;
+    line-height: 1.7;
+    max-width: 320px;
+  }
+
+  .credit-bullet {
+    margin: 0 0.25rem;
   }
 
   .content-scroll-container {
