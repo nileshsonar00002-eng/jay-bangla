@@ -322,12 +322,8 @@ body {
   font-size: clamp(1.2rem, 2.5vw, 1.85rem);
   font-weight: 700;
   letter-spacing: 0.04em;
-  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: #FFD700;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 16px rgba(255, 165, 0, 0.45));
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95), 0 0 16px rgba(255, 255, 255, 0.35);
   line-height: 1.25;
   margin: 0;
   padding: 0;
