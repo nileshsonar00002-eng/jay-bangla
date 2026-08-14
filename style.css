@@ -795,6 +795,16 @@ html, body {
 /* --------------------------------------------------------------------------
    9. Mobile Responsive Adjustments
    -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .player-container {
+    bottom: calc(52px + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 1.5rem);
+    max-width: 440px;
+  }
+}
+
 @media (max-width: 680px) {
   .bg-image {
     background-image: url('assets/khandeshi-jatra-mobile-bg.jpg') !important;
@@ -810,7 +820,7 @@ html, body {
   }
 
   .top-left-badge {
-    top: 14px;
+    top: calc(14px + env(safe-area-inset-top, 0px));
     left: 12px;
     padding: 0.3rem 0.55rem;
   }
@@ -821,7 +831,7 @@ html, body {
   }
 
   .top-right-badge {
-    top: 14px;
+    top: calc(14px + env(safe-area-inset-top, 0px));
     right: 12px;
     padding: 0.25rem 0.55rem;
   }
@@ -834,9 +844,10 @@ html, body {
     font-size: 0.6rem;
   }
 
-
   .player-container {
-    bottom: 0.75rem;
+    bottom: calc(52px + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
     width: calc(100% - 1.25rem);
     max-width: none;
   }
