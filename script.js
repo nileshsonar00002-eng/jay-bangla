@@ -24,33 +24,41 @@ const firebaseConfig = {
 const BASE_LISTENER_COUNT = 110;
 
 /* --------------------------------------------------------------------------
-   1. Real-Time Active Presence Manager (Live Multi-Device + Cross-Tab Sync)
+   1. Real-Time Global Presence Engine (Multi-Device MQTT over WebSockets + LWT)
    -------------------------------------------------------------------------- */
 class RealtimePresenceTracker {
   constructor(baseCount = 110) {
     this.baseCount = baseCount;
     this.badgeEl = document.getElementById('listenerCountText');
-    this.sessionId = 'kj_' + Math.random().toString(36).substring(2, 9) + '_' + Date.now();
+    this.sessionId = 'dev_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now().toString(36);
     this.activeTabs = 1;
-    this.networkActive = 0;
+    this.remotePeers = new Map();
     this.storageKey = 'kj_live_presence_registry';
     this.channelName = 'kj_presence_broadcast';
-    
+    this.mqttTopic = 'khandeshi_jatra_live/presence/v1';
+    this.mqttClient = null;
+    this.isMqttConnected = false;
+    this.brokers = [
+      { host: 'broker.hivemq.com', port: 8884, path: '/mqtt' },
+      { host: 'broker.emqx.io', port: 8084, path: '/mqtt' }
+    ];
+    this.currentBrokerIndex = 0;
+
     this.init();
   }
 
   init() {
-    // 1. Initial display: 110 + 1 active tab = 111 LISTENING
+    // 1. Always display initial minimum count immediately: 110 + 1 = 111 LISTENING
     this.updateBadge(this.baseCount + 1);
 
-    // 2. Setup cross-tab sync via localStorage + storage event
-    this.initCrossTabSync();
+    // 2. Local multi-tab coordination (BroadcastChannel + LocalStorage)
+    this.initLocalTabCoordinator();
 
-    // 3. Setup BroadcastChannel for instant inter-tab communication
-    this.initBroadcastChannel();
+    // 3. Global multi-device MQTT WebSocket presence
+    this.initGlobalMQTTPresence();
 
-    // 4. Setup Public Realtime WebSocket presence for multi-device live sync
-    this.initNetworkPresence();
+    // 4. Periodic prune timer for dead devices
+    setInterval(() => this.pruneStalePeers(), 1500);
   }
 
   updateBadge(totalCount) {
@@ -59,138 +67,196 @@ class RealtimePresenceTracker {
     this.badgeEl.textContent = `${finalCount} LISTENING`;
   }
 
-  getCleanLocalSessions() {
-    try {
-      const raw = localStorage.getItem(this.storageKey);
-      const sessions = raw ? JSON.parse(raw) : {};
-      const now = Date.now();
-      const cleaned = {};
-      for (const [id, ts] of Object.entries(sessions)) {
-        // Keep active if heartbeated in last 7 seconds
-        if (now - Number(ts) < 7000) {
-          cleaned[id] = ts;
-        }
+  recalculateTotal() {
+    // Ensure this device is always registered
+    this.remotePeers.set(this.sessionId, Date.now());
+    
+    // Total real active visitors = unique global devices or local tabs
+    const globalDeviceCount = this.remotePeers.size;
+    const effectiveActiveCount = Math.max(globalDeviceCount, this.activeTabs, 1);
+    this.updateBadge(this.baseCount + effectiveActiveCount);
+  }
+
+  pruneStalePeers() {
+    const now = Date.now();
+    let changed = false;
+    for (const [id, lastSeen] of this.remotePeers.entries()) {
+      if (id !== this.sessionId && now - lastSeen > 6500) {
+        this.remotePeers.delete(id);
+        changed = true;
       }
-      return cleaned;
-    } catch (e) {
-      return {};
+    }
+    if (changed) {
+      this.recalculateTotal();
     }
   }
 
-  syncLocalPresence() {
-    const sessions = this.getCleanLocalSessions();
-    sessions[this.sessionId] = Date.now();
-    try {
-      localStorage.setItem(this.storageKey, JSON.stringify(sessions));
-    } catch (e) {}
-
-    const localCount = Object.keys(sessions).length || 1;
-    this.activeTabs = localCount;
-    this.recalculateTotal();
-  }
-
-  recalculateTotal() {
-    const totalActive = Math.max(this.activeTabs, this.networkActive, 1);
-    this.updateBadge(this.baseCount + totalActive);
-  }
-
-  initCrossTabSync() {
-    // Heartbeat every 1.5 seconds
-    this.syncLocalPresence();
-    this.heartbeatTimer = setInterval(() => this.syncLocalPresence(), 1500);
-
-    // Listen for storage changes from other tabs
-    window.addEventListener('storage', (e) => {
-      if (e.key === this.storageKey) {
-        const sessions = this.getCleanLocalSessions();
-        this.activeTabs = Object.keys(sessions).length || 1;
+  /* --- Local Multi-Tab Coordinator --- */
+  initLocalTabCoordinator() {
+    const syncLocal = () => {
+      try {
+        const raw = localStorage.getItem(this.storageKey);
+        const data = raw ? JSON.parse(raw) : {};
+        const now = Date.now();
+        const cleaned = {};
+        for (const [id, ts] of Object.entries(data)) {
+          if (now - Number(ts) < 7000) cleaned[id] = ts;
+        }
+        cleaned[this.sessionId] = now;
+        localStorage.setItem(this.storageKey, JSON.stringify(cleaned));
+        this.activeTabs = Object.keys(cleaned).length || 1;
         this.recalculateTotal();
-      }
-    });
-
-    // Cleanup on tab close/navigate
-    window.addEventListener('beforeunload', () => {
-      try {
-        const sessions = this.getCleanLocalSessions();
-        delete sessions[this.sessionId];
-        localStorage.setItem(this.storageKey, JSON.stringify(sessions));
-        if (this.bc) {
-          this.bc.postMessage({ type: 'LEAVE', sessionId: this.sessionId });
-        }
-      } catch (e) {}
-    });
-  }
-
-  initBroadcastChannel() {
-    if (!('BroadcastChannel' in window)) return;
-    try {
-      this.bc = new BroadcastChannel(this.channelName);
-      this.bc.postMessage({ type: 'JOIN', sessionId: this.sessionId });
-
-      this.bc.onmessage = (e) => {
-        if (!e.data) return;
-        if (e.data.type === 'JOIN' || e.data.type === 'PING') {
-          this.syncLocalPresence();
-        } else if (e.data.type === 'LEAVE') {
-          setTimeout(() => {
-            const sessions = this.getCleanLocalSessions();
-            delete sessions[e.data.sessionId];
-            try {
-              localStorage.setItem(this.storageKey, JSON.stringify(sessions));
-            } catch (err) {}
-            this.activeTabs = Object.keys(sessions).length || 1;
-            this.recalculateTotal();
-          }, 100);
-        }
-      };
-    } catch (e) {}
-  }
-
-  initNetworkPresence() {
-    // Connect to public presence pubsub relay for real-time multi-device synchronization
-    const connectWS = () => {
-      try {
-        const ws = new WebSocket('wss://socketsbay.com/wss/v2/1/demo/');
-        let pingInterval = null;
-
-        ws.onopen = () => {
-          ws.send(JSON.stringify({ action: 'join', channel: 'kj_presence_room_2026', session: this.sessionId }));
-          pingInterval = setInterval(() => {
-            if (ws.readyState === WebSocket.OPEN) {
-              ws.send(JSON.stringify({ action: 'ping', channel: 'kj_presence_room_2026', session: this.sessionId }));
-            }
-          }, 4000);
-        };
-
-        const activePeers = new Map();
-        ws.onmessage = (event) => {
-          try {
-            const data = JSON.parse(event.data);
-            if (data && data.session && data.channel === 'kj_presence_room_2026') {
-              activePeers.set(data.session, Date.now());
-              const now = Date.now();
-              for (const [sId, ts] of activePeers.entries()) {
-                if (now - ts > 10000) activePeers.delete(sId);
-              }
-              this.networkActive = Math.max(activePeers.size, this.activeTabs);
-              this.recalculateTotal();
-            }
-          } catch (e) {}
-        };
-
-        ws.onclose = () => {
-          if (pingInterval) clearInterval(pingInterval);
-          setTimeout(connectWS, 6000);
-        };
-
-        ws.onerror = () => {
-          try { ws.close(); } catch (e) {}
-        };
       } catch (e) {}
     };
 
-    // Attempt network connect after slight delay
-    setTimeout(connectWS, 1000);
+    syncLocal();
+    setInterval(syncLocal, 1800);
+
+    window.addEventListener('storage', (e) => {
+      if (e.key === this.storageKey) {
+        try {
+          const data = JSON.parse(e.newValue || '{}');
+          this.activeTabs = Object.keys(data).length || 1;
+          this.recalculateTotal();
+        } catch (err) {}
+      }
+    });
+
+    if ('BroadcastChannel' in window) {
+      try {
+        this.bc = new BroadcastChannel(this.channelName);
+        this.bc.postMessage({ type: 'JOIN', id: this.sessionId });
+
+        this.bc.onmessage = (e) => {
+          if (!e.data) return;
+          if (e.data.type === 'JOIN' || e.data.type === 'PING') {
+            this.remotePeers.set(e.data.id, Date.now());
+            syncLocal();
+          } else if (e.data.type === 'LEAVE') {
+            this.remotePeers.delete(e.data.id);
+            this.recalculateTotal();
+          }
+        };
+      } catch (e) {}
+    }
+
+    window.addEventListener('beforeunload', () => {
+      this.sendLeaveNotification();
+    });
+  }
+
+  /* --- Global Multi-Device MQTT Presence Engine --- */
+  initGlobalMQTTPresence() {
+    if (typeof Paho === 'undefined' || !Paho.MQTT || !Paho.MQTT.Client) {
+      // Fallback: retry after Paho loads
+      setTimeout(() => this.initGlobalMQTTPresence(), 1000);
+      return;
+    }
+
+    const broker = this.brokers[this.currentBrokerIndex];
+    const clientId = 'kj_client_' + this.sessionId;
+
+    try {
+      this.mqttClient = new Paho.MQTT.Client(broker.host, broker.port, broker.path, clientId);
+
+      // Last Will and Testament: Automatically broadcast LEAVE when device disconnects/closes
+      const lwt = new Paho.MQTT.Message(JSON.stringify({ type: 'LEAVE', id: this.sessionId }));
+      lwt.destinationName = this.mqttTopic;
+      lwt.qos = 0;
+      lwt.retained = false;
+
+      this.mqttClient.onConnectionLost = (responseObject) => {
+        this.isMqttConnected = false;
+        if (this.mqttHeartbeatTimer) clearInterval(this.mqttHeartbeatTimer);
+        // Failover to next broker after 3s
+        this.currentBrokerIndex = (this.currentBrokerIndex + 1) % this.brokers.length;
+        setTimeout(() => this.initGlobalMQTTPresence(), 3000);
+      };
+
+      this.mqttClient.onMessageArrived = (message) => {
+        try {
+          const payload = JSON.parse(message.payloadString);
+          if (payload && payload.id) {
+            if (payload.type === 'PING' || payload.type === 'JOIN') {
+              this.remotePeers.set(payload.id, Date.now());
+              this.recalculateTotal();
+            } else if (payload.type === 'LEAVE') {
+              this.remotePeers.delete(payload.id);
+              this.recalculateTotal();
+            }
+          }
+        } catch (e) {}
+      };
+
+      const connectOptions = {
+        useSSL: true,
+        timeout: 8,
+        keepAliveInterval: 30,
+        cleanSession: true,
+        willMessage: lwt,
+        onSuccess: () => {
+          this.isMqttConnected = true;
+          this.mqttClient.subscribe(this.mqttTopic, { qos: 0 });
+
+          // Send initial JOIN packet
+          this.sendMQTTPing('JOIN');
+
+          // Heartbeat every 2.5 seconds
+          if (this.mqttHeartbeatTimer) clearInterval(this.mqttHeartbeatTimer);
+          this.mqttHeartbeatTimer = setInterval(() => {
+            if (this.isMqttConnected) {
+              this.sendMQTTPing('PING');
+            }
+          }, 2500);
+        },
+        onFailure: (err) => {
+          this.isMqttConnected = false;
+          this.currentBrokerIndex = (this.currentBrokerIndex + 1) % this.brokers.length;
+          setTimeout(() => this.initGlobalMQTTPresence(), 4000);
+        }
+      };
+
+      this.mqttClient.connect(connectOptions);
+    } catch (err) {
+      console.warn('MQTT presence setup notice:', err);
+    }
+  }
+
+  sendMQTTPing(type = 'PING') {
+    if (!this.mqttClient || !this.isMqttConnected) return;
+    try {
+      const msg = new Paho.MQTT.Message(JSON.stringify({
+        type: type,
+        id: this.sessionId,
+        ts: Date.now()
+      }));
+      msg.destinationName = this.mqttTopic;
+      msg.qos = 0;
+      this.mqttClient.send(msg);
+      this.remotePeers.set(this.sessionId, Date.now());
+    } catch (e) {}
+  }
+
+  sendLeaveNotification() {
+    // 1. Local cleanup
+    try {
+      const raw = localStorage.getItem(this.storageKey);
+      const data = raw ? JSON.parse(raw) : {};
+      delete data[this.sessionId];
+      localStorage.setItem(this.storageKey, JSON.stringify(data));
+      if (this.bc) this.bc.postMessage({ type: 'LEAVE', id: this.sessionId });
+    } catch (e) {}
+
+    // 2. Global MQTT cleanup
+    if (this.mqttClient && this.isMqttConnected) {
+      try {
+        const msg = new Paho.MQTT.Message(JSON.stringify({ type: 'LEAVE', id: this.sessionId }));
+        msg.destinationName = this.mqttTopic;
+        msg.qos = 0;
+        this.mqttClient.send(msg);
+        this.mqttClient.disconnect();
+      } catch (e) {}
+    }
   }
 }
 
