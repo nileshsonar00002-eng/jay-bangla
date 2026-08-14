@@ -21,13 +21,13 @@ const firebaseConfig = {
   appId: "1:123456789012:web:abcdef123456"
 };
 
-const BASE_LISTENER_COUNT = 500;
+const BASE_LISTENER_COUNT = 110;
 
 /* --------------------------------------------------------------------------
    1. Real-Time Active Presence Manager (Firebase + Cross-Tab Sync)
    -------------------------------------------------------------------------- */
 class RealtimePresenceTracker {
-  constructor(baseCount = 500) {
+  constructor(baseCount = 110) {
     this.baseCount = baseCount;
     this.badgeEl = document.getElementById('listenerCountText');
     this.sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
