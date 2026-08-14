@@ -269,7 +269,7 @@ function initSubtleParallax() {
 }
 
 /* --------------------------------------------------------------------------
-   6. Internal Songs Data (19 Tracks)
+   6. Internal Songs Data (33 Tracks from Playlist PLSfT4KKW5Dcw)
    -------------------------------------------------------------------------- */
 const songs = [
   {
@@ -292,12 +292,12 @@ const songs = [
   },
   {
     id: 3,
-    title: "Mi Tuna Divana S",
-    artist: "Khandeshi Superhit",
-    url: "https://www.youtube.com/watch?v=bEz9xF7yY1k",
-    videoId: "bEz9xF7yY1k",
-    duration: "04:12",
-    cover: "https://i.ytimg.com/vi/bEz9xF7yY1k/hqdefault.jpg"
+    title: "Raja Re (Raja Tu, Tu Mana Raja Re)",
+    artist: "Jagdish Sandhanshiv, Anjana Barlekar",
+    url: "https://www.youtube.com/watch?v=63SA4fiMwTs",
+    videoId: "63SA4fiMwTs",
+    duration: "04:30",
+    cover: "https://i.ytimg.com/vi/63SA4fiMwTs/hqdefault.jpg"
   },
   {
     id: 4,
@@ -310,6 +310,15 @@ const songs = [
   },
   {
     id: 5,
+    title: "Mi Tuna Divana S",
+    artist: "Khandeshi Superhit",
+    url: "https://www.youtube.com/watch?v=bEz9xF7yY1k",
+    videoId: "bEz9xF7yY1k",
+    duration: "04:12",
+    cover: "https://i.ytimg.com/vi/bEz9xF7yY1k/hqdefault.jpg"
+  },
+  {
+    id: 6,
     title: "Phiri Phiri Nach Pora (अहिराणी गीत)",
     artist: "Babu More, Shrawani More",
     url: "https://www.youtube.com/watch?v=4r0yTPx6F7k",
@@ -318,7 +327,7 @@ const songs = [
     cover: "https://i.ytimg.com/vi/4r0yTPx6F7k/hqdefault.jpg"
   },
   {
-    id: 6,
+    id: 7,
     title: "Mani Darling",
     artist: "Bhaiya More",
     url: "https://www.youtube.com/watch?v=Xl71Ta8_wN0",
@@ -327,7 +336,7 @@ const songs = [
     cover: "https://i.ytimg.com/vi/Xl71Ta8_wN0/hqdefault.jpg"
   },
   {
-    id: 7,
+    id: 8,
     title: "Hai Khandeshi Tam Tam",
     artist: "Anna Surwade",
     url: "https://www.youtube.com/watch?v=jTiVwaIsT74",
@@ -336,7 +345,16 @@ const songs = [
     cover: "https://i.ytimg.com/vi/jTiVwaIsT74/hqdefault.jpg"
   },
   {
-    id: 8,
+    id: 9,
+    title: "Char Varis Na Pyar (चार वरिस ना प्यार)",
+    artist: "Ajay Mali, Anshuman More",
+    url: "https://www.youtube.com/watch?v=4_HHpVeZHpg",
+    videoId: "4_HHpVeZHpg",
+    duration: "04:10",
+    cover: "https://i.ytimg.com/vi/4_HHpVeZHpg/hqdefault.jpg"
+  },
+  {
+    id: 10,
     title: "Sali Mi Nadan Sa",
     artist: "Naval Mali",
     url: "https://www.youtube.com/watch?v=V6C8NnX2TQk",
@@ -345,7 +363,16 @@ const songs = [
     cover: "https://i.ytimg.com/vi/V6C8NnX2TQk/hqdefault.jpg"
   },
   {
-    id: 9,
+    id: 11,
+    title: "Khandeshi Bhawani Powerfull Duff",
+    artist: "DJ Bhaiya Jalgaon",
+    url: "https://www.youtube.com/watch?v=_LCCv3ajiR8",
+    videoId: "_LCCv3ajiR8",
+    duration: "04:45",
+    cover: "https://i.ytimg.com/vi/_LCCv3ajiR8/hqdefault.jpg"
+  },
+  {
+    id: 12,
     title: "May Mani Khandesh Ni Malan",
     artist: "Madhuri Koli",
     url: "https://www.youtube.com/watch?v=HhwbZ78bEME",
@@ -354,7 +381,7 @@ const songs = [
     cover: "https://i.ytimg.com/vi/HhwbZ78bEME/hqdefault.jpg"
   },
   {
-    id: 10,
+    id: 13,
     title: "Laganma Machadu Dhum Ra Dhum",
     artist: "Ganesh Gujar",
     url: "https://www.youtube.com/watch?v=qwlu7cTTkWI",
@@ -363,7 +390,7 @@ const songs = [
     cover: "https://i.ytimg.com/vi/qwlu7cTTkWI/hqdefault.jpg"
   },
   {
-    id: 11,
+    id: 14,
     title: "Hai Saali Pyaar Karna",
     artist: "Raju Bagul",
     url: "https://www.youtube.com/watch?v=b3VyX3jvBXQ",
@@ -372,7 +399,7 @@ const songs = [
     cover: "https://i.ytimg.com/vi/b3VyX3jvBXQ/hqdefault.jpg"
   },
   {
-    id: 12,
+    id: 15,
     title: "Na Bhulau Raja Tula",
     artist: "Dipak Wagh, Bhagyashree Sathe",
     url: "https://www.youtube.com/watch?v=FRNzEweNjR8",
@@ -381,16 +408,7 @@ const songs = [
     cover: "https://i.ytimg.com/vi/FRNzEweNjR8/hqdefault.jpg"
   },
   {
-    id: 13,
-    title: "Raja Re (Raja Tu, Tu Mana Raja Re)",
-    artist: "Jagdish Sandhanshiv, Anjana Barlekar",
-    url: "https://www.youtube.com/watch?v=63SA4fiMwTs",
-    videoId: "63SA4fiMwTs",
-    duration: "04:30",
-    cover: "https://i.ytimg.com/vi/63SA4fiMwTs/hqdefault.jpg"
-  },
-  {
-    id: 14,
+    id: 16,
     title: "Dang Maa Chalay Pori",
     artist: "Anil Kuvar",
     url: "https://www.youtube.com/watch?v=VaWj6gl0OKk",
@@ -399,7 +417,16 @@ const songs = [
     cover: "https://i.ytimg.com/vi/VaWj6gl0OKk/hqdefault.jpg"
   },
   {
-    id: 15,
+    id: 17,
+    title: "Kar Man Lagan",
+    artist: "Bhaiya More, Megha Musale",
+    url: "https://www.youtube.com/watch?v=NZaYXblSaYI",
+    videoId: "NZaYXblSaYI",
+    duration: "03:58",
+    cover: "https://i.ytimg.com/vi/NZaYXblSaYI/hqdefault.jpg"
+  },
+  {
+    id: 18,
     title: "Pyar M Tuna Sajani",
     artist: "Raju Wagh",
     url: "https://www.youtube.com/watch?v=jP3C57dEj7c",
@@ -408,7 +435,7 @@ const songs = [
     cover: "https://i.ytimg.com/vi/jP3C57dEj7c/hqdefault.jpg"
   },
   {
-    id: 16,
+    id: 19,
     title: "Haat Mehandi Na",
     artist: "Bhaiya More",
     url: "https://www.youtube.com/watch?v=y2QNtft2VW8",
@@ -417,8 +444,8 @@ const songs = [
     cover: "https://i.ytimg.com/vi/y2QNtft2VW8/hqdefault.jpg"
   },
   {
-    id: 17,
-    title: "Khandeshi Band Mix Pawri",
+    id: 20,
+    title: "Khandeshi Band Mix Pawri, Pt. 3",
     artist: "Dj Ritesh Rs",
     url: "https://www.youtube.com/watch?v=2VHsq9uG7F4",
     videoId: "2VHsq9uG7F4",
@@ -426,22 +453,121 @@ const songs = [
     cover: "https://i.ytimg.com/vi/2VHsq9uG7F4/hqdefault.jpg"
   },
   {
-    id: 18,
-    title: "Retiwala Navara Pahije",
-    artist: "Shakuntala Jadhav",
-    url: "https://www.youtube.com/watch?v=9NSz9dvh6bI",
-    videoId: "9NSz9dvh6bI",
-    duration: "04:02",
-    cover: "https://i.ytimg.com/vi/9NSz9dvh6bI/hqdefault.jpg"
-  },
-  {
-    id: 19,
+    id: 21,
     title: "Jeev Pisatala (खान्देशी स्पेशल)",
     artist: "Jasraj Joshi",
     url: "https://www.youtube.com/watch?v=c6E4HHbMdJI",
     videoId: "c6E4HHbMdJI",
     duration: "03:45",
     cover: "https://i.ytimg.com/vi/c6E4HHbMdJI/hqdefault.jpg"
+  },
+  {
+    id: 22,
+    title: "Pori Tuni Payal",
+    artist: "Vinod Kumavat",
+    url: "https://www.youtube.com/watch?v=PtlO7hE8yp8",
+    videoId: "PtlO7hE8yp8",
+    duration: "03:40",
+    cover: "https://i.ytimg.com/vi/PtlO7hE8yp8/hqdefault.jpg"
+  },
+  {
+    id: 23,
+    title: "Mani Dilbar Tu (मनी दिलबर तू)",
+    artist: "Bhaiya More, Vinod Kumavat",
+    url: "https://www.youtube.com/watch?v=gNxAjo5NGxA",
+    videoId: "gNxAjo5NGxA",
+    duration: "04:05",
+    cover: "https://i.ytimg.com/vi/gNxAjo5NGxA/hqdefault.jpg"
+  },
+  {
+    id: 24,
+    title: "Dena Tuni Sath",
+    artist: "Bhaiya More",
+    url: "https://www.youtube.com/watch?v=nSVH6ULbpMg",
+    videoId: "nSVH6ULbpMg",
+    duration: "03:52",
+    cover: "https://i.ytimg.com/vi/nSVH6ULbpMg/hqdefault.jpg"
+  },
+  {
+    id: 25,
+    title: "Me Ragush Tu Mani Maina",
+    artist: "Bhaiya More",
+    url: "https://www.youtube.com/watch?v=P58bWqlitww",
+    videoId: "P58bWqlitww",
+    duration: "04:10",
+    cover: "https://i.ytimg.com/vi/P58bWqlitww/hqdefault.jpg"
+  },
+  {
+    id: 26,
+    title: "Girana Kathale Mana Gaav",
+    artist: "Anil Kuvar",
+    url: "https://www.youtube.com/watch?v=lQGyFRMivwk",
+    videoId: "lQGyFRMivwk",
+    duration: "03:55",
+    cover: "https://i.ytimg.com/vi/lQGyFRMivwk/hqdefault.jpg"
+  },
+  {
+    id: 27,
+    title: "Kanbai Chalni Gangevari",
+    artist: "Rucha Birari",
+    url: "https://www.youtube.com/watch?v=SuevDYFGlZ0",
+    videoId: "SuevDYFGlZ0",
+    duration: "04:22",
+    cover: "https://i.ytimg.com/vi/SuevDYFGlZ0/hqdefault.jpg"
+  },
+  {
+    id: 28,
+    title: "Kanbai Hit Songs (कानबाई गीत)",
+    artist: "Ahirani Latest Jukebox",
+    url: "https://www.youtube.com/watch?v=fFO47NMLfSI",
+    videoId: "fFO47NMLfSI",
+    duration: "05:15",
+    cover: "https://i.ytimg.com/vi/fFO47NMLfSI/hqdefault.jpg"
+  },
+  {
+    id: 29,
+    title: "Aaj Lagani Tile Hayad (आज लगनी तिले हळद)",
+    artist: "VG Khandesh",
+    url: "https://www.youtube.com/watch?v=h4JG1AqZO60",
+    videoId: "h4JG1AqZO60",
+    duration: "03:48",
+    cover: "https://i.ytimg.com/vi/h4JG1AqZO60/hqdefault.jpg"
+  },
+  {
+    id: 30,
+    title: "Lak Lak Chamakana Nanduri Na Gad",
+    artist: "Kunal Pawar",
+    url: "https://www.youtube.com/watch?v=4gU_n5_vQ0c",
+    videoId: "4gU_n5_vQ0c",
+    duration: "04:12",
+    cover: "https://i.ytimg.com/vi/4gU_n5_vQ0c/hqdefault.jpg"
+  },
+  {
+    id: 31,
+    title: "Vicky Bhagya Ni Pawari",
+    artist: "Khandeshi Dance Performance",
+    url: "https://www.youtube.com/watch?v=n5Ol6-BmG3U",
+    videoId: "n5Ol6-BmG3U",
+    duration: "04:35",
+    cover: "https://i.ytimg.com/vi/n5Ol6-BmG3U/hqdefault.jpg"
+  },
+  {
+    id: 32,
+    title: "Tule Jai Ti Dhoka Disan",
+    artist: "Jagdish Sandhanshiv, Anjana Barlekar",
+    url: "https://www.youtube.com/watch?v=Svbv7QK7Lug",
+    videoId: "Svbv7QK7Lug",
+    duration: "04:15",
+    cover: "https://i.ytimg.com/vi/Svbv7QK7Lug/hqdefault.jpg"
+  },
+  {
+    id: 33,
+    title: "Rani Mana Khandesh Say Kamal",
+    artist: "Raju Kalme, Machindra More",
+    url: "https://www.youtube.com/watch?v=HCEoIJG55bI",
+    videoId: "HCEoIJG55bI",
+    duration: "03:50",
+    cover: "https://i.ytimg.com/vi/HCEoIJG55bI/hqdefault.jpg"
   }
 ];
 
