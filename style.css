@@ -39,16 +39,23 @@
   padding: 0;
 }
 
-html, body {
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  background-color: var(--bg-dark);
+}
+
+body {
   width: 100%;
-  height: 100%;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;
   background-color: var(--bg-dark);
   color: var(--text-primary);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  position: relative;
 }
 
 /* --------------------------------------------------------------------------
@@ -230,7 +237,7 @@ html, body {
 .top-badge {
   position: fixed;
   top: 20px;
-  z-index: 15;
+  z-index: 40;
   background: var(--bg-glass-badge);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -307,7 +314,7 @@ html, body {
   transform: translateX(-50%);
   width: calc(100% - 2rem);
   max-width: 470px;
-  z-index: 20;
+  z-index: 50;
   animation: fadeTranslateUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.65s both;
 }
 
@@ -793,7 +800,427 @@ html, body {
 }
 
 /* --------------------------------------------------------------------------
-   9. Mobile Responsive Adjustments
+   8. Section 1: Hero Screen & Scroll Down Indicator
+   -------------------------------------------------------------------------- */
+.hero-screen {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 7.2rem;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.scroll-indicator {
+  pointer-events: auto;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  text-decoration: none;
+  color: var(--gold-300);
+  background: rgba(10, 8, 5, 0.45);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+  animation: gentleScrollPulse 2.8s ease-in-out infinite;
+  cursor: pointer;
+}
+
+.scroll-indicator:hover {
+  background: rgba(20, 14, 10, 0.65);
+  border-color: var(--gold-400);
+  transform: translateY(2px);
+}
+
+.scroll-text {
+  font-family: var(--font-marathi);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--gold-300);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+.scroll-arrow {
+  font-size: 0.88rem;
+  line-height: 1;
+  color: var(--gold-400);
+  animation: arrowBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes gentleScrollPulse {
+  0%, 100% {
+    opacity: 0.85;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 4px 20px var(--gold-glow);
+  }
+}
+
+@keyframes arrowBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   9. Scrollable Cultural Content Wrapper & Sections
+   -------------------------------------------------------------------------- */
+.content-scroll-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 8, 5, 0.25) 0%,
+    rgba(10, 8, 5, 0.85) 10%,
+    rgba(10, 8, 5, 0.92) 40%,
+    rgba(10, 8, 5, 0.98) 100%
+  );
+  padding-bottom: 9.5rem; /* Generous clearance for fixed music player */
+}
+
+.cultural-section {
+  width: 100%;
+  max-width: 880px;
+  padding: 5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.section-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Reveal Animation on scroll */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* SECTION 2: WELCOME */
+.cultural-motif {
+  font-size: 0.88rem;
+  color: var(--gold-400);
+  margin-bottom: 0.8rem;
+  opacity: 0.8;
+  letter-spacing: 0.2em;
+}
+
+.welcome-heading {
+  font-family: var(--font-marathi);
+  font-size: clamp(1.8rem, 4.2vw, 2.75rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.35;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8), 0 0 24px rgba(251, 191, 36, 0.25);
+  letter-spacing: 0.01em;
+}
+
+.welcome-lead {
+  font-family: var(--font-marathi);
+  font-size: clamp(1.05rem, 2.3vw, 1.35rem);
+  color: var(--gold-300);
+  line-height: 1.85;
+  font-weight: 500;
+  margin-bottom: 1.6rem;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+}
+
+.section-ornament-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1rem 0 1.6rem;
+  width: 100%;
+  max-width: 260px;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.4), transparent);
+}
+
+.divider-gem {
+  color: var(--gold-400);
+  font-size: 0.65rem;
+  opacity: 0.8;
+}
+
+.welcome-body {
+  font-size: clamp(0.92rem, 1.8vw, 1.08rem);
+  color: var(--text-secondary);
+  line-height: 1.9;
+  max-width: 680px;
+  font-weight: 400;
+}
+
+/* SECTION 3: DEDICATION */
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--gold-300);
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.tag-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold-400);
+}
+
+.section-title {
+  font-family: var(--font-marathi);
+  font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+  color: #ffffff;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.dedication-card {
+  width: 100%;
+  max-width: 720px;
+  background: rgba(20, 15, 10, 0.55);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(255, 215, 0, 0.18);
+  border-radius: 18px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.6), 0 0 20px rgba(251, 191, 36, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.dedication-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
+}
+
+.dedication-marathi {
+  font-family: var(--font-marathi);
+  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+  color: #ffffff;
+  line-height: 2;
+  font-weight: 600;
+  margin-bottom: 1.6rem;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+}
+
+.khandesh-glow-text {
+  color: #fef08a;
+  text-shadow: 0 0 14px rgba(251, 191, 36, 0.75);
+}
+
+.card-ornament-line {
+  width: 60px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 1.2rem auto;
+}
+
+.dedication-english {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+/* SECTION 4: MUSIC */
+.music-heading {
+  font-family: var(--font-marathi);
+  font-size: clamp(1.7rem, 3.8vw, 2.5rem);
+  color: #ffffff;
+  margin-bottom: 0.8rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+}
+
+.music-subheading {
+  font-family: var(--font-marathi);
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  color: var(--gold-300);
+  line-height: 1.85;
+  margin-bottom: 2rem;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+}
+
+.music-connect-card {
+  width: 100%;
+  max-width: 580px;
+  background: rgba(15, 12, 8, 0.5);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  padding: 1.8rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+}
+
+.music-pulse-icon {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 18px;
+  margin-bottom: 0.3rem;
+}
+
+.music-pulse-icon span {
+  width: 3px;
+  background: var(--gold-400);
+  border-radius: 2px;
+  animation: musicWaveBar 0.9s ease-in-out infinite alternate;
+}
+
+.music-pulse-icon span:nth-child(1) { height: 6px; }
+.music-pulse-icon span:nth-child(2) { height: 16px; animation-delay: 0.2s; }
+.music-pulse-icon span:nth-child(3) { height: 10px; animation-delay: 0.4s; }
+.music-pulse-icon span:nth-child(4) { height: 14px; animation-delay: 0.6s; }
+
+@keyframes musicWaveBar {
+  0% { height: 4px; }
+  100% { height: 18px; }
+}
+
+.music-connect-title {
+  font-family: var(--font-marathi);
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.music-connect-desc {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}
+
+/* SECTION 5: CULTURAL MESSAGE / QUOTE */
+.quote-section {
+  padding: 6rem 1.5rem;
+}
+
+.cultural-quote {
+  font-family: var(--font-marathi);
+  font-size: clamp(1.8rem, 4.8vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.55;
+  color: #ffffff;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9), 0 0 30px rgba(251, 191, 36, 0.25);
+  letter-spacing: 0.01em;
+}
+
+.quote-khandesh-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-marathi);
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 700;
+  color: var(--gold-300);
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.32);
+  padding: 0.4rem 1.2rem;
+  border-radius: 9999px;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.15);
+}
+
+/* FOOTER */
+.cultural-footer {
+  width: 100%;
+  padding: 3rem 1.5rem 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.footer-brand {
+  font-family: var(--font-marathi);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+}
+
+.footer-tagline {
+  font-family: var(--font-marathi);
+  font-size: 0.92rem;
+  color: var(--gold-300);
+  font-weight: 600;
+}
+
+.footer-subline {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.heart-accent {
+  display: inline-block;
+  filter: drop-shadow(0 0 6px rgba(244, 63, 94, 0.6));
+}
+
+/* --------------------------------------------------------------------------
+   10. Mobile Responsive Adjustments
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
   .player-container {
@@ -802,6 +1229,18 @@ html, body {
     transform: translateX(-50%);
     width: calc(100% - 1.5rem);
     max-width: 440px;
+  }
+
+  .cultural-section {
+    padding: 3.5rem 1.2rem;
+  }
+
+  .dedication-card {
+    padding: 1.8rem 1.2rem;
+  }
+
+  .content-scroll-container {
+    padding-bottom: 10rem;
   }
 }
 

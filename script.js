@@ -1244,12 +1244,66 @@ function initClickHeartInteraction() {
   });
 }
 
+/* --------------------------------------------------------------------------
+   8. Scroll Experience & Section Reveal Observer
+   -------------------------------------------------------------------------- */
+function initScrollReveal() {
+  const revealElements = document.querySelectorAll('[data-reveal]');
+  if (!revealElements.length) return;
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: '0px 0px -40px 0px',
+      threshold: 0.12
+    });
+
+    revealElements.forEach((el) => observer.observe(el));
+  } else {
+    // Fallback for older browsers
+    revealElements.forEach((el) => el.classList.add('is-visible'));
+  }
+}
+
+function initScrollIndicator() {
+  const indicator = document.getElementById('scrollIndicator');
+  if (!indicator) return;
+
+  // Fade out scroll indicator once scrolled past hero
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY || document.documentElement.scrollTop;
+    if (scrollY > 120) {
+      indicator.style.opacity = '0';
+      indicator.style.pointerEvents = 'none';
+    } else {
+      indicator.style.opacity = '1';
+      indicator.style.pointerEvents = 'auto';
+    }
+  }, { passive: true });
+
+  indicator.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.getElementById('welcomeSection');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initDateTimeWidget();
   initNightSkyStars();
   initFestiveDustParticles();
   initSubtleParallax();
   initClickHeartInteraction();
+  initScrollReveal();
+  initScrollIndicator();
   window.presenceTracker = new RealtimePresenceTracker(BASE_LISTENER_COUNT);
   window.khandeshiPlayer = new MiniMusicPlayer(songs);
 });
