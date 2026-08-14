@@ -647,15 +647,17 @@ html, body {
   cursor: pointer;
 }
 
-/* Hidden YouTube Player container */
+/* YouTube Player container (active and unobtrusive) */
 .hidden-yt-frame {
-  position: absolute;
-  top: -9999px;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  opacity: 0.001;
   pointer-events: none;
+  z-index: -999;
+  overflow: hidden;
 }
 
 /* --------------------------------------------------------------------------

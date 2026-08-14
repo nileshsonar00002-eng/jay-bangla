@@ -637,56 +637,67 @@ class MiniMusicPlayer {
   }
 
   initYouTubeAPI() {
-    window.onYouTubeIframeAPIReady = () => {
-      this.ytPlayer = new YT.Player('youtubePlayerContainer', {
-        height: '1',
-        width: '1',
-        playerVars: {
-          autoplay: 0,
-          controls: 0,
-          disablekb: 1,
-          fs: 0,
-          rel: 0,
-          origin: window.location.origin
-        },
-        events: {
-          onReady: () => {
-            this.isYTReady = true;
-            this.ytPlayer.setVolume(this.volume * 100);
-            if (this.isMuted) this.ytPlayer.mute();
-
-            const currentTrack = this.playlist[this.currentIndex];
-            const videoId = currentTrack.videoId || this.getYouTubeVideoId(currentTrack.url);
-            if (videoId) {
-              this.ytPlayer.cueVideoById(videoId);
-            }
-
-            if (this.pendingPlay) {
-              this.pendingPlay = false;
-              this.playAudio();
-            }
+    const setupPlayer = () => {
+      if (this.ytPlayer || !window.YT || !window.YT.Player) return;
+      try {
+        this.ytPlayer = new YT.Player('youtubePlayerContainer', {
+          height: '200',
+          width: '200',
+          playerVars: {
+            autoplay: 0,
+            controls: 0,
+            disablekb: 1,
+            fs: 0,
+            rel: 0,
+            enablejsapi: 1,
+            playsinline: 1,
+            origin: window.location.origin
           },
-          onStateChange: (event) => {
-            if (event.data === YT.PlayerState.ENDED) {
-              this.nextTrack();
-            } else if (event.data === YT.PlayerState.PLAYING) {
-              this.setPlayState(true);
-              const dur = this.ytPlayer.getDuration();
-              if (dur && dur > 0) {
-                this.totalDurationEl.textContent = this.formatTime(dur);
+          events: {
+            onReady: () => {
+              this.isYTReady = true;
+              this.ytPlayer.setVolume(this.volume * 100);
+              if (this.isMuted) this.ytPlayer.mute();
+
+              const currentTrack = this.playlist[this.currentIndex];
+              const videoId = currentTrack.videoId || this.getYouTubeVideoId(currentTrack.url);
+              if (videoId) {
+                this.ytPlayer.cueVideoById(videoId);
               }
-            } else if (event.data === YT.PlayerState.PAUSED) {
-              this.setPlayState(false);
+
+              if (this.pendingPlay) {
+                this.pendingPlay = false;
+                this.playAudio();
+              }
+            },
+            onStateChange: (event) => {
+              if (event.data === YT.PlayerState.ENDED) {
+                this.nextTrack();
+              } else if (event.data === YT.PlayerState.PLAYING) {
+                this.setPlayState(true);
+                const dur = this.ytPlayer.getDuration();
+                if (dur && dur > 0) {
+                  this.totalDurationEl.textContent = this.formatTime(dur);
+                }
+              } else if (event.data === YT.PlayerState.PAUSED) {
+                this.setPlayState(false);
+              }
+            },
+            onError: (err) => {
+              console.warn('YouTube playback error, attempting next track:', err);
+              setTimeout(() => this.nextTrack(), 800);
             }
-          },
-          onError: () => {
-            setTimeout(() => this.nextTrack(), 1000);
           }
-        }
-      });
+        });
+      } catch (e) {
+        console.error('Error creating YouTube player:', e);
+      }
     };
 
-    if (!window.YT) {
+    window.onYouTubeIframeAPIReady = setupPlayer;
+    if (window.YT && window.YT.Player) {
+      setupPlayer();
+    } else if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
       const tag = document.createElement('script');
       tag.src = 'https://www.youtube.com/iframe_api';
       document.head.appendChild(tag);
@@ -755,14 +766,26 @@ class MiniMusicPlayer {
 
     if (this.playbackEngine === 'youtube' && videoId) {
       if (this.ytPlayer && this.isYTReady) {
-        const state = this.ytPlayer.getPlayerState();
-        if (state === YT.PlayerState.CUED || state === YT.PlayerState.UNSTARTED) {
-          this.ytPlayer.loadVideoById(videoId);
-        } else {
-          this.ytPlayer.playVideo();
+        try {
+          const state = this.ytPlayer.getPlayerState();
+          if (state === YT.PlayerState.PLAYING) {
+            this.setPlayState(true);
+            return;
+          }
+          if (state === YT.PlayerState.PAUSED) {
+            this.ytPlayer.playVideo();
+          } else {
+            this.ytPlayer.loadVideoById(videoId);
+          }
+          this.setPlayState(true);
+          this.startYTProgressTracker();
+        } catch (e) {
+          try {
+            this.ytPlayer.loadVideoById(videoId);
+            this.setPlayState(true);
+            this.startYTProgressTracker();
+          } catch (err) {}
         }
-        this.setPlayState(true);
-        this.startYTProgressTracker();
       } else {
         this.pendingPlay = true;
       }
