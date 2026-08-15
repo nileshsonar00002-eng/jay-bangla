@@ -510,6 +510,19 @@ class MiniMusicPlayer {
     this.volumeIcon = document.getElementById('volumeIcon');
     this.volumeSlider = document.getElementById('volumeSlider');
 
+    // Playlist Modal / Drawer References
+    this.playerBar = document.getElementById('playerBar');
+    this.trackInfoSection = document.getElementById('trackInfoSection') || document.querySelector('.track-info-section');
+    this.playlistToggleBtn = document.getElementById('playlistToggleBtn');
+    this.playlistModalBackdrop = document.getElementById('playlistModalBackdrop');
+    this.playlistDrawer = document.getElementById('playlistDrawer');
+    this.playlistCloseBtn = document.getElementById('playlistCloseBtn');
+    this.playlistCountBadge = document.getElementById('playlistCountBadge');
+    this.playlistSearchInput = document.getElementById('playlistSearchInput');
+    this.playlistSearchClear = document.getElementById('playlistSearchClear');
+    this.playlistItemsContainer = document.getElementById('playlistItemsContainer');
+    this.isPlaylistOpen = false;
+
     this.init();
   }
 
@@ -520,6 +533,7 @@ class MiniMusicPlayer {
 
     this.loadTrack(this.currentIndex, false);
     this.bindEvents();
+    this.updatePlaylistCountBadge();
     this.loadFromFirebaseStorage();
   }
 
@@ -665,6 +679,11 @@ class MiniMusicPlayer {
         console.log(`🎶 Firebase Cloud Storage: Loaded ${storageTracks.length} tracks.`);
         this.playlist = storageTracks;
         this.currentIndex = 0;
+        this.updatePlaylistCountBadge();
+
+        if (this.isPlaylistOpen) {
+          this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
+        }
 
         await this.loadTrack(0, false);
 
@@ -799,7 +818,10 @@ class MiniMusicPlayer {
     const nextIdx = (this.currentIndex + 1) % this.playlist.length;
     this.prefetchDownloadUrl(nextIdx);
 
-    // 4. Stream audio on demand
+    // 4. Synchronize playlist item active state
+    this.highlightActivePlaylistItem();
+
+    // 5. Stream audio on demand
     const directAudio = currentSong.audioUrl || currentSong.url;
     if (directAudio) {
       this.audio.src = directAudio;
@@ -1017,11 +1039,200 @@ class MiniMusicPlayer {
     return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
   }
 
+  /**
+   * Updates total songs count in the playlist drawer header badge
+   */
+  updatePlaylistCountBadge() {
+    if (this.playlistCountBadge) {
+      this.playlistCountBadge.textContent = `${this.playlist.length} गाणी`;
+    }
+  }
+
+  /**
+   * Opens the glassmorphic playlist drawer
+   */
+  openPlaylist() {
+    if (!this.playlistModalBackdrop) return;
+    this.isPlaylistOpen = true;
+    this.playlistModalBackdrop.classList.add('open');
+    this.playlistModalBackdrop.setAttribute('aria-hidden', 'false');
+    this.updatePlaylistCountBadge();
+    this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
+
+    // Auto-scroll active track into view
+    setTimeout(() => {
+      const activeElem = this.playlistItemsContainer?.querySelector('.playlist-item.active');
+      if (activeElem) {
+        activeElem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    }, 100);
+  }
+
+  /**
+   * Closes the playlist drawer
+   */
+  closePlaylist() {
+    if (!this.playlistModalBackdrop) return;
+    this.isPlaylistOpen = false;
+    this.playlistModalBackdrop.classList.remove('open');
+    this.playlistModalBackdrop.setAttribute('aria-hidden', 'true');
+  }
+
+  /**
+   * Toggles the playlist drawer open/closed state
+   */
+  togglePlaylist() {
+    if (this.isPlaylistOpen) {
+      this.closePlaylist();
+    } else {
+      this.openPlaylist();
+    }
+  }
+
+  /**
+   * Renders the playlist track list with optional search query filter
+   */
+  renderPlaylistItems(filterQuery = '') {
+    if (!this.playlistItemsContainer) return;
+    const q = filterQuery.trim().toLowerCase();
+
+    const filtered = this.playlist.map((track, originalIndex) => ({
+      ...track,
+      originalIndex
+    })).filter((item) => {
+      if (!q) return true;
+      const matchTitle = (item.title || '').toLowerCase().includes(q);
+      const matchSinger = (item.singer || item.artist || item.vocals || '').toLowerCase().includes(q);
+      const matchFile = (item.filename || '').toLowerCase().includes(q);
+      return matchTitle || matchSinger || matchFile;
+    });
+
+    if (filtered.length === 0) {
+      this.playlistItemsContainer.innerHTML = `
+        <div class="playlist-empty-state">
+          <p>कोणतेही गाणे सापडले नाही 🔍</p>
+        </div>
+      `;
+      return;
+    }
+
+    this.playlistItemsContainer.innerHTML = filtered.map((item) => {
+      const isActive = item.originalIndex === this.currentIndex;
+      const singerName = item.singer || item.artist || item.vocals || 'अहिराणी खजिना';
+      const coverImg = item.cover || 'assets/khandeshi-jatra-bg.jpg';
+
+      return `
+        <div class="playlist-item ${isActive ? 'active' : ''}" data-index="${item.originalIndex}" role="button" tabindex="0" aria-label="${item.title}">
+          <div class="item-index-wrap">
+            <span class="item-num">${item.originalIndex + 1}</span>
+            <div class="item-playing-equalizer" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+          <img src="${coverImg}" alt="${item.title}" class="item-thumb" loading="lazy">
+          <div class="item-details">
+            <span class="item-title">${item.title}</span>
+            <span class="item-singer">${singerName}</span>
+          </div>
+          <div class="item-action-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <polygon points="6 4 20 12 6 20 6 4"></polygon>
+            </svg>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Attach click listeners to list items
+    const items = this.playlistItemsContainer.querySelectorAll('.playlist-item');
+    items.forEach((elem) => {
+      elem.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const idx = parseInt(elem.getAttribute('data-index'), 10);
+        if (!isNaN(idx)) {
+          this.loadTrack(idx, true);
+          this.highlightActivePlaylistItem();
+        }
+      });
+    });
+  }
+
+  /**
+   * Highlights current active playing track in playlist drawer
+   */
+  highlightActivePlaylistItem() {
+    if (!this.playlistItemsContainer) return;
+    const items = this.playlistItemsContainer.querySelectorAll('.playlist-item');
+    items.forEach((elem) => {
+      const idx = parseInt(elem.getAttribute('data-index'), 10);
+      if (idx === this.currentIndex) {
+        elem.classList.add('active');
+        if (this.isPlaylistOpen) {
+          elem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+      } else {
+        elem.classList.remove('active');
+      }
+    });
+  }
+
   bindEvents() {
     this.playBtn.addEventListener('click', () => this.togglePlay());
     this.prevBtn.addEventListener('click', () => this.prevTrack());
     this.nextBtn.addEventListener('click', () => this.nextTrack());
     this.volumeBtn.addEventListener('click', () => this.toggleMute());
+
+    // Open/Toggle Playlist on clicking player track info or playlist button
+    if (this.trackInfoSection) {
+      this.trackInfoSection.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.togglePlaylist();
+      });
+    }
+
+    if (this.playlistToggleBtn) {
+      this.playlistToggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.togglePlaylist();
+      });
+    }
+
+    if (this.playlistCloseBtn) {
+      this.playlistCloseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.closePlaylist();
+      });
+    }
+
+    if (this.playlistModalBackdrop) {
+      this.playlistModalBackdrop.addEventListener('click', (e) => {
+        if (e.target === this.playlistModalBackdrop) {
+          this.closePlaylist();
+        }
+      });
+    }
+
+    if (this.playlistSearchInput) {
+      this.playlistSearchInput.addEventListener('input', (e) => {
+        const val = e.target.value;
+        if (this.playlistSearchClear) {
+          this.playlistSearchClear.style.display = val ? 'block' : 'none';
+        }
+        this.renderPlaylistItems(val);
+      });
+    }
+
+    if (this.playlistSearchClear) {
+      this.playlistSearchClear.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (this.playlistSearchInput) {
+          this.playlistSearchInput.value = '';
+          this.playlistSearchInput.focus();
+        }
+        this.playlistSearchClear.style.display = 'none';
+        this.renderPlaylistItems('');
+      });
+    }
 
     if (this.volumeSlider) {
       this.volumeSlider.addEventListener('input', (e) => {
@@ -1082,6 +1293,14 @@ class MiniMusicPlayer {
 
     // Global Keyboard Shortcuts
     window.addEventListener('keydown', (e) => {
+      if (e.code === 'Escape' && this.isPlaylistOpen) {
+        this.closePlaylist();
+        return;
+      }
+      // If typing in search box, don't trigger media shortcuts
+      if (document.activeElement === this.playlistSearchInput) {
+        return;
+      }
       switch (e.code) {
         case 'Space':
           e.preventDefault();
@@ -1134,8 +1353,8 @@ function initClickHeartInteraction() {
 
   const handleInteraction = (clientX, clientY, target) => {
     if (!target) return;
-    // Exclude clicks on player, badges, tagline, buttons, sliders, links, inputs
-    if (target.closest('button, input, a, .mini-player-bar, .top-badge, .player-container, [role="slider"], [role="region"]')) {
+    // Exclude clicks on player, badges, tagline, buttons, sliders, links, inputs, playlist drawer
+    if (target.closest('button, input, a, .mini-player-bar, .top-badge, .player-container, .playlist-drawer, .playlist-modal-backdrop, [role="slider"], [role="region"], [role="dialog"]')) {
       return;
     }
 
