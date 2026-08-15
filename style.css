@@ -1754,7 +1754,7 @@ body {
   }
 
   .top-center-title-container {
-    top: calc(64px + env(safe-area-inset-top, 0px));
+    top: calc(clamp(90px, 13.5vh, 112px) + env(safe-area-inset-top, 0px));
     left: 0;
     width: 100%;
     display: flex;
