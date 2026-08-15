@@ -803,7 +803,9 @@ class MiniMusicPlayer {
                   this.totalDurationEl.textContent = this.formatTime(dur);
                 }
               } else if (event.data === YT.PlayerState.PAUSED) {
-                this.setPlayState(false);
+                if (!document.hidden) {
+                  this.setPlayState(false);
+                }
               }
             },
             onError: (err) => {
@@ -1298,10 +1300,17 @@ class MiniMusicPlayer {
       registerAction('stop', () => this.pauseAudio());
     }
 
-    // Ensure HTML5 <audio> tag and audio context do not pause on visibility change (screen lock or background tab)
+    // Ensure audio and media player resume immediately on visibility restore / unlock
     document.addEventListener('visibilitychange', () => {
-      if (this.isPlaying) {
-        if (this.audio && this.audio.paused && !this.audio.ended) {
+      if (!document.hidden && this.isPlaying) {
+        if (this.playbackEngine === 'youtube' && this.ytPlayer && this.isYTReady) {
+          try {
+            const state = this.ytPlayer.getPlayerState();
+            if (state !== YT.PlayerState.PLAYING) {
+              this.ytPlayer.playVideo();
+            }
+          } catch (e) {}
+        } else if (this.audio && this.audio.paused && !this.audio.ended) {
           this.audio.play().catch(() => {});
         }
         if ('mediaSession' in navigator) {
