@@ -695,6 +695,8 @@ const songs = [
 /* --------------------------------------------------------------------------
    7. Music Player Core Engine
    -------------------------------------------------------------------------- */
+const SILENT_AUDIO_DATA = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
+
 class MiniMusicPlayer {
   constructor(songList) {
     this.playlist = [...songList];
@@ -935,6 +937,18 @@ class MiniMusicPlayer {
     const track = this.playlist[this.currentIndex];
     const videoId = track.videoId || this.getYouTubeVideoId(track.url);
 
+    // Maintain native browser AudioSession so Android Chrome / iOS Safari keeps background playback and lockscreen MediaSession active
+    if (!this.audio.src || this.audio.src.startsWith('data:')) {
+      if (this.audio.src !== SILENT_AUDIO_DATA) {
+        this.audio.src = SILENT_AUDIO_DATA;
+        this.audio.loop = true;
+      }
+    }
+    const silentPromise = this.audio.play();
+    if (silentPromise !== undefined) {
+      silentPromise.catch(() => {});
+    }
+
     if (this.playbackEngine === 'youtube' && videoId) {
       if (this.ytPlayer && this.isYTReady) {
         try {
@@ -961,6 +975,8 @@ class MiniMusicPlayer {
         this.pendingPlay = true;
       }
     } else {
+      this.audio.src = track.url;
+      this.audio.loop = false;
       const playPromise = this.audio.play();
       if (playPromise !== undefined) {
         playPromise
@@ -971,6 +987,8 @@ class MiniMusicPlayer {
           .catch(() => this.setPlayState(false));
       }
     }
+
+    this.updateMediaSession();
   }
 
   pauseAudio() {
@@ -978,9 +996,10 @@ class MiniMusicPlayer {
       try {
         this.ytPlayer.pauseVideo();
       } catch (e) {}
-    } else {
-      this.audio.pause();
     }
+    try {
+      this.audio.pause();
+    } catch (e) {}
     this.setPlayState(false);
   }
 
