@@ -10,16 +10,25 @@
  * ==========================================================================
  */
 
-// Firebase Realtime Database Configuration
+// Firebase Project Configuration (khaneshijatra)
 const firebaseConfig = {
   apiKey: "AIzaSyDummyKeyForKhandeshiJatraPresence2026",
-  authDomain: "khandeshi-jatra.firebaseapp.com",
-  databaseURL: "https://khandeshi-jatra-default-rtdb.firebaseio.com",
-  projectId: "khandeshi-jatra",
-  storageBucket: "khandeshi-jatra.appspot.com",
+  authDomain: "khaneshijatra.firebaseapp.com",
+  databaseURL: "https://khaneshijatra-default-rtdb.firebaseio.com",
+  projectId: "khaneshijatra",
+  storageBucket: "khaneshijatra.appspot.com",
   messagingSenderId: "123456789012",
   appId: "1:123456789012:web:abcdef123456"
 };
+
+// Safe Firebase App Initialization
+if (typeof firebase !== 'undefined' && (!firebase.apps || !firebase.apps.length)) {
+  try {
+    firebase.initializeApp(firebaseConfig);
+  } catch (e) {
+    console.info('Firebase initialization notice:', e);
+  }
+}
 
 const BASE_LISTENER_COUNT = 110;
 
@@ -749,6 +758,127 @@ class MiniMusicPlayer {
     this.loadTrack(this.currentIndex, false);
     this.bindEvents();
     this.initYouTubeAPI();
+    this.loadFromFirebaseStorage();
+  }
+
+  /**
+   * Intelligently parses MP3 filenames into clean Title and Artist strings
+   */
+  parseSongMetadata(filename, index) {
+    // 1. Strip file extensions (.mp3, .wav, .m4a, .aac, .ogg, .flac)
+    let clean = filename.replace(/\.[^/.]+$/, '');
+    // 2. Strip leading numbers (e.g. "01 - ", "01. ", "01_", "1. ")
+    clean = clean.replace(/^(?:track\s*)?\d+[\s\.\-_]+/i, '');
+    // 3. Normalize underscores to spaces
+    clean = clean.replace(/_+/g, ' ').trim();
+
+    let title = clean;
+    let artist = "खान्देशी अहिराणी";
+
+    if (clean.includes(' - ')) {
+      const parts = clean.split(' - ');
+      if (parts.length >= 2) {
+        title = parts[0].trim();
+        artist = parts.slice(1).join(' - ').trim();
+      }
+    } else if (clean.includes(' – ')) {
+      const parts = clean.split(' – ');
+      if (parts.length >= 2) {
+        title = parts[0].trim();
+        artist = parts.slice(1).join(' – ').trim();
+      }
+    } else if (clean.includes('(') && clean.includes(')')) {
+      const match = clean.match(/^(.*?)\s*\((.*?)\)$/);
+      if (match) {
+        title = match[1].trim();
+        artist = match[2].trim();
+      }
+    }
+
+    return {
+      id: `fb_track_${index + 1}`,
+      title: title || `खान्देशी गीत ${index + 1}`,
+      artist: artist || "अहिराणी खजिना",
+      filename: filename,
+      itemRef: null,
+      audioUrl: null,
+      isFirebaseStorage: true,
+      duration: '--:--',
+      cover: 'assets/khandeshi-jatra-bg.jpg'
+    };
+  }
+
+  /**
+   * Connects to Firebase Cloud Storage and loads all MP3 tracks in the 'music/' directory
+   */
+  async loadFromFirebaseStorage() {
+    if (typeof firebase === 'undefined' || !firebase.storage) {
+      console.info('ℹ️ Firebase Storage SDK not active. Fallback playlist active.');
+      return;
+    }
+
+    try {
+      if (!firebase.apps || !firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+
+      const storage = firebase.storage();
+      // Reference to the 'music/' directory in Firebase Cloud Storage
+      const musicRef = storage.ref('music');
+
+      const listResult = await musicRef.listAll();
+
+      if (!listResult || !listResult.items || listResult.items.length === 0) {
+        console.info('ℹ️ No files currently in Firebase Storage music/ folder. Keeping fallback songs playlist.');
+        return;
+      }
+
+      const storageTracks = [];
+      for (let i = 0; i < listResult.items.length; i++) {
+        const item = listResult.items[i];
+        const name = item.name;
+        const lower = name.toLowerCase();
+
+        // Match common audio formats
+        if (lower.endsWith('.mp3') || lower.endsWith('.wav') || lower.endsWith('.m4a') || lower.endsWith('.aac') || lower.endsWith('.ogg') || lower.endsWith('.flac')) {
+          const parsed = this.parseSongMetadata(name, i);
+          parsed.itemRef = item;
+          storageTracks.push(parsed);
+        }
+      }
+
+      if (storageTracks.length > 0) {
+        // Natural alphanumeric sort (e.g. 01.mp3, 02.mp3, 10.mp3)
+        storageTracks.sort((a, b) => a.filename.localeCompare(b.filename, undefined, { numeric: true, sensitivity: 'base' }));
+
+        console.log(`🎶 Firebase Cloud Storage: Loaded ${storageTracks.length} tracks from music/ folder.`);
+        this.playlist = storageTracks;
+        this.currentIndex = 0;
+
+        // Load the first song from Firebase Storage on-demand
+        await this.loadTrack(0, false);
+
+        // Prefetch next track's download URL in background
+        if (storageTracks.length > 1) {
+          this.prefetchDownloadUrl(1);
+        }
+      }
+    } catch (err) {
+      console.warn('Firebase Storage connection note (fallback playlist active):', err);
+    }
+  }
+
+  /**
+   * Prefetches download URL for smooth instantaneous track transitions
+   */
+  prefetchDownloadUrl(index) {
+    if (index < 0 || index >= this.playlist.length) return;
+    const track = this.playlist[index];
+    if (track && track.isFirebaseStorage && !track.audioUrl && track.itemRef) {
+      track.itemRef.getDownloadURL()
+        .then((url) => { track.audioUrl = url; })
+        .catch(() => {});
+    }
   }
 
   getYouTubeVideoId(url) {
@@ -783,9 +913,11 @@ class MiniMusicPlayer {
               if (this.isMuted) this.ytPlayer.mute();
 
               const currentTrack = this.playlist[this.currentIndex];
-              const videoId = currentTrack.videoId || this.getYouTubeVideoId(currentTrack.url);
-              if (videoId) {
-                this.ytPlayer.cueVideoById(videoId);
+              if (currentTrack && !currentTrack.isFirebaseStorage) {
+                const videoId = currentTrack.videoId || this.getYouTubeVideoId(currentTrack.url);
+                if (videoId) {
+                  this.ytPlayer.cueVideoById(videoId);
+                }
               }
 
               if (this.pendingPlay) {
@@ -829,7 +961,7 @@ class MiniMusicPlayer {
     }
   }
 
-  loadTrack(index, autoPlay = true) {
+  async loadTrack(index, autoPlay = true) {
     if (index < 0 || index >= this.playlist.length) return;
     this.currentIndex = index;
     const track = this.playlist[this.currentIndex];
@@ -837,7 +969,7 @@ class MiniMusicPlayer {
     this.trackTitle.textContent = track.title;
     this.trackArtist.textContent = track.artist;
     this.currentTimeEl.textContent = '00:00';
-    this.totalDurationEl.textContent = track.duration || '03:30';
+    this.totalDurationEl.textContent = track.duration || '--:--';
     this.progressFill.style.width = '0%';
     this.progressBarWrapper.setAttribute('aria-valuenow', '0');
 
@@ -848,16 +980,33 @@ class MiniMusicPlayer {
     // 1. Update Media Session Metadata
     this.updateMediaSession();
 
-    // Check for direct audio URL (e.g. mp3/m4a/audio stream)
-    const directAudio = track.audioUrl || (track.url && (track.url.endsWith('.mp3') || track.url.endsWith('.m4a') || track.url.endsWith('.aac') || track.url.includes('audio') || track.url.includes('archive.org')) ? track.url : null);
+    // 2. If Firebase Storage song and audioUrl not fetched yet, fetch on-demand
+    if (track.isFirebaseStorage && !track.audioUrl && track.itemRef) {
+      try {
+        track.audioUrl = await track.itemRef.getDownloadURL();
+      } catch (err) {
+        console.warn(`Failed to fetch audio stream for ${track.filename}:`, err);
+        if (autoPlay) {
+          setTimeout(() => this.nextTrack(), 1000);
+        }
+        return;
+      }
+    }
+
+    // 3. Prefetch next track download URL in background
+    const nextIdx = (this.currentIndex + 1) % this.playlist.length;
+    this.prefetchDownloadUrl(nextIdx);
+
+    // 4. Stream audio on demand
+    const directAudio = track.audioUrl || (track.url && (track.url.endsWith('.mp3') || track.url.endsWith('.m4a') || track.url.endsWith('.aac') || track.url.includes('audio') || track.url.includes('archive.org') || track.url.includes('firebasestorage')) ? track.url : null);
     const videoId = track.videoId || this.getYouTubeVideoId(track.url);
 
-    if (directAudio) {
+    if (directAudio || track.isFirebaseStorage) {
       this.playbackEngine = 'audio';
       if (this.ytPlayer && this.isYTReady) {
         try { this.ytPlayer.stopVideo(); } catch (e) {}
       }
-      this.audio.src = directAudio;
+      this.audio.src = directAudio || track.url;
       this.audio.loop = false;
       this.audio.load();
       if (autoPlay) {
@@ -876,7 +1025,7 @@ class MiniMusicPlayer {
       } else if (autoPlay) {
         this.pendingPlay = true;
       }
-    } else {
+    } else if (track.url) {
       this.playbackEngine = 'audio';
       if (this.ytPlayer && this.isYTReady) {
         try { this.ytPlayer.stopVideo(); } catch (e) {}
@@ -1241,6 +1390,13 @@ class MiniMusicPlayer {
 
     this.audio.addEventListener('ended', () => {
       this.nextTrack();
+    });
+
+    this.audio.addEventListener('error', (e) => {
+      console.warn('Audio streaming error on current track, attempting recovery:', e);
+      if (this.isPlaying) {
+        setTimeout(() => this.nextTrack(), 1000);
+      }
     });
 
     // Scrubber
