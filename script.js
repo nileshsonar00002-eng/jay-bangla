@@ -1270,7 +1270,7 @@ class MiniMusicPlayer {
       }
     });
 
-    // Media Session API registration for Lock Screen & Background playback
+    // Media Session API registration - Only Play & Pause in system notification overlay
     if ('mediaSession' in navigator) {
       const registerAction = (action, handler) => {
         try {
@@ -1280,24 +1280,17 @@ class MiniMusicPlayer {
         }
       };
 
+      // Explicitly hook Play and Pause
       registerAction('play', () => this.playAudio());
       registerAction('pause', () => this.pauseAudio());
-      registerAction('previoustrack', () => this.prevTrack());
-      registerAction('nexttrack', () => this.nextTrack());
-      registerAction('seekbackward', (details) => {
-        const offset = details.seekOffset || 10;
-        this.seekRelative(-offset);
-      });
-      registerAction('seekforward', (details) => {
-        const offset = details.seekOffset || 10;
-        this.seekRelative(offset);
-      });
-      registerAction('seekto', (details) => {
-        if (details.seekTime !== undefined) {
-          this.seekToTime(details.seekTime);
-        }
-      });
-      registerAction('stop', () => this.pauseAudio());
+
+      // Reset all other handlers to null so only Play and Pause buttons are rendered in overlay
+      registerAction('previoustrack', null);
+      registerAction('nexttrack', null);
+      registerAction('seekbackward', null);
+      registerAction('seekforward', null);
+      registerAction('seekto', null);
+      registerAction('stop', null);
     }
 
     // Ensure audio and media player resume immediately on visibility restore / unlock
