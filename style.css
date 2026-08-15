@@ -393,17 +393,60 @@ body {
 }
 
 .main-top-title {
-  font-family: var(--font-marathi);
-  font-size: clamp(1.2rem, 2.5vw, 1.85rem);
+  font-family: 'Rozha One', 'Yatra One', var(--font-marathi);
+  font-size: clamp(1.35rem, 2.7vw, 1.95rem);
   font-weight: 700;
-  letter-spacing: 0.04em;
-  color: #F5E6CA;
-  opacity: 0.9;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.05em;
+  color: #FFF8E7;
   line-height: 1.25;
   margin: 0;
-  padding: 0;
+  padding: 0.38rem 1.4rem;
   text-align: center;
+  background: rgba(14, 10, 6, 0.52);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(251, 191, 36, 0.32);
+  border-radius: 9999px;
+  box-shadow: 
+    0 6px 24px rgba(0, 0, 0, 0.55),
+    0 0 20px rgba(245, 158, 11, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.95),
+    0 4px 16px rgba(0, 0, 0, 0.8),
+    0 0 22px rgba(251, 191, 36, 0.45);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  animation: titleGlowPulse 4.5s ease-in-out infinite alternate;
+}
+
+.main-top-title::before,
+.main-top-title::after {
+  content: "◆";
+  font-size: 0.58em;
+  color: var(--gold-400);
+  opacity: 0.85;
+  vertical-align: middle;
+  filter: drop-shadow(0 0 4px rgba(251, 191, 36, 0.8));
+}
+
+@keyframes titleGlowPulse {
+  0% {
+    border-color: rgba(251, 191, 36, 0.28);
+    box-shadow: 
+      0 6px 24px rgba(0, 0, 0, 0.55),
+      0 0 16px rgba(245, 158, 11, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+  100% {
+    border-color: rgba(251, 191, 36, 0.48);
+    box-shadow: 
+      0 6px 26px rgba(0, 0, 0, 0.6),
+      0 0 26px rgba(251, 191, 36, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
 }
 
 @keyframes titleFadeIn {
@@ -1329,14 +1372,16 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 1rem;
+    padding: 0 0.75rem;
     white-space: normal;
   }
 
   .main-top-title {
     font-size: 1.15rem;
-    line-height: 1.3;
-    text-align: center;
+    padding: 0.32rem 0.95rem;
+    line-height: 1.35;
+    letter-spacing: 0.03em;
+    gap: 0.35rem;
   }
 
   .center-shine-sweep {
