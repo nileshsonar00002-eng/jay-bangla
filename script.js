@@ -399,321 +399,29 @@ function initSubtleParallax() {
 }
 
 /* --------------------------------------------------------------------------
-   6. Internal Songs Data (33 Tracks from Playlist PLSfT4KKW5Dcw)
+   6. Initial Music Player State
    -------------------------------------------------------------------------- */
-const songs = [
+const initialPlaylist = [
   {
-    id: 1,
-    title: "Zim Zim Pani Ma",
-    artist: "Bhaiya More",
-    url: "https://www.youtube.com/watch?v=BojP1rmXpA4",
-    videoId: "BojP1rmXpA4",
-    duration: "03:45",
-    cover: "https://i.ytimg.com/vi/BojP1rmXpA4/hqdefault.jpg"
-  },
-  {
-    id: 2,
-    title: "Vadi Vadi Chandan Vadi",
-    artist: "Hiten Shivde, Sachin Kumavat, Ankita Raut",
-    url: "https://www.youtube.com/watch?v=T4jU3x12udo",
-    videoId: "T4jU3x12udo",
-    duration: "03:50",
-    cover: "https://i.ytimg.com/vi/T4jU3x12udo/hqdefault.jpg"
-  },
-  {
-    id: 3,
-    title: "Raja Re (Raja Tu, Tu Mana Raja Re)",
-    artist: "Jagdish Sandhanshiv, Anjana Barlekar",
-    url: "https://www.youtube.com/watch?v=63SA4fiMwTs",
-    videoId: "63SA4fiMwTs",
-    duration: "04:30",
-    cover: "https://i.ytimg.com/vi/63SA4fiMwTs/hqdefault.jpg"
-  },
-  {
-    id: 4,
-    title: "झिंग लक लक पावरी (Zing Lak Lak Pawri)",
-    artist: "Arun Ahire Official",
-    url: "https://www.youtube.com/watch?v=adnX3ID2p4I",
-    videoId: "adnX3ID2p4I",
-    duration: "03:40",
-    cover: "https://i.ytimg.com/vi/adnX3ID2p4I/hqdefault.jpg"
-  },
-  {
-    id: 5,
-    title: "Mi Tuna Divana S",
-    artist: "Khandeshi Superhit",
-    url: "https://www.youtube.com/watch?v=bEz9xF7yY1k",
-    videoId: "bEz9xF7yY1k",
-    duration: "04:12",
-    cover: "https://i.ytimg.com/vi/bEz9xF7yY1k/hqdefault.jpg"
-  },
-  {
-    id: 6,
-    title: "Phiri Phiri Nach Pora (अहिराणी गीत)",
-    artist: "Babu More, Shrawani More",
-    url: "https://www.youtube.com/watch?v=4r0yTPx6F7k",
-    videoId: "4r0yTPx6F7k",
-    duration: "03:25",
-    cover: "https://i.ytimg.com/vi/4r0yTPx6F7k/hqdefault.jpg"
-  },
-  {
-    id: 7,
-    title: "Mani Darling",
-    artist: "Bhaiya More",
-    url: "https://www.youtube.com/watch?v=Xl71Ta8_wN0",
-    videoId: "Xl71Ta8_wN0",
-    duration: "03:55",
-    cover: "https://i.ytimg.com/vi/Xl71Ta8_wN0/hqdefault.jpg"
-  },
-  {
-    id: 8,
-    title: "Hai Khandeshi Tam Tam",
-    artist: "Anna Surwade",
-    url: "https://www.youtube.com/watch?v=jTiVwaIsT74",
-    videoId: "jTiVwaIsT74",
-    duration: "04:05",
-    cover: "https://i.ytimg.com/vi/jTiVwaIsT74/hqdefault.jpg"
-  },
-  {
-    id: 9,
-    title: "Char Varis Na Pyar (चार वरिस ना प्यार)",
-    artist: "Ajay Mali, Anshuman More",
-    url: "https://www.youtube.com/watch?v=4_HHpVeZHpg",
-    videoId: "4_HHpVeZHpg",
-    duration: "04:10",
-    cover: "https://i.ytimg.com/vi/4_HHpVeZHpg/hqdefault.jpg"
-  },
-  {
-    id: 10,
-    title: "Sali Mi Nadan Sa",
-    artist: "Naval Mali",
-    url: "https://www.youtube.com/watch?v=V6C8NnX2TQk",
-    videoId: "V6C8NnX2TQk",
-    duration: "03:35",
-    cover: "https://i.ytimg.com/vi/V6C8NnX2TQk/hqdefault.jpg"
-  },
-  {
-    id: 11,
-    title: "Khandeshi Bhawani Powerfull Duff",
-    artist: "DJ Bhaiya Jalgaon",
-    url: "https://www.youtube.com/watch?v=_LCCv3ajiR8",
-    videoId: "_LCCv3ajiR8",
-    duration: "04:45",
-    cover: "https://i.ytimg.com/vi/_LCCv3ajiR8/hqdefault.jpg"
-  },
-  {
-    id: 12,
-    title: "May Mani Khandesh Ni Malan",
-    artist: "Madhuri Koli",
-    url: "https://www.youtube.com/watch?v=HhwbZ78bEME",
-    videoId: "HhwbZ78bEME",
-    duration: "04:18",
-    cover: "https://i.ytimg.com/vi/HhwbZ78bEME/hqdefault.jpg"
-  },
-  {
-    id: 13,
-    title: "Laganma Machadu Dhum Ra Dhum",
-    artist: "Ganesh Gujar",
-    url: "https://www.youtube.com/watch?v=qwlu7cTTkWI",
-    videoId: "qwlu7cTTkWI",
-    duration: "03:42",
-    cover: "https://i.ytimg.com/vi/qwlu7cTTkWI/hqdefault.jpg"
-  },
-  {
-    id: 14,
-    title: "Hai Saali Pyaar Karna",
-    artist: "Raju Bagul",
-    url: "https://www.youtube.com/watch?v=b3VyX3jvBXQ",
-    videoId: "b3VyX3jvBXQ",
-    duration: "04:20",
-    cover: "https://i.ytimg.com/vi/b3VyX3jvBXQ/hqdefault.jpg"
-  },
-  {
-    id: 15,
-    title: "Na Bhulau Raja Tula",
-    artist: "Dipak Wagh, Bhagyashree Sathe",
-    url: "https://www.youtube.com/watch?v=FRNzEweNjR8",
-    videoId: "FRNzEweNjR8",
-    duration: "03:52",
-    cover: "https://i.ytimg.com/vi/FRNzEweNjR8/hqdefault.jpg"
-  },
-  {
-    id: 16,
-    title: "Dang Maa Chalay Pori",
-    artist: "Anil Kuvar",
-    url: "https://www.youtube.com/watch?v=VaWj6gl0OKk",
-    videoId: "VaWj6gl0OKk",
-    duration: "03:48",
-    cover: "https://i.ytimg.com/vi/VaWj6gl0OKk/hqdefault.jpg"
-  },
-  {
-    id: 17,
-    title: "Kar Man Lagan",
-    artist: "Bhaiya More, Megha Musale",
-    url: "https://www.youtube.com/watch?v=NZaYXblSaYI",
-    videoId: "NZaYXblSaYI",
-    duration: "03:58",
-    cover: "https://i.ytimg.com/vi/NZaYXblSaYI/hqdefault.jpg"
-  },
-  {
-    id: 18,
-    title: "Pyar M Tuna Sajani",
-    artist: "Raju Wagh",
-    url: "https://www.youtube.com/watch?v=jP3C57dEj7c",
-    videoId: "jP3C57dEj7c",
-    duration: "04:15",
-    cover: "https://i.ytimg.com/vi/jP3C57dEj7c/hqdefault.jpg"
-  },
-  {
-    id: 19,
-    title: "Haat Mehandi Na",
-    artist: "Bhaiya More",
-    url: "https://www.youtube.com/watch?v=y2QNtft2VW8",
-    videoId: "y2QNtft2VW8",
-    duration: "03:50",
-    cover: "https://i.ytimg.com/vi/y2QNtft2VW8/hqdefault.jpg"
-  },
-  {
-    id: 20,
-    title: "Khandeshi Band Mix Pawri, Pt. 3",
-    artist: "Dj Ritesh Rs",
-    url: "https://www.youtube.com/watch?v=2VHsq9uG7F4",
-    videoId: "2VHsq9uG7F4",
-    duration: "03:38",
-    cover: "https://i.ytimg.com/vi/2VHsq9uG7F4/hqdefault.jpg"
-  },
-  {
-    id: 21,
-    title: "Jeev Pisatala (खान्देशी स्पेशल)",
-    artist: "Jasraj Joshi",
-    url: "https://www.youtube.com/watch?v=c6E4HHbMdJI",
-    videoId: "c6E4HHbMdJI",
-    duration: "03:45",
-    cover: "https://i.ytimg.com/vi/c6E4HHbMdJI/hqdefault.jpg"
-  },
-  {
-    id: 22,
-    title: "Pori Tuni Payal",
-    artist: "Vinod Kumavat",
-    url: "https://www.youtube.com/watch?v=PtlO7hE8yp8",
-    videoId: "PtlO7hE8yp8",
-    duration: "03:40",
-    cover: "https://i.ytimg.com/vi/PtlO7hE8yp8/hqdefault.jpg"
-  },
-  {
-    id: 23,
-    title: "Mani Dilbar Tu (मनी दिलबर तू)",
-    artist: "Bhaiya More, Vinod Kumavat",
-    url: "https://www.youtube.com/watch?v=gNxAjo5NGxA",
-    videoId: "gNxAjo5NGxA",
-    duration: "04:05",
-    cover: "https://i.ytimg.com/vi/gNxAjo5NGxA/hqdefault.jpg"
-  },
-  {
-    id: 24,
-    title: "Dena Tuni Sath",
-    artist: "Bhaiya More",
-    url: "https://www.youtube.com/watch?v=nSVH6ULbpMg",
-    videoId: "nSVH6ULbpMg",
-    duration: "03:52",
-    cover: "https://i.ytimg.com/vi/nSVH6ULbpMg/hqdefault.jpg"
-  },
-  {
-    id: 25,
-    title: "Me Ragush Tu Mani Maina",
-    artist: "Bhaiya More",
-    url: "https://www.youtube.com/watch?v=P58bWqlitww",
-    videoId: "P58bWqlitww",
-    duration: "04:10",
-    cover: "https://i.ytimg.com/vi/P58bWqlitww/hqdefault.jpg"
-  },
-  {
-    id: 26,
-    title: "Girana Kathale Mana Gaav",
-    artist: "Anil Kuvar",
-    url: "https://www.youtube.com/watch?v=lQGyFRMivwk",
-    videoId: "lQGyFRMivwk",
-    duration: "03:55",
-    cover: "https://i.ytimg.com/vi/lQGyFRMivwk/hqdefault.jpg"
-  },
-  {
-    id: 27,
-    title: "Kanbai Chalni Gangevari",
-    artist: "Rucha Birari",
-    url: "https://www.youtube.com/watch?v=SuevDYFGlZ0",
-    videoId: "SuevDYFGlZ0",
-    duration: "04:22",
-    cover: "https://i.ytimg.com/vi/SuevDYFGlZ0/hqdefault.jpg"
-  },
-  {
-    id: 28,
-    title: "Kanbai Hit Songs (कानबाई गीत)",
-    artist: "Ahirani Latest Jukebox",
-    url: "https://www.youtube.com/watch?v=fFO47NMLfSI",
-    videoId: "fFO47NMLfSI",
-    duration: "05:15",
-    cover: "https://i.ytimg.com/vi/fFO47NMLfSI/hqdefault.jpg"
-  },
-  {
-    id: 29,
-    title: "Aaj Lagani Tile Hayad (आज लगनी तिले हळद)",
-    artist: "VG Khandesh",
-    url: "https://www.youtube.com/watch?v=h4JG1AqZO60",
-    videoId: "h4JG1AqZO60",
-    duration: "03:48",
-    cover: "https://i.ytimg.com/vi/h4JG1AqZO60/hqdefault.jpg"
-  },
-  {
-    id: 30,
-    title: "Lak Lak Chamakana Nanduri Na Gad",
-    artist: "Kunal Pawar",
-    url: "https://www.youtube.com/watch?v=4gU_n5_vQ0c",
-    videoId: "4gU_n5_vQ0c",
-    duration: "04:12",
-    cover: "https://i.ytimg.com/vi/4gU_n5_vQ0c/hqdefault.jpg"
-  },
-  {
-    id: 31,
-    title: "Vicky Bhagya Ni Pawari",
-    artist: "Khandeshi Dance Performance",
-    url: "https://www.youtube.com/watch?v=n5Ol6-BmG3U",
-    videoId: "n5Ol6-BmG3U",
-    duration: "04:35",
-    cover: "https://i.ytimg.com/vi/n5Ol6-BmG3U/hqdefault.jpg"
-  },
-  {
-    id: 32,
-    title: "Tule Jai Ti Dhoka Disan",
-    artist: "Jagdish Sandhanshiv, Anjana Barlekar",
-    url: "https://www.youtube.com/watch?v=Svbv7QK7Lug",
-    videoId: "Svbv7QK7Lug",
-    duration: "04:15",
-    cover: "https://i.ytimg.com/vi/Svbv7QK7Lug/hqdefault.jpg"
-  },
-  {
-    id: 33,
-    title: "Rani Mana Khandesh Say Kamal",
-    artist: "Raju Kalme, Machindra More",
-    url: "https://www.youtube.com/watch?v=HCEoIJG55bI",
-    videoId: "HCEoIJG55bI",
-    duration: "03:50",
-    cover: "https://i.ytimg.com/vi/HCEoIJG55bI/hqdefault.jpg"
+    id: 'kj_init_1',
+    title: 'खान्देशी अहिराणी गाणी',
+    artist: 'खान्देशी जत्रा',
+    duration: '--:--',
+    cover: 'assets/khandeshi-jatra-bg.jpg',
+    isFirebaseStorage: true
   }
 ];
 
 /* --------------------------------------------------------------------------
-   7. Music Player Core Engine
+   7. Music Player Core Engine (Firebase Cloud Storage MP3 Streaming)
    -------------------------------------------------------------------------- */
-const SILENT_AUDIO_DATA = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
-
 class MiniMusicPlayer {
-  constructor(songList) {
+  constructor(songList = initialPlaylist) {
     this.playlist = [...songList];
     this.currentIndex = 0;
     this.isPlaying = false;
     this.isMuted = false;
     this.volume = parseFloat(localStorage.getItem('kj_volume') || '0.85');
-    this.playbackEngine = 'youtube';
 
     // DOM References
     this.audio = document.getElementById('audioElement');
@@ -741,12 +449,6 @@ class MiniMusicPlayer {
     this.volumeIcon = document.getElementById('volumeIcon');
     this.volumeSlider = document.getElementById('volumeSlider');
 
-    // YouTube Integration
-    this.ytPlayer = null;
-    this.isYTReady = false;
-    this.ytCheckInterval = null;
-    this.pendingPlay = false;
-
     this.init();
   }
 
@@ -757,7 +459,6 @@ class MiniMusicPlayer {
 
     this.loadTrack(this.currentIndex, false);
     this.bindEvents();
-    this.initYouTubeAPI();
     this.loadFromFirebaseStorage();
   }
 
@@ -767,7 +468,7 @@ class MiniMusicPlayer {
   parseSongMetadata(filename, index) {
     // 1. Strip file extensions (.mp3, .wav, .m4a, .aac, .ogg, .flac)
     let clean = filename.replace(/\.[^/.]+$/, '');
-    // 2. Strip leading numbers (e.g. "01 - ", "01. ", "01_", "1. ")
+    // 2. Strip leading track order patterns (e.g. "01 - ", "01. ", "01_", "1. ")
     clean = clean.replace(/^(?:track\s*)?\d+[\s\.\-_]+/i, '');
     // 3. Normalize underscores to spaces
     clean = clean.replace(/_+/g, ' ').trim();
@@ -813,7 +514,7 @@ class MiniMusicPlayer {
    */
   async loadFromFirebaseStorage() {
     if (typeof firebase === 'undefined' || !firebase.storage) {
-      console.info('ℹ️ Firebase Storage SDK not active. Fallback playlist active.');
+      console.info('ℹ️ Firebase Storage SDK not active.');
       return;
     }
 
@@ -823,13 +524,12 @@ class MiniMusicPlayer {
       }
 
       const storage = firebase.storage();
-      // Reference to the 'music/' directory in Firebase Cloud Storage
       const musicRef = storage.ref('music');
 
       const listResult = await musicRef.listAll();
 
       if (!listResult || !listResult.items || listResult.items.length === 0) {
-        console.info('ℹ️ No files currently in Firebase Storage music/ folder. Keeping fallback songs playlist.');
+        console.info('ℹ️ Firebase Storage music/ folder is empty. Upload your MP3 files to music/ in Firebase Console.');
         return;
       }
 
@@ -839,7 +539,7 @@ class MiniMusicPlayer {
         const name = item.name;
         const lower = name.toLowerCase();
 
-        // Match common audio formats
+        // Match audio formats
         if (lower.endsWith('.mp3') || lower.endsWith('.wav') || lower.endsWith('.m4a') || lower.endsWith('.aac') || lower.endsWith('.ogg') || lower.endsWith('.flac')) {
           const parsed = this.parseSongMetadata(name, i);
           parsed.itemRef = item;
@@ -848,23 +548,20 @@ class MiniMusicPlayer {
       }
 
       if (storageTracks.length > 0) {
-        // Natural alphanumeric sort (e.g. 01.mp3, 02.mp3, 10.mp3)
         storageTracks.sort((a, b) => a.filename.localeCompare(b.filename, undefined, { numeric: true, sensitivity: 'base' }));
 
-        console.log(`🎶 Firebase Cloud Storage: Loaded ${storageTracks.length} tracks from music/ folder.`);
+        console.log(`🎶 Firebase Cloud Storage: Loaded ${storageTracks.length} tracks.`);
         this.playlist = storageTracks;
         this.currentIndex = 0;
 
-        // Load the first song from Firebase Storage on-demand
         await this.loadTrack(0, false);
 
-        // Prefetch next track's download URL in background
         if (storageTracks.length > 1) {
           this.prefetchDownloadUrl(1);
         }
       }
     } catch (err) {
-      console.warn('Firebase Storage connection note (fallback playlist active):', err);
+      console.warn('Firebase Storage connection note:', err);
     }
   }
 
@@ -878,86 +575,6 @@ class MiniMusicPlayer {
       track.itemRef.getDownloadURL()
         .then((url) => { track.audioUrl = url; })
         .catch(() => {});
-    }
-  }
-
-  getYouTubeVideoId(url) {
-    if (!url) return null;
-    if (url.startsWith('yt:')) return url.replace('yt:', '');
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : (url.length === 11 ? url : null);
-  }
-
-  initYouTubeAPI() {
-    const setupPlayer = () => {
-      if (this.ytPlayer || !window.YT || !window.YT.Player) return;
-      try {
-        this.ytPlayer = new YT.Player('youtubePlayerContainer', {
-          height: '200',
-          width: '200',
-          playerVars: {
-            autoplay: 0,
-            controls: 0,
-            disablekb: 1,
-            fs: 0,
-            rel: 0,
-            enablejsapi: 1,
-            playsinline: 1,
-            origin: window.location.origin
-          },
-          events: {
-            onReady: () => {
-              this.isYTReady = true;
-              this.ytPlayer.setVolume(this.volume * 100);
-              if (this.isMuted) this.ytPlayer.mute();
-
-              const currentTrack = this.playlist[this.currentIndex];
-              if (currentTrack && !currentTrack.isFirebaseStorage) {
-                const videoId = currentTrack.videoId || this.getYouTubeVideoId(currentTrack.url);
-                if (videoId) {
-                  this.ytPlayer.cueVideoById(videoId);
-                }
-              }
-
-              if (this.pendingPlay) {
-                this.pendingPlay = false;
-                this.playAudio();
-              }
-            },
-            onStateChange: (event) => {
-              if (event.data === YT.PlayerState.ENDED) {
-                this.nextTrack();
-              } else if (event.data === YT.PlayerState.PLAYING) {
-                this.setPlayState(true);
-                const dur = this.ytPlayer.getDuration();
-                if (dur && dur > 0) {
-                  this.totalDurationEl.textContent = this.formatTime(dur);
-                }
-              } else if (event.data === YT.PlayerState.PAUSED) {
-                if (!document.hidden) {
-                  this.setPlayState(false);
-                }
-              }
-            },
-            onError: (err) => {
-              console.warn('YouTube playback error, attempting next track:', err);
-              setTimeout(() => this.nextTrack(), 800);
-            }
-          }
-        });
-      } catch (e) {
-        console.error('Error creating YouTube player:', e);
-      }
-    };
-
-    window.onYouTubeIframeAPIReady = setupPlayer;
-    if (window.YT && window.YT.Player) {
-      setupPlayer();
-    } else if (!document.querySelector('script[src*="youtube.com/iframe_api"]')) {
-      const tag = document.createElement('script');
-      tag.src = 'https://www.youtube.com/iframe_api';
-      document.head.appendChild(tag);
     }
   }
 
@@ -977,18 +594,15 @@ class MiniMusicPlayer {
       this.trackCoverImg.src = track.cover;
     }
 
-    // 1. Update Media Session Metadata
+    // Update Media Session Metadata
     this.updateMediaSession();
 
-    // 2. If Firebase Storage song and audioUrl not fetched yet, fetch on-demand
+    // Fetch URL on-demand
     if (track.isFirebaseStorage && !track.audioUrl && track.itemRef) {
       try {
         track.audioUrl = await track.itemRef.getDownloadURL();
       } catch (err) {
         console.warn(`Failed to fetch audio stream for ${track.filename}:`, err);
-        if (autoPlay) {
-          setTimeout(() => this.nextTrack(), 1000);
-        }
         return;
       }
     }
@@ -998,39 +612,10 @@ class MiniMusicPlayer {
     this.prefetchDownloadUrl(nextIdx);
 
     // 4. Stream audio on demand
-    const directAudio = track.audioUrl || (track.url && (track.url.endsWith('.mp3') || track.url.endsWith('.m4a') || track.url.endsWith('.aac') || track.url.includes('audio') || track.url.includes('archive.org') || track.url.includes('firebasestorage')) ? track.url : null);
-    const videoId = track.videoId || this.getYouTubeVideoId(track.url);
-
-    if (directAudio || track.isFirebaseStorage) {
-      this.playbackEngine = 'audio';
-      if (this.ytPlayer && this.isYTReady) {
-        try { this.ytPlayer.stopVideo(); } catch (e) {}
-      }
-      this.audio.src = directAudio || track.url;
+    const directAudio = track.audioUrl || track.url;
+    if (directAudio) {
+      this.audio.src = directAudio;
       this.audio.loop = false;
-      this.audio.load();
-      if (autoPlay) {
-        this.playAudio();
-      }
-    } else if (videoId) {
-      this.playbackEngine = 'youtube';
-      if (this.ytPlayer && this.isYTReady) {
-        if (autoPlay) {
-          this.ytPlayer.loadVideoById(videoId);
-          this.setPlayState(true);
-        } else {
-          this.ytPlayer.cueVideoById(videoId);
-        }
-        this.startYTProgressTracker();
-      } else if (autoPlay) {
-        this.pendingPlay = true;
-      }
-    } else if (track.url) {
-      this.playbackEngine = 'audio';
-      if (this.ytPlayer && this.isYTReady) {
-        try { this.ytPlayer.stopVideo(); } catch (e) {}
-      }
-      this.audio.src = track.url;
       this.audio.load();
       if (autoPlay) {
         this.playAudio();
@@ -1045,15 +630,15 @@ class MiniMusicPlayer {
     if (!currentSong) return;
 
     try {
-      const artworkSrc = currentSong.cover || currentSong.artwork || 'assets/khandeshi-jatra-bg.jpg';
+      const artworkSrc = currentSong.cover || 'assets/khandeshi-jatra-bg.jpg';
       const absoluteArtwork = artworkSrc.startsWith('http')
         ? artworkSrc
         : new URL(artworkSrc, window.location.href).href;
 
       navigator.mediaSession.metadata = new MediaMetadata({
         title: currentSong.title,
-        artist: currentSong.artist || 'Ahirani Ganyancha Khajina',
-        album: 'Ahirani Ganyancha Khajina',
+        artist: currentSong.artist || 'खान्देशी जत्रा',
+        album: 'खान्देशी जत्रा',
         artwork: [
           { src: absoluteArtwork, sizes: '96x96', type: 'image/jpeg' },
           { src: absoluteArtwork, sizes: '128x128', type: 'image/jpeg' },
@@ -1074,15 +659,8 @@ class MiniMusicPlayer {
     if (!('mediaSession' in navigator) || !('setPositionState' in navigator.mediaSession)) return;
 
     try {
-      let dur = 0;
-      let pos = 0;
-      if (this.playbackEngine === 'youtube' && this.ytPlayer && this.isYTReady) {
-        dur = this.ytPlayer.getDuration() || 0;
-        pos = this.ytPlayer.getCurrentTime() || 0;
-      } else if (this.audio && this.audio.duration && !isNaN(this.audio.duration)) {
-        dur = this.audio.duration;
-        pos = this.audio.currentTime || 0;
-      }
+      const dur = this.audio && this.audio.duration && !isNaN(this.audio.duration) ? this.audio.duration : 0;
+      const pos = this.audio && this.audio.currentTime ? this.audio.currentTime : 0;
 
       if (dur > 0 && pos >= 0 && pos <= dur) {
         navigator.mediaSession.setPositionState({
@@ -1091,93 +669,32 @@ class MiniMusicPlayer {
           position: Math.max(0, Math.min(pos, dur))
         });
       }
-    } catch (e) {
-      // Ignore position state sync issues
-    }
+    } catch (e) {}
   }
 
   playAudio() {
     const track = this.playlist[this.currentIndex];
-    const directAudio = track.audioUrl || (track.url && (track.url.endsWith('.mp3') || track.url.endsWith('.m4a') || track.url.endsWith('.aac') || track.url.includes('audio') || track.url.includes('archive.org')) ? track.url : null);
-    const videoId = track.videoId || this.getYouTubeVideoId(track.url);
+    const directAudio = track.audioUrl || track.url;
 
-    if (directAudio || this.playbackEngine === 'audio') {
-      if (this.ytPlayer && this.isYTReady) {
-        try { this.ytPlayer.stopVideo(); } catch (e) {}
-      }
-      if (!this.audio.src || this.audio.src.startsWith('data:') || this.audio.src !== directAudio) {
-        this.audio.src = directAudio || track.url;
+    if (!this.audio.src || this.audio.src.startsWith('data:') || this.audio.src !== directAudio) {
+      if (directAudio) {
+        this.audio.src = directAudio;
         this.audio.loop = false;
-      }
-      const playPromise = this.audio.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            this.setPlayState(true);
-            this.updateMediaSession();
-          })
-          .catch(() => this.setPlayState(false));
-      }
-    } else if (videoId) {
-      // Maintain native browser AudioSession carrier so Android / iOS creates MediaSession notification
-      if (!this.audio.src || this.audio.src.startsWith('data:')) {
-        if (this.audio.src !== SILENT_AUDIO_DATA) {
-          this.audio.src = SILENT_AUDIO_DATA;
-          this.audio.loop = true;
-        }
-      }
-      const silentPromise = this.audio.play();
-      if (silentPromise !== undefined) {
-        silentPromise.catch(() => {});
-      }
-
-      if (this.ytPlayer && this.isYTReady) {
-        try {
-          const state = this.ytPlayer.getPlayerState();
-          if (state === YT.PlayerState.PLAYING) {
-            this.setPlayState(true);
-            return;
-          }
-          if (state === YT.PlayerState.PAUSED) {
-            this.ytPlayer.playVideo();
-          } else {
-            this.ytPlayer.loadVideoById(videoId);
-          }
-          this.setPlayState(true);
-          this.startYTProgressTracker();
-        } catch (e) {
-          try {
-            this.ytPlayer.loadVideoById(videoId);
-            this.setPlayState(true);
-            this.startYTProgressTracker();
-          } catch (err) {}
-        }
-      } else {
-        this.pendingPlay = true;
-      }
-    } else {
-      this.audio.src = track.url;
-      this.audio.loop = false;
-      const playPromise = this.audio.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            this.setPlayState(true);
-            this.updateMediaSession();
-          })
-          .catch(() => this.setPlayState(false));
       }
     }
 
-    this.updateMediaSession();
+    const playPromise = this.audio.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          this.setPlayState(true);
+          this.updateMediaSession();
+        })
+        .catch(() => this.setPlayState(false));
+    }
   }
 
   pauseAudio() {
-    if (this.playbackEngine === 'youtube' && this.ytPlayer && this.isYTReady) {
-      try {
-        this.ytPlayer.pauseVideo();
-      } catch (e) {}
-    }
     try {
       this.audio.pause();
     } catch (e) {}
@@ -1238,26 +755,14 @@ class MiniMusicPlayer {
   }
 
   seekToPercent(percent) {
-    if (this.playbackEngine === 'youtube' && this.ytPlayer && this.isYTReady) {
-      const duration = this.ytPlayer.getDuration();
-      if (duration) {
-        this.ytPlayer.seekTo((percent / 100) * duration, true);
-      }
-    } else {
-      if (this.audio.duration) {
-        this.audio.currentTime = (percent / 100) * this.audio.duration;
-      }
+    if (this.audio.duration && !isNaN(this.audio.duration)) {
+      this.audio.currentTime = (percent / 100) * this.audio.duration;
     }
     this.syncMediaSessionPositionState();
   }
 
   seekRelative(seconds) {
-    if (this.playbackEngine === 'youtube' && this.ytPlayer && this.isYTReady) {
-      const cur = this.ytPlayer.getCurrentTime() || 0;
-      const dur = this.ytPlayer.getDuration() || 0;
-      const target = Math.max(0, Math.min(cur + seconds, dur));
-      this.ytPlayer.seekTo(target, true);
-    } else if (this.audio.duration) {
+    if (this.audio.duration && !isNaN(this.audio.duration)) {
       const target = Math.max(0, Math.min(this.audio.currentTime + seconds, this.audio.duration));
       this.audio.currentTime = target;
     }
@@ -1265,32 +770,11 @@ class MiniMusicPlayer {
   }
 
   seekToTime(seconds) {
-    if (this.playbackEngine === 'youtube' && this.ytPlayer && this.isYTReady) {
-      const dur = this.ytPlayer.getDuration() || 0;
-      const target = Math.max(0, Math.min(seconds, dur));
-      this.ytPlayer.seekTo(target, true);
-    } else if (this.audio.duration) {
+    if (this.audio.duration && !isNaN(this.audio.duration)) {
       const target = Math.max(0, Math.min(seconds, this.audio.duration));
       this.audio.currentTime = target;
     }
     this.syncMediaSessionPositionState();
-  }
-
-  startYTProgressTracker() {
-    if (this.ytCheckInterval) clearInterval(this.ytCheckInterval);
-    this.ytCheckInterval = setInterval(() => {
-      if (this.playbackEngine === 'youtube' && this.ytPlayer && this.isYTReady && this.isPlaying) {
-        const cur = this.ytPlayer.getCurrentTime() || 0;
-        const dur = this.ytPlayer.getDuration() || 0;
-        this.updateProgress(cur, dur);
-        this.syncMediaSessionPositionState();
-
-        try {
-          const loaded = this.ytPlayer.getVideoLoadedFraction() || 0;
-          this.progressBuffered.style.width = `${loaded * 100}%`;
-        } catch (e) {}
-      }
-    }, 400);
   }
 
   setVolume(val) {
@@ -1298,10 +782,6 @@ class MiniMusicPlayer {
     this.audio.volume = this.volume;
     if (this.volumeSlider) this.volumeSlider.value = this.volume;
     localStorage.setItem('kj_volume', this.volume);
-
-    if (this.ytPlayer && this.isYTReady) {
-      this.ytPlayer.setVolume(this.volume * 100);
-    }
 
     this.isMuted = this.volume === 0;
     this.updateVolumeIcon();
@@ -1311,14 +791,9 @@ class MiniMusicPlayer {
     this.isMuted = !this.isMuted;
     if (this.isMuted) {
       this.audio.muted = true;
-      if (this.ytPlayer && this.isYTReady) this.ytPlayer.mute();
       if (this.volumeSlider) this.volumeSlider.value = 0;
     } else {
       this.audio.muted = false;
-      if (this.ytPlayer && this.isYTReady) {
-        this.ytPlayer.unMute();
-        this.ytPlayer.setVolume(this.volume * 100);
-      }
       if (this.volumeSlider) this.volumeSlider.value = this.volume;
     }
     this.updateVolumeIcon();
@@ -1364,7 +839,7 @@ class MiniMusicPlayer {
       });
     }
 
-    // HTML5 Audio events for background playback
+    // HTML5 Audio events
     this.audio.addEventListener('play', () => {
       this.setPlayState(true);
       this.updateMediaSession();
@@ -1375,14 +850,19 @@ class MiniMusicPlayer {
     });
 
     this.audio.addEventListener('timeupdate', () => {
-      if (this.playbackEngine === 'audio') {
-        this.updateProgress(this.audio.currentTime, this.audio.duration);
+      this.updateProgress(this.audio.currentTime, this.audio.duration);
+      this.syncMediaSessionPositionState();
+    });
+
+    this.audio.addEventListener('loadedmetadata', () => {
+      if (this.audio.duration && !isNaN(this.audio.duration)) {
+        this.totalDurationEl.textContent = this.formatTime(this.audio.duration);
         this.syncMediaSessionPositionState();
       }
     });
 
-    this.audio.addEventListener('loadedmetadata', () => {
-      if (this.playbackEngine === 'audio' && this.audio.duration) {
+    this.audio.addEventListener('durationchange', () => {
+      if (this.audio.duration && !isNaN(this.audio.duration)) {
         this.totalDurationEl.textContent = this.formatTime(this.audio.duration);
         this.syncMediaSessionPositionState();
       }
@@ -1392,18 +872,10 @@ class MiniMusicPlayer {
       this.nextTrack();
     });
 
-    this.audio.addEventListener('error', (e) => {
-      console.warn('Audio streaming error on current track, attempting recovery:', e);
-      if (this.isPlaying) {
-        setTimeout(() => this.nextTrack(), 1000);
-      }
-    });
-
     // Scrubber
     this.progressBarWrapper.addEventListener('click', (e) => {
       const rect = this.progressBarWrapper.getBoundingClientRect();
-      const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
-      const pos = Math.max(0, Math.min(clientX - rect.left, rect.width));
+      const pos = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
       const percent = (pos / rect.width) * 100;
       this.seekToPercent(percent);
     });
@@ -1414,10 +886,7 @@ class MiniMusicPlayer {
       const percent = (pos / rect.width) * 100;
       this.scrubTooltip.style.left = `${percent}%`;
 
-      let duration = this.audio.duration || 0;
-      if (this.playbackEngine === 'youtube' && this.ytPlayer && this.isYTReady) {
-        duration = this.ytPlayer.getDuration() || 0;
-      }
+      const duration = this.audio.duration || 0;
       this.scrubTooltip.textContent = this.formatTime((percent / 100) * duration);
     });
 
@@ -1428,25 +897,6 @@ class MiniMusicPlayer {
           e.preventDefault();
           this.togglePlay();
           break;
-        case 'ArrowLeft':
-          e.preventDefault();
-          this.seekRelative(-5);
-          break;
-        case 'ArrowRight':
-          e.preventDefault();
-          this.seekRelative(5);
-          break;
-        case 'ArrowUp':
-          e.preventDefault();
-          this.setVolume(this.volume + 0.05);
-          break;
-        case 'ArrowDown':
-          e.preventDefault();
-          this.setVolume(this.volume - 0.05);
-          break;
-        case 'KeyM':
-          this.toggleMute();
-          break;
         case 'KeyN':
           this.nextTrack();
           break;
@@ -1456,40 +906,24 @@ class MiniMusicPlayer {
       }
     });
 
-    // Media Session API registration - Only Play & Pause in system notification overlay
+    // Media Session API registration - Lockscreen controls
     if ('mediaSession' in navigator) {
       const registerAction = (action, handler) => {
         try {
           navigator.mediaSession.setActionHandler(action, handler);
-        } catch (err) {
-          // Action not supported by this browser
-        }
+        } catch (err) {}
       };
 
-      // Explicitly hook Play and Pause
       registerAction('play', () => this.playAudio());
       registerAction('pause', () => this.pauseAudio());
-
-      // Reset all other handlers to null so only Play and Pause buttons are rendered in overlay
-      registerAction('previoustrack', null);
-      registerAction('nexttrack', null);
-      registerAction('seekbackward', null);
-      registerAction('seekforward', null);
-      registerAction('seekto', null);
-      registerAction('stop', null);
+      registerAction('previoustrack', () => this.prevTrack());
+      registerAction('nexttrack', () => this.nextTrack());
     }
 
-    // Ensure audio and media player resume immediately on visibility restore / unlock
+    // Ensure audio resumes smoothly on visibility restore
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden && this.isPlaying) {
-        if (this.playbackEngine === 'youtube' && this.ytPlayer && this.isYTReady) {
-          try {
-            const state = this.ytPlayer.getPlayerState();
-            if (state !== YT.PlayerState.PLAYING) {
-              this.ytPlayer.playVideo();
-            }
-          } catch (e) {}
-        } else if (this.audio && this.audio.paused && !this.audio.ended) {
+        if (this.audio && this.audio.paused && !this.audio.ended) {
           this.audio.play().catch(() => {});
         }
         if ('mediaSession' in navigator) {
@@ -1737,6 +1171,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initScrollIndicator();
   window.presenceTracker = new RealtimePresenceTracker(BASE_LISTENER_COUNT);
-  window.khandeshiPlayer = new MiniMusicPlayer(songs);
+  window.khandeshiPlayer = new MiniMusicPlayer(initialPlaylist);
 });
 
