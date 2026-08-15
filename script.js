@@ -1459,8 +1459,99 @@ function initScrollIndicator() {
   });
 }
 
+/* --------------------------------------------------------------------------
+   9. Fullscreen Toggle Engine (Cross-Browser Web & Mobile Fullscreen API)
+   -------------------------------------------------------------------------- */
+function initFullscreenToggle() {
+  const fullscreenBtn = document.getElementById('fullscreenBtn');
+  if (!fullscreenBtn) return;
+
+  const iconEnter = fullscreenBtn.querySelector('.icon-enter');
+  const iconExit = fullscreenBtn.querySelector('.icon-exit');
+  const fullscreenText = document.getElementById('fullscreenText');
+
+  const isFullscreen = () => {
+    return !!(
+      document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.webkitCurrentFullScreenElement ||
+      document.mozFullScreenElement ||
+      document.msFullscreenElement
+    );
+  };
+
+  const updateUI = () => {
+    const active = isFullscreen();
+    if (active) {
+      if (iconEnter) iconEnter.style.display = 'none';
+      if (iconExit) iconExit.style.display = 'inline-block';
+      if (fullscreenText) fullscreenText.textContent = 'Exit Fullscreen';
+      fullscreenBtn.setAttribute('aria-label', 'Exit Fullscreen');
+      fullscreenBtn.setAttribute('title', 'Exit Fullscreen');
+      fullscreenBtn.classList.add('is-fullscreen');
+    } else {
+      if (iconEnter) iconEnter.style.display = 'inline-block';
+      if (iconExit) iconExit.style.display = 'none';
+      if (fullscreenText) fullscreenText.textContent = 'Go Fullscreen';
+      fullscreenBtn.setAttribute('aria-label', 'Go Fullscreen');
+      fullscreenBtn.setAttribute('title', 'Go Fullscreen');
+      fullscreenBtn.classList.remove('is-fullscreen');
+    }
+  };
+
+  const toggleFullscreen = () => {
+    const docEl = document.documentElement;
+
+    if (!isFullscreen()) {
+      if (docEl.requestFullscreen) {
+        docEl.requestFullscreen().catch(() => {});
+      } else if (docEl.webkitRequestFullscreen) {
+        docEl.webkitRequestFullscreen();
+      } else if (docEl.webkitRequestFullScreen) {
+        docEl.webkitRequestFullScreen();
+      } else if (docEl.mozRequestFullScreen) {
+        docEl.mozRequestFullScreen();
+      } else if (docEl.msRequestFullscreen) {
+        docEl.msRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.webkitCancelFullScreen) {
+        document.webkitCancelFullScreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    }
+  };
+
+  fullscreenBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleFullscreen();
+  });
+
+  // Listen for fullscreen change events across standard & prefixed APIs
+  const changeEvents = [
+    'fullscreenchange',
+    'webkitfullscreenchange',
+    'mozfullscreenchange',
+    'MSFullscreenChange'
+  ];
+
+  changeEvents.forEach((evt) => {
+    document.addEventListener(evt, updateUI);
+  });
+
+  updateUI();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initDateTimeWidget();
+  initFullscreenToggle();
   initNightSkyStars();
   initFestiveDustParticles();
   initSubtleParallax();
