@@ -1716,7 +1716,7 @@ body {
   }
 
   .site-credit-line {
-    padding: 2.2rem 1rem 0.5rem;
+    padding: 2rem 1rem 2.5rem;
     margin-top: 0.8rem;
     gap: 0.45rem;
   }
@@ -1747,7 +1747,7 @@ body {
   }
 
   .content-scroll-container {
-    padding-bottom: 12.5rem;
+    padding-bottom: 13rem;
   }
 }
 
@@ -1829,41 +1829,43 @@ body {
     height: 14px;
   }
 
-  /* Upgraded Mobile Music Player (Spacious, Ergonomic, Large Touch Targets) */
+  /* Compact Mobile Music Player (Sleek, Unobtrusive & Fully Visible Credits) */
   .player-container {
-    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
     left: 50%;
     transform: translateX(-50%);
-    width: calc(100% - 1.25rem);
+    width: calc(100% - 1rem);
     max-width: 440px;
     z-index: 50;
   }
 
   .mini-player-bar {
     position: relative;
-    padding: 0.75rem 0.95rem 0.85rem;
-    gap: 0.65rem;
-    border-radius: 18px;
-    background: rgba(14, 10, 6, 0.82);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.75), 0 0 20px rgba(251, 191, 36, 0.12);
+    padding: 0.42rem 0.65rem 0.48rem;
+    gap: 0.3rem;
+    border-radius: 13px;
+    background: rgba(12, 9, 6, 0.88);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 215, 120, 0.22);
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.75), 0 0 16px rgba(251, 191, 36, 0.12);
   }
 
   /* 1. Track Info Section */
   .track-info-section {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding-right: 50px; /* Space for the top-right volume button */
+    gap: 0.55rem;
+    padding: 2px 4px;
+    margin: -2px -4px;
     min-width: 0;
+    cursor: pointer;
   }
 
   .track-thumb {
-    width: 44px;
-    height: 44px;
-    border-radius: 9px;
+    width: 34px;
+    height: 34px;
+    border-radius: 7px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     flex-shrink: 0;
   }
@@ -1873,16 +1875,17 @@ body {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    gap: 0.15rem;
+    gap: 1px;
     overflow: hidden;
     min-width: 0;
+    flex: 1;
   }
 
   .track-title {
-    font-size: 0.96rem;
+    font-size: 0.86rem;
     font-weight: 700;
     color: #ffffff;
-    line-height: 1.25;
+    line-height: 1.2;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1890,9 +1893,9 @@ body {
   }
 
   .track-artist {
-    font-size: 0.76rem;
-    color: var(--text-muted);
-    line-height: 1.2;
+    font-size: 0.72rem;
+    color: rgba(255, 230, 160, 0.88);
+    line-height: 1.15;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1902,31 +1905,31 @@ body {
   /* 2. Controls Flow */
   .player-main-controls {
     display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.45rem;
     width: 100%;
   }
 
-  /* Playback Button Group: Centered, Large, Spacious */
+  /* Playback Button Group: Compact & Neat */
   .playback-btn-group {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 1.45rem;
-    width: 100%;
-    margin: 0.15rem 0 0.1rem;
+    gap: 0.15rem;
+    flex-shrink: 0;
+    margin: 0;
   }
 
-  /* Main Large Play / Pause Button (58x58px) */
+  /* Play / Pause Button (32x32px) */
   .play-toggle-btn {
-    width: 58px;
-    height: 58px;
-    min-width: 58px;
-    min-height: 58px;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
     border-radius: 50%;
     background: linear-gradient(135deg, #fbbf24, #d97706);
     color: #140a05;
-    box-shadow: 0 4px 18px rgba(245, 158, 11, 0.45), 0 0 12px rgba(251, 191, 36, 0.35);
+    box-shadow: 0 2px 10px rgba(245, 158, 11, 0.45);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1934,24 +1937,24 @@ body {
   }
 
   .play-toggle-btn svg {
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
   }
 
   .play-toggle-btn:active {
     transform: scale(0.92);
   }
 
-  /* Previous and Next Buttons (46x46px) */
+  /* Previous and Next Buttons (28x28px) */
   .ctrl-btn {
-    width: 46px;
-    height: 46px;
-    min-width: 46px;
-    min-height: 46px;
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #ffffff;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1959,27 +1962,28 @@ body {
   }
 
   .ctrl-btn svg {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
   }
 
   .ctrl-btn:active {
-    background: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
     transform: scale(0.92);
   }
 
   /* 3. Progress Bar & Time Row */
   .progress-section {
+    flex: 1;
     display: flex;
     align-items: center;
-    gap: 0.65rem;
-    width: 100%;
+    gap: 0.35rem;
+    min-width: 0;
   }
 
   .time-display {
-    font-size: 0.74rem;
+    font-size: 0.66rem;
     font-weight: 600;
-    min-width: 32px;
+    min-width: 26px;
   }
 
   .current-time {
@@ -1988,49 +1992,50 @@ body {
 
   .progress-bar-wrapper {
     flex: 1;
-    padding: 10px 0; /* Generous touch zone for scrub */
+    padding: 6px 0;
     cursor: pointer;
   }
 
   .progress-track {
-    height: 6px;
+    height: 4px;
     border-radius: 9999px;
   }
 
   .progress-thumb {
-    width: 13px;
-    height: 13px;
-    right: -6px;
+    width: 9px;
+    height: 9px;
+    right: -4px;
     transform: translateY(-50%) scale(1);
-    box-shadow: 0 0 8px var(--gold-glow);
+    box-shadow: 0 0 6px var(--gold-glow);
   }
 
-  /* Top-Right Volume Mute Button (44x44px) */
+  /* Volume Mute Button */
   .mini-volume-box {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.85rem;
+    position: static;
+    display: flex;
+    align-items: center;
     margin: 0;
     padding: 0;
+    flex-shrink: 0;
   }
 
   .vol-btn {
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    min-height: 44px;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    color: #ffffff;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .vol-btn svg {
-    width: 19px;
-    height: 19px;
+    width: 15px;
+    height: 15px;
   }
 
   .mini-volume-slider {
@@ -2039,26 +2044,20 @@ body {
 }
 
 @media (max-width: 380px) {
-  .playback-btn-group {
-    gap: 1.1rem;
+  .player-container {
+    width: calc(100% - 0.75rem);
   }
 
-  .play-toggle-btn {
-    width: 54px;
-    height: 54px;
-    min-width: 54px;
-    min-height: 54px;
-  }
-
-  .ctrl-btn {
-    width: 44px;
-    height: 44px;
-    min-width: 44px;
-    min-height: 44px;
+  .mini-player-bar {
+    padding: 0.38rem 0.55rem 0.44rem;
   }
 
   .track-title {
-    font-size: 0.9rem;
+    font-size: 0.82rem;
+  }
+
+  .playback-btn-group {
+    gap: 0.05rem;
   }
 }
 
