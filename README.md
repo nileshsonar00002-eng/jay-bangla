@@ -11,7 +11,7 @@ A single-page music landing website dedicated to popular Khandeshi & Ahirani son
 - **Full-Screen 16:9 Artwork**: Fullscreen festive poster background with subtle cinematic breathing motion and night sky twinkle stars.
 - **Ultra-Transparent Floating Music Player**: Compact glassmorphism player (`rgba(10, 8, 5, 0.45)`, `backdrop-filter: blur(10px)`).
 - **19 Khandeshi & Ahirani Tracks**: Integrated YouTube Music playlist support with seamless previous/next/auto-play transitions.
-- **Real-Time Active Listeners Counter**: Dynamic presence indicator (`● 501 LISTENING`) tracking active users.
+- **Real-Time Active Listeners Counter**: Dynamic presence indicator (`● 111 LIVE`) tracking active users.
 - **Live Local Date & Clock Widget**: Real-time 12-hour AM/PM clock and date in the top-right corner.
 - **Interactive Click Effects**:
   - Small **❤️** heart floats upward on every background click/tap.
