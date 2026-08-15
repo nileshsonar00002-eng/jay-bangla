@@ -735,12 +735,8 @@ class MiniMusicPlayer {
       actualSinger = 'अहिराणी खजिना';
     }
 
-    // 5. Category
-    const categoryText = currentSong.category || 'खान्देशी अहिराणी';
-
-    // 6. Direct DOM update as requested:
-    // playerCategoryElement.innerText = `${currentSong.singer} • ${currentSong.category}`;
-    const singerDisplay = `${actualSinger} • ${categoryText}`;
+    // 5. Display only currentSong singer name (no category)
+    const singerDisplay = actualSinger;
 
     if (this.playerCategoryElement) {
       this.playerCategoryElement.innerText = singerDisplay;
@@ -779,7 +775,6 @@ class MiniMusicPlayer {
           if (meta && meta.customMetadata) {
             const metaSinger = meta.customMetadata.singer || meta.customMetadata.artist || meta.customMetadata.vocals;
             const metaTitle = meta.customMetadata.title || meta.customMetadata.song;
-            const metaCategory = meta.customMetadata.category;
             let updated = false;
 
             if (metaSinger && metaSinger !== currentSong.singer) {
@@ -792,12 +787,8 @@ class MiniMusicPlayer {
               currentSong.title = metaTitle;
               if (this.trackTitle) this.trackTitle.textContent = metaTitle;
             }
-            if (metaCategory) {
-              currentSong.category = metaCategory;
-              updated = true;
-            }
             if (updated && this.playerCategoryElement) {
-              this.playerCategoryElement.innerText = `${currentSong.singer} • ${currentSong.category || 'खान्देशी अहिराणी'}`;
+              this.playerCategoryElement.innerText = currentSong.singer || 'अहिराणी खजिना';
             }
           }
         }).catch(() => {});
@@ -833,11 +824,10 @@ class MiniMusicPlayer {
         : new URL(artworkSrc, window.location.href).href;
 
       const singerName = currentSong.singer || currentSong.artist || currentSong.vocals || 'अहिराणी खजिना';
-      const categoryName = currentSong.category || 'खान्देशी अहिराणी';
 
       navigator.mediaSession.metadata = new MediaMetadata({
         title: currentSong.title,
-        artist: `${singerName} • ${categoryName}`,
+        artist: singerName,
         album: 'खान्देशी जत्रा',
         artwork: [
           { src: absoluteArtwork, sizes: '96x96', type: 'image/jpeg' },
