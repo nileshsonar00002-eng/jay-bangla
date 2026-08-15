@@ -1549,9 +1549,29 @@ function initFullscreenToggle() {
   updateUI();
 }
 
+function initTopTitleScrollFade() {
+  const title = document.getElementById('topMainTitle');
+  if (!title) return;
+
+  const handleScroll = () => {
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    if (scrollY > 10) {
+      title.classList.add('hidden-on-scroll');
+    } else {
+      title.classList.remove('hidden-on-scroll');
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  document.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('touchmove', handleScroll, { passive: true });
+  handleScroll();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initDateTimeWidget();
   initFullscreenToggle();
+  initTopTitleScrollFade();
   initNightSkyStars();
   initFestiveDustParticles();
   initSubtleParallax();

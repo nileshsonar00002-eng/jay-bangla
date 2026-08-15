@@ -381,7 +381,15 @@ body {
   pointer-events: none;
   text-align: center;
   padding: 0 1rem;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
   animation: titleFadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+.top-center-title-container.hidden-on-scroll {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(-8px) !important;
 }
 
 .main-top-title {
