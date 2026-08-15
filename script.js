@@ -405,7 +405,9 @@ const initialPlaylist = [
   {
     id: 'kj_init_1',
     title: 'खान्देशी अहिराणी गाणी',
+    singer: 'खान्देशी जत्रा',
     artist: 'खान्देशी जत्रा',
+    category: 'खान्देशी अहिराणी',
     duration: '--:--',
     cover: 'assets/khandeshi-jatra-bg.jpg',
     isFirebaseStorage: true
@@ -432,7 +434,8 @@ class MiniMusicPlayer {
     this.nextBtn = document.getElementById('nextBtn');
     
     this.trackTitle = document.getElementById('trackTitle');
-    this.trackArtist = document.getElementById('trackArtist');
+    this.trackArtist = document.getElementById('trackArtist') || document.getElementById('playerCategoryElement');
+    this.playerCategoryElement = this.trackArtist;
     this.trackCoverImg = document.getElementById('trackCoverImg');
     this.miniSoundwave = document.getElementById('miniSoundwave');
 
@@ -463,43 +466,48 @@ class MiniMusicPlayer {
   }
 
   /**
-   * Intelligently parses MP3 filenames into clean Title and Artist strings
+   * Intelligently parses MP3 filenames into clean Title, Singer, Artist and Category
    */
   parseSongMetadata(filename, index) {
     // 1. Strip file extensions (.mp3, .wav, .m4a, .aac, .ogg, .flac)
     let clean = filename.replace(/\.[^/.]+$/, '');
-    // 2. Strip leading track order patterns (e.g. "01 - ", "01. ", "01_", "1. ")
+    // 2. Strip leading track order patterns (e.g. "01 - ", "01. ", "01_", "1. ", "Track 01 ")
     clean = clean.replace(/^(?:track\s*)?\d+[\s\.\-_]+/i, '');
     // 3. Normalize underscores to spaces
     clean = clean.replace(/_+/g, ' ').trim();
 
     let title = clean;
-    let artist = "खान्देशी अहिराणी";
+    let singer = "खान्देशी कलाकार";
+    const category = "खान्देशी अहिराणी";
 
-    if (clean.includes(' - ')) {
-      const parts = clean.split(' - ');
+    // Split on common hyphen/dash/pipe delimiters: " - ", " – ", " — ", " | "
+    const sepRegex = /\s*[\-–—|]\s*/;
+    if (clean.includes(' - ') || clean.includes(' – ') || clean.includes(' — ') || clean.includes(' | ')) {
+      const parts = clean.split(sepRegex);
       if (parts.length >= 2) {
         title = parts[0].trim();
-        artist = parts.slice(1).join(' - ').trim();
-      }
-    } else if (clean.includes(' – ')) {
-      const parts = clean.split(' – ');
-      if (parts.length >= 2) {
-        title = parts[0].trim();
-        artist = parts.slice(1).join(' – ').trim();
+        singer = parts.slice(1).join(' & ').trim();
       }
     } else if (clean.includes('(') && clean.includes(')')) {
       const match = clean.match(/^(.*?)\s*\((.*?)\)$/);
       if (match) {
         title = match[1].trim();
-        artist = match[2].trim();
+        singer = match[2].trim();
+      }
+    } else if (clean.includes('[') && clean.includes(']')) {
+      const match = clean.match(/^(.*?)\s*\[(.*?)\]$/);
+      if (match) {
+        title = match[1].trim();
+        singer = match[2].trim();
       }
     }
 
     return {
       id: `fb_track_${index + 1}`,
       title: title || `खान्देशी गीत ${index + 1}`,
-      artist: artist || "अहिराणी खजिना",
+      singer: singer || "खान्देशी कलाकार",
+      artist: singer || "खान्देशी कलाकार",
+      category: category,
       filename: filename,
       itemRef: null,
       audioUrl: null,
@@ -581,28 +589,42 @@ class MiniMusicPlayer {
   async loadTrack(index, autoPlay = true) {
     if (index < 0 || index >= this.playlist.length) return;
     this.currentIndex = index;
-    const track = this.playlist[this.currentIndex];
+    const currentSong = this.playlist[this.currentIndex];
 
-    this.trackTitle.textContent = track.title;
-    this.trackArtist.textContent = track.artist;
+    if (this.trackTitle) {
+      this.trackTitle.textContent = currentSong.title;
+    }
+
+    // Direct mapping as requested: playerCategoryElement.innerText = `${currentSong.singer} • ${currentSong.category}`;
+    const singerName = currentSong.singer || currentSong.artist || 'खान्देशी कलाकार';
+    const categoryName = currentSong.category || 'खान्देशी अहिराणी';
+    const subtitleText = `${singerName} • ${categoryName}`;
+
+    if (this.playerCategoryElement) {
+      this.playerCategoryElement.innerText = `${singerName} • ${categoryName}`;
+    }
+    if (this.trackArtist && this.trackArtist !== this.playerCategoryElement) {
+      this.trackArtist.textContent = subtitleText;
+    }
+
     this.currentTimeEl.textContent = '00:00';
-    this.totalDurationEl.textContent = track.duration || '--:--';
+    this.totalDurationEl.textContent = currentSong.duration || '--:--';
     this.progressFill.style.width = '0%';
     this.progressBarWrapper.setAttribute('aria-valuenow', '0');
 
-    if (this.trackCoverImg && track.cover) {
-      this.trackCoverImg.src = track.cover;
+    if (this.trackCoverImg && currentSong.cover) {
+      this.trackCoverImg.src = currentSong.cover;
     }
 
     // Update Media Session Metadata
     this.updateMediaSession();
 
     // Fetch URL on-demand
-    if (track.isFirebaseStorage && !track.audioUrl && track.itemRef) {
+    if (currentSong.isFirebaseStorage && !currentSong.audioUrl && currentSong.itemRef) {
       try {
-        track.audioUrl = await track.itemRef.getDownloadURL();
+        currentSong.audioUrl = await currentSong.itemRef.getDownloadURL();
       } catch (err) {
-        console.warn(`Failed to fetch audio stream for ${track.filename}:`, err);
+        console.warn(`Failed to fetch audio stream for ${currentSong.filename}:`, err);
         return;
       }
     }
@@ -612,7 +634,7 @@ class MiniMusicPlayer {
     this.prefetchDownloadUrl(nextIdx);
 
     // 4. Stream audio on demand
-    const directAudio = track.audioUrl || track.url;
+    const directAudio = currentSong.audioUrl || currentSong.url;
     if (directAudio) {
       this.audio.src = directAudio;
       this.audio.loop = false;
@@ -635,9 +657,12 @@ class MiniMusicPlayer {
         ? artworkSrc
         : new URL(artworkSrc, window.location.href).href;
 
+      const singerName = currentSong.singer || currentSong.artist || 'खान्देशी कलाकार';
+      const categoryName = currentSong.category || 'खान्देशी अहिराणी';
+
       navigator.mediaSession.metadata = new MediaMetadata({
         title: currentSong.title,
-        artist: currentSong.artist || 'खान्देशी जत्रा',
+        artist: `${singerName} • ${categoryName}`,
         album: 'खान्देशी जत्रा',
         artwork: [
           { src: absoluteArtwork, sizes: '96x96', type: 'image/jpeg' },
