@@ -399,14 +399,72 @@ function initSubtleParallax() {
 }
 
 /* --------------------------------------------------------------------------
-   6. Initial Music Player State
+   6. Intelligent Singer & Artist Keyword Recognition Database
+   -------------------------------------------------------------------------- */
+const KNOWN_KHANDESHI_SINGERS = [
+  { name: 'Bhaiya More', regex: /\b(?:bhaiya\s*more|भैय्या\s*मोरे|भय्या\s*मोरे|bhaiya)\b/i },
+  { name: 'Ramakant', regex: /\b(?:ramakant|रमाकांत|ramakant\s*gaikwad)\b/i },
+  { name: 'Ravindra Khare', regex: /\b(?:ravindra\s*khare|रवींद्र\s*खरे|रविंद्र\s*खरे)\b/i },
+  { name: 'Anjana Barlekar', regex: /\b(?:anjana\s*barlekar|अंजना\s*बर्लेकर|anjana)\b/i },
+  { name: 'Sachin Kumavat', regex: /\b(?:sachin\s*kumavat|सचिन\s*कुमावत)\b/i },
+  { name: 'Ganesh Gujar', regex: /\b(?:ganesh\s*gujar|गणेश\s*गुजर)\b/i },
+  { name: 'Anil Kuvar', regex: /\b(?:anil\s*kuvar|अनिल\s*कुवर)\b/i },
+  { name: 'Jagdish Sandhanshiv', regex: /\b(?:jagdish\s*sandhanshiv|जगदीश\s*संध्यांशिव|sandhanshiv)\b/i },
+  { name: 'Anna Surwade', regex: /\b(?:anna\s*surwade|अण्णा\s*सुरवाडे|अन्ना\s*सुरवाडे)\b/i },
+  { name: 'Babu More', regex: /\b(?:babu\s*more|बाबू\s*मोरे)\b/i },
+  { name: 'Shrawani More', regex: /\b(?:shrawani\s*more|श्रावणी\s*मोरे)\b/i },
+  { name: 'Raju Wagh', regex: /\b(?:raju\s*wagh|राजू\s*वाघ)\b/i },
+  { name: 'Naval Mali', regex: /\b(?:naval\s*mali|नवल\s*माळी)\b/i },
+  { name: 'Ajay Mali', regex: /\b(?:ajay\s*mali|अजय\s*माळी)\b/i },
+  { name: 'Anshuman More', regex: /\b(?:anshuman\s*more|अंशुमन\s*मोरे)\b/i },
+  { name: 'Madhuri Koli', regex: /\b(?:madhuri\s*koli|माधुरी\s*कोळी)\b/i },
+  { name: 'Kunal Pawar', regex: /\b(?:kunal\s*pawar|कुणाल\s*पवार)\b/i },
+  { name: 'Hiten Shivde', regex: /\b(?:hiten\s*shivde|हितेन\s*शिवदे)\b/i },
+  { name: 'Vinod Kumavat', regex: /\b(?:vinod\s*kumavat|विनोद\s*कुमावत)\b/i },
+  { name: 'Raju Kalme', regex: /\b(?:raju\s*kalme|राजू\s*काळमे)\b/i },
+  { name: 'Machindra More', regex: /\b(?:machindra\s*more|मच्छिंद्र\s*मोरे)\b/i },
+  { name: 'Arun Ahire', regex: /\b(?:arun\s*ahire|अरुण\s*अहिरे)\b/i },
+  { name: 'Rucha Birari', regex: /\b(?:rucha\s*birari|ऋचा\s*बिरारी)\b/i },
+  { name: 'Dipak Wagh', regex: /\b(?:dipak\s*wagh|दीपक\s*वाघ)\b/i },
+  { name: 'Bhagyashree Sathe', regex: /\b(?:bhagyashree\s*sathe|भाग्यश्री\s*साठे)\b/i },
+  { name: 'Megha Musale', regex: /\b(?:megha\s*musale|मेघा\s*मुसळे)\b/i },
+  { name: 'Jasraj Joshi', regex: /\b(?:jasraj\s*joshi|जसराज\s*जोशी)\b/i },
+  { name: 'Prashant Nakti', regex: /\b(?:prashant\s*nakti|प्रशांत\s*नाकती)\b/i },
+  { name: 'Lalit Shinde', regex: /\b(?:lalit\s*shinde|ललित\s*शिंदे)\b/i }
+];
+
+function extractSingerKeyword(text) {
+  if (!text || typeof text !== 'string') return null;
+
+  // 1. Keyword search against known singers database
+  for (const entry of KNOWN_KHANDESHI_SINGERS) {
+    if (entry.regex.test(text)) {
+      return entry.name;
+    }
+  }
+
+  // 2. Pattern search: "by <Singer>", "singer: <Singer>", "गायक: <Singer>", "ft. <Singer>"
+  const match = text.match(/(?:by|singer|vocals|artist|feat\.?|ft\.?|गायक|स्वर)\s*[:\-–—]?\s*([a-zA-Z\u0900-\u097F\s]{2,40})/i);
+  if (match && match[1]) {
+    const candidate = match[1].replace(/[\(\)\[\]\.\-_]+$/g, '').trim();
+    if (candidate.length >= 2 && candidate.length <= 35) {
+      return candidate;
+    }
+  }
+
+  return null;
+}
+
+/* --------------------------------------------------------------------------
+   7. Initial Music Player State
    -------------------------------------------------------------------------- */
 const initialPlaylist = [
   {
     id: 'kj_init_1',
     title: 'खान्देशी अहिराणी गाणी',
-    singer: 'खान्देशी जत्रा',
-    artist: 'खान्देशी जत्रा',
+    singer: 'Bhaiya More',
+    artist: 'Bhaiya More',
+    vocals: 'Bhaiya More',
     category: 'खान्देशी अहिराणी',
     duration: '--:--',
     cover: 'assets/khandeshi-jatra-bg.jpg',
@@ -415,7 +473,7 @@ const initialPlaylist = [
 ];
 
 /* --------------------------------------------------------------------------
-   7. Music Player Core Engine (Firebase Cloud Storage MP3 Streaming)
+   8. Music Player Core Engine (Firebase Cloud Storage MP3 Streaming)
    -------------------------------------------------------------------------- */
 class MiniMusicPlayer {
   constructor(songList = initialPlaylist) {
@@ -466,47 +524,93 @@ class MiniMusicPlayer {
   }
 
   /**
-   * Intelligently parses MP3 filenames into clean Title, Singer, Artist and Category
+   * Intelligently parses MP3 filenames into clean Title, Singer, Artist, Vocals and Category
    */
   parseSongMetadata(filename, index) {
     // 1. Strip file extensions (.mp3, .wav, .m4a, .aac, .ogg, .flac)
     let clean = filename.replace(/\.[^/.]+$/, '');
-    // 2. Strip leading track order patterns (e.g. "01 - ", "01. ", "01_", "1. ", "Track 01 ")
+    // 2. Strip leading track order patterns (e.g. "01 - ", "01. ", "01_", "1. ", "Track 01 - ")
     clean = clean.replace(/^(?:track\s*)?\d+[\s\.\-_]+/i, '');
     // 3. Normalize underscores to spaces
     clean = clean.replace(/_+/g, ' ').trim();
 
     let title = clean;
-    let singer = "खान्देशी कलाकार";
+    let singer = null;
     const category = "खान्देशी अहिराणी";
 
-    // Split on common hyphen/dash/pipe delimiters: " - ", " – ", " — ", " | "
-    const sepRegex = /\s*[\-–—|]\s*/;
-    if (clean.includes(' - ') || clean.includes(' – ') || clean.includes(' — ') || clean.includes(' | ')) {
-      const parts = clean.split(sepRegex);
+    // A. Check for keywords directly in the filename first (e.g. 'Ramakant', 'Bhaiya More')
+    const kwSinger = extractSingerKeyword(clean);
+    if (kwSinger) {
+      singer = kwSinger;
+    }
+
+    // B. Check parentheses or brackets: "Title (Singer)" or "[Singer] Title"
+    if (!singer) {
+      const bracketMatch = clean.match(/^(.*?)\s*[\(\[](.*?)[\)\]]\s*(.*)$/);
+      if (bracketMatch) {
+        const left = bracketMatch[1].trim();
+        const inside = bracketMatch[2].trim();
+        const right = bracketMatch[3].trim();
+        
+        const singerInside = extractSingerKeyword(inside);
+        if (singerInside) {
+          singer = singerInside;
+          title = (left + (right ? ' ' + right : '')).trim();
+        } else if (inside.length >= 3 && inside.length <= 35 && !inside.toLowerCase().includes('remix') && !inside.toLowerCase().includes('dj')) {
+          singer = inside;
+          title = (left + (right ? ' ' + right : '')).trim();
+        }
+      }
+    }
+
+    // C. Check separator delimiter: " - ", " – ", " — ", " | "
+    if (!singer && (clean.includes(' - ') || clean.includes(' – ') || clean.includes(' — ') || clean.includes(' | '))) {
+      const parts = clean.split(/\s*[\-–—|]\s*/);
       if (parts.length >= 2) {
-        title = parts[0].trim();
-        singer = parts.slice(1).join(' & ').trim();
+        const part0 = parts[0].trim();
+        const part1 = parts.slice(1).join(' - ').trim();
+
+        const s0 = extractSingerKeyword(part0);
+        const s1 = extractSingerKeyword(part1);
+
+        if (s0) {
+          singer = s0;
+          title = part1;
+        } else if (s1) {
+          singer = s1;
+          title = part0;
+        } else {
+          // Default heuristic: part0 is Title, part1 is Singer
+          title = part0;
+          singer = part1;
+        }
       }
-    } else if (clean.includes('(') && clean.includes(')')) {
-      const match = clean.match(/^(.*?)\s*\((.*?)\)$/);
-      if (match) {
-        title = match[1].trim();
-        singer = match[2].trim();
-      }
-    } else if (clean.includes('[') && clean.includes(']')) {
-      const match = clean.match(/^(.*?)\s*\[(.*?)\]$/);
-      if (match) {
-        title = match[1].trim();
-        singer = match[2].trim();
-      }
+    }
+
+    // D. Clean up title if singer was extracted
+    if (singer && title) {
+      const esc = singer.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      title = title.replace(new RegExp(`(?:\\s*[-–—|]?\\s*(?:by|singer|ft\\.?|feat\\.?)?\\s*)?${esc}\\s*`, 'gi'), '').trim();
+      title = title.replace(/^[\-–—|\s\(\)\[\]]+|[\-–—|\s\(\)\[\]]+$/g, '').trim();
+    }
+
+    if (!title || title.length === 0) {
+      title = clean;
+    }
+
+    // E. If still no singer found, check if title string contains any keywords
+    if (!singer) {
+      singer = extractSingerKeyword(title);
     }
 
     return {
       id: `fb_track_${index + 1}`,
       title: title || `खान्देशी गीत ${index + 1}`,
-      singer: singer || "खान्देशी कलाकार",
-      artist: singer || "खान्देशी कलाकार",
+      singer: singer || "अहिराणी खजिना",
+      artist: singer || "अहिराणी खजिना",
+      vocals: singer || "अहिराणी खजिना",
+      singerName: singer || "अहिराणी खजिना",
+      artistName: singer || "अहिराणी खजिना",
       category: category,
       filename: filename,
       itemRef: null,
@@ -591,20 +695,58 @@ class MiniMusicPlayer {
     this.currentIndex = index;
     const currentSong = this.playlist[this.currentIndex];
 
+    // 1. Resolve Song Title
+    const titleText = currentSong.title || currentSong.songName || currentSong.name || currentSong.filename || 'खान्देशी गाणे';
     if (this.trackTitle) {
-      this.trackTitle.textContent = currentSong.title;
+      this.trackTitle.textContent = titleText;
     }
 
-    // Direct mapping as requested: playerCategoryElement.innerText = `${currentSong.singer} • ${currentSong.category}`;
-    const singerName = currentSong.singer || currentSong.artist || 'खान्देशी कलाकार';
-    const categoryName = currentSong.category || 'खान्देशी अहिराणी';
-    const subtitleText = `${singerName} • ${categoryName}`;
+    // 2. Extract singer dynamically from all possible properties
+    let actualSinger = currentSong.singer || 
+                       currentSong.artist || 
+                       currentSong.vocals || 
+                       currentSong.singerName || 
+                       currentSong.artistName || 
+                       currentSong.creator || 
+                       currentSong.author;
+
+    // 3. Check customMetadata if present
+    if (!actualSinger && currentSong.customMetadata) {
+      actualSinger = currentSong.customMetadata.singer || 
+                     currentSong.customMetadata.artist || 
+                     currentSong.customMetadata.vocals;
+    }
+
+    // 4. Keyword Fallback: Extract singer name directly from song title / filename (e.g. 'Ramakant', 'Bhaiya More')
+    if (!actualSinger || actualSinger === 'खान्देशी कलाकार' || actualSinger === 'अहिराणी खजिना') {
+      const keywordExtracted = extractSingerKeyword(currentSong.filename || '') || 
+                               extractSingerKeyword(titleText) || 
+                               extractSingerKeyword(currentSong.title || '');
+      if (keywordExtracted) {
+        actualSinger = keywordExtracted;
+        currentSong.singer = keywordExtracted;
+        currentSong.artist = keywordExtracted;
+        currentSong.vocals = keywordExtracted;
+      }
+    }
+
+    // Final fallback if no singer could be extracted
+    if (!actualSinger || actualSinger === 'खान्देशी कलाकार') {
+      actualSinger = 'अहिराणी खजिना';
+    }
+
+    // 5. Category
+    const categoryText = currentSong.category || 'खान्देशी अहिराणी';
+
+    // 6. Direct DOM update as requested:
+    // playerCategoryElement.innerText = `${currentSong.singer} • ${currentSong.category}`;
+    const singerDisplay = `${actualSinger} • ${categoryText}`;
 
     if (this.playerCategoryElement) {
-      this.playerCategoryElement.innerText = `${singerName} • ${categoryName}`;
+      this.playerCategoryElement.innerText = singerDisplay;
     }
     if (this.trackArtist && this.trackArtist !== this.playerCategoryElement) {
-      this.trackArtist.textContent = subtitleText;
+      this.trackArtist.textContent = singerDisplay;
     }
 
     this.currentTimeEl.textContent = '00:00';
@@ -619,13 +761,46 @@ class MiniMusicPlayer {
     // Update Media Session Metadata
     this.updateMediaSession();
 
-    // Fetch URL on-demand
-    if (currentSong.isFirebaseStorage && !currentSong.audioUrl && currentSong.itemRef) {
-      try {
-        currentSong.audioUrl = await currentSong.itemRef.getDownloadURL();
-      } catch (err) {
-        console.warn(`Failed to fetch audio stream for ${currentSong.filename}:`, err);
-        return;
+    // Fetch URL and metadata on-demand
+    if (currentSong.isFirebaseStorage && currentSong.itemRef) {
+      if (!currentSong.audioUrl) {
+        try {
+          currentSong.audioUrl = await currentSong.itemRef.getDownloadURL();
+        } catch (err) {
+          console.warn(`Failed to fetch audio stream for ${currentSong.filename}:`, err);
+          return;
+        }
+      }
+
+      // Read customMetadata attached in Firebase Storage if any
+      if (!currentSong._metadataFetched) {
+        currentSong._metadataFetched = true;
+        currentSong.itemRef.getMetadata().then((meta) => {
+          if (meta && meta.customMetadata) {
+            const metaSinger = meta.customMetadata.singer || meta.customMetadata.artist || meta.customMetadata.vocals;
+            const metaTitle = meta.customMetadata.title || meta.customMetadata.song;
+            const metaCategory = meta.customMetadata.category;
+            let updated = false;
+
+            if (metaSinger && metaSinger !== currentSong.singer) {
+              currentSong.singer = metaSinger;
+              currentSong.artist = metaSinger;
+              currentSong.vocals = metaSinger;
+              updated = true;
+            }
+            if (metaTitle && metaTitle !== currentSong.title) {
+              currentSong.title = metaTitle;
+              if (this.trackTitle) this.trackTitle.textContent = metaTitle;
+            }
+            if (metaCategory) {
+              currentSong.category = metaCategory;
+              updated = true;
+            }
+            if (updated && this.playerCategoryElement) {
+              this.playerCategoryElement.innerText = `${currentSong.singer} • ${currentSong.category || 'खान्देशी अहिराणी'}`;
+            }
+          }
+        }).catch(() => {});
       }
     }
 
@@ -657,7 +832,7 @@ class MiniMusicPlayer {
         ? artworkSrc
         : new URL(artworkSrc, window.location.href).href;
 
-      const singerName = currentSong.singer || currentSong.artist || 'खान्देशी कलाकार';
+      const singerName = currentSong.singer || currentSong.artist || currentSong.vocals || 'अहिराणी खजिना';
       const categoryName = currentSong.category || 'खान्देशी अहिराणी';
 
       navigator.mediaSession.metadata = new MediaMetadata({
