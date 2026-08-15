@@ -848,11 +848,23 @@ class MiniMusicPlayer {
     // 1. Update Media Session Metadata
     this.updateMediaSession();
 
+    // Check for direct audio URL (e.g. mp3/m4a/audio stream)
+    const directAudio = track.audioUrl || (track.url && (track.url.endsWith('.mp3') || track.url.endsWith('.m4a') || track.url.endsWith('.aac') || track.url.includes('audio') || track.url.includes('archive.org')) ? track.url : null);
     const videoId = track.videoId || this.getYouTubeVideoId(track.url);
 
-    if (videoId) {
+    if (directAudio) {
+      this.playbackEngine = 'audio';
+      if (this.ytPlayer && this.isYTReady) {
+        try { this.ytPlayer.stopVideo(); } catch (e) {}
+      }
+      this.audio.src = directAudio;
+      this.audio.loop = false;
+      this.audio.load();
+      if (autoPlay) {
+        this.playAudio();
+      }
+    } else if (videoId) {
       this.playbackEngine = 'youtube';
-      this.audio.pause();
       if (this.ytPlayer && this.isYTReady) {
         if (autoPlay) {
           this.ytPlayer.loadVideoById(videoId);
@@ -937,21 +949,39 @@ class MiniMusicPlayer {
 
   playAudio() {
     const track = this.playlist[this.currentIndex];
+    const directAudio = track.audioUrl || (track.url && (track.url.endsWith('.mp3') || track.url.endsWith('.m4a') || track.url.endsWith('.aac') || track.url.includes('audio') || track.url.includes('archive.org')) ? track.url : null);
     const videoId = track.videoId || this.getYouTubeVideoId(track.url);
 
-    // Maintain native browser AudioSession so Android Chrome / iOS Safari keeps background playback and lockscreen MediaSession active
-    if (!this.audio.src || this.audio.src.startsWith('data:')) {
-      if (this.audio.src !== SILENT_AUDIO_DATA) {
-        this.audio.src = SILENT_AUDIO_DATA;
-        this.audio.loop = true;
+    if (directAudio || this.playbackEngine === 'audio') {
+      if (this.ytPlayer && this.isYTReady) {
+        try { this.ytPlayer.stopVideo(); } catch (e) {}
       }
-    }
-    const silentPromise = this.audio.play();
-    if (silentPromise !== undefined) {
-      silentPromise.catch(() => {});
-    }
+      if (!this.audio.src || this.audio.src.startsWith('data:') || this.audio.src !== directAudio) {
+        this.audio.src = directAudio || track.url;
+        this.audio.loop = false;
+      }
+      const playPromise = this.audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            this.setPlayState(true);
+            this.updateMediaSession();
+          })
+          .catch(() => this.setPlayState(false));
+      }
+    } else if (videoId) {
+      // Maintain native browser AudioSession carrier so Android / iOS creates MediaSession notification
+      if (!this.audio.src || this.audio.src.startsWith('data:')) {
+        if (this.audio.src !== SILENT_AUDIO_DATA) {
+          this.audio.src = SILENT_AUDIO_DATA;
+          this.audio.loop = true;
+        }
+      }
+      const silentPromise = this.audio.play();
+      if (silentPromise !== undefined) {
+        silentPromise.catch(() => {});
+      }
 
-    if (this.playbackEngine === 'youtube' && videoId) {
       if (this.ytPlayer && this.isYTReady) {
         try {
           const state = this.ytPlayer.getPlayerState();
