@@ -1,0 +1,22 @@
+{
+  "name": "खान्देशी जत्रा | Khandeshi Songs",
+  "short_name": "खान्देशी जत्रा",
+  "description": "खान्देशी जत्रा — मना गाव, मना देश, जय खान्देश. ऐका लोकप्रिय खान्देशी गाणी एकाच ठिकाणी.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0805",
+  "theme_color": "#0a0805",
+  "icons": [
+    {
+      "src": "assets/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
