@@ -41,22 +41,21 @@
     <h1 class="main-top-title">अहिराणी गाण्यांचा खजिना</h1>
   </header>
 
-  <!-- Top Right Group: Date & Clock Widget + Full Screen Button -->
+  <!-- Top Right Group: Fullscreen Icon Button (Before Time) + Date & Clock Widget -->
   <div class="top-right-group" id="topRightGroup">
+    <button id="fullscreenBtn" class="top-fullscreen-btn" aria-label="Go Fullscreen" title="Go Fullscreen">
+      <svg class="fullscreen-icon icon-enter" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+      </svg>
+      <svg class="fullscreen-icon icon-exit" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none;">
+        <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>
+      </svg>
+    </button>
+
     <div class="top-badge top-right-badge" id="dateTimeWidget" aria-label="Current Date and Time">
       <span class="widget-time" id="widgetTime">--:-- --</span>
       <span class="widget-date" id="widgetDate">-- --- ----</span>
     </div>
-
-    <button id="fullscreenBtn" class="top-fullscreen-btn" aria-label="Go Fullscreen" title="Go Fullscreen">
-      <svg class="fullscreen-icon icon-enter" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
-      </svg>
-      <svg class="fullscreen-icon icon-exit" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none;">
-        <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path>
-      </svg>
-      <span class="fullscreen-text" id="fullscreenText">Full Screen</span>
-    </button>
   </div>
 
   <!-- ======================================================================
