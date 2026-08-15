@@ -889,8 +889,8 @@ class MiniMusicPlayer {
 
       navigator.mediaSession.metadata = new MediaMetadata({
         title: currentSong.title,
-        artist: currentSong.artist,
-        album: 'खान्देशी जत्रा',
+        artist: currentSong.artist || 'Ahirani Ganyancha Khajina',
+        album: 'Ahirani Ganyancha Khajina',
         artwork: [
           { src: absoluteArtwork, sizes: '96x96', type: 'image/jpeg' },
           { src: absoluteArtwork, sizes: '128x128', type: 'image/jpeg' },
@@ -1297,6 +1297,19 @@ class MiniMusicPlayer {
       });
       registerAction('stop', () => this.pauseAudio());
     }
+
+    // Ensure HTML5 <audio> tag and audio context do not pause on visibility change (screen lock or background tab)
+    document.addEventListener('visibilitychange', () => {
+      if (this.isPlaying) {
+        if (this.audio && this.audio.paused && !this.audio.ended) {
+          this.audio.play().catch(() => {});
+        }
+        if ('mediaSession' in navigator) {
+          navigator.mediaSession.playbackState = 'playing';
+          this.syncMediaSessionPositionState();
+        }
+      }
+    });
   }
 }
 
