@@ -18,34 +18,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Rozha+One&family=Yatra+One&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css?v=3.7">
+  <link rel="stylesheet" href="style.css?v=3.8">
 </head>
 <body>
-  <!-- Full-Screen 16:9 Hero Background with Cinematic Motion -->
-  <div class="bg-wrapper" id="bgWrapper">
-    <div class="bg-image" id="bgImage" style="background-image: url('assets/khandeshi-jatra-bg.jpg');"></div>
-    
-    <!-- Subtle Ambient Festival Lights Glow Overlay -->
-    <div class="lights-glow-layer" aria-hidden="true">
-      <div class="bulb-glow glow-1"></div>
-      <div class="bulb-glow glow-2"></div>
-      <div class="bulb-glow glow-3"></div>
-      <div class="firework-ambient-glow"></div>
-    </div>
-
-    <!-- Soft Sky Twinkle Stars -->
-    <div class="sky-stars-container" id="skyStars" aria-hidden="true"></div>
-
-    <!-- Central Artwork Soft Golden Light Sweep -->
-    <div class="center-shine-sweep" aria-hidden="true"></div>
-
-    <!-- Edge Vignette -->
-    <div class="bg-vignette"></div>
-  </div>
-
-  <!-- Soft Glowing Festive Dust & Floating Upward Particles -->
-  <div class="festive-dust-container" id="festiveDust" aria-hidden="true"></div>
-
   <!-- Top Left: Real-Time Live Listener Presence Badge -->
   <div class="top-badge top-left-badge" id="listenerBadge" aria-label="Real-Time Active Listeners">
     <span class="live-dot" aria-hidden="true"></span>
@@ -67,6 +42,31 @@
        SECTION 1: HERO SCREEN (First Viewport)
        ====================================================================== -->
   <section class="hero-screen" id="heroSection" aria-label="खान्देशी जत्रा मुख्य दालन">
+    <!-- Full-Screen 16:9 Hero Background with Cinematic Motion -->
+    <div class="bg-wrapper" id="bgWrapper">
+      <div class="bg-image" id="bgImage" style="background-image: url('assets/khandeshi-jatra-bg.jpg');"></div>
+      
+      <!-- Subtle Ambient Festival Lights Glow Overlay -->
+      <div class="lights-glow-layer" aria-hidden="true">
+        <div class="bulb-glow glow-1"></div>
+        <div class="bulb-glow glow-2"></div>
+        <div class="bulb-glow glow-3"></div>
+        <div class="firework-ambient-glow"></div>
+      </div>
+
+      <!-- Soft Sky Twinkle Stars -->
+      <div class="sky-stars-container" id="skyStars" aria-hidden="true"></div>
+
+      <!-- Central Artwork Soft Golden Light Sweep -->
+      <div class="center-shine-sweep" aria-hidden="true"></div>
+
+      <!-- Edge Vignette -->
+      <div class="bg-vignette"></div>
+    </div>
+
+    <!-- Soft Glowing Festive Dust & Floating Upward Particles -->
+    <div class="festive-dust-container" id="festiveDust" aria-hidden="true"></div>
+
     <!-- Subtle Scroll Down Indicator -->
     <a href="#welcomeSection" class="scroll-indicator" id="scrollIndicator" aria-label="खाली स्क्रोल करा">
       <span class="scroll-text">खाली स्क्रोल करा</span>
@@ -75,9 +75,9 @@
   </section>
 
   <!-- ======================================================================
-       SCROLLABLE WELCOME SECTION
+       SECTION 2: WELCOME SECTION (Normal Document Flow)
        ====================================================================== -->
-  <div class="content-scroll-container" id="contentScrollContainer">
+  <main class="content-scroll-container" id="contentScrollContainer">
     <section class="cultural-section welcome-section" id="welcomeSection" data-reveal aria-label="स्वागत व परिचय">
       <div class="section-container">
         <h2 class="welcome-heading">मना गाव, मना देश, जय खान्देश <span class="heart-accent">❤️</span></h2>
@@ -160,10 +160,10 @@
         <span class="credit-person">Mr.&nbsp;Nilesh&nbsp;Sonar</span>
       </div>
     </footer>
-  </div>
+  </main>
 
   <!-- Bottom Center: Ultra-Transparent Floating Music Controller Bar -->
-  <main class="player-container">
+  <div class="player-container">
     <div class="mini-player-bar" id="playerBar" role="region" aria-label="Music Player">
       
       <!-- Top mini row: Song Thumbnail & Title -->
@@ -242,7 +242,7 @@
 
       </div>
     </div>
-  </main>
+  </div>
 
   <!-- Audio Element for direct files -->
   <audio id="audioElement" preload="metadata"></audio>
