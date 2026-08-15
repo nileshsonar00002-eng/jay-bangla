@@ -932,7 +932,32 @@ body {
   background-color: var(--bg-dark);
 }
 
+/* Premium Cinematic Bottom Fade: Smoothly dissolves hero into the content section */
+.hero-screen::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 280px;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 8, 5, 0) 0%,
+    rgba(10, 8, 5, 0.04) 14%,
+    rgba(10, 8, 5, 0.16) 30%,
+    rgba(10, 8, 5, 0.38) 48%,
+    rgba(10, 8, 5, 0.68) 68%,
+    rgba(10, 8, 5, 0.88) 84%,
+    #0a0805 100%
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+
 .scroll-indicator {
+  position: relative;
+  z-index: 12;
   pointer-events: auto;
   display: inline-flex;
   flex-direction: column;
@@ -1008,10 +1033,11 @@ body {
   background-color: #0a0805;
   background: linear-gradient(
     180deg,
-    #0d0a07 0%,
-    #0a0805 12%,
-    #0a0805 100%
+    #0a0805 0%,
+    #090704 40%,
+    #080603 100%
   );
+  margin-top: -1px;
   padding-top: 3.5rem;
   padding-bottom: 9.5rem; /* Generous clearance for fixed music player */
 }
@@ -1309,6 +1335,10 @@ body {
   .center-shine-sweep {
     width: 320px;
     height: 180px;
+  }
+
+  .hero-screen::after {
+    height: 200px;
   }
 
   .top-left-badge {
