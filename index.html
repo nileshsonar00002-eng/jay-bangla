@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Rozha+One&family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css?v=5.5">
+  <link rel="stylesheet" href="style.css?v=5.6">
 </head>
 <body>
   <!-- Top Left: Real-Time Live Listener Presence Badge -->
@@ -186,22 +186,36 @@
   <div class="player-container">
     <div class="mini-player-bar" id="playerBar" role="region" aria-label="Music Player">
       
-      <!-- Top mini row: Song Thumbnail & Title (Click to Open Playlist) -->
-      <div class="track-info-section" id="trackInfoSection" title="गाण्यांची प्लेलिस्ट पहा (Click to View Playlist)" role="button" tabindex="0" aria-label="गाण्यांची प्लेलिस्ट उघडा">
-        <div class="track-thumb" id="trackThumb">
-          <img src="assets/khandeshi-jatra-bg.jpg" alt="Track Cover" id="trackCoverImg">
-          <div class="mini-soundwave" id="miniSoundwave" aria-hidden="true">
-            <span></span><span></span><span></span>
+      <!-- Line 1: Song Info (Title & Subtitle) + Mute/Volume Button -->
+      <div class="player-top-row">
+        <div class="track-info-section" id="trackInfoSection" title="गाण्यांची प्लेलिस्ट पहा (Click to View Playlist)" role="button" tabindex="0" aria-label="गाण्यांची प्लेलिस्ट उघडा">
+          <div class="track-thumb" id="trackThumb">
+            <img src="assets/khandeshi-jatra-bg.jpg" alt="Track Cover" id="trackCoverImg">
+            <div class="mini-soundwave" id="miniSoundwave" aria-hidden="true">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+
+          <div class="track-text">
+            <h2 class="track-title" id="trackTitle">खान्देशी अहिराणी गाणी</h2>
+            <p class="track-artist" id="trackArtist">Bhaiya More</p>
           </div>
         </div>
 
-        <div class="track-text">
-          <h2 class="track-title" id="trackTitle">खान्देशी अहिराणी गाणी</h2>
-          <p class="track-artist" id="trackArtist">Bhaiya More</p>
+        <!-- Volume / Mute Box -->
+        <div class="mini-volume-box">
+          <button class="ctrl-btn vol-btn" id="volumeBtn" title="Mute/Unmute (M)" aria-label="Mute or Unmute">
+            <svg id="volumeIcon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+            </svg>
+          </button>
+          <input type="range" class="mini-volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.85" aria-label="Volume">
         </div>
       </div>
 
-      <!-- Bottom mini row: Playback Buttons, Progress & Volume -->
+      <!-- Line 2: Playback Buttons (Prev, Play/Pause, Next) + Progress/Seek Bar -->
       <div class="player-main-controls">
         
         <div class="playback-btn-group">
@@ -247,18 +261,6 @@
           </div>
 
           <span class="time-display total-duration" id="totalDuration">--:--</span>
-        </div>
-
-        <!-- Mini Volume Control -->
-        <div class="mini-volume-box">
-          <button class="ctrl-btn vol-btn" id="volumeBtn" title="Mute/Unmute (M)" aria-label="Mute or Unmute">
-            <svg id="volumeIcon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-            </svg>
-          </button>
-          <input type="range" class="mini-volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.85" aria-label="Volume">
         </div>
 
       </div>
@@ -313,6 +315,6 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 
-  <script src="script.js?v=5.9"></script>
+  <script src="script.js?v=6.0"></script>
 </body>
 </html>
