@@ -499,11 +499,13 @@ class MiniMusicPlayer {
 
     // Scrubber
     this.progressBarWrapper = document.getElementById('progressBarWrapper');
+    this.progressSlider = document.getElementById('progressSlider');
     this.progressFill = document.getElementById('progressFill');
     this.progressBuffered = document.getElementById('progressBuffered');
     this.currentTimeEl = document.getElementById('currentTime');
     this.totalDurationEl = document.getElementById('totalDuration');
     this.scrubTooltip = document.getElementById('scrubTooltip');
+    this.isDragging = false;
 
     // Volume
     this.volumeBtn = document.getElementById('volumeBtn');
@@ -767,7 +769,8 @@ class MiniMusicPlayer {
     this.currentTimeEl.textContent = '00:00';
     this.totalDurationEl.textContent = currentSong.duration || '--:--';
     this.progressFill.style.width = '0%';
-    this.progressBarWrapper.setAttribute('aria-valuenow', '0');
+    if (this.progressSlider) this.progressSlider.value = '0';
+    this.isDragging = false;
 
     if (this.trackCoverImg && currentSong.cover) {
       this.trackCoverImg.src = currentSong.cover;
@@ -821,11 +824,21 @@ class MiniMusicPlayer {
     // 4. Synchronize playlist item active state
     this.highlightActivePlaylistItem();
 
-    // 5. Stream audio on demand
+    // 5. Stream audio on demand with safe onloadedmetadata wrapping
     const directAudio = currentSong.audioUrl || currentSong.url;
     if (directAudio) {
       this.audio.src = directAudio;
       this.audio.loop = false;
+
+      // Safe onloadedmetadata listener before updating durations
+      this.audio.onloadedmetadata = () => {
+        if (this.audio.duration && !isNaN(this.audio.duration)) {
+          currentSong.duration = this.formatTime(this.audio.duration);
+          this.totalDurationEl.textContent = currentSong.duration;
+          this.syncMediaSessionPositionState();
+        }
+      };
+
       this.audio.load();
       if (autoPlay) {
         this.playAudio();
@@ -958,10 +971,13 @@ class MiniMusicPlayer {
   }
 
   updateProgress(currentTime, duration) {
+    if (this.isDragging) return;
     if (!duration || isNaN(duration) || duration <= 0) return;
-    const percent = Math.min(100, (currentTime / duration) * 100);
+    const percent = Math.min(100, Math.max(0, (currentTime / duration) * 100));
     this.progressFill.style.width = `${percent}%`;
-    this.progressBarWrapper.setAttribute('aria-valuenow', Math.round(percent));
+    if (this.progressSlider) {
+      this.progressSlider.value = percent;
+    }
     this.currentTimeEl.textContent = this.formatTime(currentTime);
     this.totalDurationEl.textContent = this.formatTime(duration);
   }
@@ -1273,23 +1289,54 @@ class MiniMusicPlayer {
       this.nextTrack();
     });
 
-    // Scrubber
-    this.progressBarWrapper.addEventListener('click', (e) => {
-      const rect = this.progressBarWrapper.getBoundingClientRect();
-      const pos = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
-      const percent = (pos / rect.width) * 100;
-      this.seekToPercent(percent);
-    });
+    // Scrubber / Progress Range Slider (Smooth Seeking Engine)
+    if (this.progressSlider) {
+      // 1. input event: while dragging, smoothly update visual timestamp and progress fill
+      this.progressSlider.addEventListener('input', (e) => {
+        this.isDragging = true;
+        if (this.progressBarWrapper) this.progressBarWrapper.classList.add('seeking');
 
-    this.progressBarWrapper.addEventListener('mousemove', (e) => {
-      const rect = this.progressBarWrapper.getBoundingClientRect();
-      const pos = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
-      const percent = (pos / rect.width) * 100;
-      this.scrubTooltip.style.left = `${percent}%`;
+        const percent = parseFloat(e.target.value);
+        this.progressFill.style.width = `${percent}%`;
 
-      const duration = this.audio.duration || 0;
-      this.scrubTooltip.textContent = this.formatTime((percent / 100) * duration);
-    });
+        const duration = this.audio.duration || 0;
+        if (duration > 0 && !isNaN(duration)) {
+          const projectedTime = (percent / 100) * duration;
+          this.currentTimeEl.textContent = this.formatTime(projectedTime);
+
+          if (this.scrubTooltip) {
+            this.scrubTooltip.style.left = `${percent}%`;
+            this.scrubTooltip.textContent = this.formatTime(projectedTime);
+          }
+        }
+      });
+
+      // 2. change event: when user releases slider thumb, calculate new time ((slider.value / 100) * audio.duration) and update audio.currentTime instantly
+      this.progressSlider.addEventListener('change', (e) => {
+        const percent = parseFloat(e.target.value);
+        if (this.audio.duration && !isNaN(this.audio.duration)) {
+          const newTime = (percent / 100) * this.audio.duration;
+          this.audio.currentTime = newTime;
+          this.currentTimeEl.textContent = this.formatTime(newTime);
+        }
+        this.isDragging = false;
+        if (this.progressBarWrapper) this.progressBarWrapper.classList.remove('seeking');
+        this.syncMediaSessionPositionState();
+      });
+    }
+
+    if (this.progressBarWrapper) {
+      this.progressBarWrapper.addEventListener('mousemove', (e) => {
+        const rect = this.progressBarWrapper.getBoundingClientRect();
+        const pos = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+        const percent = (pos / rect.width) * 100;
+        if (this.scrubTooltip) {
+          this.scrubTooltip.style.left = `${percent}%`;
+          const duration = this.audio.duration || 0;
+          this.scrubTooltip.textContent = this.formatTime((percent / 100) * duration);
+        }
+      });
+    }
 
     // Global Keyboard Shortcuts
     window.addEventListener('keydown', (e) => {
