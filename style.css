@@ -1128,13 +1128,23 @@ body {
   font-weight: 500;
   color: var(--text-secondary);
   letter-spacing: 0.03em;
-  line-height: 1.6;
+  line-height: 1.8;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem 0.4rem;
+}
+
+.credit-person {
+  white-space: nowrap;
+  display: inline-block;
 }
 
 .credit-bullet {
   color: var(--gold-400);
   opacity: 0.65;
-  margin: 0 0.4rem;
+  margin: 0 0.15rem;
   font-size: 0.72rem;
   display: inline-block;
 }
@@ -1178,8 +1188,8 @@ body {
 
   .credit-names {
     font-size: 0.82rem;
-    line-height: 1.7;
-    max-width: 320px;
+    line-height: 1.8;
+    max-width: 380px;
   }
 
   .credit-bullet {
