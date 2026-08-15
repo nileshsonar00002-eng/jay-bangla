@@ -1438,17 +1438,19 @@ function initScrollIndicator() {
   const indicator = document.getElementById('scrollIndicator');
   if (!indicator) return;
 
-  // Fade out scroll indicator once scrolled past hero
-  window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY || document.documentElement.scrollTop;
-    if (scrollY > 120) {
-      indicator.style.opacity = '0';
-      indicator.style.pointerEvents = 'none';
+  const handleScroll = () => {
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    if (scrollY > 10) {
+      indicator.classList.add('hidden-on-scroll');
     } else {
-      indicator.style.opacity = '1';
-      indicator.style.pointerEvents = 'auto';
+      indicator.classList.remove('hidden-on-scroll');
     }
-  }, { passive: true });
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  document.addEventListener('scroll', handleScroll, { passive: true });
+  window.addEventListener('touchmove', handleScroll, { passive: true });
+  handleScroll();
 
   indicator.addEventListener('click', (e) => {
     e.preventDefault();

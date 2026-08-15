@@ -971,9 +971,17 @@ body {
   padding: 0.35rem 0.85rem;
   border-radius: 9999px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
-  transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background var(--transition-fast), border-color var(--transition-fast);
   animation: gentleScrollPulse 2.8s ease-in-out infinite;
   cursor: pointer;
+}
+
+.scroll-indicator.hidden-on-scroll {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(8px) !important;
+  animation: none !important;
 }
 
 .scroll-indicator:hover {
