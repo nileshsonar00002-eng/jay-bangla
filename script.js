@@ -12,13 +12,13 @@
 
 // Firebase Project Configuration (khaneshijatra)
 const firebaseConfig = {
-  apiKey: "AIzaSyDummyKeyForKhandeshiJatraPresence2026",
-  authDomain: "khaneshijatra.firebaseapp.com",
-  databaseURL: "https://khaneshijatra-default-rtdb.firebaseio.com",
-  projectId: "khaneshijatra",
-  storageBucket: "khaneshijatra.appspot.com",
-  messagingSenderId: "123456789012",
-  appId: "1:123456789012:web:abcdef123456"
+  apiKey: 'AIzaSyDnvjfQrfkspVnq570hjNios9Yd6A0EjSA',
+  authDomain: 'khaneshijatra.firebaseapp.com',
+  databaseURL: 'https://khaneshijatra-default-rtdb.firebaseio.com',
+  projectId: 'khaneshijatra',
+  storageBucket: 'khaneshijatra.firebasestorage.app',
+  messagingSenderId: '762404305793',
+  appId: '1:762404305793:web:8ec333a65b673211af8680'
 };
 
 // Safe Firebase App Initialization
