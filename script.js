@@ -406,6 +406,9 @@ const initialPlaylist = [
     id: 'kj_init_1',
     title: 'खान्देशी अहिराणी गाणी',
     artist: 'खान्देशी जत्रा',
+    singer: 'खान्देशी जत्रा',
+    category: 'खान्देशी अहिराणी',
+    displayArtist: 'खान्देशी जत्रा • खान्देशी अहिराणी',
     duration: '--:--',
     cover: 'assets/khandeshi-jatra-bg.jpg',
     isFirebaseStorage: true
@@ -463,30 +466,27 @@ class MiniMusicPlayer {
   }
 
   /**
-   * Intelligently parses MP3 filenames into clean Title and Artist strings
+   * Intelligently parses MP3 filenames into clean Title, Artist/Singer, and Category
    */
   parseSongMetadata(filename, index) {
     // 1. Strip file extensions (.mp3, .wav, .m4a, .aac, .ogg, .flac)
     let clean = filename.replace(/\.[^/.]+$/, '');
-    // 2. Strip leading track order patterns (e.g. "01 - ", "01. ", "01_", "1. ")
+    // 2. Strip leading track order patterns (e.g. "01 - ", "01. ", "01_", "1. ", "Track 01 ")
     clean = clean.replace(/^(?:track\s*)?\d+[\s\.\-_]+/i, '');
     // 3. Normalize underscores to spaces
     clean = clean.replace(/_+/g, ' ').trim();
 
     let title = clean;
-    let artist = "खान्देशी अहिराणी";
+    let artist = "खान्देशी कलाकार";
+    const category = "खान्देशी अहिराणी";
 
-    if (clean.includes(' - ')) {
-      const parts = clean.split(' - ');
+    // Split on common hyphen/dash/pipe delimiters: " - ", " – ", " — ", " | "
+    const sepRegex = /\s*[\-–—|]\s*/;
+    if (clean.includes(' - ') || clean.includes(' – ') || clean.includes(' — ') || clean.includes(' | ')) {
+      const parts = clean.split(sepRegex);
       if (parts.length >= 2) {
         title = parts[0].trim();
-        artist = parts.slice(1).join(' - ').trim();
-      }
-    } else if (clean.includes(' – ')) {
-      const parts = clean.split(' – ');
-      if (parts.length >= 2) {
-        title = parts[0].trim();
-        artist = parts.slice(1).join(' – ').trim();
+        artist = parts.slice(1).join(' & ').trim();
       }
     } else if (clean.includes('(') && clean.includes(')')) {
       const match = clean.match(/^(.*?)\s*\((.*?)\)$/);
@@ -494,12 +494,26 @@ class MiniMusicPlayer {
         title = match[1].trim();
         artist = match[2].trim();
       }
+    } else if (clean.includes('[') && clean.includes(']')) {
+      const match = clean.match(/^(.*?)\s*\[(.*?)\]$/);
+      if (match) {
+        title = match[1].trim();
+        artist = match[2].trim();
+      }
     }
+
+    // Compose dynamic subtitle: 'Artist / Singer • Category' (e.g., 'Bhaiya More • खान्देशी अहिराणी')
+    const displayArtist = (artist && artist !== category && !artist.includes(category))
+      ? `${artist} • ${category}`
+      : (artist || category);
 
     return {
       id: `fb_track_${index + 1}`,
       title: title || `खान्देशी गीत ${index + 1}`,
-      artist: artist || "अहिराणी खजिना",
+      artist: artist || "खान्देशी कलाकार",
+      singer: artist || "खान्देशी कलाकार",
+      category: category,
+      displayArtist: displayArtist,
       filename: filename,
       itemRef: null,
       audioUrl: null,
@@ -583,8 +597,14 @@ class MiniMusicPlayer {
     this.currentIndex = index;
     const track = this.playlist[this.currentIndex];
 
+    // Format Artist / Singer with Category (e.g., 'Bhaiya More • खान्देशी अहिराणी')
+    const displaySubtitle = track.displayArtist || 
+      (track.artist && track.artist !== 'खान्देशी अहिराणी' 
+        ? `${track.artist} • ${track.category || 'खान्देशी अहिराणी'}` 
+        : (track.singer ? `${track.singer} • ${track.category || 'खान्देशी अहिराणी'}` : 'खान्देशी कलाकार • खान्देशी अहिराणी'));
+
     this.trackTitle.textContent = track.title;
-    this.trackArtist.textContent = track.artist;
+    this.trackArtist.textContent = displaySubtitle;
     this.currentTimeEl.textContent = '00:00';
     this.totalDurationEl.textContent = track.duration || '--:--';
     this.progressFill.style.width = '0%';
@@ -635,9 +655,11 @@ class MiniMusicPlayer {
         ? artworkSrc
         : new URL(artworkSrc, window.location.href).href;
 
+      const displaySubtitle = currentSong.displayArtist || currentSong.artist || 'खान्देशी जत्रा • खान्देशी अहिराणी';
+
       navigator.mediaSession.metadata = new MediaMetadata({
         title: currentSong.title,
-        artist: currentSong.artist || 'खान्देशी जत्रा',
+        artist: displaySubtitle,
         album: 'खान्देशी जत्रा',
         artwork: [
           { src: absoluteArtwork, sizes: '96x96', type: 'image/jpeg' },
