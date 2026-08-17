@@ -997,7 +997,10 @@ class MiniMusicPlayer {
         window.trackSongPlayModular(songTitle, singer);
       }
       if (typeof firebase !== 'undefined' && firebase.firestore) {
-          const firestore = firebase.firestore();
+        try {
+          const firestore = (firebase.app && typeof firebase.app().firestore === 'function')
+            ? (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })()
+            : firebase.firestore();
           const docId = songTitle.trim().replace(/[\/\\]/g, '_');
           firestore.collection('song_analytics').doc(docId).set({
             title: songTitle,
@@ -1005,7 +1008,7 @@ class MiniMusicPlayer {
             plays: firebase.firestore.FieldValue.increment(1),
             last_played: firebase.firestore.FieldValue.serverTimestamp()
           }, { merge: true }).then(() => {
-            console.log(`🎵 [Firestore Compat] Logged song play: "${songTitle}"`);
+            console.log(`✅ [Firestore Compat] Logged song play: "${songTitle}" on database "khandeshijatra"`);
           }).catch((e) => console.info('Firestore song_analytics notice:', e.message));
         } catch (e) {}
       }
@@ -1862,26 +1865,21 @@ async function trackUserVisitLocationFirestore() {
     }
 
     if (typeof firebase !== 'undefined' && firebase.firestore) {
-      const firestore = firebase.firestore();
+      const firestore = (firebase.app && typeof firebase.app().firestore === 'function')
+        ? (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })()
+        : firebase.firestore();
 
-      const userPayload = {
+      // Store/update under users/{uid} using merge to prevent duplicate docs
+      await firestore.collection('users').doc(uid).set({
         uid: uid,
         location: locationString,
         device_type: deviceType,
-        device: deviceType,
         last_visited: firebase.firestore.FieldValue.serverTimestamp(),
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         visit_count: firebase.firestore.FieldValue.increment(1),
         user_agent: (navigator.userAgent || '').substring(0, 100)
-      };
+      }, { merge: true });
 
-      // Store/update under both users/{uid} and user_visits/{uid}
-      await Promise.allSettled([
-        firestore.collection('users').doc(uid).set(userPayload, { merge: true }),
-        firestore.collection('user_visits').doc(uid).set(userPayload, { merge: true })
-      ]);
-
-      console.log(`📍 [Firestore Compat] Synced user in user_visits/${uid}:`, locationString, deviceType);
+      console.log(`📍 [Firestore Compat] Synced user record in users/${uid}:`, locationString, deviceType);
     }
   } catch (err) {
     console.info('Firestore users/{uid} logging note:', err.message);
@@ -1929,8 +1927,8 @@ function initRealtimeAnnouncementSync() {
 
   // 4. Firestore listener
   try {
-    if (typeof firebase !== 'undefined' && firebase.firestore) {
-      const fs = firebase.firestore();
+    if (typeof firebase !== 'undefined' && firebase.app) {
+      const fs = (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })();
       if (fs) {
         fs.collection('siteSettings').doc('announcement').onSnapshot((docSnap) => {
           if (docSnap.exists) {
