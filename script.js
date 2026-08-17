@@ -35,14 +35,27 @@ if (typeof firebase !== 'undefined' && (!firebase.apps || !firebase.apps.length)
   }
 }
 
-const BASE_LISTENER_COUNT = 75;
+/**
+ * 4-Stage Synchronized 15-Minute Base Count Cycle:
+ * Stage 1 (00-14 min): 75
+ * Stage 2 (15-29 min): 105
+ * Stage 3 (30-44 min): 225
+ * Stage 4 (45-59 min): 556
+ * Repeats every 60 minutes, synchronized across all visitors via real elapsed time.
+ */
+const BASE_CYCLE_STAGES = [75, 105, 225, 556];
+const STAGE_INTERVAL_MS = 15 * 60 * 1000; // Exactly 15 minutes
+
+function getCurrentBaseCount() {
+  const stageIndex = Math.floor((Date.now() / STAGE_INTERVAL_MS) % BASE_CYCLE_STAGES.length);
+  return BASE_CYCLE_STAGES[stageIndex];
+}
 
 /* --------------------------------------------------------------------------
    1. Real-Time Global Presence Engine (Multi-Device MQTT over WebSockets + LWT)
    -------------------------------------------------------------------------- */
 class RealtimePresenceTracker {
-  constructor(baseCount = 75) {
-    this.baseCount = baseCount;
+  constructor() {
     this.badgeEl = document.getElementById('listenerCountText');
     this.sessionId = 'dev_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now().toString(36);
     this.activeTabs = 1;
@@ -62,8 +75,8 @@ class RealtimePresenceTracker {
   }
 
   init() {
-    // 1. Always display initial count: 75 + 1 active user = 76 LIVE
-    this.updateBadge(this.baseCount + 1);
+    // 1. Initial display using current synchronized base + 1 active user
+    this.updateBadge(1);
 
     // 2. Local multi-tab coordination (BroadcastChannel + LocalStorage)
     this.initLocalTabCoordinator();
@@ -71,14 +84,17 @@ class RealtimePresenceTracker {
     // 3. Global multi-device MQTT WebSocket presence
     this.initGlobalMQTTPresence();
 
-    // 4. Periodic prune timer for dead devices
+    // 4. Periodic prune timer for dead devices & stage transitions
     setInterval(() => this.pruneStalePeers(), 1500);
+    setInterval(() => this.recalculateTotal(), 10000);
   }
 
-  updateBadge(totalCount) {
+  updateBadge(actualActiveUsers) {
     if (!this.badgeEl) return;
-    const finalCount = Math.max(this.baseCount, totalCount);
-    this.badgeEl.textContent = `${finalCount} LIVE`;
+    const currentBase = getCurrentBaseCount();
+    const effectiveUsers = Math.max(1, actualActiveUsers || 1);
+    const displayedCount = currentBase + effectiveUsers;
+    this.badgeEl.textContent = `${displayedCount} LISTENING`;
   }
 
   recalculateTotal() {
@@ -88,7 +104,7 @@ class RealtimePresenceTracker {
     // Total real active visitors = unique global devices or local tabs
     const globalDeviceCount = this.remotePeers.size;
     const effectiveActiveCount = Math.max(globalDeviceCount, this.activeTabs, 1);
-    this.updateBadge(this.baseCount + effectiveActiveCount);
+    this.updateBadge(effectiveActiveCount);
   }
 
   pruneStalePeers() {
@@ -1881,7 +1897,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollIndicator();
   initFirebaseRealtimeUserTracking();
   trackUserVisitLocationFirestore();
-  window.presenceTracker = new RealtimePresenceTracker(BASE_LISTENER_COUNT);
+  window.presenceTracker = new RealtimePresenceTracker();
   window.khandeshiPlayer = new MiniMusicPlayer(initialPlaylist);
 });
 
