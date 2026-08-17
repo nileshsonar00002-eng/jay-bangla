@@ -1684,6 +1684,46 @@ function initTopTitleScrollFade() {
   handleScroll();
 }
 
+/**
+ * Firebase Realtime Database Active Users Presence Tracker
+ * Tracks live_users/count and registers session with onDisconnect()
+ */
+function initFirebaseRealtimeUserTracking() {
+  if (typeof firebase === 'undefined' || !firebase.database) return;
+
+  try {
+    const db = firebase.database();
+    const connectedRef = db.ref('.info/connected');
+    const liveCountRef = db.ref('live_users/count');
+    const mySessionRef = db.ref('live_users/sessions').push();
+
+    connectedRef.on('value', (snap) => {
+      if (snap.val() === true) {
+        // Register session on connect
+        mySessionRef.onDisconnect().remove();
+        mySessionRef.set({
+          joinedAt: firebase.database.ServerValue.TIMESTAMP,
+          userAgent: (navigator.userAgent || '').substring(0, 80)
+        });
+
+        // Increment live count on connection and decrement onDisconnect
+        liveCountRef.transaction((curr) => (curr || 0) + 1);
+        liveCountRef.onDisconnect().transaction((curr) => Math.max(0, (curr || 1) - 1));
+      }
+    });
+
+    // Realtime fallback count synchronizer
+    db.ref('live_users/sessions').on('value', (snap) => {
+      const activeSessions = snap.numChildren();
+      if (activeSessions > 0) {
+        liveCountRef.set(activeSessions);
+      }
+    });
+  } catch (err) {
+    console.warn('Firebase user presence tracking notice:', err);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initDateTimeWidget();
   initFullscreenToggle();
@@ -1694,6 +1734,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initClickHeartInteraction();
   initScrollReveal();
   initScrollIndicator();
+  initFirebaseRealtimeUserTracking();
   window.presenceTracker = new RealtimePresenceTracker(BASE_LISTENER_COUNT);
   window.khandeshiPlayer = new MiniMusicPlayer(initialPlaylist);
 });
