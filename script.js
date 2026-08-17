@@ -646,6 +646,18 @@ class MiniMusicPlayer {
   applyPlaylistVisuals(playlistId) {
     const bgImage = document.getElementById('bgImage');
     const bgWrapper = document.getElementById('bgWrapper');
+    const topMainTitle = document.getElementById('topMainTitle');
+
+    // 1. Show Main Top Title ONLY for Ahirani playlist, hide for Kanubai Special
+    if (topMainTitle) {
+      if (playlistId === 'kanubai') {
+        topMainTitle.classList.add('playlist-hidden');
+      } else {
+        topMainTitle.classList.remove('playlist-hidden');
+      }
+    }
+
+    // 2. Set Background Image & Background Wrapper Color
     if (bgImage) {
       if (playlistId === 'kanubai') {
         bgImage.style.backgroundImage = "url('assets/kanubai-bg.jpg')";

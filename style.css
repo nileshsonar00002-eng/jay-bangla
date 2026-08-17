@@ -551,11 +551,12 @@ body {
   animation: titleFadeIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
 }
 
-.top-center-title-container.hidden-on-scroll {
+.top-center-title-container.hidden-on-scroll,
+.top-center-title-container.playlist-hidden {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
-  transform: translateY(-8px) !important;
+  transform: translateY(-10px) !important;
 }
 
 .main-top-title {
@@ -2137,6 +2138,10 @@ body {
 
   .bg-image {
     background-position: center 42%;
+  }
+
+  .bg-wrapper.kanubai-active .bg-image {
+    background-position: center 38%;
   }
 
   .festive-ad-banner-container {
