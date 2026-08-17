@@ -494,63 +494,7 @@ const defaultPlaylists = {
       isFirebaseStorage: true
     }
   ],
-  kanubai: [
-    {
-      id: 'kanubai_1',
-      title: 'आई कानुबाईचं रूप देखणं',
-      singer: 'अहिराणी भक्तीगीत',
-      artist: 'अहिराणी भक्तीगीत',
-      vocals: 'अहिराणी भक्तीगीत',
-      category: 'कानुबाई स्पेशल',
-      duration: '--:--',
-      cover: 'assets/kanubai-bg.jpg',
-      isFirebaseStorage: true
-    },
-    {
-      id: 'kanubai_2',
-      title: 'कानुबाई माईचा सण मोठा',
-      singer: 'अहिराणी भक्तीगीत',
-      artist: 'अहिराणी भक्तीगीत',
-      vocals: 'अहिराणी भक्तीगीत',
-      category: 'कानुबाई स्पेशल',
-      duration: '--:--',
-      cover: 'assets/kanubai-bg.jpg',
-      isFirebaseStorage: true
-    },
-    {
-      id: 'kanubai_3',
-      title: 'कानुबाईचा रोटाचा सण',
-      singer: 'पारंपारिक कानुबाई गाणे',
-      artist: 'पारंपारिक कानुबाई गाणे',
-      vocals: 'पारंपारिक कानुबाई गाणे',
-      category: 'कानुबाई स्पेशल',
-      duration: '--:--',
-      cover: 'assets/kanubai-bg.jpg',
-      isFirebaseStorage: true
-    },
-    {
-      id: 'kanubai_4',
-      title: 'कानुबाई आई माहेरला आली',
-      singer: 'अहिराणी भक्तीगीत',
-      artist: 'अहिराणी भक्तीगीत',
-      vocals: 'अहिराणी भक्तीगीत',
-      category: 'कानुबाई स्पेशल',
-      duration: '--:--',
-      cover: 'assets/kanubai-bg.jpg',
-      isFirebaseStorage: true
-    },
-    {
-      id: 'kanubai_5',
-      title: 'आई कानुबाई पाव आम्हाला',
-      singer: 'अहिराणी भक्तीगीत',
-      artist: 'अहिराणी भक्तीगीत',
-      vocals: 'अहिराणी भक्तीगीत',
-      category: 'कानुबाई स्पेशल',
-      duration: '--:--',
-      cover: 'assets/kanubai-bg.jpg',
-      isFirebaseStorage: true
-    }
-  ]
+  kanubai: []
 };
 
 const initialPlaylist = defaultPlaylists.ahirani;
@@ -698,7 +642,7 @@ class MiniMusicPlayer {
   }
 
   async switchPlaylist(playlistId, autoPlay = false) {
-    if (!this.playlists[playlistId]) return;
+    if (!this.playlists[playlistId]) this.playlists[playlistId] = [];
     this.currentPlaylistId = playlistId;
     localStorage.setItem('kj_active_playlist', playlistId);
 
@@ -714,7 +658,7 @@ class MiniMusicPlayer {
     if (selectBtn) selectBtn.setAttribute('aria-expanded', 'false');
 
     // Switch active tracks list
-    this.playlist = [...this.playlists[playlistId]];
+    this.playlist = [...(this.playlists[playlistId] || [])];
     this.currentIndex = 0;
     this.updatePlaylistCountBadge();
 
@@ -722,11 +666,15 @@ class MiniMusicPlayer {
       this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
     }
 
-    // Load first track of the playlist
-    await this.loadTrack(0, autoPlay || this.isPlaying);
-
-    // Ensure latest storage tracks are refreshed
-    this.loadFromFirebaseStorage(playlistId);
+    if (this.playlist.length > 0) {
+      await this.loadTrack(0, autoPlay || this.isPlaying);
+      this.loadFromFirebaseStorage(playlistId);
+    } else {
+      if (this.trackTitle) this.trackTitle.textContent = 'गाणी लोड होत आहेत...';
+      if (this.trackArtist) this.trackArtist.textContent = 'Firebase Cloud Storage (kanubai special)';
+      if (this.totalDurationEl) this.totalDurationEl.textContent = '--:--';
+      await this.loadFromFirebaseStorage(playlistId);
+    }
   }
 
   toggleShuffle() {
@@ -1443,9 +1391,12 @@ class MiniMusicPlayer {
     });
 
     if (filtered.length === 0) {
+      const isKanubai = this.currentPlaylistId === 'kanubai';
       this.playlistItemsContainer.innerHTML = `
-        <div class="playlist-empty-state">
-          <p>कोणतेही गाणे सापडले नाही 🔍</p>
+        <div class="playlist-empty-state" style="padding: 2.5rem 1rem; text-align: center;">
+          <p style="font-size: 1.6rem; margin-bottom: 0.5rem;">${isKanubai ? '🙏' : '🔍'}</p>
+          <p style="font-weight: 700; color: var(--gold-200); font-size: 0.92rem;">${isKanubai ? 'कानुबाई स्पेशल गाणी लोड होत आहेत...' : 'कोणतेही गाणे सापडले नाही'}</p>
+          <p style="font-size: 0.76rem; opacity: 0.75; margin-top: 0.35rem;">${isKanubai ? "Firebase Storage ('kanubai special') वरून थेट कनेक्ट होत आहे" : 'शोध शब्द तपासा'}</p>
         </div>
       `;
       return;
