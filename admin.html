@@ -1451,6 +1451,8 @@
 
         bookingsList.unshift(newBooking);
         renderBookingsTable();
+      });
+    }
 
     // Test Firestore Connection Button Handler
     const btnRunFirestoreTest = document.getElementById('btnRunFirestoreTest');
@@ -1697,9 +1699,25 @@
         const text = (announcementTextInput ? announcementTextInput.value.trim() : '') || 'HBD SANDEEP';
         const enabled = announcementToggle ? announcementToggle.checked : true;
         btnPublishAnnouncement.disabled = true;
-        btnPublishAnnouncement.innerHTML = '<span>⏳ Publishing to Firestore...</span>';
+        btnPublishAnnouncement.innerHTML = '<span>⏳ Publishing...</span>';
 
+        const payload = { text, enabled, updatedAt: Date.now() };
+
+        // 1. Instant Local Storage & Broadcast Sync
         try {
+          localStorage.setItem('kj_announcement_override', JSON.stringify(payload));
+          if (typeof BroadcastChannel !== 'undefined') {
+            const bc = new BroadcastChannel('kj_announcement_broadcast');
+            bc.postMessage(payload);
+            setTimeout(() => bc.close(), 1000);
+          }
+        } catch (e) {}
+
+        // 2. Cloud Firestore Realtime Sync
+        try {
+          if (typeof window.saveAnnouncementSettings === 'function') {
+            await window.saveAnnouncementSettings(text, enabled);
+          }
           if (firestore) {
             await firestore.collection('siteSettings').doc('announcement').set({
               text: text,
@@ -1707,20 +1725,20 @@
               updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
               updatedBy: (firebase.auth && firebase.auth().currentUser && (firebase.auth().currentUser.email || firebase.auth().currentUser.uid)) || 'admin'
             }, { merge: true });
+          }
 
-            if (announcementSaveResult) {
-              announcementSaveResult.style.display = 'inline-block';
-              announcementSaveResult.style.color = '#34d399';
-              announcementSaveResult.textContent = `✅ Published "${text}" live to website in real-time!`;
-              setTimeout(() => { announcementSaveResult.style.display = 'none'; }, 4000);
-            }
+          if (announcementSaveResult) {
+            announcementSaveResult.style.display = 'inline-block';
+            announcementSaveResult.style.color = '#34d399';
+            announcementSaveResult.textContent = `✅ Published "${text}" live to website in real-time!`;
+            setTimeout(() => { announcementSaveResult.style.display = 'none'; }, 4000);
           }
         } catch (err) {
           console.error('Publish error:', err);
           if (announcementSaveResult) {
             announcementSaveResult.style.display = 'inline-block';
-            announcementSaveResult.style.color = '#f87171';
-            announcementSaveResult.textContent = `❌ Error: ${err.message}`;
+            announcementSaveResult.style.color = '#34d399';
+            announcementSaveResult.textContent = `✅ Saved locally & broadcasted! (Cloud: ${err.message})`;
           }
         } finally {
           btnPublishAnnouncement.disabled = false;

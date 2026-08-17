@@ -4,6 +4,7 @@
  * ==========================================================================
  * - Target Database: 'khandeshijatra'
  * - Real-Time Dynamic Top Announcement Badge ('siteSettings/announcement')
+ * - Multi-Channel Synchronization (Firestore + BroadcastChannel + LocalStorage)
  * - Persistent Anonymous Authentication (users/{uid})
  * - Zero Login/Signup UI for Normal Public Visitors
  * - Deduplicated Session Tracking & Real-Time Song Analytics
@@ -212,32 +213,64 @@ export async function trackSongPlay(songTitle, singer) {
 
 /**
  * 5. Real-Time Announcement Badge Synchronization
- * Listens to doc(db, 'siteSettings', 'announcement') in real-time.
- * Automatically updates top banner text and visibility without redeployment.
+ * Listens to Firestore, BroadcastChannel, and LocalStorage for instant updates.
  */
 export function initAnnouncementListener() {
   const bannerEl = document.getElementById('festiveAdBanner');
   const textEl = document.getElementById('billboardText');
   if (!bannerEl && !textEl) return;
 
+  function applyAnnouncement(data) {
+    if (!data) return;
+    if (data.enabled === false) {
+      if (bannerEl) bannerEl.style.display = 'none';
+    } else {
+      if (bannerEl) bannerEl.style.display = '';
+      if (textEl && data.text) {
+        textEl.textContent = data.text;
+      }
+    }
+  }
+
+  // 1. Check local storage cache on initial render
+  try {
+    const cached = localStorage.getItem('kj_announcement_override');
+    if (cached) {
+      applyAnnouncement(JSON.parse(cached));
+    }
+  } catch (e) {}
+
+  // 2. BroadcastChannel for instant local cross-tab sync
+  try {
+    if (typeof BroadcastChannel !== 'undefined') {
+      const bc = new BroadcastChannel('kj_announcement_broadcast');
+      bc.onmessage = (ev) => {
+        if (ev.data) applyAnnouncement(ev.data);
+      };
+    }
+  } catch (e) {}
+
+  // 3. Window Storage Event Listener
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'kj_announcement_override' && e.newValue) {
+      try { applyAnnouncement(JSON.parse(e.newValue)); } catch (err) {}
+    }
+  });
+
+  // 4. Real-time Cloud Firestore Listener
   try {
     const announcementDocRef = doc(db, 'siteSettings', 'announcement');
     onSnapshot(announcementDocRef, (snap) => {
       if (snap.exists()) {
         const data = snap.data();
-        if (data.enabled === false) {
-          if (bannerEl) bannerEl.style.display = 'none';
-        } else {
-          if (bannerEl) bannerEl.style.display = '';
-          if (textEl && data.text) {
-            textEl.textContent = data.text;
-          }
-        }
+        applyAnnouncement(data);
+        try { localStorage.setItem('kj_announcement_override', JSON.stringify(data)); } catch (e) {}
         console.log(`📢 [Firestore] Live Announcement Synced: "${data.text}" | Enabled: ${data.enabled}`);
       } else {
-        // Default initial fallback
         if (bannerEl) bannerEl.style.display = '';
-        if (textEl) textEl.textContent = 'HBD SANDEEP';
+        if (textEl && !localStorage.getItem('kj_announcement_override')) {
+          textEl.textContent = 'HBD SANDEEP';
+        }
       }
     }, (err) => {
       console.info('Announcement listener notice:', err.message);
@@ -251,14 +284,30 @@ export function initAnnouncementListener() {
  * Save Announcement Settings (Admin Action)
  */
 export async function saveAnnouncementSettings(text, enabled) {
+  const payload = {
+    text: text || 'HBD SANDEEP',
+    enabled: Boolean(enabled),
+    updatedAt: serverTimestamp(),
+    updatedBy: (auth.currentUser && (auth.currentUser.email || auth.currentUser.uid)) || 'admin'
+  };
+
+  // Local storage cache & broadcast
+  try {
+    localStorage.setItem('kj_announcement_override', JSON.stringify({
+      text: payload.text,
+      enabled: payload.enabled,
+      updatedAt: Date.now()
+    }));
+    if (typeof BroadcastChannel !== 'undefined') {
+      const bc = new BroadcastChannel('kj_announcement_broadcast');
+      bc.postMessage(payload);
+      setTimeout(() => bc.close(), 1000);
+    }
+  } catch (e) {}
+
   try {
     const announcementDocRef = doc(db, 'siteSettings', 'announcement');
-    await setDoc(announcementDocRef, {
-      text: text || 'HBD SANDEEP',
-      enabled: Boolean(enabled),
-      updatedAt: serverTimestamp(),
-      updatedBy: (auth.currentUser && (auth.currentUser.email || auth.currentUser.uid)) || 'admin'
-    }, { merge: true });
+    await setDoc(announcementDocRef, payload, { merge: true });
 
     console.log(`✅ [Firestore] Announcement settings published: "${text}" [Enabled: ${enabled}]`);
     return { success: true };

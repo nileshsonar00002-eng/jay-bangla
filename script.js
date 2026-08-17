@@ -1886,13 +1886,45 @@ async function trackUserVisitLocationFirestore() {
 }
 
 /**
- * Real-time Announcement Badge Sync (siteSettings/announcement)
+ * Real-time Announcement Badge Sync (siteSettings/announcement + BroadcastChannel + LocalStorage)
  */
 function initRealtimeAnnouncementSync() {
   const bannerEl = document.getElementById('festiveAdBanner');
   const textEl = document.getElementById('billboardText');
   if (!bannerEl || !textEl) return;
 
+  function applyData(data) {
+    if (!data) return;
+    if (data.enabled === false) {
+      bannerEl.style.display = 'none';
+    } else {
+      bannerEl.style.display = '';
+      if (data.text) textEl.textContent = data.text;
+    }
+  }
+
+  // 1. Initial cached state
+  try {
+    const cached = localStorage.getItem('kj_announcement_override');
+    if (cached) applyData(JSON.parse(cached));
+  } catch (e) {}
+
+  // 2. BroadcastChannel
+  try {
+    if (typeof BroadcastChannel !== 'undefined') {
+      const bc = new BroadcastChannel('kj_announcement_broadcast');
+      bc.onmessage = (ev) => { if (ev.data) applyData(ev.data); };
+    }
+  } catch (e) {}
+
+  // 3. Storage event
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'kj_announcement_override' && e.newValue) {
+      try { applyData(JSON.parse(e.newValue)); } catch (err) {}
+    }
+  });
+
+  // 4. Firestore listener
   try {
     if (typeof firebase !== 'undefined' && firebase.app) {
       const fs = (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })();
@@ -1900,14 +1932,8 @@ function initRealtimeAnnouncementSync() {
         fs.collection('siteSettings').doc('announcement').onSnapshot((docSnap) => {
           if (docSnap.exists) {
             const data = docSnap.data();
-            if (data.enabled === false) {
-              bannerEl.style.display = 'none';
-            } else {
-              bannerEl.style.display = '';
-              if (data.text) {
-                textEl.textContent = data.text;
-              }
-            }
+            applyData(data);
+            try { localStorage.setItem('kj_announcement_override', JSON.stringify(data)); } catch (e) {}
           }
         }, (err) => {
           console.info('Announcement sync note:', err.message);
