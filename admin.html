@@ -769,10 +769,11 @@
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>Session ID</th>
-                  <th>Device / OS</th>
+                  <th>Session / User</th>
+                  <th>Location (City, State)</th>
+                  <th>Device</th>
                   <th>Status</th>
-                  <th>Connected Time</th>
+                  <th>Time</th>
                 </tr>
               </thead>
               <tbody id="liveSessionsTableBody">
@@ -931,8 +932,9 @@
 
       html += `
         <tr>
-          <td><code style="color:var(--gold-primary); font-weight:700;">${mySessionId} (You)</code></td>
-          <td>${devName} (${navigator.platform || 'Web'})</td>
+          <td><code style="color:var(--gold-primary); font-weight:700;">${mySessionId} (Admin)</code></td>
+          <td style="color:#fff; font-weight:600;">📍 Local / Active City</td>
+          <td>${devName}</td>
           <td><span class="badge-status badge-success"><span class="pulse-dot" style="width:5px;height:5px;"></span> Active Now</span></td>
           <td>Just now</td>
         </tr>
@@ -941,10 +943,12 @@
       let idx = 1;
       for (const [id, info] of activeSessionsMap.entries()) {
         if (id !== mySessionId) {
-          const deviceLabel = info.device === 'Mobile' ? '📱 Mobile Browser' : '💻 Desktop Browser';
+          const deviceLabel = info.device === 'Mobile' ? '📱 Mobile' : (info.device === 'Tablet' ? '📲 Tablet' : '💻 Desktop');
+          const locationLabel = info.location ? `📍 ${info.location}` : '📍 Maharashtra, India';
           html += `
             <tr>
-              <td><code>${id.substring(0, 16)}</code></td>
+              <td><code>${id.substring(0, 14)}...</code></td>
+              <td style="color:#fff; font-weight:600;">${locationLabel}</td>
               <td>${deviceLabel}</td>
               <td><span class="badge-status badge-success">Online</span></td>
               <td>Active</td>
@@ -1005,6 +1009,27 @@
       } catch (err) {
         console.warn('Firebase RTDB presence error:', err);
       }
+    }
+
+    // B2. Cloud Firestore Realtime Visitor Locations Listener (user_visits)
+    if (firestore) {
+      try {
+        firestore.collection('user_visits').orderBy('timestamp', 'desc').limit(15).onSnapshot((snap) => {
+          if (!snap.empty) {
+            snap.forEach((doc) => {
+              const data = doc.data();
+              if (data.location) {
+                activeSessionsMap.set(doc.id, {
+                  device: data.device_type || 'Mobile',
+                  location: data.location,
+                  lastSeen: Date.now()
+                });
+              }
+            });
+            renderSessionsTable();
+          }
+        }, (err) => console.info('Firestore user_visits notice:', err.message));
+      } catch (e) {}
     }
 
     // C. Global MQTT WebSocket Presence
@@ -1113,8 +1138,9 @@
     };
 
     function syncSongStats() {
-      // 1. Check local analytics map
       let localSongs = [...defaultSongs];
+
+      // 1. Check local analytics map
       try {
         const raw = localStorage.getItem('kj_song_analytics');
         if (raw) {
@@ -1128,7 +1154,35 @@
         }
       } catch (e) {}
 
-      // 2. Sync with Firebase RTDB
+      // 2. Realtime Sync with Cloud Firestore (song_analytics collection)
+      if (firestore) {
+        try {
+          firestore.collection('song_analytics').onSnapshot((snapshot) => {
+            if (!snapshot.empty) {
+              snapshot.forEach((doc) => {
+                const data = doc.data();
+                const matched = localSongs.find(s => s.title.toLowerCase() === (data.title || '').toLowerCase());
+                if (matched && data.plays) {
+                  matched.plays = Math.max(matched.plays, data.plays);
+                } else if (data.title && !matched) {
+                  localSongs.push({
+                    id: doc.id,
+                    title: data.title,
+                    singer: data.singer || 'अहिराणी खजिना',
+                    plays: data.plays || 1,
+                    url: ''
+                  });
+                }
+              });
+              renderSongsTable(localSongs);
+            }
+          }, (err) => {
+            console.info('Firestore song_analytics notice:', err.message);
+          });
+        } catch (e) {}
+      }
+
+      // 3. Realtime Sync with Firebase RTDB
       if (db) {
         db.ref('analytics/song_plays').on('value', (snap) => {
           const firebaseStats = snap.val();

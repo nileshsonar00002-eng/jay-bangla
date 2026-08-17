@@ -975,7 +975,19 @@ class MiniMusicPlayer {
       stats[sanitizedKey].lastPlayed = Date.now();
       localStorage.setItem('kj_song_analytics', JSON.stringify(stats));
 
-      // 2. Firebase Realtime Database
+      // 2. Cloud Firestore Song Analytics (increment(1))
+      if (typeof firebase !== 'undefined' && firebase.firestore) {
+        const firestore = firebase.firestore();
+        const docId = songTitle.trim().replace(/[\/\\]/g, '_');
+        firestore.collection('song_analytics').doc(docId).set({
+          title: songTitle,
+          singer: singer,
+          plays: firebase.firestore.FieldValue.increment(1),
+          last_played: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true }).catch((e) => console.info('Firestore song_analytics note:', e.message));
+      }
+
+      // 3. Firebase Realtime Database
       if (typeof firebase !== 'undefined' && firebase.database) {
         const db = firebase.database();
         db.ref(`analytics/song_plays/${sanitizedKey}`).transaction((curr) => {
@@ -1791,6 +1803,54 @@ function initFirebaseRealtimeUserTracking() {
   }
 }
 
+/**
+ * Cloud Firestore User Location & Visits Tracker (ipapi.co -> user_visits)
+ */
+async function trackUserVisitLocationFirestore() {
+  try {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isTablet = /iPad|Tablet/i.test(navigator.userAgent);
+    const deviceType = isTablet ? 'Tablet' : (isMobile ? 'Mobile' : 'Desktop');
+
+    let locationString = 'Maharashtra, India';
+
+    try {
+      const response = await fetch('https://ipapi.co/json/');
+      if (response.ok) {
+        const data = await response.json();
+        if (data.city && data.region) {
+          locationString = `${data.city}, ${data.region}`;
+        } else if (data.region) {
+          locationString = `${data.region}, India`;
+        }
+      }
+    } catch (apiErr) {
+      // Secondary fallback
+      try {
+        const fbRes = await fetch('https://ipwho.is/');
+        if (fbRes.ok) {
+          const fbData = await fbRes.json();
+          if (fbData.city && fbData.region) {
+            locationString = `${fbData.city}, ${fbData.region}`;
+          }
+        }
+      } catch (e) {}
+    }
+
+    if (typeof firebase !== 'undefined' && firebase.firestore) {
+      const firestore = firebase.firestore();
+      await firestore.collection('user_visits').add({
+        location: locationString,
+        device_type: deviceType,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      console.log('📍 Logged user visit to Firestore (user_visits):', locationString, deviceType);
+    }
+  } catch (err) {
+    console.info('Firestore user_visits logging note:', err.message);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initDateTimeWidget();
   initFullscreenToggle();
@@ -1802,6 +1862,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initScrollIndicator();
   initFirebaseRealtimeUserTracking();
+  trackUserVisitLocationFirestore();
   window.presenceTracker = new RealtimePresenceTracker(BASE_LISTENER_COUNT);
   window.khandeshiPlayer = new MiniMusicPlayer(initialPlaylist);
 });
