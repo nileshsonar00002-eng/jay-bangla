@@ -667,13 +667,18 @@ class MiniMusicPlayer {
     }
 
     if (this.playlist.length > 0) {
-      await this.loadTrack(0, autoPlay || this.isPlaying);
-      this.loadFromFirebaseStorage(playlistId);
+      await this.loadTrack(0, autoPlay);
     } else {
       if (this.trackTitle) this.trackTitle.textContent = 'गाणी लोड होत आहेत...';
-      if (this.trackArtist) this.trackArtist.textContent = 'Firebase Cloud Storage (kanubai special)';
+      if (this.trackArtist) this.trackArtist.textContent = 'Firebase Cloud Storage';
       if (this.totalDurationEl) this.totalDurationEl.textContent = '--:--';
-      await this.loadFromFirebaseStorage(playlistId);
+    }
+
+    // Always fetch fresh tracks from Firebase Storage
+    await this.loadFromFirebaseStorage(playlistId);
+
+    if (this.playlist.length > 0 && (!this.audio.src || this.trackTitle.textContent.includes('लोड'))) {
+      await this.loadTrack(0, autoPlay);
     }
   }
 
@@ -858,8 +863,14 @@ class MiniMusicPlayer {
                   this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
                 }
 
-                // If audio isn't loaded yet or is on placeholder track, load index 0
-                if (!this.isPlaying && (!this.audio.src || this.audio.src.includes('blob:null') || this.audio.src === '')) {
+                // If current song is not playing, or is empty, or is placeholder, load track 0
+                const curSong = this.playlist[this.currentIndex];
+                const needsLoad = !this.isPlaying || 
+                                  !this.audio.src || 
+                                  this.audio.src.includes('blob:null') || 
+                                  (this.trackTitle && this.trackTitle.textContent.includes('लोड'));
+                
+                if (needsLoad && this.playlist.length > 0) {
                   await this.loadTrack(0, false);
                 }
 
