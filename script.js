@@ -947,8 +947,47 @@ class MiniMusicPlayer {
         .then(() => {
           this.setPlayState(true);
           this.updateMediaSession();
+          this.logSongPlay(track);
         })
         .catch(() => this.setPlayState(false));
+    }
+  }
+
+  logSongPlay(track) {
+    if (!track) return;
+    try {
+      const songTitle = track.title || 'अहिराणी गाणे';
+      const singer = track.singer || track.artist || 'अहिराणी खजिना';
+      const sanitizedKey = songTitle.replace(/[\.\#\$\[\]\/]/g, '_');
+
+      // 1. Local Persistent Song Stats
+      const raw = localStorage.getItem('kj_song_analytics') || '{}';
+      const stats = JSON.parse(raw);
+      if (!stats[sanitizedKey]) {
+        stats[sanitizedKey] = { title: songTitle, singer: singer, plays: 0, lastPlayed: Date.now() };
+      }
+      stats[sanitizedKey].plays += 1;
+      stats[sanitizedKey].lastPlayed = Date.now();
+      localStorage.setItem('kj_song_analytics', JSON.stringify(stats));
+
+      // 2. Firebase Realtime Database
+      if (typeof firebase !== 'undefined' && firebase.database) {
+        const db = firebase.database();
+        db.ref(`analytics/song_plays/${sanitizedKey}`).transaction((curr) => {
+          if (!curr) {
+            return { title: songTitle, singer: singer, plays: 1, lastPlayed: firebase.database.ServerValue.TIMESTAMP };
+          }
+          return {
+            title: songTitle,
+            singer: singer,
+            plays: (curr.plays || 0) + 1,
+            lastPlayed: firebase.database.ServerValue.TIMESTAMP
+          };
+        });
+        db.ref('analytics/total_streams').transaction((curr) => (curr || 0) + 1);
+      }
+    } catch (e) {
+      console.debug('Song play logging notice:', e);
     }
   }
 
@@ -1690,10 +1729,16 @@ function initTopTitleScrollFade() {
 }
 
 /**
- * Firebase Realtime Database Active Users Presence Tracker
- * Tracks live_users/count and registers session with onDisconnect()
+ * Firebase Realtime Database Active Users Presence Tracker & Telemetry
+ * Tracks live_users/count, live_users/sessions, and analytics/page_views
  */
 function initFirebaseRealtimeUserTracking() {
+  // 1. Local page view increment
+  try {
+    const currViews = parseInt(localStorage.getItem('kj_total_views') || '142', 10) + 1;
+    localStorage.setItem('kj_total_views', currViews.toString());
+  } catch (e) {}
+
   if (typeof firebase === 'undefined' || !firebase.database) return;
 
   try {
@@ -1702,13 +1747,21 @@ function initFirebaseRealtimeUserTracking() {
     const liveCountRef = db.ref('live_users/count');
     const mySessionRef = db.ref('live_users/sessions').push();
 
+    // Detect device type
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isTablet = /iPad|Tablet/i.test(navigator.userAgent);
+    const deviceType = isTablet ? 'Tablet' : (isMobile ? 'Mobile' : 'Desktop');
+
     connectedRef.on('value', (snap) => {
       if (snap.val() === true) {
         // Register session on connect
         mySessionRef.onDisconnect().remove();
         mySessionRef.set({
+          sessionId: mySessionRef.key,
+          device: deviceType,
           joinedAt: firebase.database.ServerValue.TIMESTAMP,
-          userAgent: (navigator.userAgent || '').substring(0, 80)
+          userAgent: (navigator.userAgent || '').substring(0, 100),
+          lastActive: firebase.database.ServerValue.TIMESTAMP
         });
 
         // Increment live count on connection and decrement onDisconnect
@@ -1724,6 +1777,10 @@ function initFirebaseRealtimeUserTracking() {
         liveCountRef.set(activeSessions);
       }
     });
+
+    // Log Page View & Device Telemetry
+    db.ref('analytics/total_views').transaction((curr) => (curr || 0) + 1);
+    db.ref(`analytics/devices/${deviceType}`).transaction((curr) => (curr || 0) + 1);
   } catch (err) {
     console.warn('Firebase user presence tracking notice:', err);
   }
