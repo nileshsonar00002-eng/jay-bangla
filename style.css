@@ -810,6 +810,13 @@ body {
   max-width: 470px;
   z-index: 50;
   animation: fadeTranslateUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.65s both;
+  transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1), bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Specifically when Kanubai Special playlist is active: Shift player up below the text */
+body.kanubai-active .player-container {
+  top: clamp(80px, 11.5vh, 105px);
+  bottom: auto;
 }
 
 .mini-player-bar {
@@ -2068,6 +2075,11 @@ body {
     max-width: 440px;
   }
 
+  body.kanubai-active .player-container {
+    top: calc(clamp(105px, 14vh, 125px) + env(safe-area-inset-top, 0px));
+    bottom: auto;
+  }
+
   .cultural-section {
     padding: 2.5rem 1.25rem 2rem;
   }
@@ -2227,6 +2239,13 @@ body {
     width: calc(100% - 1rem);
     max-width: 460px;
     z-index: 50;
+  }
+
+  body.kanubai-active .player-container {
+    top: calc(clamp(112px, 15vh, 132px) + env(safe-area-inset-top, 0px));
+    bottom: auto;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   .mini-player-bar {
