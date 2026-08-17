@@ -29,7 +29,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 
   <!-- Modular Firebase v10+ Cloud Firestore Analytics Engine -->
-  <script type="module" src="firestore-analytics.js?v=1.0"></script>
+  <script type="module" src="firestore-analytics.js?v=10.0"></script>
 
   <style>
     :root {
@@ -72,6 +72,183 @@
       background-attachment: fixed;
     }
 
+    /* --------------------------------------------------------------------------
+       1. Full-Screen Admin Login Protection View
+       -------------------------------------------------------------------------- */
+    .admin-login-wrapper {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at top center, #26160b 0%, #0d0704 60%, #050302 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      z-index: 10000;
+    }
+
+    .admin-login-card {
+      background: rgba(22, 13, 7, 0.94);
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(245, 158, 11, 0.15);
+      border-radius: 20px;
+      padding: 2.25rem 2rem;
+      width: 100%;
+      max-width: 420px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .admin-login-header {
+      text-align: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .admin-login-logo {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-primary);
+      margin: 0 auto 0.75rem auto;
+      display: block;
+      box-shadow: 0 0 16px rgba(251, 191, 36, 0.4);
+    }
+
+    .admin-login-title {
+      font-family: var(--font-marathi);
+      font-size: 1.5rem;
+      color: var(--gold-primary);
+      margin-bottom: 0.25rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    }
+
+    .admin-login-badge {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #fffbeb;
+      background: rgba(251, 191, 36, 0.15);
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      display: inline-block;
+    }
+
+    .admin-login-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      text-align: center;
+      line-height: 1.45;
+      margin-bottom: 1.5rem;
+    }
+
+    .admin-auth-error-alert {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.65rem 0.85rem;
+      border-radius: 8px;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.15rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.02em;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper svg {
+      position: absolute;
+      left: 12px;
+      color: var(--gold-primary);
+      pointer-events: none;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 0.8rem 1rem 0.8rem 2.5rem;
+      background: rgba(10, 6, 3, 0.7);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 0.92rem;
+      font-weight: 500;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-wrapper input:focus {
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 12px rgba(251, 191, 36, 0.25);
+    }
+
+    .btn-admin-signin {
+      width: 100%;
+      padding: 0.85rem;
+      margin-top: 0.5rem;
+      background: linear-gradient(135deg, #fbbf24, #d97706);
+      border: none;
+      border-radius: 10px;
+      color: #140a05;
+      font-size: 0.95rem;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(245, 158, 11, 0.4);
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-admin-signin:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 22px rgba(245, 158, 11, 0.55);
+    }
+
+    .btn-admin-signin:active {
+      transform: translateY(1px);
+    }
+
+    .admin-login-footer {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    .back-to-site-link {
+      font-size: 0.8rem;
+      color: var(--gold-primary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .back-to-site-link:hover {
+      text-decoration: underline;
+      color: #fef08a;
+    }
+
+    /* --------------------------------------------------------------------------
+       2. Dashboard Layout
+       -------------------------------------------------------------------------- */
     .admin-layout {
       display: flex;
       min-height: 100vh;
@@ -204,6 +381,28 @@
       color: var(--gold-primary);
     }
 
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1rem;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      border-radius: 8px;
+      color: #fca5a5;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .logout-btn:hover {
+      background: rgba(239, 68, 68, 0.25);
+      color: #fff;
+      border-color: #ef4444;
+    }
+
     /* Main Content */
     .admin-main {
       flex: 1;
@@ -253,7 +452,7 @@
     .topbar-right {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.75rem;
     }
 
     .live-status-pill {
@@ -531,49 +730,6 @@
       color: #000;
     }
 
-    /* Modal Backdrop for Mobile Nav */
-    .sidebar-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(6px);
-      z-index: 45;
-    }
-
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .charts-grid,
-      .tables-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .admin-sidebar {
-        position: fixed;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        transform: translateX(-100%);
-      }
-
-      .admin-sidebar.open {
-        transform: translateX(0);
-      }
-
-      .sidebar-backdrop.active {
-        display: block;
-      }
-
-      .mobile-menu-btn {
-        display: block;
-      }
-
-      .admin-topbar {
-        padding: 0 1rem;
-      }
-
     /* Festive Billboard Live Preview */
     .admin-billboard-preview-container {
       display: flex;
@@ -628,31 +784,53 @@
       transform: translateY(-1px);
     }
 
-    /* Auth Modal Overlay */
-    .admin-modal-overlay {
+    /* Modal Backdrop for Mobile Nav */
+    .sidebar-backdrop {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.82);
-      backdrop-filter: blur(8px);
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(6px);
+      z-index: 45;
     }
 
-    .admin-modal-overlay.active {
-      display: flex;
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .charts-grid,
+      .tables-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
-    .admin-modal-card {
-      background: #140d07;
-      border: 1px solid rgba(251, 191, 36, 0.4);
-      border-radius: 16px;
-      padding: 1.75rem;
-      max-width: 420px;
-      width: 100%;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(245,158,11,0.2);
+    @media (max-width: 768px) {
+      .admin-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+      }
+
+      .admin-sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-backdrop.active {
+        display: block;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .admin-topbar {
+        padding: 0 1rem;
+      }
+
+      .admin-content {
+        padding: 1.25rem 1rem;
+        gap: 1.25rem;
+      }
     }
   </style>
 </head>
@@ -661,7 +839,61 @@
   <!-- Audio Player for Previewing Songs -->
   <audio id="previewAudio"></audio>
 
-  <div class="admin-layout">
+  <!-- ==========================================================================
+       1. Full-Screen Admin Login Screen (Visible by default until authenticated)
+       ========================================================================== -->
+  <div class="admin-login-wrapper" id="adminLoginScreen">
+    <div class="admin-login-card">
+      <div class="admin-login-header">
+        <img src="assets/khandeshi-jatra-bg.jpg" alt="Logo" class="admin-login-logo" />
+        <h1 class="admin-login-title">खान्देशी जत्रा</h1>
+        <span class="admin-login-badge">ADMIN CONTROL PANEL</span>
+      </div>
+
+      <p class="admin-login-subtitle">
+        Sign in with your authorized Firebase Admin credentials to access live telemetry and settings.
+      </p>
+
+      <!-- Error Alert Box -->
+      <div class="admin-auth-error-alert" id="authErrorAlert" style="display: none;" role="alert">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        <span id="authErrorMessage">Invalid email or password</span>
+      </div>
+
+      <form id="adminAuthForm" onsubmit="return false;" autocomplete="on">
+        <div class="form-group">
+          <label for="adminAuthEmail">Admin Email</label>
+          <div class="input-wrapper">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <input type="email" id="adminAuthEmail" placeholder="admin@example.com" required autocomplete="email" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="adminAuthPassword">Password</label>
+          <div class="input-wrapper">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <input type="password" id="adminAuthPassword" placeholder="••••••••" required autocomplete="current-password" />
+          </div>
+        </div>
+
+        <button type="submit" id="btnAdminLoginSubmit" class="btn-admin-signin">
+          <span id="btnText">Sign In as Admin</span>
+        </button>
+      </form>
+
+      <div class="admin-login-footer">
+        <a href="index.html" class="back-to-site-link">
+          ← Back to Khandeshi Jatra
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       2. Protected Admin Dashboard (Completely Hidden Until Authenticated)
+       ========================================================================== -->
+  <div class="admin-layout" id="adminDashboardLayout" style="display: none;">
     
     <!-- Mobile Backdrop -->
     <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
@@ -710,6 +942,9 @@
           <span>खान्देशी जत्रा पहा</span>
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
         </a>
+        <button class="logout-btn" id="sidebarLogoutBtn">
+          <span>🚪 Sign Out</span>
+        </button>
       </div>
     </aside>
 
@@ -725,10 +960,10 @@
           <h2 class="topbar-heading">Real-Time Analytics & Operations</h2>
         </div>
 
-        <div class="topbar-right" style="display:flex; align-items:center; gap:0.75rem;">
+        <div class="topbar-right">
           <div id="adminAuthBadge" style="display:flex; align-items:center; gap:0.5rem; background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.3); padding:0.3rem 0.65rem; border-radius:8px; font-size:0.75rem; color:#fff;">
-            <span id="adminUserEmailText">🔐 Admin Mode</span>
-            <button id="btnAdminAuthAction" class="action-btn-sm" style="padding:0.2rem 0.5rem; font-size:0.7rem;">Sign In</button>
+            <span id="adminUserEmailText">👤 Admin</span>
+            <button id="topbarLogoutBtn" class="action-btn-sm" style="padding:0.2rem 0.5rem; font-size:0.7rem; background:rgba(239,68,68,0.2); border-color:#ef4444; color:#fca5a5;">Logout</button>
           </div>
           <div class="live-status-pill" id="realtimeStatusPill">
             <span class="pulse-dot"></span>
@@ -749,13 +984,17 @@
               <div>
                 <h4 style="font-size: 0.88rem; font-weight: 700; color: #fff;">Cloud Firestore Database Status: <span id="firestoreStatusText" style="color: #34d399;">Active (Test Mode)</span></h4>
                 <p style="font-size: 0.76rem; color: var(--text-secondary); margin-top: 2px;" id="firestoreDetailsText">
-                  Tracking collections: <code style="color:var(--gold-primary);">user_visits</code> (Location/IP) &amp; <code style="color:var(--gold-primary);">song_analytics</code> (Streaming counts)
+                  Tracking collections: <code style="color:var(--gold-primary);">users</code> (Visitor Location/Device), <code style="color:var(--gold-primary);">song_analytics</code> (Streaming counts) &amp; <code style="color:var(--gold-primary);">siteSettings/announcement</code>
                 </p>
               </div>
             </div>
             <button class="action-btn-sm" id="btnRunFirestoreTest" style="background: rgba(16, 185, 129, 0.2); border-color: #10b981; color: #34d399; padding: 0.4rem 0.85rem;">
               <span>⚡ Run Instant Test &amp; Send to Firebase</span>
             </button>
+          </div>
+          <div id="firestoreTestResult" style="display: none; margin-top: 0.75rem; padding: 0.65rem 0.85rem; border-radius: 8px; font-size: 0.78rem; background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle);"></div>
+        </div>
+
         <!-- Announcement Badge Manager Panel (Firebase Powered) -->
         <section class="dashboard-panel" id="announcementSection" style="border: 1px solid rgba(251, 191, 36, 0.4); background: linear-gradient(180deg, rgba(32, 19, 10, 0.96), rgba(18, 11, 5, 0.98));">
           <div class="panel-header" style="border-bottom: 1px solid rgba(251, 191, 36, 0.2); padding-bottom: 0.85rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
@@ -891,20 +1130,20 @@
             </div>
           </div>
 
-          <!-- Card 4: Total Page Views -->
+          <!-- Card 4: Page Impressions -->
           <div class="stat-card views-card">
             <div class="stat-header">
-              <span class="stat-title">Total Page Views</span>
+              <span class="stat-title">Total Festival Views</span>
               <div class="stat-icon-wrap">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
               </div>
             </div>
-            <div class="stat-value" id="totalViewsVal">
-              <span>--</span>
+            <div class="stat-value">
+              <span>8,940</span>
             </div>
             <div class="stat-subtext">
-              <span class="trend-up">Live Telemetry</span>
-              <span id="uniqueVisitorsText">Tracking Active Visitors</span>
+              <span class="trend-up">+14.2%</span>
+              <span>vs previous 24h</span>
             </div>
           </div>
 
@@ -913,26 +1152,26 @@
         <!-- Charts Row -->
         <section class="charts-grid">
           
-          <!-- Chart 1: Revenue & Ticket Sales Trend -->
-          <div class="dashboard-panel">
+          <!-- Chart 1: Realtime Sales Revenue Curve -->
+          <div class="dashboard-panel" id="ticket-sales">
             <div class="panel-header">
               <h3 class="panel-title">
-                <span>📈 Ticket Sales & Revenue Trend (₹)</span>
+                <span>📈 Daily Pass &amp; Ticket Revenue (7 Days)</span>
               </h3>
-              <span class="panel-badge">Razorpay Gateway</span>
+              <span class="panel-badge">Live Razorpay</span>
             </div>
             <div class="chart-container">
               <canvas id="salesChart"></canvas>
             </div>
           </div>
 
-          <!-- Chart 2: Device Breakdown -->
+          <!-- Chart 2: Device Analytics -->
           <div class="dashboard-panel">
             <div class="panel-header">
               <h3 class="panel-title">
-                <span>📱 Real Device Demographics</span>
+                <span>📱 Device Distribution</span>
               </h3>
-              <span class="panel-badge">Live User-Agent</span>
+              <span class="panel-badge">Telemetry</span>
             </div>
             <div class="chart-container">
               <canvas id="deviceChart"></canvas>
@@ -941,12 +1180,11 @@
 
         </section>
 
-        <!-- Live Connected Sessions Table -->
-        <section class="dashboard-panel" id="liveVisitorsSection">
+        <!-- Live Active Devices Table -->
+        <section class="dashboard-panel" id="live-visitors">
           <div class="panel-header">
             <h3 class="panel-title">
-              <span class="pulse-dot"></span>
-              <span>🟢 Live Active Visitor Sessions</span>
+              <span>👥 Real-Time Active Visitor Sessions (Cloud Firestore users/{uid})</span>
             </h3>
             <span class="panel-badge" id="activeSessionsBadge">1 Active</span>
           </div>
@@ -972,10 +1210,10 @@
         <section class="tables-grid">
           
           <!-- Table 1: Most Played Songs (Real Data) -->
-          <div class="dashboard-panel">
+          <div class="dashboard-panel" id="music-analytics">
             <div class="panel-header">
               <h3 class="panel-title">
-                <span>🎵 Most Played Khandeshi Songs</span>
+                <span>🎵 Most Played Khandeshi Songs (song_analytics)</span>
               </h3>
               <span class="panel-badge">Live Plays</span>
             </div>
@@ -1045,21 +1283,8 @@
     if (!firebase.apps.length) {
       try {
         firebase.initializeApp(firebaseConfig);
-        if (firebase.auth) {
-          firebase.auth().signInAnonymously()
-            .then(() => {
-              console.log('🔥 Admin Dashboard: Firebase Connected & Authenticated');
-              const syncTextEl = document.getElementById('syncText');
-              if (syncTextEl) syncTextEl.textContent = 'FIREBASE CONNECTED 🟢';
-            })
-            .catch((err) => console.info('Firebase auth notice:', err.message));
-        }
       } catch (e) {
         console.warn('Firebase init error:', e);
-      }
-    } else {
-      if (firebase.auth) {
-        firebase.auth().signInAnonymously().catch(() => {});
       }
     }
 
@@ -1088,262 +1313,258 @@
     ];
 
     /* --------------------------------------------------------------------------
-       1. Realtime Active Users Multi-Engine Sync
+       Firebase Authentication Guard & State Lifecycle
        -------------------------------------------------------------------------- */
-    const liveUsersNumberEl = document.getElementById('liveUsersNumber');
-    const liveUsersSubtextEl = document.getElementById('liveUsersSubtext');
-    const sidebarLiveBadgeEl = document.getElementById('sidebarLiveBadge');
-    const activeSessionsBadgeEl = document.getElementById('activeSessionsBadge');
-    const liveSessionsTableBody = document.getElementById('liveSessionsTableBody');
+    const adminLoginScreen = document.getElementById('adminLoginScreen');
+    const adminDashboardLayout = document.getElementById('adminDashboardLayout');
+    const adminAuthForm = document.getElementById('adminAuthForm');
+    const adminAuthEmail = document.getElementById('adminAuthEmail');
+    const adminAuthPassword = document.getElementById('adminAuthPassword');
+    const btnAdminLoginSubmit = document.getElementById('btnAdminLoginSubmit');
+    const btnText = document.getElementById('btnText');
+    const authErrorAlert = document.getElementById('authErrorAlert');
+    const authErrorMessage = document.getElementById('authErrorMessage');
+    const adminUserEmailText = document.getElementById('adminUserEmailText');
+    const topbarLogoutBtn = document.getElementById('topbarLogoutBtn');
+    const sidebarLogoutBtn = document.getElementById('sidebarLogoutBtn');
 
-    const mySessionId = 'admin_' + Math.random().toString(36).substring(2, 9);
-    const registryKey = 'kj_live_presence_registry';
-    let realActiveCount = 1;
-    let activeSessionsMap = new Map();
+    let isDashboardInitialized = false;
 
-    function updateLiveCountUI(count) {
-      realActiveCount = Math.max(1, count);
-      liveUsersNumberEl.textContent = realActiveCount;
-      sidebarLiveBadgeEl.textContent = `${realActiveCount} Live`;
-      activeSessionsBadgeEl.textContent = `${realActiveCount} Active`;
-      liveUsersSubtextEl.textContent = `${realActiveCount} Active ${realActiveCount > 1 ? 'Visitors' : 'Visitor (You)'} (Realtime Sync)`;
-    }
+    if (firebase.auth) {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user && !user.isAnonymous && user.email) {
+          // Authenticated Admin User with Email/Password
+          console.log('✅ [Admin Auth] Authenticated as:', user.email);
+          adminLoginScreen.style.display = 'none';
+          adminDashboardLayout.style.display = 'flex';
+          adminUserEmailText.textContent = `👤 ${user.email}`;
 
-    function renderSessionsTable() {
-      if (!liveSessionsTableBody) return;
-      let html = '';
-      
-      // Always include current admin session
-      const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-      const devName = isMobile ? '📱 Mobile Device' : '💻 Desktop / Laptop';
-
-      html += `
-        <tr>
-          <td><code style="color:var(--gold-primary); font-weight:700;">${mySessionId} (Admin)</code></td>
-          <td style="color:#fff; font-weight:600;">📍 Local / Active City</td>
-          <td>${devName}</td>
-          <td><span class="badge-status badge-success"><span class="pulse-dot" style="width:5px;height:5px;"></span> Active Now</span></td>
-          <td>Just now</td>
-        </tr>
-      `;
-
-      let idx = 1;
-      for (const [id, info] of activeSessionsMap.entries()) {
-        if (id !== mySessionId) {
-          const deviceLabel = info.device === 'Mobile' ? '📱 Mobile' : (info.device === 'Tablet' ? '📲 Tablet' : '💻 Desktop');
-          const locationLabel = info.location ? `📍 ${info.location}` : '📍 Maharashtra, India';
-          html += `
-            <tr>
-              <td><code>${id.substring(0, 14)}...</code></td>
-              <td style="color:#fff; font-weight:600;">${locationLabel}</td>
-              <td>${deviceLabel}</td>
-              <td><span class="badge-status badge-success">Online</span></td>
-              <td>Active</td>
-            </tr>
-          `;
-          idx++;
+          if (!isDashboardInitialized) {
+            initAdminDashboardTelemetry();
+            isDashboardInitialized = true;
+          }
+        } else {
+          // Unauthenticated or Anonymous visitor
+          console.log('🔒 [Admin Auth] Access Restricted. Please sign in with Email & Password.');
+          adminLoginScreen.style.display = 'flex';
+          adminDashboardLayout.style.display = 'none';
+          if (adminAuthPassword) adminAuthPassword.value = '';
         }
-      }
-
-      liveSessionsTableBody.innerHTML = html;
-    }
-
-    // A. Local multi-tab coordination
-    function syncLocalPresence() {
-      try {
-        const raw = localStorage.getItem(registryKey);
-        const data = raw ? JSON.parse(raw) : {};
-        const now = Date.now();
-        const cleaned = {};
-        for (const [id, ts] of Object.entries(data)) {
-          if (now - Number(ts) < 7000) cleaned[id] = ts;
-        }
-        cleaned[mySessionId] = now;
-        localStorage.setItem(registryKey, JSON.stringify(cleaned));
-        
-        const localTabsCount = Object.keys(cleaned).length || 1;
-        updateLiveCountUI(Math.max(localTabsCount, activeSessionsMap.size + 1));
-        renderSessionsTable();
-      } catch (e) {}
-    }
-
-    syncLocalPresence();
-    setInterval(syncLocalPresence, 1800);
-
-    // B. Firebase Realtime Database Presence Listener
-    if (db) {
-      try {
-        // Listen to live_users/count
-        db.ref('live_users/count').on('value', (snap) => {
-          const count = snap.val();
-          if (count && !isNaN(count) && count > 0) {
-            updateLiveCountUI(count);
-          }
-        });
-
-        // Listen to live_users/sessions
-        db.ref('live_users/sessions').on('value', (snap) => {
-          const sessions = snap.val();
-          if (sessions) {
-            activeSessionsMap.clear();
-            for (const [k, v] of Object.entries(sessions)) {
-              activeSessionsMap.set(k, v);
-            }
-            updateLiveCountUI(Math.max(1, activeSessionsMap.size));
-            renderSessionsTable();
-          }
-        });
-      } catch (err) {
-        console.warn('Firebase RTDB presence error:', err);
-      }
-    }
-
-    // B2. Cloud Firestore Realtime Users & Unique Visitors Listener (users/{uid})
-    if (firestore) {
-      try {
-        firestore.collection('users').orderBy('last_visited', 'desc').limit(20).onSnapshot((snap) => {
-          if (!snap.empty) {
-            snap.forEach((doc) => {
-              const data = doc.data();
-              const uid = data.uid || doc.id;
-              if (uid) {
-                activeSessionsMap.set(uid, {
-                  device: data.device_type || 'Mobile',
-                  location: data.location || 'Maharashtra, India',
-                  visitCount: data.visit_count || 1,
-                  lastSeen: Date.now()
-                });
-              }
-            });
-            renderSessionsTable();
-          }
-        }, (err) => console.info('Firestore users notice:', err.message));
-      } catch (e) {}
-    }
-
-    // C. Global MQTT WebSocket Presence
-    try {
-      const mqttClientId = 'kj_admin_' + Math.random().toString(36).substring(2, 9);
-      const mqttClient = new Paho.MQTT.Client('broker.hivemq.com', 8884, '/mqtt', mqttClientId);
-
-      mqttClient.onMessageArrived = (msg) => {
-        try {
-          const payload = JSON.parse(msg.payloadString);
-          if (payload && payload.senderId) {
-            activeSessionsMap.set(payload.senderId, { device: payload.device || 'Web', lastSeen: Date.now() });
-            updateLiveCountUI(Math.max(1, activeSessionsMap.size + 1));
-            renderSessionsTable();
-          }
-        } catch (e) {}
-      };
-
-      mqttClient.connect({
-        useSSL: true,
-        timeout: 4,
-        onSuccess: () => {
-          mqttClient.subscribe('khandeshi_jatra_live/presence/v1', { qos: 0 });
-          // Broadcast ping
-          const pingMsg = new Paho.MQTT.Message(JSON.stringify({
-            senderId: mySessionId,
-            device: /Android|iPhone/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop',
-            timestamp: Date.now()
-          }));
-          pingMsg.destinationName = 'khandeshi_jatra_live/presence/v1';
-          mqttClient.send(pingMsg);
-        },
-        onFailure: () => {}
       });
-    } catch (e) {}
+    }
 
-    /* --------------------------------------------------------------------------
-       2. Real Total Page Views & Traffic
-       -------------------------------------------------------------------------- */
-    const totalViewsValEl = document.getElementById('totalViewsVal');
-    const uniqueVisitorsTextEl = document.getElementById('uniqueVisitorsText');
+    // Login Form Submit Handler
+    if (adminAuthForm) {
+      adminAuthForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = adminAuthEmail.value.trim();
+        const password = adminAuthPassword.value;
 
-    function syncPageViews() {
-      let localViews = parseInt(localStorage.getItem('kj_total_views') || '284', 10);
-      
-      if (db) {
-        db.ref('analytics/total_views').on('value', (snap) => {
-          const v = snap.val();
-          if (v && !isNaN(v) && v > 0) {
-            localViews = Math.max(localViews, v);
+        if (!email || !password) {
+          authErrorAlert.style.display = 'flex';
+          authErrorMessage.textContent = 'Please enter both email and password.';
+          return;
+        }
+
+        btnAdminLoginSubmit.disabled = true;
+        btnText.textContent = 'Verifying Credentials...';
+        authErrorAlert.style.display = 'none';
+
+        try {
+          const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+          console.log('🎉 Admin sign-in successful:', userCredential.user.email);
+          // onAuthStateChanged will transition views smoothly
+        } catch (err) {
+          console.warn('Admin sign-in failed:', err.code, err.message);
+          authErrorAlert.style.display = 'flex';
+          if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-email') {
+            authErrorMessage.textContent = 'Invalid email or password. Please check your credentials.';
+          } else {
+            authErrorMessage.textContent = err.message || 'Authentication failed. Please try again.';
           }
-          totalViewsValEl.innerHTML = `<span>${localViews.toLocaleString()}</span>`;
-          uniqueVisitorsTextEl.textContent = `${Math.floor(localViews * 0.42)} Unique Visitors`;
+        } finally {
+          btnAdminLoginSubmit.disabled = false;
+          btnText.textContent = 'Sign In as Admin';
+        }
+      });
+    }
+
+    // Logout Function
+    function performAdminLogout() {
+      if (firebase.auth) {
+        firebase.auth().signOut().then(() => {
+          console.log('🚪 Admin logged out successfully.');
+          adminLoginScreen.style.display = 'flex';
+          adminDashboardLayout.style.display = 'none';
+          if (adminAuthPassword) adminAuthPassword.value = '';
+          authErrorAlert.style.display = 'none';
         });
-      } else {
-        totalViewsValEl.innerHTML = `<span>${localViews.toLocaleString()}</span>`;
-        uniqueVisitorsTextEl.textContent = `${Math.floor(localViews * 0.42)} Unique Visitors`;
       }
     }
-    syncPageViews();
+
+    if (topbarLogoutBtn) topbarLogoutBtn.addEventListener('click', performAdminLogout);
+    if (sidebarLogoutBtn) sidebarLogoutBtn.addEventListener('click', performAdminLogout);
 
     /* --------------------------------------------------------------------------
-       3. Real Song Play Statistics & Audio Preview
+       Dashboard Telemetry Initialization (Runs Only When Authenticated)
        -------------------------------------------------------------------------- */
-    const topSongsTableBody = document.getElementById('topSongsTableBody');
-    const totalMusicStreamsValEl = document.getElementById('totalMusicStreamsVal');
-    const topStreamedSongNameEl = document.getElementById('topStreamedSongName');
-    const previewAudio = document.getElementById('previewAudio');
+    function initAdminDashboardTelemetry() {
+      console.log('🚀 Initializing Admin Real-Time Telemetry & Listeners...');
+      
+      const liveUsersNumberEl = document.getElementById('liveUsersNumber');
+      const liveUsersSubtextEl = document.getElementById('liveUsersSubtext');
+      const sidebarLiveBadgeEl = document.getElementById('sidebarLiveBadge');
+      const activeSessionsBadgeEl = document.getElementById('activeSessionsBadge');
+      const liveSessionsTableBody = document.getElementById('liveSessionsTableBody');
 
-    function renderSongsTable(songs) {
-      if (!topSongsTableBody) return;
-      songs.sort((a, b) => b.plays - a.plays);
+      const mySessionId = 'admin_' + Math.random().toString(36).substring(2, 9);
+      const registryKey = 'kj_live_presence_registry';
+      let realActiveCount = 1;
+      let activeSessionsMap = new Map();
 
-      let totalStreams = songs.reduce((sum, s) => sum + s.plays, 0);
-      totalMusicStreamsValEl.innerHTML = `<span>${totalStreams.toLocaleString()} Streams</span>`;
-      if (songs[0]) {
-        topStreamedSongNameEl.textContent = `Top: ${songs[0].title}`;
+      function updateLiveCountUI(count) {
+        realActiveCount = Math.max(1, count);
+        liveUsersNumberEl.textContent = realActiveCount;
+        sidebarLiveBadgeEl.textContent = `${realActiveCount} Live`;
+        activeSessionsBadgeEl.textContent = `${realActiveCount} Active`;
+        liveUsersSubtextEl.textContent = `${realActiveCount} Active ${realActiveCount > 1 ? 'Visitors' : 'Visitor (You)'} (Realtime Sync)`;
       }
 
-      let html = '';
-      songs.forEach((song, idx) => {
-        const rank = (idx + 1).toString().padStart(2, '0');
-        const playBtnHtml = song.url 
-          ? `<button class="action-btn-sm" onclick="playSongPreview('${encodeURIComponent(song.url)}')">▶ Play</button>`
-          : `<span style="font-size:0.75rem; color:var(--text-muted);">Audio</span>`;
+      function renderSessionsTable() {
+        if (!liveSessionsTableBody) return;
+        let html = '';
+        
+        const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+        const devName = isMobile ? '📱 Mobile Device' : '💻 Desktop / Laptop';
 
         html += `
           <tr>
-            <td><strong>${rank}</strong></td>
-            <td style="color:#fff; font-weight:600;">${song.title}</td>
-            <td>${song.singer}</td>
-            <td><span style="color:var(--gold-primary); font-weight:700;">${song.plays.toLocaleString()}</span></td>
-            <td>${playBtnHtml}</td>
+            <td><code style="color:var(--gold-primary); font-weight:700;">${mySessionId} (Admin)</code></td>
+            <td style="color:#fff; font-weight:600;">📍 Local / Active City</td>
+            <td>${devName}</td>
+            <td><span class="badge-status badge-success"><span class="pulse-dot" style="width:5px;height:5px;"></span> Active Now</span></td>
+            <td>Just now</td>
           </tr>
         `;
-      });
-      topSongsTableBody.innerHTML = html;
+
+        for (const [id, info] of activeSessionsMap.entries()) {
+          if (id !== mySessionId) {
+            const deviceLabel = info.device === 'Mobile' ? '📱 Mobile' : (info.device === 'Tablet' ? '📲 Tablet' : '💻 Desktop');
+            const locationLabel = info.location ? `📍 ${info.location}` : '📍 Maharashtra, India';
+            html += `
+              <tr>
+                <td><code>${id.substring(0, 14)}...</code></td>
+                <td style="color:#fff; font-weight:600;">${locationLabel}</td>
+                <td>${deviceLabel}</td>
+                <td><span class="badge-status badge-success">Online</span></td>
+                <td>Active</td>
+              </tr>
+            `;
+          }
+        }
+
+        liveSessionsTableBody.innerHTML = html;
+      }
+
+      // Sync Firestore users collection
+      if (firestore) {
+        try {
+          firestore.collection('users').onSnapshot((snapshot) => {
+            if (!snapshot.empty) {
+              activeSessionsMap.clear();
+              snapshot.forEach((doc) => {
+                const data = doc.data();
+                activeSessionsMap.set(doc.id, {
+                  device: data.device_type || 'Mobile',
+                  location: data.location || 'Maharashtra, India',
+                  lastVisited: data.last_visited
+                });
+              });
+              updateLiveCountUI(Math.max(activeSessionsMap.size, 1));
+              renderSessionsTable();
+            }
+          }, (err) => {
+            console.info('Firestore users listener notice:', err.message);
+          });
+        } catch (e) {}
+      }
+
+      // Sync Realtime Database Presence
+      if (db) {
+        const presenceRef = db.ref('live_users/sessions');
+        presenceRef.on('value', (snap) => {
+          const sessions = snap.val();
+          if (sessions) {
+            const count = Object.keys(sessions).length;
+            updateLiveCountUI(count);
+          }
+        });
+      }
+
+      syncSongStats();
+      initAnnouncementManager();
+      initCharts();
     }
 
-    window.playSongPreview = function(urlEncoded) {
-      const url = decodeURIComponent(urlEncoded);
-      if (previewAudio) {
-        previewAudio.src = url;
-        previewAudio.play().catch(() => {});
-      }
-    };
-
+    /* --------------------------------------------------------------------------
+       Most Played Songs Sync (song_analytics)
+       -------------------------------------------------------------------------- */
     function syncSongStats() {
+      const topSongsTableBody = document.getElementById('topSongsTableBody');
+      const totalMusicStreamsVal = document.getElementById('totalMusicStreamsVal');
+      const topStreamedSongName = document.getElementById('topStreamedSongName');
+      const previewAudio = document.getElementById('previewAudio');
+
       let localSongs = [...defaultSongs];
 
-      // 1. Check local analytics map
-      try {
-        const raw = localStorage.getItem('kj_song_analytics');
-        if (raw) {
-          const stats = JSON.parse(raw);
-          localSongs.forEach((song) => {
-            const key = song.title.replace(/[\.\#\$\[\]\/]/g, '_');
-            if (stats[key]) {
-              song.plays += stats[key].plays;
+      function renderSongsTable(songs) {
+        if (!topSongsTableBody) return;
+        const sorted = [...songs].sort((a, b) => b.plays - a.plays);
+        
+        const totalStreams = sorted.reduce((sum, s) => sum + s.plays, 0);
+        if (totalMusicStreamsVal) {
+          totalMusicStreamsVal.innerHTML = `<span>${totalStreams.toLocaleString('en-IN')} Streams</span>`;
+        }
+        if (topStreamedSongName && sorted.length > 0) {
+          topStreamedSongName.textContent = `Top: ${sorted[0].title} (${sorted[0].plays} plays)`;
+        }
+
+        let html = '';
+        sorted.forEach((song, idx) => {
+          const rank = idx + 1;
+          const medal = rank === 1 ? '🥇' : (rank === 2 ? '🥈' : (rank === 3 ? '🥉' : `#${rank}`));
+          const playBtn = song.url ? `<button class="action-btn-sm play-preview-btn" data-url="${song.url}">▶ Play</button>` : `<span style="font-size:0.7rem;color:var(--text-muted);">Synced</span>`;
+
+          html += `
+            <tr>
+              <td style="font-weight:700; color:var(--gold-primary);">${medal}</td>
+              <td style="font-weight:700; color:#fff;">${song.title}</td>
+              <td>${song.singer}</td>
+              <td style="color:#34d399; font-weight:700;">${song.plays.toLocaleString()}</td>
+              <td>${playBtn}</td>
+            </tr>
+          `;
+        });
+        topSongsTableBody.innerHTML = html;
+
+        document.querySelectorAll('.play-preview-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const url = btn.getAttribute('data-url');
+            if (url && previewAudio) {
+              if (previewAudio.src === url && !previewAudio.paused) {
+                previewAudio.pause();
+                btn.textContent = '▶ Play';
+              } else {
+                previewAudio.src = url;
+                previewAudio.play();
+                btn.textContent = '⏸ Pause';
+              }
             }
           });
-        }
-      } catch (e) {}
+        });
+      }
 
-      // 2. Realtime Sync with Cloud Firestore (song_analytics collection)
+      // Realtime Sync with Cloud Firestore song_analytics
       if (firestore) {
         try {
           firestore.collection('song_analytics').onSnapshot((snapshot) => {
@@ -1370,29 +1591,155 @@
           });
         } catch (e) {}
       }
-
-      // 3. Realtime Sync with Firebase RTDB
-      if (db) {
-        db.ref('analytics/song_plays').on('value', (snap) => {
-          const firebaseStats = snap.val();
-          if (firebaseStats) {
-            localSongs.forEach((song) => {
-              const key = song.title.replace(/[\.\#\$\[\]\/]/g, '_');
-              if (firebaseStats[key] && firebaseStats[key].plays) {
-                song.plays = Math.max(song.plays, firebaseStats[key].plays);
-              }
-            });
-          }
-          renderSongsTable(localSongs);
-        });
-      } else {
-        renderSongsTable(localSongs);
-      }
+      renderSongsTable(localSongs);
     }
-    syncSongStats();
 
     /* --------------------------------------------------------------------------
-       4. Real Ticket Bookings & Razorpay Revenue
+       Announcement Badge Manager (Firestore doc: siteSettings/announcement)
+       -------------------------------------------------------------------------- */
+    function initAnnouncementManager() {
+      const announcementTextInput = document.getElementById('announcementTextInput');
+      const announcementToggle = document.getElementById('announcementToggle');
+      const previewBillboardText = document.getElementById('previewBillboardText');
+      const previewBillboard = document.getElementById('previewBillboard');
+      const previewVisibilityLabel = document.getElementById('previewVisibilityLabel');
+      const toggleStatusLabel = document.getElementById('toggleStatusLabel');
+      const announcementStatusBadge = document.getElementById('announcementStatusBadge');
+      const btnPublishAnnouncement = document.getElementById('btnPublishAnnouncement');
+      const announcementSaveResult = document.getElementById('announcementSaveResult');
+
+      function updatePreviewVisuals() {
+        if (!announcementTextInput || !previewBillboardText || !previewBillboard) return;
+        const val = announcementTextInput.value.trim() || 'HBD SANDEEP';
+        const isEnabled = announcementToggle ? announcementToggle.checked : true;
+
+        previewBillboardText.textContent = val;
+        if (isEnabled) {
+          previewBillboard.style.opacity = '1';
+          previewBillboard.style.transform = 'scale(1)';
+          if (previewVisibilityLabel) {
+            previewVisibilityLabel.textContent = 'Status: Visible';
+            previewVisibilityLabel.style.color = '#34d399';
+          }
+          if (toggleStatusLabel) {
+            toggleStatusLabel.textContent = 'Show Badge';
+            toggleStatusLabel.style.color = '#34d399';
+          }
+          if (announcementStatusBadge) {
+            announcementStatusBadge.textContent = '🟢 Live on Website';
+            announcementStatusBadge.style.color = '#34d399';
+          }
+        } else {
+          previewBillboard.style.opacity = '0.35';
+          previewBillboard.style.transform = 'scale(0.95)';
+          if (previewVisibilityLabel) {
+            previewVisibilityLabel.textContent = 'Status: Hidden (Off)';
+            previewVisibilityLabel.style.color = '#f87171';
+          }
+          if (toggleStatusLabel) {
+            toggleStatusLabel.textContent = 'Hide Badge';
+            toggleStatusLabel.style.color = '#f87171';
+          }
+          if (announcementStatusBadge) {
+            announcementStatusBadge.textContent = '🔴 Hidden on Website';
+            announcementStatusBadge.style.color = '#f87171';
+          }
+        }
+      }
+
+      if (announcementTextInput) {
+        announcementTextInput.addEventListener('input', updatePreviewVisuals);
+      }
+      if (announcementToggle) {
+        announcementToggle.addEventListener('change', updatePreviewVisuals);
+      }
+
+      // Preset Pills Click Handler
+      document.querySelectorAll('.preset-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const text = btn.getAttribute('data-text');
+          if (text && announcementTextInput) {
+            announcementTextInput.value = text;
+            updatePreviewVisuals();
+          }
+        });
+      });
+
+      // Real-time Firestore Listener for Announcement Settings
+      if (firestore) {
+        firestore.collection('siteSettings').doc('announcement').onSnapshot((docSnap) => {
+          if (docSnap.exists) {
+            const data = docSnap.data();
+            if (data.text && document.activeElement !== announcementTextInput) {
+              announcementTextInput.value = data.text;
+            }
+            if (typeof data.enabled === 'boolean' && announcementToggle) {
+              announcementToggle.checked = data.enabled;
+            }
+            updatePreviewVisuals();
+          }
+        }, (err) => {
+          console.info('Announcement listener notice:', err.message);
+        });
+      }
+
+      // Publish Button Click Handler
+      if (btnPublishAnnouncement) {
+        btnPublishAnnouncement.addEventListener('click', async () => {
+          const text = (announcementTextInput ? announcementTextInput.value.trim() : '') || 'HBD SANDEEP';
+          const enabled = announcementToggle ? announcementToggle.checked : true;
+          btnPublishAnnouncement.disabled = true;
+          btnPublishAnnouncement.innerHTML = '<span>⏳ Publishing...</span>';
+
+          const payload = { text, enabled, updatedAt: Date.now() };
+
+          // 1. Instant Local Storage & Broadcast Sync
+          try {
+            localStorage.setItem('kj_announcement_override', JSON.stringify(payload));
+            if (typeof BroadcastChannel !== 'undefined') {
+              const bc = new BroadcastChannel('kj_announcement_broadcast');
+              bc.postMessage(payload);
+              setTimeout(() => bc.close(), 1000);
+            }
+          } catch (e) {}
+
+          // 2. Cloud Firestore Realtime Sync
+          try {
+            if (typeof window.saveAnnouncementSettings === 'function') {
+              await window.saveAnnouncementSettings(text, enabled);
+            }
+            if (firestore) {
+              await firestore.collection('siteSettings').doc('announcement').set({
+                text: text,
+                enabled: enabled,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                updatedBy: (firebase.auth && firebase.auth().currentUser && (firebase.auth().currentUser.email || firebase.auth().currentUser.uid)) || 'admin'
+              }, { merge: true });
+            }
+
+            if (announcementSaveResult) {
+              announcementSaveResult.style.display = 'inline-block';
+              announcementSaveResult.style.color = '#34d399';
+              announcementSaveResult.textContent = `✅ Published "${text}" live to website in real-time!`;
+              setTimeout(() => { announcementSaveResult.style.display = 'none'; }, 4000);
+            }
+          } catch (err) {
+            console.error('Publish error:', err);
+            if (announcementSaveResult) {
+              announcementSaveResult.style.display = 'inline-block';
+              announcementSaveResult.style.color = '#34d399';
+              announcementSaveResult.textContent = `✅ Saved locally & broadcasted! (Cloud: ${err.message})`;
+            }
+          } finally {
+            btnPublishAnnouncement.disabled = false;
+            btnPublishAnnouncement.innerHTML = '<span>⚡ Save &amp; Publish Announcement</span>';
+          }
+        });
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       Real Ticket Bookings & Razorpay Revenue
        -------------------------------------------------------------------------- */
     const totalRevenueValEl = document.getElementById('totalRevenueVal');
     const totalBookingsCountEl = document.getElementById('totalBookingsCount');
@@ -1403,8 +1750,8 @@
       if (!bookingsTableBody) return;
       
       const totalAmount = bookingsList.reduce((sum, b) => sum + (b.status === 'Paid' ? b.amount : 0), 0);
-      totalRevenueValEl.innerHTML = `<span>₹${totalAmount.toLocaleString('en-IN')}</span>`;
-      totalBookingsCountEl.textContent = `${bookingsList.length} Bookings`;
+      if (totalRevenueValEl) totalRevenueValEl.innerHTML = `<span>₹${totalAmount.toLocaleString('en-IN')}</span>`;
+      if (totalBookingsCountEl) totalBookingsCountEl.textContent = `${bookingsList.length} Bookings`;
 
       let html = '';
       bookingsList.forEach((b) => {
@@ -1425,7 +1772,6 @@
 
     renderBookingsTable();
 
-    // Add Live Test Booking
     if (seedBookingBtn) {
       seedBookingBtn.addEventListener('click', () => {
         const names = ['Kishor Patil', 'Swapnil Sonar', 'Pravin Ahire', 'Manisha Chaudhari', 'Ganesh More', 'Vinod Jadhav'];
@@ -1510,14 +1856,9 @@
       } catch (err) {
         if (btnRunFirestoreTest) btnRunFirestoreTest.textContent = '❌ Test Error';
         if (testFirestoreBtn) testFirestoreBtn.textContent = '❌ Error';
-        let fixMsg = '';
-        if (err.code === 'permission-denied' || (err.message && err.message.includes('permission'))) {
-          fixMsg = '<br><strong style="color:#fbbf24;">Solution:</strong> In Firebase Console > Cloud Firestore > <strong>Rules</strong> tab, set:<br><code>rules_version = "2";<br>service cloud.firestore {<br>&nbsp;&nbsp;match /databases/{database}/documents {<br>&nbsp;&nbsp;&nbsp;&nbsp;match /{document=**} {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow read, write: if true;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}<br>}</code><br>and click <strong>Publish</strong>.';
-        }
         if (firestoreTestResult) {
           firestoreTestResult.innerHTML = `
             <div style="color: #ef4444; font-weight: 700;">❌ Firestore Error: ${err.message || err}</div>
-            <div style="color: #cbd5e1; margin-top: 4px;">${fixMsg}</div>
           `;
         }
       }
@@ -1527,13 +1868,12 @@
     if (testFirestoreBtn) testFirestoreBtn.addEventListener('click', executeFirestoreDiagnostic);
 
     /* --------------------------------------------------------------------------
-       5. Interactive Analytics Charts (Live Realtime Data)
+       Charts
        -------------------------------------------------------------------------- */
-    document.addEventListener('DOMContentLoaded', () => {
-      // Sales Trend Chart
+    function initCharts() {
       const salesCtx = document.getElementById('salesChart');
-      if (salesCtx) {
-        new Chart(salesCtx, {
+      if (salesCtx && !salesCtx.chartInstance) {
+        salesCtx.chartInstance = new Chart(salesCtx, {
           type: 'line',
           data: {
             labels: ['11 Aug', '12 Aug', '13 Aug', '14 Aug', '15 Aug', '16 Aug', '17 Aug'],
@@ -1576,10 +1916,9 @@
         });
       }
 
-      // Device Demographics Chart
       const deviceCtx = document.getElementById('deviceChart');
-      if (deviceCtx) {
-        new Chart(deviceCtx, {
+      if (deviceCtx && !deviceCtx.chartInstance) {
+        deviceCtx.chartInstance = new Chart(deviceCtx, {
           type: 'doughnut',
           data: {
             labels: ['Mobile Phone (82%)', 'Desktop / Laptop (15%)', 'Tablet (3%)'],
@@ -1603,213 +1942,6 @@
           }
         });
       }
-    });
-
-    /* --------------------------------------------------------------------------
-       Announcement Badge Manager (Firestore doc: siteSettings/announcement)
-       -------------------------------------------------------------------------- */
-    const announcementTextInput = document.getElementById('announcementTextInput');
-    const announcementToggle = document.getElementById('announcementToggle');
-    const previewBillboardText = document.getElementById('previewBillboardText');
-    const previewBillboard = document.getElementById('previewBillboard');
-    const previewVisibilityLabel = document.getElementById('previewVisibilityLabel');
-    const toggleStatusLabel = document.getElementById('toggleStatusLabel');
-    const announcementStatusBadge = document.getElementById('announcementStatusBadge');
-    const btnPublishAnnouncement = document.getElementById('btnPublishAnnouncement');
-    const announcementSaveResult = document.getElementById('announcementSaveResult');
-
-    function updatePreviewVisuals() {
-      if (!announcementTextInput || !previewBillboardText || !previewBillboard) return;
-      const val = announcementTextInput.value.trim() || 'HBD SANDEEP';
-      const isEnabled = announcementToggle ? announcementToggle.checked : true;
-
-      previewBillboardText.textContent = val;
-      if (isEnabled) {
-        previewBillboard.style.opacity = '1';
-        previewBillboard.style.transform = 'scale(1)';
-        if (previewVisibilityLabel) {
-          previewVisibilityLabel.textContent = 'Status: Visible';
-          previewVisibilityLabel.style.color = '#34d399';
-        }
-        if (toggleStatusLabel) {
-          toggleStatusLabel.textContent = 'Show Badge';
-          toggleStatusLabel.style.color = '#34d399';
-        }
-        if (announcementStatusBadge) {
-          announcementStatusBadge.textContent = '🟢 Live on Website';
-          announcementStatusBadge.style.color = '#34d399';
-        }
-      } else {
-        previewBillboard.style.opacity = '0.35';
-        previewBillboard.style.transform = 'scale(0.95)';
-        if (previewVisibilityLabel) {
-          previewVisibilityLabel.textContent = 'Status: Hidden (Off)';
-          previewVisibilityLabel.style.color = '#f87171';
-        }
-        if (toggleStatusLabel) {
-          toggleStatusLabel.textContent = 'Hide Badge';
-          toggleStatusLabel.style.color = '#f87171';
-        }
-        if (announcementStatusBadge) {
-          announcementStatusBadge.textContent = '🔴 Hidden on Website';
-          announcementStatusBadge.style.color = '#f87171';
-        }
-      }
-    }
-
-    if (announcementTextInput) {
-      announcementTextInput.addEventListener('input', updatePreviewVisuals);
-    }
-    if (announcementToggle) {
-      announcementToggle.addEventListener('change', updatePreviewVisuals);
-    }
-
-    // Preset Pills Click Handler
-    document.querySelectorAll('.preset-pill').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const text = btn.getAttribute('data-text');
-        if (text && announcementTextInput) {
-          announcementTextInput.value = text;
-          updatePreviewVisuals();
-        }
-      });
-    });
-
-    // Real-time Firestore Listener for Announcement Settings
-    if (firestore) {
-      firestore.collection('siteSettings').doc('announcement').onSnapshot((docSnap) => {
-        if (docSnap.exists) {
-          const data = docSnap.data();
-          if (data.text && document.activeElement !== announcementTextInput) {
-            announcementTextInput.value = data.text;
-          }
-          if (typeof data.enabled === 'boolean' && announcementToggle) {
-            announcementToggle.checked = data.enabled;
-          }
-          updatePreviewVisuals();
-        }
-      }, (err) => {
-        console.info('Announcement listener notice:', err.message);
-      });
-    }
-
-    // Publish Button Click Handler
-    if (btnPublishAnnouncement) {
-      btnPublishAnnouncement.addEventListener('click', async () => {
-        const text = (announcementTextInput ? announcementTextInput.value.trim() : '') || 'HBD SANDEEP';
-        const enabled = announcementToggle ? announcementToggle.checked : true;
-        btnPublishAnnouncement.disabled = true;
-        btnPublishAnnouncement.innerHTML = '<span>⏳ Publishing...</span>';
-
-        const payload = { text, enabled, updatedAt: Date.now() };
-
-        // 1. Instant Local Storage & Broadcast Sync
-        try {
-          localStorage.setItem('kj_announcement_override', JSON.stringify(payload));
-          if (typeof BroadcastChannel !== 'undefined') {
-            const bc = new BroadcastChannel('kj_announcement_broadcast');
-            bc.postMessage(payload);
-            setTimeout(() => bc.close(), 1000);
-          }
-        } catch (e) {}
-
-        // 2. Cloud Firestore Realtime Sync
-        try {
-          if (typeof window.saveAnnouncementSettings === 'function') {
-            await window.saveAnnouncementSettings(text, enabled);
-          }
-          if (firestore) {
-            await firestore.collection('siteSettings').doc('announcement').set({
-              text: text,
-              enabled: enabled,
-              updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-              updatedBy: (firebase.auth && firebase.auth().currentUser && (firebase.auth().currentUser.email || firebase.auth().currentUser.uid)) || 'admin'
-            }, { merge: true });
-          }
-
-          if (announcementSaveResult) {
-            announcementSaveResult.style.display = 'inline-block';
-            announcementSaveResult.style.color = '#34d399';
-            announcementSaveResult.textContent = `✅ Published "${text}" live to website in real-time!`;
-            setTimeout(() => { announcementSaveResult.style.display = 'none'; }, 4000);
-          }
-        } catch (err) {
-          console.error('Publish error:', err);
-          if (announcementSaveResult) {
-            announcementSaveResult.style.display = 'inline-block';
-            announcementSaveResult.style.color = '#34d399';
-            announcementSaveResult.textContent = `✅ Saved locally & broadcasted! (Cloud: ${err.message})`;
-          }
-        } finally {
-          btnPublishAnnouncement.disabled = false;
-          btnPublishAnnouncement.innerHTML = '<span>⚡ Save &amp; Publish Announcement</span>';
-        }
-      });
-    }
-
-    // Firebase Auth State & Modal Handlers
-    const adminAuthModal = document.getElementById('adminAuthModal');
-    const btnShowLoginModal = document.getElementById('btnAdminAuthAction');
-    const btnCloseAuthModal = document.getElementById('btnCloseAuthModal');
-    const adminLoginForm = document.getElementById('adminLoginForm');
-    const adminUserEmailText = document.getElementById('adminUserEmailText');
-    const authErrorNotice = document.getElementById('authErrorNotice');
-
-    if (firebase.auth) {
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user && user.email) {
-          if (adminUserEmailText) adminUserEmailText.textContent = `👤 ${user.email}`;
-          if (btnShowLoginModal) {
-            btnShowLoginModal.textContent = 'Logout';
-            btnShowLoginModal.onclick = () => {
-              firebase.auth().signOut().then(() => {
-                if (adminUserEmailText) adminUserEmailText.textContent = '🔐 Guest / Anon';
-                if (btnShowLoginModal) btnShowLoginModal.textContent = 'Sign In';
-              });
-            };
-          }
-        } else {
-          if (adminUserEmailText) adminUserEmailText.textContent = '🔐 Admin Mode';
-          if (btnShowLoginModal) {
-            btnShowLoginModal.textContent = 'Sign In';
-            btnShowLoginModal.onclick = () => {
-              if (adminAuthModal) adminAuthModal.classList.add('active');
-            };
-          }
-        }
-      });
-    }
-
-    if (btnCloseAuthModal && adminAuthModal) {
-      btnCloseAuthModal.addEventListener('click', () => {
-        adminAuthModal.classList.remove('active');
-      });
-    }
-
-    if (adminLoginForm) {
-      adminLoginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('adminEmailInput').value.trim();
-        const password = document.getElementById('adminPasswordInput').value;
-        const submitBtn = document.getElementById('btnAdminSignInSubmit');
-
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Verifying...';
-        if (authErrorNotice) authErrorNotice.style.display = 'none';
-
-        try {
-          await firebase.auth().signInWithEmailAndPassword(email, password);
-          if (adminAuthModal) adminAuthModal.classList.remove('active');
-        } catch (err) {
-          if (authErrorNotice) {
-            authErrorNotice.style.display = 'block';
-            authErrorNotice.textContent = err.message;
-          }
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Sign In as Admin';
-        }
-      });
     }
 
     // Clock
@@ -1839,35 +1971,6 @@
       });
     }
   </script>
-
-  <!-- Firebase Auth Admin Login Modal -->
-  <div class="admin-modal-overlay" id="adminAuthModal" role="dialog" aria-modal="true" aria-labelledby="adminLoginHeading">
-    <div class="admin-modal-card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
-        <h3 id="adminLoginHeading" style="color:var(--gold-primary); font-size:1.15rem; font-weight:700; display:flex; align-items:center; gap:0.5rem;">
-          <span>🔐 Admin Authentication</span>
-        </h3>
-        <button id="btnCloseAuthModal" style="background:transparent; border:none; color:#94a3b8; font-size:1.25rem; cursor:pointer; padding:0.25rem;">✕</button>
-      </div>
-      <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:1.25rem;">
-        Sign in with your Firebase Admin Email to securely manage announcements and settings.
-      </p>
-      <form id="adminLoginForm" onsubmit="return false;">
-        <div style="margin-bottom:1rem;">
-          <label for="adminEmailInput" style="display:block; font-size:0.8rem; font-weight:600; color:#e2e8f0; margin-bottom:0.35rem;">Admin Email</label>
-          <input type="email" id="adminEmailInput" placeholder="admin@example.com" required style="width:100%; padding:0.75rem 1rem; background:rgba(0,0,0,0.6); border:1px solid rgba(251,191,36,0.3); border-radius:8px; color:#fff; font-size:0.9rem; outline:none;" />
-        </div>
-        <div style="margin-bottom:1.25rem;">
-          <label for="adminPasswordInput" style="display:block; font-size:0.8rem; font-weight:600; color:#e2e8f0; margin-bottom:0.35rem;">Password</label>
-          <input type="password" id="adminPasswordInput" placeholder="••••••••" required style="width:100%; padding:0.75rem 1rem; background:rgba(0,0,0,0.6); border:1px solid rgba(251,191,36,0.3); border-radius:8px; color:#fff; font-size:0.9rem; outline:none;" />
-        </div>
-        <div id="authErrorNotice" style="display:none; color:#f87171; font-size:0.8rem; margin-bottom:1rem; padding:0.5rem; background:rgba(239,68,68,0.1); border-radius:6px; border:1px solid rgba(239,68,68,0.3);"></div>
-        <button type="submit" id="btnAdminSignInSubmit" style="width:100%; background:linear-gradient(135deg, #fbbf24, #d97706); color:#140a05; font-weight:800; padding:0.8rem; border:none; border-radius:8px; font-size:0.95rem; cursor:pointer; box-shadow:0 4px 14px rgba(245,158,11,0.4);">
-          <span>Sign In as Admin</span>
-        </button>
-      </form>
-    </div>
-  </div>
 
 </body>
 </html>
