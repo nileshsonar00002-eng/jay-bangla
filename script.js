@@ -28,7 +28,13 @@ if (typeof firebase !== 'undefined' && (!firebase.apps || !firebase.apps.length)
     firebase.initializeApp(firebaseConfig);
     if (firebase.auth) {
       firebase.auth().signInAnonymously()
-        .then(() => console.log('🔥 Firebase Connected & Authenticated (Anonymous)'))
+        .then(() => {
+          console.log('🔥 Firebase Connected & Authenticated (Anonymous)');
+          if (window.khandeshiPlayer) {
+            window.khandeshiPlayer.loadFromFirebaseStorage('kanubai');
+            window.khandeshiPlayer.loadFromFirebaseStorage('ahirani');
+          }
+        })
         .catch((err) => console.info('Firebase auth notice:', err.message));
     }
   } catch (e) {
@@ -827,7 +833,7 @@ class MiniMusicPlayer {
 
       for (const folder of folderNames) {
         try {
-          const folderRef = storage.ref(folder);
+          const folderRef = storage.ref().child(folder);
           const listResult = await folderRef.listAll();
 
           if (listResult && listResult.items && listResult.items.length > 0) {
@@ -838,7 +844,7 @@ class MiniMusicPlayer {
               const lower = name.toLowerCase();
 
               // Match audio formats
-              if (lower.endsWith('.mp3') || lower.endsWith('.wav') || lower.endsWith('.m4a') || lower.endsWith('.aac') || lower.endsWith('.ogg') || lower.endsWith('.flac')) {
+              if (lower.endsWith('.mp3') || lower.endsWith('.wav') || lower.endsWith('.m4a') || lower.endsWith('.aac') || lower.endsWith('.ogg') || lower.endsWith('.flac') || !lower.includes('.')) {
                 const parsed = this.parseSongMetadata(name, i);
                 parsed.itemRef = item;
                 if (playlistId === 'kanubai') {
@@ -882,7 +888,9 @@ class MiniMusicPlayer {
             }
           }
         } catch (fErr) {
-          // Try next folder candidate
+          if (fErr.code === 'storage/unauthorized') {
+            console.warn(`⚠️ Firebase Storage Security Rule Notice for [${folder}]: Please set Firebase Storage rules to allow read on /{allPaths=**}.`, fErr.message);
+          }
         }
       }
     } catch (err) {
