@@ -24,14 +24,16 @@ import {
   onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// Firebase Project Configuration
+// Firebase Project Configuration (khaneshijatra)
 export const firebaseConfig = {
-  apiKey: 'AIzaSyDnvjfQrfkspVnq570hjNios9Yd6A0EjSA',
-  authDomain: 'khaneshijatra.firebaseapp.com',
-  projectId: 'khaneshijatra',
-  storageBucket: 'khaneshijatra.firebasestorage.app',
-  messagingSenderId: '762404305793',
-  appId: '1:762404305793:web:8ec333a65b673211af8680'
+  apiKey: "AIzaSyDnVjfQrfksPVnq57OhjNios9Yd6A0EjSA",
+  authDomain: "khaneshijatra.firebaseapp.com",
+  databaseURL: "https://khaneshijatra-default-rtdb.firebaseio.com",
+  projectId: "khaneshijatra",
+  storageBucket: "khaneshijatra.firebasestorage.app",
+  messagingSenderId: "762404305793",
+  appId: "1:762404305793:web:8ec333a65b673211af8680",
+  measurementId: "G-0CQ0YDPPQP"
 };
 
 // Target Database ID in your Cloud Firestore console
