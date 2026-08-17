@@ -35,13 +35,13 @@ if (typeof firebase !== 'undefined' && (!firebase.apps || !firebase.apps.length)
   }
 }
 
-const BASE_LISTENER_COUNT = 110;
+const BASE_LISTENER_COUNT = 75;
 
 /* --------------------------------------------------------------------------
    1. Real-Time Global Presence Engine (Multi-Device MQTT over WebSockets + LWT)
    -------------------------------------------------------------------------- */
 class RealtimePresenceTracker {
-  constructor(baseCount = 110) {
+  constructor(baseCount = 75) {
     this.baseCount = baseCount;
     this.badgeEl = document.getElementById('listenerCountText');
     this.sessionId = 'dev_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now().toString(36);
@@ -62,7 +62,7 @@ class RealtimePresenceTracker {
   }
 
   init() {
-    // 1. Always display initial minimum count immediately: 110 + 1 = 111 LIVE
+    // 1. Always display initial count: 75 + 1 active user = 76 LISTENING
     this.updateBadge(this.baseCount + 1);
 
     // 2. Local multi-tab coordination (BroadcastChannel + LocalStorage)
@@ -77,8 +77,8 @@ class RealtimePresenceTracker {
 
   updateBadge(totalCount) {
     if (!this.badgeEl) return;
-    const finalCount = Math.max(this.baseCount + 1, totalCount);
-    this.badgeEl.textContent = `${finalCount} LIVE`;
+    const finalCount = Math.max(this.baseCount, totalCount);
+    this.badgeEl.textContent = `${finalCount} LISTENING`;
   }
 
   recalculateTotal() {
