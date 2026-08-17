@@ -975,8 +975,10 @@ class MiniMusicPlayer {
       stats[sanitizedKey].lastPlayed = Date.now();
       localStorage.setItem('kj_song_analytics', JSON.stringify(stats));
 
-      // 2. Cloud Firestore Song Analytics (increment(1))
-      if (typeof firebase !== 'undefined' && firebase.firestore) {
+      // 2. Cloud Firestore Modular v10+ Analytics (increment(1))
+      if (typeof window.trackSongPlayModular === 'function') {
+        window.trackSongPlayModular(songTitle, singer);
+      } else if (typeof firebase !== 'undefined' && firebase.firestore) {
         const firestore = firebase.firestore();
         const docId = songTitle.trim().replace(/[\/\\]/g, '_');
         firestore.collection('song_analytics').doc(docId).set({
