@@ -163,27 +163,34 @@ export async function syncUserRecord(user) {
 }
 
 // 3. Persistent Anonymous Authentication Lifecycle (Zero Login/Signup UI for public visitors)
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    console.log('🔥 [Firestore Auth] User session active | UID:', user.uid, user.email ? `(Admin: ${user.email})` : '(Anonymous)');
-    await syncUserRecord(user);
-  } else {
-    try {
-      const userCred = await signInAnonymously(auth);
-      console.log('🔥 [Firestore Auth] New Anonymous User Created | UID:', userCred.user.uid);
-      await syncUserRecord(userCred.user);
-    } catch (err) {
-      console.info('ℹ️ [Firestore Auth Note]:', err.message);
-      // Fallback guest tracking if auth is disabled
-      let fallbackUid = localStorage.getItem('kj_user_uid');
-      if (!fallbackUid) {
-        fallbackUid = 'user_' + Math.random().toString(36).substring(2, 12);
-        localStorage.setItem('kj_user_uid', fallbackUid);
+const isPublicVisitor = typeof window !== 'undefined' && 
+  !window.location.pathname.includes('admin') && 
+  !window.location.href.includes('admin');
+
+if (isPublicVisitor) {
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      if (!user.email) {
+        console.log('🔥 [Firestore Auth] Visitor session active | UID:', user.uid);
+        await syncUserRecord(user);
       }
-      await syncUserRecord({ uid: fallbackUid });
+    } else {
+      try {
+        const userCred = await signInAnonymously(auth);
+        console.log('🔥 [Firestore Auth] New Anonymous Visitor Created | UID:', userCred.user.uid);
+        await syncUserRecord(userCred.user);
+      } catch (err) {
+        console.info('ℹ️ [Firestore Auth Note]:', err.message);
+        let fallbackUid = localStorage.getItem('kj_user_uid');
+        if (!fallbackUid) {
+          fallbackUid = 'user_' + Math.random().toString(36).substring(2, 12);
+          localStorage.setItem('kj_user_uid', fallbackUid);
+        }
+        await syncUserRecord({ uid: fallbackUid });
+      }
     }
-  }
-});
+  });
+}
 
 /**
  * 4. Song Analytics Tracking (song_analytics Collection with increment(1))
