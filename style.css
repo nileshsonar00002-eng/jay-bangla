@@ -547,7 +547,7 @@ body {
 /* Top Center: Main Website Title */
 .top-center-title-container {
   position: fixed;
-  top: 18px;
+  top: clamp(28px, 4vh, 38px);
   left: 0;
   width: 100%;
   display: flex;
@@ -2138,7 +2138,7 @@ body.kanubai-active .player-container {
   }
 
   .top-center-title-container {
-    top: calc(clamp(90px, 13.5vh, 112px) + env(safe-area-inset-top, 0px));
+    top: calc(clamp(102px, 15vh, 126px) + env(safe-area-inset-top, 0px));
     left: 0;
     width: 100%;
     display: flex;
