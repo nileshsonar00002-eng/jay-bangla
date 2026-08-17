@@ -645,11 +645,14 @@ class MiniMusicPlayer {
 
   applyPlaylistVisuals(playlistId) {
     const bgImage = document.getElementById('bgImage');
+    const bgWrapper = document.getElementById('bgWrapper');
     if (bgImage) {
       if (playlistId === 'kanubai') {
         bgImage.style.backgroundImage = "url('assets/kanubai-bg.jpg')";
+        if (bgWrapper) bgWrapper.style.backgroundColor = '#540302';
       } else {
         bgImage.style.backgroundImage = "url('assets/khandeshi-jatra-bg.jpg')";
+        if (bgWrapper) bgWrapper.style.backgroundColor = '#000000';
       }
     }
 
