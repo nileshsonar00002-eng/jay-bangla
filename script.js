@@ -94,7 +94,7 @@ class RealtimePresenceTracker {
     const currentBase = getCurrentBaseCount();
     const effectiveUsers = Math.max(1, actualActiveUsers || 1);
     const displayedCount = currentBase + effectiveUsers;
-    this.badgeEl.textContent = `${displayedCount} LISTENING`;
+    this.badgeEl.textContent = `${displayedCount} LIVE`;
   }
 
   recalculateTotal() {
