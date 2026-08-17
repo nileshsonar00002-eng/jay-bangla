@@ -658,13 +658,26 @@ class MiniMusicPlayer {
     }
 
     // 2. Set Background Image & Background Wrapper Color
+    if (bgWrapper) {
+      if (playlistId === 'kanubai') {
+        bgWrapper.classList.add('kanubai-active');
+        document.body.classList.add('kanubai-active');
+        bgWrapper.style.backgroundColor = '#540302';
+      } else {
+        bgWrapper.classList.remove('kanubai-active');
+        document.body.classList.remove('kanubai-active');
+        bgWrapper.style.backgroundColor = '#000000';
+      }
+    }
+
     if (bgImage) {
       if (playlistId === 'kanubai') {
         bgImage.style.backgroundImage = "url('assets/kanubai-bg.jpg')";
-        if (bgWrapper) bgWrapper.style.backgroundColor = '#540302';
       } else {
-        bgImage.style.backgroundImage = "url('assets/khandeshi-jatra-bg.jpg')";
-        if (bgWrapper) bgWrapper.style.backgroundColor = '#000000';
+        const isMobile = window.innerWidth <= 680;
+        bgImage.style.backgroundImage = isMobile
+          ? "url('assets/khandeshi-jatra-mobile-bg.jpg')"
+          : "url('assets/khandeshi-jatra-bg.jpg')";
       }
     }
 
@@ -689,18 +702,8 @@ class MiniMusicPlayer {
     this.currentPlaylistId = playlistId;
     localStorage.setItem('kj_active_playlist', playlistId);
 
-    // Apply visual background and topbar label
-    const bgImage = document.getElementById('bgImage');
-    if (bgImage) {
-      bgImage.style.transition = 'opacity 0.35s ease';
-      bgImage.style.opacity = '0.6';
-      setTimeout(() => {
-        this.applyPlaylistVisuals(playlistId);
-        bgImage.style.opacity = '1';
-      }, 150);
-    } else {
-      this.applyPlaylistVisuals(playlistId);
-    }
+    // Apply visual background and topbar label immediately
+    this.applyPlaylistVisuals(playlistId);
 
     // Close Dropdown
     const dropdown = document.getElementById('playlistDropdownMenu');

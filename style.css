@@ -2100,11 +2100,19 @@ body {
 
 @media (max-width: 680px) {
   .bg-image {
-    background-image: url('assets/khandeshi-jatra-mobile-bg.jpg') !important;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     animation: none; /* Keep background static on mobile for performance */
+  }
+
+  .bg-wrapper:not(.kanubai-active) .bg-image {
+    background-image: url('assets/khandeshi-jatra-mobile-bg.jpg');
+  }
+
+  .bg-wrapper.kanubai-active .bg-image {
+    background-image: url('assets/kanubai-bg.jpg') !important;
+    background-position: center center !important;
   }
 
   .top-center-title-container {
