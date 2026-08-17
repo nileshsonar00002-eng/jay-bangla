@@ -829,7 +829,7 @@ class MiniMusicPlayer {
   }
 
   /**
-   * Connects to Firebase Cloud Storage and loads all MP3 tracks in the directory ('music' or 'kanubai')
+   * Connects to Firebase Cloud Storage and loads all MP3 tracks in the directory ('kanubai special', 'kanubai', or 'music')
    */
   async loadFromFirebaseStorage(targetPlaylist = null) {
     if (typeof firebase === 'undefined' || !firebase.storage) {
@@ -838,9 +838,9 @@ class MiniMusicPlayer {
     }
 
     const playlistId = targetPlaylist || this.currentPlaylistId || 'ahirani';
-    const folderNames = playlistId === 'kanubai' 
-      ? ['kanubai', 'kanbai', 'kanubai_songs', 'kanbai_songs', 'kanubai_special', 'kanbai_special'] 
-      : ['music', 'ahirani', 'songs'];
+    let folderNames = playlistId === 'kanubai' 
+      ? ['kanubai special', 'Kanubai Special', 'kanubai_special', 'Kanubai_Special', 'kanubaispecial', 'kanubai-special', 'kanubai', 'kanbai', 'Kanubai', 'Kanbai', 'kanubai_songs', 'kanbai_songs'] 
+      : ['music', 'ahirani', 'songs', 'Ahirani', 'Music'];
 
     try {
       if (!firebase.apps || !firebase.apps.length) {
@@ -848,6 +848,29 @@ class MiniMusicPlayer {
       }
 
       const storage = firebase.storage();
+
+      // Dynamic folder prefix discovery from root storage
+      try {
+        const rootRef = storage.ref();
+        const rootResult = await rootRef.listAll();
+        if (rootResult && rootResult.prefixes && rootResult.prefixes.length > 0) {
+          const discoveredFolders = [];
+          rootResult.prefixes.forEach((p) => {
+            const pName = p.name;
+            const pLower = pName.toLowerCase().replace(/[\s\-_]/g, '');
+            if (playlistId === 'kanubai' && (pLower.includes('kanu') || pLower.includes('kanb') || pLower.includes('special'))) {
+              discoveredFolders.push(pName);
+            } else if (playlistId === 'ahirani' && (pLower.includes('music') || pLower.includes('ahirani') || pLower.includes('song'))) {
+              discoveredFolders.push(pName);
+            }
+          });
+          if (discoveredFolders.length > 0) {
+            folderNames = [...new Set([...discoveredFolders, ...folderNames])];
+          }
+        }
+      } catch (rootErr) {
+        // Root listAll error (permissions), fallback to candidate list
+      }
 
       for (const folder of folderNames) {
         try {
