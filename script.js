@@ -1599,14 +1599,17 @@ function initFullscreenToggle() {
 
 function initTopTitleScrollFade() {
   const title = document.getElementById('topMainTitle');
-  if (!title) return;
+  const banner = document.getElementById('festiveAdBanner');
+  if (!title && !banner) return;
 
   const handleScroll = () => {
     const scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     if (scrollY > 10) {
-      title.classList.add('hidden-on-scroll');
+      if (title) title.classList.add('hidden-on-scroll');
+      if (banner) banner.classList.add('hidden-on-scroll');
     } else {
-      title.classList.remove('hidden-on-scroll');
+      if (title) title.classList.remove('hidden-on-scroll');
+      if (banner) banner.classList.remove('hidden-on-scroll');
     }
   };
 
