@@ -62,7 +62,7 @@ class RealtimePresenceTracker {
   }
 
   init() {
-    // 1. Always display initial count: 75 + 1 active user = 76 LISTENING
+    // 1. Always display initial count: 75 + 1 active user = 76 LIVE
     this.updateBadge(this.baseCount + 1);
 
     // 2. Local multi-tab coordination (BroadcastChannel + LocalStorage)
@@ -78,7 +78,7 @@ class RealtimePresenceTracker {
   updateBadge(totalCount) {
     if (!this.badgeEl) return;
     const finalCount = Math.max(this.baseCount, totalCount);
-    this.badgeEl.textContent = `${finalCount} LISTENING`;
+    this.badgeEl.textContent = `${finalCount} LIVE`;
   }
 
   recalculateTotal() {
