@@ -2,10 +2,10 @@
  * ==========================================================================
  * Cloud Firestore Analytics Engine (Firebase v10+ Modular SDK)
  * ==========================================================================
- * - Firestore Initialization using getFirestore()
+ * - Target Database: 'khandeshijatra'
+ * - Firestore Initialization using getFirestore(app, 'khandeshijatra')
  * - Instant Non-blocking User Location Tracking ('user_visits' collection)
  * - Real-time Song Analytics Tracking ('song_analytics' collection)
- * - Built-in Diagnostic & Connectivity Verifier
  * ==========================================================================
  */
 
@@ -33,18 +33,35 @@ export const firebaseConfig = {
   appId: '1:762404305793:web:8ec333a65b673211af8680'
 };
 
+// Target Database ID in your Cloud Firestore console
+export const DATABASE_ID = 'khandeshijatra';
+
 // 1. Initialize Firebase App, Auth & Cloud Firestore
 export const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-export const db = getFirestore(app);
 export const auth = getAuth(app);
 
-// Attempt anonymous sign-in in background (does not block writes)
+// Connect directly to the custom named database 'khandeshijatra'
+let dbInstance;
+try {
+  dbInstance = getFirestore(app, DATABASE_ID);
+  console.log(`🔥 [Firestore] Connected to database: "${DATABASE_ID}"`);
+} catch (e) {
+  try {
+    dbInstance = getFirestore(app);
+    console.log('🔥 [Firestore] Connected to (default) database');
+  } catch (err) {
+    console.error('Firestore init error:', err);
+  }
+}
+export const db = dbInstance;
+
+// Attempt anonymous sign-in in background
 signInAnonymously(auth)
   .then((userCred) => {
     console.log('🔥 [Firestore] Anonymous Auth connected successfully (UID:', userCred.user.uid, ')');
   })
   .catch((err) => {
-    console.info('ℹ️ [Firestore] Auth notice (Test Mode rules will still work):', err.message);
+    console.info('ℹ️ [Firestore] Auth note:', err.message);
   });
 
 /**
@@ -84,7 +101,6 @@ export async function trackUserVisitLocation() {
       }
     }
   } catch (err) {
-    // Secondary fallback
     try {
       const fbRes = await fetch('https://ipwho.is/');
       if (fbRes.ok) {
@@ -112,9 +128,6 @@ export async function trackUserVisitLocation() {
     return { success: true, id: docRef.id, location: locationData };
   } catch (error) {
     console.error('❌ [Firestore Write Error in user_visits]:', error);
-    if (error.code === 'permission-denied') {
-      console.warn('⚠️ FIRESTORE PERMISSION DENIED: Please go to Firebase Console > Cloud Firestore > Rules tab and set "allow read, write: if true;"');
-    }
     return { success: false, error: error };
   }
 }
@@ -140,9 +153,6 @@ export async function trackSongPlay(songTitle, singer) {
     return { success: true, docId: docId };
   } catch (error) {
     console.error('❌ [Firestore Write Error in song_analytics]:', error);
-    if (error.code === 'permission-denied') {
-      console.warn('⚠️ FIRESTORE PERMISSION DENIED: Please go to Firebase Console > Cloud Firestore > Rules tab and set "allow read, write: if true;"');
-    }
     return { success: false, error: error };
   }
 }
@@ -151,7 +161,7 @@ export async function trackSongPlay(songTitle, singer) {
  * 4. Diagnostics & Live Connection Test
  */
 export async function testFirestoreConnection() {
-  console.log('🔄 Running Cloud Firestore Diagnostic Test...');
+  console.log(`🔄 Running Cloud Firestore Diagnostic Test on database "${DATABASE_ID}"...`);
   try {
     // Test 1: Write to user_visits
     const visitRes = await trackUserVisitLocation();
@@ -162,7 +172,8 @@ export async function testFirestoreConnection() {
     return {
       success: visitRes && visitRes.success && songRes && songRes.success,
       visitDocId: visitRes ? visitRes.id : null,
-      songDocId: songRes ? songRes.docId : null
+      songDocId: songRes ? songRes.docId : null,
+      databaseId: DATABASE_ID
     };
   } catch (err) {
     console.error('❌ Firestore Diagnostic Failed:', err);

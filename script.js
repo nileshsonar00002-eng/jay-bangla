@@ -981,7 +981,9 @@ class MiniMusicPlayer {
       }
       if (typeof firebase !== 'undefined' && firebase.firestore) {
         try {
-          const firestore = firebase.firestore();
+          const firestore = (firebase.app && typeof firebase.app().firestore === 'function')
+            ? (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })()
+            : firebase.firestore();
           const docId = songTitle.trim().replace(/[\/\\]/g, '_');
           firestore.collection('song_analytics').doc(docId).set({
             title: songTitle,
@@ -989,7 +991,7 @@ class MiniMusicPlayer {
             plays: firebase.firestore.FieldValue.increment(1),
             last_played: firebase.firestore.FieldValue.serverTimestamp()
           }, { merge: true }).then(() => {
-            console.log(`✅ [Firestore Compat] Logged song play: "${songTitle}"`);
+            console.log(`✅ [Firestore Compat] Logged song play: "${songTitle}" on database "khandeshijatra"`);
           }).catch((e) => console.info('Firestore song_analytics notice:', e.message));
         } catch (e) {}
       }
@@ -1845,13 +1847,15 @@ async function trackUserVisitLocationFirestore() {
     }
 
     if (typeof firebase !== 'undefined' && firebase.firestore) {
-      const firestore = firebase.firestore();
+      const firestore = (firebase.app && typeof firebase.app().firestore === 'function')
+        ? (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })()
+        : firebase.firestore();
       await firestore.collection('user_visits').add({
         location: locationString,
         device_type: deviceType,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       });
-      console.log('📍 Logged user visit to Firestore (user_visits):', locationString, deviceType);
+      console.log('📍 Logged user visit to Firestore (user_visits) on database "khandeshijatra":', locationString, deviceType);
     }
   } catch (err) {
     console.info('Firestore user_visits logging note:', err.message);
