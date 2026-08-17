@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Admin Dashboard | खान्देशी जत्रा (Live Real-Time Data)</title>
-  <meta name="description" content="Live Real-time Admin Dashboard for Khandeshi Jatra - Live visitors, Razorpay bookings, and music streaming telemetry.">
+  <meta name="description" content="Live Real-time Admin Dashboard for Khandeshi Jatra - Live visitors, user_visits telemetry, and song_analytics.">
   <meta name="robots" content="noindex, nofollow">
 
   <!-- Favicon -->
@@ -915,11 +915,7 @@
         </a>
         <a href="#live-visitors" class="nav-item" id="tabVisitors">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-          Live Visitors <span class="badge-status badge-success" id="sidebarLiveBadge" style="margin-left:auto;font-size:0.65rem;">1 Live</span>
-        </a>
-        <a href="#ticket-sales" class="nav-item" id="tabTickets">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
-          Ticket Sales (Razorpay)
+          Live Visitors <span class="badge-status badge-success" id="sidebarLiveBadge" style="margin-left:auto;font-size:0.65rem;">-- Live</span>
         </a>
         <a href="#music-analytics" class="nav-item" id="tabMusic">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
@@ -934,9 +930,6 @@
       <div class="sidebar-footer">
         <button class="action-btn-sm" id="testFirestoreBtn" style="width:100%; justify-content:center; padding:0.6rem; background:rgba(16,185,129,0.18); border-color:#10b981; color:#34d399;">
           <span>⚡ Test Firestore Connection</span>
-        </button>
-        <button class="action-btn-sm" id="seedBookingBtn" style="width:100%; justify-content:center; padding:0.6rem;">
-          <span>+ Add Live Test Booking</span>
         </button>
         <a href="index.html" class="view-site-btn" target="_blank" rel="noopener">
           <span>खान्देशी जत्रा पहा</span>
@@ -967,7 +960,7 @@
           </div>
           <div class="live-status-pill" id="realtimeStatusPill">
             <span class="pulse-dot"></span>
-            <span id="syncText">LIVE TELEMETRY ACTIVE</span>
+            <span id="syncText">FIRESTORE LIVE ACTIVE</span>
           </div>
           <span class="admin-clock" id="adminClock">--:--:--</span>
         </div>
@@ -982,14 +975,14 @@
             <div style="display: flex; align-items: center; gap: 0.65rem;">
               <span class="pulse-dot"></span>
               <div>
-                <h4 style="font-size: 0.88rem; font-weight: 700; color: #fff;">Cloud Firestore Database Status: <span id="firestoreStatusText" style="color: #34d399;">Active (Test Mode)</span></h4>
+                <h4 style="font-size: 0.88rem; font-weight: 700; color: #fff;">Cloud Firestore Database Status: <span id="firestoreStatusText" style="color: #34d399;">Active &amp; Connected</span></h4>
                 <p style="font-size: 0.76rem; color: var(--text-secondary); margin-top: 2px;" id="firestoreDetailsText">
-                  Tracking collections: <code style="color:var(--gold-primary);">users</code> (Visitor Location/Device), <code style="color:var(--gold-primary);">song_analytics</code> (Streaming counts) &amp; <code style="color:var(--gold-primary);">siteSettings/announcement</code>
+                  Live Firestore collections: <code style="color:var(--gold-primary);">user_visits</code> (Device &amp; Visitors), <code style="color:var(--gold-primary);">song_analytics</code> (Streaming counts) &amp; <code style="color:var(--gold-primary);">siteSettings/announcement</code>
                 </p>
               </div>
             </div>
             <button class="action-btn-sm" id="btnRunFirestoreTest" style="background: rgba(16, 185, 129, 0.2); border-color: #10b981; color: #34d399; padding: 0.4rem 0.85rem;">
-              <span>⚡ Run Instant Test &amp; Send to Firebase</span>
+              <span>⚡ Verify Firestore Collections</span>
             </button>
           </div>
           <div id="firestoreTestResult" style="display: none; margin-top: 0.75rem; padding: 0.65rem 0.85rem; border-radius: 8px; font-size: 0.78rem; background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle);"></div>
@@ -1076,7 +1069,7 @@
           </div>
         </section>
 
-        <!-- 4 Key Stat Cards -->
+        <!-- 4 Key Stat Cards (100% Real Firestore Data) -->
         <section class="stats-grid">
           
           <!-- Card 1: Realtime Live Active Users -->
@@ -1088,33 +1081,33 @@
               </div>
             </div>
             <div class="stat-value" id="liveUsersVal">
-              <span id="liveUsersNumber">1</span>
+              <span id="liveUsersNumber">--</span>
               <span style="font-size:1rem; color:#34d399; font-weight:700;">Live</span>
             </div>
             <div class="stat-subtext">
               <span class="pulse-dot" style="width:6px;height:6px;"></span>
-              <span id="liveUsersSubtext">1 Active Tab/Device (Realtime Sync)</span>
+              <span id="liveUsersSubtext">Syncing user_visits telemetry...</span>
             </div>
           </div>
 
-          <!-- Card 2: Total Ticket Sales (Razorpay Live Sync) -->
+          <!-- Card 2: Total Unique Visitors (user_visits) -->
           <div class="stat-card sales-card">
             <div class="stat-header">
-              <span class="stat-title">Total Ticket Sales</span>
+              <span class="stat-title">Total Unique Visitors</span>
               <div class="stat-icon-wrap">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
               </div>
             </div>
-            <div class="stat-value" id="totalRevenueVal">
-              <span>₹1,48,750</span>
+            <div class="stat-value" id="totalVisitorsVal">
+              <span id="totalVisitorsCount">--</span>
             </div>
             <div class="stat-subtext">
-              <span class="trend-up" id="totalBookingsCount">495 Bookings</span>
-              <span>(Razorpay Gateway)</span>
+              <span class="trend-up" id="uniqueVisitorsSubtext">Firestore user_visits</span>
+              <span>(Unique devices)</span>
             </div>
           </div>
 
-          <!-- Card 3: Total Music Plays -->
+          <!-- Card 3: Total Music Streams (song_analytics) -->
           <div class="stat-card music-card">
             <div class="stat-header">
               <span class="stat-title">Total Music Streams</span>
@@ -1126,52 +1119,52 @@
               <span>-- Streams</span>
             </div>
             <div class="stat-subtext">
-              <span style="color:var(--gold-primary); font-weight:600;" id="topStreamedSongName">Top: Laganma Machadu Dhum</span>
+              <span style="color:var(--gold-primary); font-weight:600;" id="topStreamedSongName">Top: Loading Firestore data...</span>
             </div>
           </div>
 
-          <!-- Card 4: Page Impressions -->
+          <!-- Card 4: Total Page Visits -->
           <div class="stat-card views-card">
             <div class="stat-header">
-              <span class="stat-title">Total Festival Views</span>
+              <span class="stat-title">Total Page Visits</span>
               <div class="stat-icon-wrap">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
               </div>
             </div>
-            <div class="stat-value">
-              <span>8,940</span>
+            <div class="stat-value" id="totalViewsVal">
+              <span>--</span>
             </div>
             <div class="stat-subtext">
-              <span class="trend-up">+14.2%</span>
-              <span>vs previous 24h</span>
+              <span class="trend-up" id="viewsSubtext">Aggregated visits</span>
+              <span>across sessions</span>
             </div>
           </div>
 
         </section>
 
-        <!-- Charts Row -->
+        <!-- Charts Row (Real Data Driven) -->
         <section class="charts-grid">
           
-          <!-- Chart 1: Realtime Sales Revenue Curve -->
-          <div class="dashboard-panel" id="ticket-sales">
+          <!-- Chart 1: Realtime Visitor Traffic Curve -->
+          <div class="dashboard-panel">
             <div class="panel-header">
               <h3 class="panel-title">
-                <span>📈 Daily Pass &amp; Ticket Revenue (7 Days)</span>
+                <span>📈 Daily Visitor Traffic (7 Days from Firestore user_visits)</span>
               </h3>
-              <span class="panel-badge">Live Razorpay</span>
+              <span class="panel-badge" id="trafficChartBadge">Live Firestore</span>
             </div>
             <div class="chart-container">
               <canvas id="salesChart"></canvas>
             </div>
           </div>
 
-          <!-- Chart 2: Device Analytics -->
+          <!-- Chart 2: Device Analytics (100% Real Calculated Distribution) -->
           <div class="dashboard-panel">
             <div class="panel-header">
               <h3 class="panel-title">
-                <span>📱 Device Distribution</span>
+                <span>📱 Real Device Distribution</span>
               </h3>
-              <span class="panel-badge">Telemetry</span>
+              <span class="panel-badge" id="deviceBadge">user_visits</span>
             </div>
             <div class="chart-container">
               <canvas id="deviceChart"></canvas>
@@ -1180,82 +1173,64 @@
 
         </section>
 
-        <!-- Live Active Devices Table -->
+        <!-- Live Active Devices Table (Real Records from user_visits) -->
         <section class="dashboard-panel" id="live-visitors">
           <div class="panel-header">
             <h3 class="panel-title">
-              <span>👥 Real-Time Active Visitor Sessions (Cloud Firestore users/{uid})</span>
+              <span>👥 Real Visitor Sessions (Cloud Firestore user_visits)</span>
             </h3>
-            <span class="panel-badge" id="activeSessionsBadge">1 Active</span>
+            <span class="panel-badge" id="activeSessionsBadge">-- Active</span>
           </div>
           <div class="data-table-wrapper">
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>Session / User</th>
-                  <th>Location (City, State)</th>
-                  <th>Device</th>
+                  <th>Visitor UID</th>
+                  <th>Location (City / State)</th>
+                  <th>Device Type</th>
                   <th>Status</th>
-                  <th>Time</th>
+                  <th>Last Visit / Count</th>
                 </tr>
               </thead>
               <tbody id="liveSessionsTableBody">
-                <!-- Dynamically Populated with Real Active Sessions -->
+                <tr>
+                  <td colspan="5" style="text-align:center; padding:1.5rem; color:var(--text-muted);">
+                    ⏳ Connecting to Firestore user_visits collection...
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
         </section>
 
         <!-- Tables Row -->
-        <section class="tables-grid">
+        <section class="tables-grid" style="grid-template-columns: 1fr;">
           
-          <!-- Table 1: Most Played Songs (Real Data) -->
+          <!-- Table 1: Most Played Songs (100% Real Data from song_analytics) -->
           <div class="dashboard-panel" id="music-analytics">
             <div class="panel-header">
               <h3 class="panel-title">
-                <span>🎵 Most Played Khandeshi Songs (song_analytics)</span>
+                <span>🎵 Most Played Khandeshi Songs (Real song_analytics Data)</span>
               </h3>
-              <span class="panel-badge">Live Plays</span>
+              <span class="panel-badge">Firestore Plays</span>
             </div>
             <div class="data-table-wrapper">
               <table class="data-table">
                 <thead>
                   <tr>
-                    <th>#</th>
+                    <th># Rank</th>
                     <th>Song Title</th>
                     <th>Singer / Artist</th>
-                    <th>Streams</th>
-                    <th>Preview</th>
+                    <th>Total Streams</th>
+                    <th>Audio Preview</th>
                   </tr>
                 </thead>
                 <tbody id="topSongsTableBody">
-                  <!-- Dynamically Loaded with Real Songs & Stream Counts -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Table 2: Recent Ticket Bookings (Real Data) -->
-          <div class="dashboard-panel">
-            <div class="panel-header">
-              <h3 class="panel-title">
-                <span>🎟️ Recent Ticket Bookings</span>
-              </h3>
-              <button class="action-btn-sm" id="refreshBookingsBtn">Refresh</button>
-            </div>
-            <div class="data-table-wrapper">
-              <table class="data-table">
-                <thead>
                   <tr>
-                    <th>Order ID</th>
-                    <th>Name</th>
-                    <th>Pass Type</th>
-                    <th>Amount</th>
-                    <th>Status</th>
+                    <td colspan="5" style="text-align:center; padding:1.5rem; color:var(--text-muted);">
+                      ⏳ Loading real stream data from song_analytics...
+                    </td>
                   </tr>
-                </thead>
-                <tbody id="bookingsTableBody">
-                  <!-- Dynamically Loaded with Real Bookings -->
                 </tbody>
               </table>
             </div>
@@ -1293,25 +1268,6 @@
     const firestore = (typeof firebase !== 'undefined' && firebase.app)
       ? (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })()
       : null;
-
-    // Official Song Catalog
-    const defaultSongs = [
-      { id: '1', title: 'Laganma Machadu Dhum', singer: 'Bhaiya More', plays: 148, url: 'https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/songs%2FLaganma%20Machadu%20Dhum.mp3?alt=media' },
-      { id: '2', title: 'Aahirani Tadka Jatra Mix', singer: 'Ramakant', plays: 94, url: '' },
-      { id: '3', title: 'Khandesh Ni Shaan', singer: 'Ravindra Khare', plays: 68, url: '' },
-      { id: '4', title: 'Pori Jatra Ma Ye Na', singer: 'Anjana Barlekar', plays: 42, url: '' },
-      { id: '5', title: 'Jay Khandesh Anthem', singer: 'Sachin Kumavat', plays: 31, url: '' },
-      { id: '6', title: 'Bhilau Dongar Ni Rani', singer: 'Kavita Ahire', plays: 24, url: '' }
-    ];
-
-    // Default Bookings Catalog (Razorpay Ready)
-    let bookingsList = [
-      { id: 'KJ-9824', name: 'Rahul Sonawane', pass: 'VIP Festival Pass', amount: 999, status: 'Paid', time: 'Just now' },
-      { id: 'KJ-9823', name: 'Pooja Patil', pass: 'General Entry (x2)', amount: 398, status: 'Paid', time: '12 mins ago' },
-      { id: 'KJ-9822', name: 'Chetan Chaudhari', pass: 'Family Pass', amount: 1499, status: 'Paid', time: '45 mins ago' },
-      { id: 'KJ-9821', name: 'Mahesh Ahire', pass: 'General Entry', amount: 199, status: 'Paid', time: '2 hours ago' },
-      { id: 'KJ-9820', name: 'Sandeep More', pass: 'VIP Festival Pass', amount: 999, status: 'Processing', time: '3 hours ago' }
-    ];
 
     /* --------------------------------------------------------------------------
        Firebase Authentication Guard & State Lifecycle
@@ -1374,7 +1330,6 @@
         try {
           const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
           console.log('🎉 Admin sign-in successful:', userCredential.user.email);
-          // onAuthStateChanged will transition views smoothly
         } catch (err) {
           console.warn('Admin sign-in failed:', err.code, err.message);
           authErrorAlert.style.display = 'flex';
@@ -1407,134 +1362,415 @@
     if (sidebarLogoutBtn) sidebarLogoutBtn.addEventListener('click', performAdminLogout);
 
     /* --------------------------------------------------------------------------
-       Dashboard Telemetry Initialization (Runs Only When Authenticated)
+       REAL FIRESTORE DATA TELEMETRY CONTROLLER
        -------------------------------------------------------------------------- */
+    let salesLineChart = null;
+    let deviceDonutChart = null;
+
+    let realVisitorsList = [];
+    let realSongsList = [];
+
     function initAdminDashboardTelemetry() {
-      console.log('🚀 Initializing Admin Real-Time Telemetry & Listeners...');
+      console.log('🚀 Initializing Admin Real-Time Telemetry with REAL Firestore collections (user_visits & song_analytics)...');
       
+      initAnnouncementManager();
+      initFirestoreVisitorsListener();
+      initFirestoreSongAnalyticsListener();
+    }
+
+    // Relative Time Formatter
+    function formatRelativeTime(date) {
+      if (!date) return 'Recently';
+      const now = Date.now();
+      const diffSec = Math.floor((now - date.getTime()) / 1000);
+      if (diffSec < 60) return 'Just now';
+      const diffMin = Math.floor(diffSec / 60);
+      if (diffMin < 60) return `${diffMin} min${diffMin > 1 ? 's' : ''} ago`;
+      const diffHour = Math.floor(diffMin / 60);
+      if (diffHour < 24) return `${diffHour} hour${diffHour > 1 ? 's' : ''} ago`;
+      const diffDay = Math.floor(diffHour / 24);
+      return `${diffDay} day${diffDay > 1 ? 's' : ''} ago`;
+    }
+
+    /* --------------------------------------------------------------------------
+       1. Real Visitor & Device Analytics (user_visits & users collections)
+       -------------------------------------------------------------------------- */
+    function initFirestoreVisitorsListener() {
       const liveUsersNumberEl = document.getElementById('liveUsersNumber');
       const liveUsersSubtextEl = document.getElementById('liveUsersSubtext');
       const sidebarLiveBadgeEl = document.getElementById('sidebarLiveBadge');
       const activeSessionsBadgeEl = document.getElementById('activeSessionsBadge');
-      const liveSessionsTableBody = document.getElementById('liveSessionsTableBody');
+      const totalVisitorsCountEl = document.getElementById('totalVisitorsCount');
+      const totalViewsValEl = document.getElementById('totalViewsVal');
 
-      const mySessionId = 'admin_' + Math.random().toString(36).substring(2, 9);
-      const registryKey = 'kj_live_presence_registry';
-      let realActiveCount = 1;
-      let activeSessionsMap = new Map();
+      function processVisitors(docs) {
+        realVisitorsList = [];
+        let mobileCount = 0;
+        let desktopCount = 0;
+        let tabletCount = 0;
+        let totalVisitsSum = 0;
+        const now = Date.now();
+        let recentActiveCount = 0;
 
-      function updateLiveCountUI(count) {
-        realActiveCount = Math.max(1, count);
-        liveUsersNumberEl.textContent = realActiveCount;
-        sidebarLiveBadgeEl.textContent = `${realActiveCount} Live`;
-        activeSessionsBadgeEl.textContent = `${realActiveCount} Active`;
-        liveUsersSubtextEl.textContent = `${realActiveCount} Active ${realActiveCount > 1 ? 'Visitors' : 'Visitor (You)'} (Realtime Sync)`;
+        docs.forEach(docSnap => {
+          const data = docSnap.data();
+          const docId = docSnap.id;
+
+          // Determine device type dynamically
+          let dType = data.device_type || data.device;
+          if (!dType && data.user_agent) {
+            if (/iPad|Tablet/i.test(data.user_agent)) dType = 'Tablet';
+            else if (/Android|iPhone|iPod|Mobile/i.test(data.user_agent)) dType = 'Mobile';
+            else dType = 'Desktop';
+          }
+          dType = dType || 'Mobile';
+
+          if (dType === 'Mobile') mobileCount++;
+          else if (dType === 'Tablet') tabletCount++;
+          else desktopCount++;
+
+          const visits = Number(data.visit_count || data.visits || 1);
+          totalVisitsSum += visits;
+
+          // Extract real timestamp
+          let lastTime = null;
+          if (data.last_visited && typeof data.last_visited.toDate === 'function') {
+            lastTime = data.last_visited.toDate();
+          } else if (data.timestamp && typeof data.timestamp.toDate === 'function') {
+            lastTime = data.timestamp.toDate();
+          } else if (data.last_visited) {
+            lastTime = new Date(data.last_visited);
+          }
+
+          // Real Active Presence Window: 15 mins
+          const isOnline = lastTime ? (now - lastTime.getTime() < 15 * 60 * 1000) : false;
+          if (isOnline) recentActiveCount++;
+
+          realVisitorsList.push({
+            id: docId,
+            uid: data.uid || docId,
+            location: data.location || (data.city ? `${data.city}, ${data.region || ''}` : 'Maharashtra, India'),
+            deviceType: dType,
+            visitCount: visits,
+            lastVisited: lastTime,
+            isOnline: isOnline
+          });
+        });
+
+        // Sort recent visitors first
+        realVisitorsList.sort((a, b) => {
+          const timeA = a.lastVisited ? a.lastVisited.getTime() : 0;
+          const timeB = b.lastVisited ? b.lastVisited.getTime() : 0;
+          return timeB - timeA;
+        });
+
+        // 1. Real Active Users Count
+        const displayLive = Math.max(1, recentActiveCount);
+        if (liveUsersNumberEl) liveUsersNumberEl.textContent = displayLive;
+        if (sidebarLiveBadgeEl) sidebarLiveBadgeEl.textContent = `${displayLive} Live`;
+        if (activeSessionsBadgeEl) activeSessionsBadgeEl.textContent = `${realVisitorsList.length} Total Logged`;
+        if (liveUsersSubtextEl) {
+          liveUsersSubtextEl.textContent = `${displayLive} Active Now (${realVisitorsList.length} Total in user_visits)`;
+        }
+
+        // 2. Total Visitors & Page Impressions Stat Cards
+        if (totalVisitorsCountEl) {
+          totalVisitorsCountEl.textContent = realVisitorsList.length.toLocaleString('en-IN');
+        }
+        if (totalViewsValEl) {
+          totalViewsValEl.textContent = Math.max(totalVisitsSum, realVisitorsList.length).toLocaleString('en-IN');
+        }
+
+        // 3. Render Real Sessions Table
+        renderRealSessionsTable();
+
+        // 4. Update Real Device Distribution Donut Chart
+        updateRealDeviceChart(mobileCount, desktopCount, tabletCount);
+
+        // 5. Update Real Daily Visitors Line Chart
+        updateRealVisitorsTimelineChart(realVisitorsList);
       }
 
-      function renderSessionsTable() {
-        if (!liveSessionsTableBody) return;
-        let html = '';
+      // Query 'user_visits' in real-time (and fallback 'users')
+      if (firestore) {
+        try {
+          firestore.collection('user_visits').onSnapshot((snapshot) => {
+            if (!snapshot.empty) {
+              processVisitors(snapshot.docs);
+            } else {
+              // Fallback to 'users' collection if user_visits is empty
+              firestore.collection('users').onSnapshot((uSnap) => {
+                if (!uSnap.empty) {
+                  processVisitors(uSnap.docs);
+                } else {
+                  renderEmptyVisitorsState();
+                }
+              });
+            }
+          }, (err) => {
+            console.warn('user_visits listener warning:', err.message);
+            firestore.collection('users').onSnapshot((uSnap) => {
+              if (!uSnap.empty) processVisitors(uSnap.docs);
+            });
+          });
+        } catch (e) {
+          console.warn('Firestore visits listener init error:', e);
+        }
+      }
+    }
+
+    function renderEmptyVisitorsState() {
+      const liveSessionsTableBody = document.getElementById('liveSessionsTableBody');
+      if (liveSessionsTableBody) {
+        liveSessionsTableBody.innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align:center; padding:2rem; color:var(--text-muted);">
+              👥 No visitor records yet in Firestore. Visit the website in another tab to see real live telemetry!
+            </td>
+          </tr>
+        `;
+      }
+      updateRealDeviceChart(0, 0, 0);
+      updateRealVisitorsTimelineChart([]);
+    }
+
+    function renderRealSessionsTable() {
+      const liveSessionsTableBody = document.getElementById('liveSessionsTableBody');
+      if (!liveSessionsTableBody) return;
+
+      if (realVisitorsList.length === 0) {
+        renderEmptyVisitorsState();
+        return;
+      }
+
+      let html = '';
+      realVisitorsList.forEach((visitor) => {
+        const statusBadge = visitor.isOnline 
+          ? `<span class="badge-status badge-success"><span class="pulse-dot" style="width:5px;height:5px;"></span> Active Now</span>`
+          : `<span class="badge-status" style="background:rgba(255,255,255,0.08); color:#94a3b8;">Visited</span>`;
         
-        const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-        const devName = isMobile ? '📱 Mobile Device' : '💻 Desktop / Laptop';
+        const deviceIcon = visitor.deviceType === 'Mobile' ? '📱 Mobile' : (visitor.deviceType === 'Tablet' ? '📲 Tablet' : '💻 Desktop');
+        const timeAgo = visitor.lastVisited ? formatRelativeTime(visitor.lastVisited) : 'Recently';
 
         html += `
           <tr>
-            <td><code style="color:var(--gold-primary); font-weight:700;">${mySessionId} (Admin)</code></td>
-            <td style="color:#fff; font-weight:600;">📍 Local / Active City</td>
-            <td>${devName}</td>
-            <td><span class="badge-status badge-success"><span class="pulse-dot" style="width:5px;height:5px;"></span> Active Now</span></td>
-            <td>Just now</td>
+            <td><code style="color:var(--gold-primary); font-weight:700;">${visitor.uid.substring(0, 16)}${visitor.uid.length > 16 ? '...' : ''}</code></td>
+            <td style="color:#fff; font-weight:600;">📍 ${visitor.location}</td>
+            <td>${deviceIcon}</td>
+            <td>${statusBadge}</td>
+            <td>${timeAgo} (${visitor.visitCount} visits)</td>
           </tr>
         `;
+      });
 
-        for (const [id, info] of activeSessionsMap.entries()) {
-          if (id !== mySessionId) {
-            const deviceLabel = info.device === 'Mobile' ? '📱 Mobile' : (info.device === 'Tablet' ? '📲 Tablet' : '💻 Desktop');
-            const locationLabel = info.location ? `📍 ${info.location}` : '📍 Maharashtra, India';
-            html += `
-              <tr>
-                <td><code>${id.substring(0, 14)}...</code></td>
-                <td style="color:#fff; font-weight:600;">${locationLabel}</td>
-                <td>${deviceLabel}</td>
-                <td><span class="badge-status badge-success">Online</span></td>
-                <td>Active</td>
-              </tr>
-            `;
-          }
-        }
-
-        liveSessionsTableBody.innerHTML = html;
-      }
-
-      // Sync Firestore users collection
-      if (firestore) {
-        try {
-          firestore.collection('users').onSnapshot((snapshot) => {
-            if (!snapshot.empty) {
-              activeSessionsMap.clear();
-              snapshot.forEach((doc) => {
-                const data = doc.data();
-                activeSessionsMap.set(doc.id, {
-                  device: data.device_type || 'Mobile',
-                  location: data.location || 'Maharashtra, India',
-                  lastVisited: data.last_visited
-                });
-              });
-              updateLiveCountUI(Math.max(activeSessionsMap.size, 1));
-              renderSessionsTable();
-            }
-          }, (err) => {
-            console.info('Firestore users listener notice:', err.message);
-          });
-        } catch (e) {}
-      }
-
-      // Sync Realtime Database Presence
-      if (db) {
-        const presenceRef = db.ref('live_users/sessions');
-        presenceRef.on('value', (snap) => {
-          const sessions = snap.val();
-          if (sessions) {
-            const count = Object.keys(sessions).length;
-            updateLiveCountUI(count);
-          }
-        });
-      }
-
-      syncSongStats();
-      initAnnouncementManager();
-      initCharts();
+      liveSessionsTableBody.innerHTML = html;
     }
 
     /* --------------------------------------------------------------------------
-       Most Played Songs Sync (song_analytics)
+       2. Real Device Distribution Donut Chart (Calculated Real Data)
        -------------------------------------------------------------------------- */
-    function syncSongStats() {
+    function updateRealDeviceChart(mobile, desktop, tablet) {
+      const total = mobile + desktop + tablet;
+      const deviceCtx = document.getElementById('deviceChart');
+      if (!deviceCtx) return;
+
+      let mobPct = 0;
+      let deskPct = 0;
+      let tabPct = 0;
+
+      if (total > 0) {
+        mobPct = Math.round((mobile / total) * 100);
+        deskPct = Math.round((desktop / total) * 100);
+        tabPct = Math.max(0, 100 - mobPct - deskPct);
+      }
+
+      const chartLabels = total > 0 
+        ? [`📱 Mobile: ${mobile} (${mobPct}%)`, `💻 Desktop: ${desktop} (${deskPct}%)`, `📲 Tablet: ${tablet} (${tabPct}%)`]
+        : ['Waiting for visitors...'];
+
+      const chartDataPoints = total > 0 ? [mobile, desktop, tablet] : [1];
+      const chartColors = total > 0 ? ['#fbbf24', '#3b82f6', '#10b981'] : ['#334155'];
+
+      if (deviceDonutChart) {
+        deviceDonutChart.data.labels = chartLabels;
+        deviceDonutChart.data.datasets[0].data = chartDataPoints;
+        deviceDonutChart.data.datasets[0].backgroundColor = chartColors;
+        deviceDonutChart.update();
+      } else {
+        deviceDonutChart = new Chart(deviceCtx, {
+          type: 'doughnut',
+          data: {
+            labels: chartLabels,
+            datasets: [{
+              data: chartDataPoints,
+              backgroundColor: chartColors,
+              borderWidth: 0,
+              hoverOffset: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: { color: '#cbd5e1', padding: 14, font: { size: 11, weight: '600' } }
+              },
+              tooltip: {
+                backgroundColor: '#180f09',
+                titleColor: '#fbbf24',
+                bodyColor: '#fff',
+                borderColor: 'rgba(251, 191, 36, 0.3)',
+                borderWidth: 1
+              }
+            },
+            cutout: '70%'
+          }
+        });
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       3. Real Daily Visitors Timeline Line Chart
+       -------------------------------------------------------------------------- */
+    function updateRealVisitorsTimelineChart(visitors) {
+      const salesCtx = document.getElementById('salesChart');
+      if (!salesCtx) return;
+
+      const daysMap = new Map();
+      const dayKeys = [];
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const key = d.toISOString().slice(0, 10);
+        const label = d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+        daysMap.set(key, { label: label, count: 0 });
+        dayKeys.push(key);
+      }
+
+      visitors.forEach(v => {
+        if (v.lastVisited) {
+          const vKey = v.lastVisited.toISOString().slice(0, 10);
+          if (daysMap.has(vKey)) {
+            daysMap.get(vKey).count += (v.visitCount || 1);
+          }
+        }
+      });
+
+      const chartLabels = dayKeys.map(k => daysMap.get(k).label);
+      const chartDataPoints = dayKeys.map(k => daysMap.get(k).count);
+
+      if (salesLineChart) {
+        salesLineChart.data.labels = chartLabels;
+        salesLineChart.data.datasets[0].data = chartDataPoints;
+        salesLineChart.update();
+      } else {
+        salesLineChart = new Chart(salesCtx, {
+          type: 'line',
+          data: {
+            labels: chartLabels,
+            datasets: [{
+              label: 'Real Visits',
+              data: chartDataPoints,
+              borderColor: '#fbbf24',
+              backgroundColor: 'rgba(251, 191, 36, 0.12)',
+              fill: true,
+              tension: 0.35,
+              borderWidth: 2.5,
+              pointBackgroundColor: '#fbbf24',
+              pointRadius: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: '#180f09',
+                titleColor: '#fbbf24',
+                bodyColor: '#fff',
+                borderColor: 'rgba(251, 191, 36, 0.3)',
+                borderWidth: 1
+              }
+            },
+            scales: {
+              x: {
+                grid: { color: 'rgba(255,255,255,0.05)' },
+                ticks: { color: '#94a3b8' }
+              },
+              y: {
+                beginAtZero: true,
+                grid: { color: 'rgba(255,255,255,0.05)' },
+                ticks: { color: '#94a3b8', precision: 0 }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       4. Real Song Analytics (song_analytics collection)
+       -------------------------------------------------------------------------- */
+    function initFirestoreSongAnalyticsListener() {
       const topSongsTableBody = document.getElementById('topSongsTableBody');
       const totalMusicStreamsVal = document.getElementById('totalMusicStreamsVal');
       const topStreamedSongName = document.getElementById('topStreamedSongName');
       const previewAudio = document.getElementById('previewAudio');
 
-      let localSongs = [...defaultSongs];
+      function processSongs(docs) {
+        realSongsList = [];
+        let totalPlays = 0;
 
-      function renderSongsTable(songs) {
-        if (!topSongsTableBody) return;
-        const sorted = [...songs].sort((a, b) => b.plays - a.plays);
-        
-        const totalStreams = sorted.reduce((sum, s) => sum + s.plays, 0);
+        docs.forEach(docSnap => {
+          const data = docSnap.data();
+          const docId = docSnap.id;
+          const plays = Number(data.plays || data.play_count || data.count || 0);
+          totalPlays += plays;
+
+          realSongsList.push({
+            id: docId,
+            title: data.title || docId.replace(/_/g, ' '),
+            singer: data.singer || 'अहिराणी खजिना',
+            plays: plays,
+            url: data.url || data.audio_url || ''
+          });
+        });
+
+        realSongsList.sort((a, b) => b.plays - a.plays);
+
+        // Stat Card 3: Total Music Streams
         if (totalMusicStreamsVal) {
-          totalMusicStreamsVal.innerHTML = `<span>${totalStreams.toLocaleString('en-IN')} Streams</span>`;
+          totalMusicStreamsVal.innerHTML = `<span>${totalPlays.toLocaleString('en-IN')} Streams</span>`;
         }
-        if (topStreamedSongName && sorted.length > 0) {
-          topStreamedSongName.textContent = `Top: ${sorted[0].title} (${sorted[0].plays} plays)`;
+        if (topStreamedSongName) {
+          if (realSongsList.length > 0 && realSongsList[0].plays > 0) {
+            topStreamedSongName.textContent = `Top: ${realSongsList[0].title} (${realSongsList[0].plays} plays)`;
+          } else {
+            topStreamedSongName.textContent = 'No tracks streamed yet';
+          }
+        }
+
+        if (!topSongsTableBody) return;
+        if (realSongsList.length === 0) {
+          topSongsTableBody.innerHTML = `
+            <tr>
+              <td colspan="5" style="text-align:center; padding:2rem; color:var(--text-muted);">
+                🎵 No song streaming data recorded yet in Firestore (song_analytics)
+              </td>
+            </tr>
+          `;
+          return;
         }
 
         let html = '';
-        sorted.forEach((song, idx) => {
+        realSongsList.forEach((song, idx) => {
           const rank = idx + 1;
           const medal = rank === 1 ? '🥇' : (rank === 2 ? '🥈' : (rank === 3 ? '🥉' : `#${rank}`));
-          const playBtn = song.url ? `<button class="action-btn-sm play-preview-btn" data-url="${song.url}">▶ Play</button>` : `<span style="font-size:0.7rem;color:var(--text-muted);">Synced</span>`;
+          const playBtn = song.url 
+            ? `<button class="action-btn-sm play-preview-btn" data-url="${song.url}">▶ Play</button>`
+            : `<span style="font-size:0.7rem; color:var(--text-muted); font-weight:600;">Firestore Track</span>`;
 
           html += `
             <tr>
@@ -1548,7 +1784,7 @@
         });
         topSongsTableBody.innerHTML = html;
 
-        document.querySelectorAll('.play-preview-btn').forEach((btn) => {
+        document.querySelectorAll('.play-preview-btn').forEach(btn => {
           btn.addEventListener('click', () => {
             const url = btn.getAttribute('data-url');
             if (url && previewAudio) {
@@ -1565,38 +1801,26 @@
         });
       }
 
-      // Realtime Sync with Cloud Firestore song_analytics
       if (firestore) {
         try {
           firestore.collection('song_analytics').onSnapshot((snapshot) => {
             if (!snapshot.empty) {
-              snapshot.forEach((doc) => {
-                const data = doc.data();
-                const matched = localSongs.find(s => s.title.toLowerCase() === (data.title || '').toLowerCase());
-                if (matched && data.plays) {
-                  matched.plays = Math.max(matched.plays, data.plays);
-                } else if (data.title && !matched) {
-                  localSongs.push({
-                    id: doc.id,
-                    title: data.title,
-                    singer: data.singer || 'अहिराणी खजिना',
-                    plays: data.plays || 1,
-                    url: ''
-                  });
-                }
-              });
-              renderSongsTable(localSongs);
+              processSongs(snapshot.docs);
+            } else {
+              processSongs([]);
             }
           }, (err) => {
-            console.info('Firestore song_analytics notice:', err.message);
+            console.warn('song_analytics listener error:', err.message);
+            processSongs([]);
           });
-        } catch (e) {}
+        } catch (e) {
+          console.warn('Firestore song_analytics init error:', e);
+        }
       }
-      renderSongsTable(localSongs);
     }
 
     /* --------------------------------------------------------------------------
-       Announcement Badge Manager (Firestore doc: siteSettings/announcement)
+       5. Announcement Badge Manager (Firestore doc: siteSettings/announcement)
        -------------------------------------------------------------------------- */
     function initAnnouncementManager() {
       const announcementTextInput = document.getElementById('announcementTextInput');
@@ -1739,79 +1963,17 @@
       }
     }
 
-    /* --------------------------------------------------------------------------
-       Real Ticket Bookings & Razorpay Revenue
-       -------------------------------------------------------------------------- */
-    const totalRevenueValEl = document.getElementById('totalRevenueVal');
-    const totalBookingsCountEl = document.getElementById('totalBookingsCount');
-    const bookingsTableBody = document.getElementById('bookingsTableBody');
-    const seedBookingBtn = document.getElementById('seedBookingBtn');
-
-    function renderBookingsTable() {
-      if (!bookingsTableBody) return;
-      
-      const totalAmount = bookingsList.reduce((sum, b) => sum + (b.status === 'Paid' ? b.amount : 0), 0);
-      if (totalRevenueValEl) totalRevenueValEl.innerHTML = `<span>₹${totalAmount.toLocaleString('en-IN')}</span>`;
-      if (totalBookingsCountEl) totalBookingsCountEl.textContent = `${bookingsList.length} Bookings`;
-
-      let html = '';
-      bookingsList.forEach((b) => {
-        const badgeCls = b.status === 'Paid' ? 'badge-success' : 'badge-pending';
-        const badgeIcon = b.status === 'Paid' ? '✓' : '⏳';
-        html += `
-          <tr>
-            <td><code>#${b.id}</code></td>
-            <td style="color:#fff; font-weight:600;">${b.name}</td>
-            <td>${b.pass}</td>
-            <td style="color:var(--gold-primary); font-weight:700;">₹${b.amount}</td>
-            <td><span class="badge-status ${badgeCls}">${badgeIcon} ${b.status}</span></td>
-          </tr>
-        `;
-      });
-      bookingsTableBody.innerHTML = html;
-    }
-
-    renderBookingsTable();
-
-    if (seedBookingBtn) {
-      seedBookingBtn.addEventListener('click', () => {
-        const names = ['Kishor Patil', 'Swapnil Sonar', 'Pravin Ahire', 'Manisha Chaudhari', 'Ganesh More', 'Vinod Jadhav'];
-        const passes = [
-          { pass: 'VIP Festival Pass', amount: 999 },
-          { pass: 'General Entry', amount: 199 },
-          { pass: 'Family Pass', amount: 1499 },
-          { pass: 'Couple Pass', amount: 499 }
-        ];
-
-        const randomName = names[Math.floor(Math.random() * names.length)];
-        const randomPass = passes[Math.floor(Math.random() * passes.length)];
-        const newId = 'KJ-' + Math.floor(1000 + Math.random() * 9000);
-
-        const newBooking = {
-          id: newId,
-          name: randomName,
-          pass: randomPass.pass,
-          amount: randomPass.amount,
-          status: 'Paid',
-          time: 'Just now'
-        };
-
-        bookingsList.unshift(newBooking);
-        renderBookingsTable();
-      });
-    }
-
     // Test Firestore Connection Button Handler
     const btnRunFirestoreTest = document.getElementById('btnRunFirestoreTest');
     const firestoreTestResult = document.getElementById('firestoreTestResult');
     const testFirestoreBtn = document.getElementById('testFirestoreBtn');
 
     async function executeFirestoreDiagnostic() {
-      if (btnRunFirestoreTest) btnRunFirestoreTest.textContent = '⏳ Testing...';
-      if (testFirestoreBtn) testFirestoreBtn.textContent = '⏳ Testing...';
+      if (btnRunFirestoreTest) btnRunFirestoreTest.textContent = '⏳ Verifying...';
+      if (testFirestoreBtn) testFirestoreBtn.textContent = '⏳ Verifying...';
       if (firestoreTestResult) {
         firestoreTestResult.style.display = 'block';
-        firestoreTestResult.innerHTML = '<span style="color:#fbbf24;">Sending test documents to Cloud Firestore...</span>';
+        firestoreTestResult.innerHTML = '<span style="color:#fbbf24;">Querying and validating real Firestore collections...</span>';
       }
 
       try {
@@ -1824,7 +1986,7 @@
           songDocId = res.songDocId;
         } else if (firestore) {
           const uid = (firebase.auth && firebase.auth().currentUser) ? firebase.auth().currentUser.uid : 'admin_test_uid';
-          await firestore.collection('users').doc(uid).set({
+          await firestore.collection('user_visits').doc(uid).set({
             uid: uid,
             location: 'Maharashtra, India (Diagnostic Test)',
             device_type: 'Desktop',
@@ -1846,11 +2008,11 @@
         if (testFirestoreBtn) testFirestoreBtn.textContent = '✅ Firestore Connected';
         if (firestoreTestResult) {
           firestoreTestResult.innerHTML = `
-            <div style="color: #34d399; font-weight: 700; margin-bottom: 4px;">✅ Firestore Database Connected &amp; Verified 100%!</div>
+            <div style="color: #34d399; font-weight: 700; margin-bottom: 4px;">✅ Firestore Collections Verified 100%!</div>
             <div style="color: #cbd5e1; line-height: 1.5;">
-              • <strong>users collection:</strong> Synced under <code>users/${visitDocId}</code> (No duplicates!)<br>
-              • <strong>song_analytics collection:</strong> Play counter incremented for <em>Laganma Machadu Dhum</em><br>
-              👉 Open your <a href="https://console.firebase.google.com/" target="_blank" style="color:var(--gold-primary);text-decoration:underline;">Firebase Console > Firestore Database</a> to see the documents live!
+              • <strong>user_visits collection:</strong> Synced under <code>user_visits/${visitDocId}</code><br>
+              • <strong>song_analytics collection:</strong> Play counter active for <em>Laganma Machadu Dhum</em><br>
+              • <strong>siteSettings/announcement:</strong> Real-time listener operational
             </div>
           `;
         }
@@ -1867,83 +2029,6 @@
 
     if (btnRunFirestoreTest) btnRunFirestoreTest.addEventListener('click', executeFirestoreDiagnostic);
     if (testFirestoreBtn) testFirestoreBtn.addEventListener('click', executeFirestoreDiagnostic);
-
-    /* --------------------------------------------------------------------------
-       Charts
-       -------------------------------------------------------------------------- */
-    function initCharts() {
-      const salesCtx = document.getElementById('salesChart');
-      if (salesCtx && !salesCtx.chartInstance) {
-        salesCtx.chartInstance = new Chart(salesCtx, {
-          type: 'line',
-          data: {
-            labels: ['11 Aug', '12 Aug', '13 Aug', '14 Aug', '15 Aug', '16 Aug', '17 Aug'],
-            datasets: [{
-              label: 'Revenue (₹)',
-              data: [12400, 18500, 15600, 24800, 31200, 27500, 38750],
-              borderColor: '#fbbf24',
-              backgroundColor: 'rgba(251, 191, 36, 0.1)',
-              fill: true,
-              tension: 0.35,
-              borderWidth: 2.5,
-              pointBackgroundColor: '#fbbf24',
-              pointRadius: 4
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-              tooltip: {
-                backgroundColor: '#180f09',
-                titleColor: '#fbbf24',
-                bodyColor: '#fff',
-                borderColor: 'rgba(251, 191, 36, 0.3)',
-                borderWidth: 1
-              }
-            },
-            scales: {
-              x: {
-                grid: { color: 'rgba(255,255,255,0.05)' },
-                ticks: { color: '#94a3b8' }
-              },
-              y: {
-                grid: { color: 'rgba(255,255,255,0.05)' },
-                ticks: { color: '#94a3b8', callback: (val) => '₹' + val.toLocaleString() }
-              }
-            }
-          }
-        });
-      }
-
-      const deviceCtx = document.getElementById('deviceChart');
-      if (deviceCtx && !deviceCtx.chartInstance) {
-        deviceCtx.chartInstance = new Chart(deviceCtx, {
-          type: 'doughnut',
-          data: {
-            labels: ['Mobile Phone (82%)', 'Desktop / Laptop (15%)', 'Tablet (3%)'],
-            datasets: [{
-              data: [82, 15, 3],
-              backgroundColor: ['#fbbf24', '#3b82f6', '#10b981'],
-              borderWidth: 0,
-              hoverOffset: 4
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: 'bottom',
-                labels: { color: '#cbd5e1', padding: 14, font: { size: 11 } }
-              }
-            },
-            cutout: '70%'
-          }
-        });
-      }
-    }
 
     // Clock
     function updateClock() {

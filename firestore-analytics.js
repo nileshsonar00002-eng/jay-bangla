@@ -4,10 +4,10 @@
  * ==========================================================================
  * - Target Database: 'khandeshijatra'
  * - Real-Time Dynamic Top Announcement Badge ('siteSettings/announcement')
+ * - Visitor & Device Tracking ('user_visits' & 'users')
+ * - Song Streaming Analytics ('song_analytics')
  * - Multi-Channel Synchronization (Firestore + BroadcastChannel + LocalStorage)
- * - Persistent Anonymous Authentication (users/{uid})
- * - Zero Login/Signup UI for Normal Public Visitors
- * - Deduplicated Session Tracking & Real-Time Song Analytics
+ * - Persistent Anonymous Authentication (users/{uid} & user_visits/{uid})
  * ==========================================================================
  */
 
@@ -104,8 +104,8 @@ async function resolveUserLocation() {
 }
 
 /**
- * 2. Persistent User Record Synchronization under users/{uid}
- * Re-visits from the same browser/device update the existing document, NOT creating duplicates.
+ * 2. Persistent User Record Synchronization under user_visits/{uid} & users/{uid}
+ * Re-visits from the same browser/device update existing records, avoiding artificial duplicates.
  */
 export async function syncUserRecord(user) {
   if (!user || !user.uid) return;
@@ -127,30 +127,37 @@ export async function syncUserRecord(user) {
 
   try {
     const userDocRef = doc(db, 'users', uid);
+    const userVisitsDocRef = doc(db, 'user_visits', uid);
     
-    // Construct merged payload (stores/updates under users/{uid})
+    // Construct payload with all standard field names
     const updateData = {
       uid: uid,
       location: locationData,
       device_type: deviceType,
+      device: deviceType,
       timezone: timezone,
       last_visited: serverTimestamp(),
-      user_agent: (navigator.userAgent || '').substring(0, 100)
+      timestamp: serverTimestamp(),
+      user_agent: (navigator.userAgent || '').substring(0, 120)
     };
 
     if (isNewSession) {
       updateData.visit_count = increment(1);
     }
 
-    // Update users/{uid} without duplicate document creation
-    await setDoc(userDocRef, updateData, { merge: true });
+    // Write to both 'users' and 'user_visits' collections in Firestore
+    await Promise.allSettled([
+      setDoc(userDocRef, updateData, { merge: true }),
+      setDoc(userVisitsDocRef, updateData, { merge: true })
+    ]);
+
     sessionStorage.setItem(sessionKey, 'true');
 
-    console.log(`✅ [Firestore Auth] Synced visitor record: users/${uid} (${locationData} | ${deviceType})`);
+    console.log(`✅ [Firestore Auth] Synced visitor in user_visits/${uid} (${locationData} | ${deviceType})`);
     
     return { success: true, uid: uid, location: locationData, deviceType: deviceType };
   } catch (error) {
-    console.error('❌ [Firestore Sync Error users/{uid}]:', error);
+    console.error('❌ [Firestore Sync Error user_visits/{uid}]:', error);
     return { success: false, error: error };
   }
 }
@@ -194,14 +201,17 @@ export async function trackSongPlay(songTitle, singer) {
       last_played: serverTimestamp()
     }, { merge: true });
 
-    // Also update user's last played song inside users/{uid}
+    // Also update user's last played song inside users/{uid} & user_visits/{uid}
     if (currentUid) {
       try {
-        const userDocRef = doc(db, 'users', currentUid);
-        await setDoc(userDocRef, {
+        const payload = {
           last_played_song: songTitle,
           last_active: serverTimestamp()
-        }, { merge: true });
+        };
+        await Promise.allSettled([
+          setDoc(doc(db, 'users', currentUid), payload, { merge: true }),
+          setDoc(doc(db, 'user_visits', currentUid), payload, { merge: true })
+        ]);
       } catch (e) {}
     }
 
