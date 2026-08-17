@@ -475,12 +475,15 @@ const initialPlaylist = [
 /* --------------------------------------------------------------------------
    8. Music Player Core Engine (Firebase Cloud Storage MP3 Streaming)
    -------------------------------------------------------------------------- */
+let isShuffleOn = false;
+
 class MiniMusicPlayer {
   constructor(songList = initialPlaylist) {
     this.playlist = [...songList];
     this.currentIndex = 0;
     this.isPlaying = false;
     this.isMuted = false;
+    this.isShuffleOn = isShuffleOn;
     this.volume = parseFloat(localStorage.getItem('kj_volume') || '0.85');
 
     // DOM References
@@ -490,6 +493,7 @@ class MiniMusicPlayer {
     this.pauseIcon = document.getElementById('pauseIcon');
     this.prevBtn = document.getElementById('prevBtn');
     this.nextBtn = document.getElementById('nextBtn');
+    this.shuffleBtn = document.getElementById('shuffleBtn');
     
     this.trackTitle = document.getElementById('trackTitle');
     this.trackArtist = document.getElementById('trackArtist') || document.getElementById('playerCategoryElement');
@@ -533,10 +537,39 @@ class MiniMusicPlayer {
     if (this.volumeSlider) this.volumeSlider.value = this.volume;
     this.updateVolumeIcon();
 
+    try {
+      isShuffleOn = localStorage.getItem('kj_shuffle') === '1';
+      this.isShuffleOn = isShuffleOn;
+    } catch (e) {}
+    this.updateShuffleUI();
+
     this.loadTrack(this.currentIndex, false);
     this.bindEvents();
     this.updatePlaylistCountBadge();
     this.loadFromFirebaseStorage();
+  }
+
+  toggleShuffle() {
+    isShuffleOn = !isShuffleOn;
+    this.isShuffleOn = isShuffleOn;
+    try {
+      localStorage.setItem('kj_shuffle', isShuffleOn ? '1' : '0');
+    } catch (e) {}
+    this.updateShuffleUI();
+  }
+
+  updateShuffleUI() {
+    if (this.shuffleBtn) {
+      if (isShuffleOn) {
+        this.shuffleBtn.classList.add('active');
+        this.shuffleBtn.setAttribute('aria-pressed', 'true');
+        this.shuffleBtn.title = 'Shuffle: ON (S)';
+      } else {
+        this.shuffleBtn.classList.remove('active');
+        this.shuffleBtn.setAttribute('aria-pressed', 'false');
+        this.shuffleBtn.title = 'Shuffle: OFF (S)';
+      }
+    }
   }
 
   /**
@@ -955,17 +988,43 @@ class MiniMusicPlayer {
   }
 
   prevTrack() {
-    let nextIndex = this.currentIndex - 1;
-    if (nextIndex < 0) {
-      nextIndex = this.playlist.length - 1;
+    if (!this.playlist || this.playlist.length === 0) return;
+
+    let nextIndex;
+    if (isShuffleOn) {
+      if (this.playlist.length === 1) {
+        nextIndex = 0;
+      } else {
+        do {
+          nextIndex = Math.floor(Math.random() * this.playlist.length);
+        } while (nextIndex === this.currentIndex && this.playlist.length > 1);
+      }
+    } else {
+      nextIndex = this.currentIndex - 1;
+      if (nextIndex < 0) {
+        nextIndex = this.playlist.length - 1;
+      }
     }
     this.loadTrack(nextIndex, true);
   }
 
   nextTrack() {
-    let nextIndex = this.currentIndex + 1;
-    if (nextIndex >= this.playlist.length) {
-      nextIndex = 0;
+    if (!this.playlist || this.playlist.length === 0) return;
+
+    let nextIndex;
+    if (isShuffleOn) {
+      if (this.playlist.length === 1) {
+        nextIndex = 0;
+      } else {
+        do {
+          nextIndex = Math.floor(Math.random() * this.playlist.length);
+        } while (nextIndex === this.currentIndex && this.playlist.length > 1);
+      }
+    } else {
+      nextIndex = this.currentIndex + 1;
+      if (nextIndex >= this.playlist.length) {
+        nextIndex = 0;
+      }
     }
     this.loadTrack(nextIndex, true);
   }
@@ -1196,6 +1255,9 @@ class MiniMusicPlayer {
     this.playBtn.addEventListener('click', () => this.togglePlay());
     this.prevBtn.addEventListener('click', () => this.prevTrack());
     this.nextBtn.addEventListener('click', () => this.nextTrack());
+    if (this.shuffleBtn) {
+      this.shuffleBtn.addEventListener('click', () => this.toggleShuffle());
+    }
     this.volumeBtn.addEventListener('click', () => this.toggleMute());
 
     // Open/Toggle Playlist on clicking player track info or playlist button
@@ -1358,6 +1420,9 @@ class MiniMusicPlayer {
           break;
         case 'KeyP':
           this.prevTrack();
+          break;
+        case 'KeyS':
+          this.toggleShuffle();
           break;
       }
     });
@@ -1632,4 +1697,12 @@ document.addEventListener('DOMContentLoaded', () => {
   window.presenceTracker = new RealtimePresenceTracker(BASE_LISTENER_COUNT);
   window.khandeshiPlayer = new MiniMusicPlayer(initialPlaylist);
 });
+
+// Global alias for next track advancement
+function playNextSong() {
+  if (window.khandeshiPlayer) {
+    window.khandeshiPlayer.nextTrack();
+  }
+}
+window.playNextSong = playNextSong;
 
