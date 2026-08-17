@@ -84,6 +84,8 @@ body {
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
   will-change: transform, opacity;
   transition: opacity 0.4s ease, transform 0.4s ease;
   animation: cinematicBreathing 18s ease-in-out infinite alternate;
