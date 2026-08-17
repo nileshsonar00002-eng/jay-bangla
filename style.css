@@ -815,7 +815,7 @@ body {
 
 /* Specifically when Kanubai Special playlist is active: Shift player lower below the text */
 body.kanubai-active .player-container {
-  top: clamp(140px, 18vh, 175px);
+  top: clamp(185px, 23vh, 225px);
   bottom: auto;
 }
 
@@ -2076,7 +2076,7 @@ body.kanubai-active .player-container {
   }
 
   body.kanubai-active .player-container {
-    top: calc(clamp(165px, 21vh, 195px) + env(safe-area-inset-top, 0px));
+    top: calc(clamp(215px, 26.5vh, 250px) + env(safe-area-inset-top, 0px));
     bottom: auto;
   }
 
@@ -2242,7 +2242,7 @@ body.kanubai-active .player-container {
   }
 
   body.kanubai-active .player-container {
-    top: calc(clamp(175px, 22vh, 205px) + env(safe-area-inset-top, 0px));
+    top: calc(clamp(225px, 27.5vh, 260px) + env(safe-area-inset-top, 0px));
     bottom: auto;
     margin-top: 0;
     margin-bottom: 0;
