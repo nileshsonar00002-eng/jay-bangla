@@ -82,7 +82,7 @@ body {
   width: calc(100% + 16px);
   height: calc(100% + 16px);
   background-size: cover;
-  background-position: center 38%;
+  background-position: center center;
   background-repeat: no-repeat;
   will-change: transform, opacity;
   transition: opacity 0.4s ease, transform 0.4s ease;
@@ -2134,7 +2134,7 @@ body {
   }
 
   .bg-image {
-    background-position: center 30%;
+    background-position: center 42%;
   }
 
   .festive-ad-banner-container {
