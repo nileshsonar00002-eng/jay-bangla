@@ -18,16 +18,6 @@
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Paho MQTT WebSockets Engine for Multi-Device Presence -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
-
-  <!-- Firebase Web SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
-
   <style>
     :root {
       --bg-base: #000000;
@@ -1049,7 +1039,7 @@
               <span id="totalVisitorsCount">--</span>
             </div>
             <div class="stat-subtext">
-              <span>Unique devices</span>
+              <span>Unique devices in user_visits</span>
             </div>
           </div>
 
@@ -1067,7 +1057,7 @@
             </div>
             <div class="stat-subtext">
               <span class="pulse-dot"></span>
-              <span id="liveUsersSubtext">Syncing user_visits...</span>
+              <span id="liveUsersSubtext">Syncing khandeshijatra...</span>
             </div>
           </div>
 
@@ -1239,7 +1229,7 @@
               <tbody id="liveSessionsTableBody">
                 <tr>
                   <td colspan="5" style="text-align:center; padding:1.25rem; color:var(--text-muted);">
-                    Connecting to Firestore user_visits...
+                    Connecting to Firestore user_visits on khandeshijatra database...
                   </td>
                 </tr>
               </tbody>
@@ -1283,7 +1273,7 @@
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span class="pulse-dot"></span>
               <span style="font-size: 0.78rem; font-weight: 600; color: var(--text-secondary);">
-                Cloud Firestore: <span id="firestoreStatusText" style="color: var(--accent-live);">Active</span>
+                Cloud Firestore (Database: <code style="color:#ffffff;">khandeshijatra</code>): <span id="firestoreStatusText" style="color: var(--accent-live);">Active</span>
               </span>
             </div>
             <button class="action-btn-sm" id="btnRunFirestoreTest">
@@ -1298,8 +1288,13 @@
 
   </div>
 
-  <script>
-    // Firebase Config (khaneshijatra)
+  <!-- Firebase Modular v10 SDK Integration (Database: khandeshijatra) -->
+  <script type="module">
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // Firebase Project Config (khaneshijatra)
     const firebaseConfig = {
       apiKey: "AIzaSyDnVjfQrfksPVnq57OhjNios9Yd6A0EjSA",
       authDomain: "khaneshijatra.firebaseapp.com",
@@ -1311,18 +1306,14 @@
       measurementId: "G-0CQ0YDPPQP"
     };
 
-    if (!firebase.apps.length) {
-      try {
-        firebase.initializeApp(firebaseConfig);
-      } catch (e) {
-        console.warn('Firebase init error:', e);
-      }
-    }
+    // Named Database ID as configured in Firebase Console
+    const DATABASE_ID = 'khandeshijatra';
 
-    const db = (typeof firebase !== 'undefined' && firebase.database) ? firebase.database() : null;
-    const firestore = (typeof firebase !== 'undefined' && firebase.app)
-      ? (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })()
-      : null;
+    const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+    const auth = getAuth(app);
+    const db = getFirestore(app, DATABASE_ID);
+
+    console.log(`🔥 [Admin Panel] Connected to Cloud Firestore database: "${DATABASE_ID}"`);
 
     /* --------------------------------------------------------------------------
        Firebase Authentication Guard & State Lifecycle
@@ -1342,26 +1333,24 @@
 
     let isDashboardInitialized = false;
 
-    if (firebase.auth) {
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user && !user.isAnonymous && user.email) {
-          console.log('✅ [Admin Auth] Authenticated as:', user.email);
-          adminLoginScreen.style.display = 'none';
-          adminDashboardLayout.style.display = 'flex';
-          adminUserEmailText.textContent = `👤 ${user.email}`;
+    onAuthStateChanged(auth, (user) => {
+      if (user && !user.isAnonymous && user.email) {
+        console.log('✅ [Admin Auth] Authenticated as:', user.email);
+        adminLoginScreen.style.display = 'none';
+        adminDashboardLayout.style.display = 'flex';
+        adminUserEmailText.textContent = `👤 ${user.email}`;
 
-          if (!isDashboardInitialized) {
-            initAdminDashboardTelemetry();
-            isDashboardInitialized = true;
-          }
-        } else {
-          console.log('🔒 [Admin Auth] Access Restricted. Please sign in.');
-          adminLoginScreen.style.display = 'flex';
-          adminDashboardLayout.style.display = 'none';
-          if (adminAuthPassword) adminAuthPassword.value = '';
+        if (!isDashboardInitialized) {
+          initAdminDashboardTelemetry();
+          isDashboardInitialized = true;
         }
-      });
-    }
+      } else {
+        console.log('🔒 [Admin Auth] Access Restricted. Please sign in with Email & Password.');
+        adminLoginScreen.style.display = 'flex';
+        adminDashboardLayout.style.display = 'none';
+        if (adminAuthPassword) adminAuthPassword.value = '';
+      }
+    });
 
     // Login Form Submit Handler
     if (adminAuthForm) {
@@ -1381,7 +1370,7 @@
         authErrorAlert.style.display = 'none';
 
         try {
-          const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);
           console.log('🎉 Admin sign-in successful:', userCredential.user.email);
         } catch (err) {
           console.warn('Admin sign-in failed:', err.code, err.message);
@@ -1400,15 +1389,13 @@
 
     // Logout Function
     function performAdminLogout() {
-      if (firebase.auth) {
-        firebase.auth().signOut().then(() => {
-          console.log('🚪 Admin logged out.');
-          adminLoginScreen.style.display = 'flex';
-          adminDashboardLayout.style.display = 'none';
-          if (adminAuthPassword) adminAuthPassword.value = '';
-          authErrorAlert.style.display = 'none';
-        });
-      }
+      signOut(auth).then(() => {
+        console.log('🚪 Admin logged out.');
+        adminLoginScreen.style.display = 'flex';
+        adminDashboardLayout.style.display = 'none';
+        if (adminAuthPassword) adminAuthPassword.value = '';
+        authErrorAlert.style.display = 'none';
+      });
     }
 
     if (topbarLogoutBtn) topbarLogoutBtn.addEventListener('click', performAdminLogout);
@@ -1424,7 +1411,7 @@
     let realSongsList = [];
 
     function initAdminDashboardTelemetry() {
-      console.log('🚀 Initializing Admin Real-Time Telemetry...');
+      console.log('🚀 Initializing Admin Real-Time Telemetry on database:', DATABASE_ID);
       initAnnouncementManager();
       initFirestoreVisitorsListener();
       initFirestoreSongAnalyticsListener();
@@ -1517,7 +1504,7 @@
         if (sidebarLiveBadgeEl) sidebarLiveBadgeEl.textContent = `${displayLive} Live`;
         if (activeSessionsBadgeEl) activeSessionsBadgeEl.textContent = `${realVisitorsList.length} Total`;
         if (liveUsersSubtextEl) {
-          liveUsersSubtextEl.textContent = `${displayLive} Active now (${realVisitorsList.length} total)`;
+          liveUsersSubtextEl.textContent = `${displayLive} Active now (${realVisitorsList.length} total in user_visits)`;
         }
 
         if (totalVisitorsCountEl) {
@@ -1532,29 +1519,28 @@
         updateRealVisitorsTimelineChart(realVisitorsList);
       }
 
-      if (firestore) {
-        try {
-          firestore.collection('user_visits').onSnapshot((snapshot) => {
-            if (!snapshot.empty) {
-              processVisitors(snapshot.docs);
-            } else {
-              firestore.collection('users').onSnapshot((uSnap) => {
-                if (!uSnap.empty) {
-                  processVisitors(uSnap.docs);
-                } else {
-                  renderEmptyVisitorsState();
-                }
-              });
-            }
-          }, (err) => {
-            console.warn('user_visits listener warning:', err.message);
-            firestore.collection('users').onSnapshot((uSnap) => {
+      try {
+        const userVisitsRef = collection(db, 'user_visits');
+        onSnapshot(userVisitsRef, (snapshot) => {
+          if (!snapshot.empty) {
+            processVisitors(snapshot.docs);
+          } else {
+            // Fallback to 'users' collection
+            const usersRef = collection(db, 'users');
+            onSnapshot(usersRef, (uSnap) => {
               if (!uSnap.empty) processVisitors(uSnap.docs);
+              else renderEmptyVisitorsState();
             });
+          }
+        }, (err) => {
+          console.warn('user_visits listener error:', err.message);
+          const usersRef = collection(db, 'users');
+          onSnapshot(usersRef, (uSnap) => {
+            if (!uSnap.empty) processVisitors(uSnap.docs);
           });
-        } catch (e) {
-          console.warn('Firestore visits listener init error:', e);
-        }
+        });
+      } catch (e) {
+        console.warn('Firestore visits listener init error:', e);
       }
     }
 
@@ -1841,21 +1827,20 @@
         });
       }
 
-      if (firestore) {
-        try {
-          firestore.collection('song_analytics').onSnapshot((snapshot) => {
-            if (!snapshot.empty) {
-              processSongs(snapshot.docs);
-            } else {
-              processSongs([]);
-            }
-          }, (err) => {
-            console.warn('song_analytics listener error:', err.message);
+      try {
+        const songsColRef = collection(db, 'song_analytics');
+        onSnapshot(songsColRef, (snapshot) => {
+          if (!snapshot.empty) {
+            processSongs(snapshot.docs);
+          } else {
             processSongs([]);
-          });
-        } catch (e) {
-          console.warn('Firestore song_analytics init error:', e);
-        }
+          }
+        }, (err) => {
+          console.warn('song_analytics listener error:', err.message);
+          processSongs([]);
+        });
+      } catch (e) {
+        console.warn('Firestore song_analytics init error:', e);
       }
     }
 
@@ -1931,10 +1916,12 @@
       });
 
       // Real-time Firestore Listener for Announcement Settings
-      if (firestore) {
-        firestore.collection('siteSettings').doc('announcement').onSnapshot((docSnap) => {
-          if (docSnap.exists) {
-            const data = docSnap.data();
+      try {
+        const announcementDocRef = doc(db, 'siteSettings', 'announcement');
+        onSnapshot(announcementDocRef, (snap) => {
+          if (snap.exists()) {
+            const data = snap.data();
+            console.log('📢 [Firestore Snapshot] Live Announcement Data:', data);
             if (data.text && document.activeElement !== announcementTextInput) {
               announcementTextInput.value = data.text;
             }
@@ -1946,6 +1933,8 @@
         }, (err) => {
           console.info('Announcement listener notice:', err.message);
         });
+      } catch (e) {
+        console.warn('Announcement listener init error:', e);
       }
 
       // Publish Button Click Handler
@@ -1956,28 +1945,27 @@
           btnPublishAnnouncement.disabled = true;
           btnPublishAnnouncement.innerHTML = '<span>Saving...</span>';
 
-          const payload = { text, enabled, updatedAt: Date.now() };
+          const payload = {
+            text: text,
+            enabled: enabled,
+            updatedAt: serverTimestamp(),
+            updatedBy: (auth.currentUser && (auth.currentUser.email || auth.currentUser.uid)) || 'admin'
+          };
 
           // Instant Local Storage & Broadcast Sync
           try {
-            localStorage.setItem('kj_announcement_override', JSON.stringify(payload));
+            localStorage.setItem('kj_announcement_override', JSON.stringify({ text, enabled, updatedAt: Date.now() }));
             if (typeof BroadcastChannel !== 'undefined') {
               const bc = new BroadcastChannel('kj_announcement_broadcast');
-              bc.postMessage(payload);
+              bc.postMessage({ text, enabled, updatedAt: Date.now() });
               setTimeout(() => bc.close(), 1000);
             }
           } catch (e) {}
 
           // Cloud Firestore Realtime Sync
           try {
-            if (firestore) {
-              await firestore.collection('siteSettings').doc('announcement').set({
-                text: text,
-                enabled: enabled,
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-                updatedBy: (firebase.auth && firebase.auth().currentUser && (firebase.auth().currentUser.email || firebase.auth().currentUser.uid)) || 'admin'
-              }, { merge: true });
-            }
+            const announcementDocRef = doc(db, 'siteSettings', 'announcement');
+            await setDoc(announcementDocRef, payload, { merge: true });
 
             if (announcementSaveResult) {
               announcementSaveResult.style.display = 'inline-block';
@@ -2010,41 +1998,35 @@
       if (testFirestoreBtn) testFirestoreBtn.textContent = 'Verifying...';
       if (firestoreTestResult) {
         firestoreTestResult.style.display = 'block';
-        firestoreTestResult.innerHTML = '<span style="color:var(--text-secondary);">Querying Firestore collections...</span>';
+        firestoreTestResult.innerHTML = '<span style="color:var(--text-secondary);">Querying Firestore collections on khandeshijatra...</span>';
       }
 
       try {
-        let visitDocId = null;
-        let songDocId = null;
+        const uid = auth.currentUser ? auth.currentUser.uid : 'admin_test_uid';
+        await setDoc(doc(db, 'user_visits', uid), {
+          uid: uid,
+          location: 'Maharashtra, India (Diagnostic)',
+          device_type: 'Desktop',
+          last_visited: serverTimestamp(),
+          visit_count: increment(1)
+        }, { merge: true });
 
-        if (firestore) {
-          const uid = (firebase.auth && firebase.auth().currentUser) ? firebase.auth().currentUser.uid : 'admin_test_uid';
-          await firestore.collection('user_visits').doc(uid).set({
-            uid: uid,
-            location: 'Maharashtra, India (Diagnostic)',
-            device_type: 'Desktop',
-            last_visited: firebase.firestore.FieldValue.serverTimestamp(),
-            visit_count: firebase.firestore.FieldValue.increment(1)
-          }, { merge: true });
-          visitDocId = uid;
-          const sDocId = 'Laganma_Machadu_Dhum';
-          await firestore.collection('song_analytics').doc(sDocId).set({
-            title: 'Laganma Machadu Dhum',
-            singer: 'Bhaiya More',
-            plays: firebase.firestore.FieldValue.increment(1),
-            last_played: firebase.firestore.FieldValue.serverTimestamp()
-          }, { merge: true });
-          songDocId = sDocId;
-        }
+        const sDocId = 'Laganma_Machadu_Dhum';
+        await setDoc(doc(db, 'song_analytics', sDocId), {
+          title: 'Laganma Machadu Dhum',
+          singer: 'Bhaiya More',
+          plays: increment(1),
+          last_played: serverTimestamp()
+        }, { merge: true });
 
         if (btnRunFirestoreTest) btnRunFirestoreTest.textContent = '✅ Verified';
         if (testFirestoreBtn) testFirestoreBtn.textContent = '✅ Connected';
         if (firestoreTestResult) {
           firestoreTestResult.innerHTML = `
-            <div style="color: var(--accent-live); font-weight: 700; margin-bottom: 2px;">✅ Firestore Collections Verified:</div>
+            <div style="color: var(--accent-live); font-weight: 700; margin-bottom: 2px;">✅ Firestore Database "${DATABASE_ID}" Verified:</div>
             <div style="color: var(--text-secondary); line-height: 1.4;">
-              • <code>user_visits</code> active (${visitDocId})<br>
-              • <code>song_analytics</code> counter active (${songDocId})
+              • <code>user_visits</code> active (${uid})<br>
+              • <code>song_analytics</code> counter active (${sDocId})
             </div>
           `;
         }
