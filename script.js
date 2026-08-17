@@ -447,83 +447,52 @@ const KNOWN_KHANDESHI_SINGERS = [
   { name: 'Machindra More', regex: /\b(?:machindra\s*more|मच्छिंद्र\s*मोरे)\b/i },
   { name: 'Arun Ahire', regex: /\b(?:arun\s*ahire|अरुण\s*अहिरे)\b/i },
   { name: 'Rucha Birari', regex: /\b(?:rucha\s*birari|ऋचा\s*बिरारी)\b/i },
-/* --------------------------------------------------------------------------
-   7. Initial Music Player State & Dual Playlist Engine
-   -------------------------------------------------------------------------- */
-const defaultPlaylists = {
-  ahirani: [
-    {
-      id: 'ahirani_1',
-      title: 'खान्देशी अहिराणी गाणी',
-      singer: 'Bhaiya More',
-      artist: 'Bhaiya More',
-      vocals: 'Bhaiya More',
-      category: 'अहिराणी गाणी',
-      duration: '--:--',
-      cover: 'assets/khandeshi-jatra-bg.jpg',
-      isFirebaseStorage: true
-    }
-  ],
-  kanubai: [
-    {
-      id: 'kanubai_1',
-      title: 'आई कानुबाईचं रूप देखणं',
-      singer: 'अहिराणी भक्तीगीत',
-      artist: 'अहिराणी भक्तीगीत',
-      vocals: 'अहिराणी भक्तीगीत',
-      category: 'कानुबाई स्पेशल',
-      duration: '--:--',
-      cover: 'assets/kanubai-bg.jpg',
-      isFirebaseStorage: true
-    },
-    {
-      id: 'kanubai_2',
-      title: 'कानुबाई माईचा सण मोठा',
-      singer: 'अहिराणी भक्तीगीत',
-      artist: 'अहिराणी भक्तीगीत',
-      vocals: 'अहिराणी भक्तीगीत',
-      category: 'कानुबाई स्पेशल',
-      duration: '--:--',
-      cover: 'assets/kanubai-bg.jpg',
-      isFirebaseStorage: true
-    },
-    {
-      id: 'kanubai_3',
-      title: 'कानुबाईचा रोटाचा सण',
-      singer: 'पारंपारिक कानुबाई गाणे',
-      artist: 'पारंपारिक कानुबाई गाणे',
-      vocals: 'पारंपारिक कानुबाई गाणे',
-      category: 'कानुबाई स्पेशल',
-      duration: '--:--',
-      cover: 'assets/kanubai-bg.jpg',
-      isFirebaseStorage: true
-    },
-    {
-      id: 'kanubai_4',
-      title: 'कानुबाई आई माहेरला आली',
-      singer: 'अहिराणी भक्तीगीत',
-      artist: 'अहिराणी भक्तीगीत',
-      vocals: 'अहिराणी भक्तीगीत',
-      category: 'कानुबाई स्पेशल',
-      duration: '--:--',
-      cover: 'assets/kanubai-bg.jpg',
-      isFirebaseStorage: true
-    },
-    {
-      id: 'kanubai_5',
-      title: 'आई कानुबाई पाव आम्हाला',
-      singer: 'अहिराणी भक्तीगीत',
-      artist: 'अहिराणी भक्तीगीत',
-      vocals: 'अहिराणी भक्तीगीत',
-      category: 'कानुबाई स्पेशल',
-      duration: '--:--',
-      cover: 'assets/kanubai-bg.jpg',
-      isFirebaseStorage: true
-    }
-  ]
-};
+  { name: 'Dipak Wagh', regex: /\b(?:dipak\s*wagh|दीपक\s*वाघ)\b/i },
+  { name: 'Bhagyashree Sathe', regex: /\b(?:bhagyashree\s*sathe|भाग्यश्री\s*साठे)\b/i },
+  { name: 'Megha Musale', regex: /\b(?:megha\s*musale|मेघा\s*मुसळे)\b/i },
+  { name: 'Jasraj Joshi', regex: /\b(?:jasraj\s*joshi|जसराज\s*जोशी)\b/i },
+  { name: 'Prashant Nakti', regex: /\b(?:prashant\s*nakti|प्रशांत\s*नाकती)\b/i },
+  { name: 'Lalit Shinde', regex: /\b(?:lalit\s*shinde|ललित\s*शिंदे)\b/i }
+];
 
-const initialPlaylist = defaultPlaylists.ahirani;
+function extractSingerKeyword(text) {
+  if (!text || typeof text !== 'string') return null;
+
+  // 1. Keyword search against known singers database
+  for (const entry of KNOWN_KHANDESHI_SINGERS) {
+    if (entry.regex.test(text)) {
+      return entry.name;
+    }
+  }
+
+  // 2. Pattern search: "by <Singer>", "singer: <Singer>", "गायक: <Singer>", "ft. <Singer>"
+  const match = text.match(/(?:by|singer|vocals|artist|feat\.?|ft\.?|गायक|स्वर)\s*[:\-–—]?\s*([a-zA-Z\u0900-\u097F\s]{2,40})/i);
+  if (match && match[1]) {
+    const candidate = match[1].replace(/[\(\)\[\]\.\-_]+$/g, '').trim();
+    if (candidate.length >= 2 && candidate.length <= 35) {
+      return candidate;
+    }
+  }
+
+  return null;
+}
+
+/* --------------------------------------------------------------------------
+   7. Initial Music Player State
+   -------------------------------------------------------------------------- */
+const initialPlaylist = [
+  {
+    id: 'kj_init_1',
+    title: 'खान्देशी अहिराणी गाणी',
+    singer: 'Bhaiya More',
+    artist: 'Bhaiya More',
+    vocals: 'Bhaiya More',
+    category: 'खान्देशी अहिराणी',
+    duration: '--:--',
+    cover: 'assets/khandeshi-jatra-bg.jpg',
+    isFirebaseStorage: true
+  }
+];
 
 /* --------------------------------------------------------------------------
    8. Music Player Core Engine (Firebase Cloud Storage MP3 Streaming)
@@ -532,12 +501,7 @@ let isShuffleOn = false;
 
 class MiniMusicPlayer {
   constructor(songList = initialPlaylist) {
-    this.playlists = {
-      ahirani: [...defaultPlaylists.ahirani],
-      kanubai: [...defaultPlaylists.kanubai]
-    };
-    this.currentPlaylistId = localStorage.getItem('kj_active_playlist') || 'ahirani';
-    this.playlist = [...(this.playlists[this.currentPlaylistId] || this.playlists.ahirani)];
+    this.playlist = [...songList];
     this.currentIndex = 0;
     this.isPlaying = false;
     this.isMuted = false;
@@ -601,84 +565,10 @@ class MiniMusicPlayer {
     } catch (e) {}
     this.updateShuffleUI();
 
-    // Apply saved playlist visuals (background & topbar label)
-    this.applyPlaylistVisuals(this.currentPlaylistId);
-
     this.loadTrack(this.currentIndex, false);
     this.bindEvents();
     this.updatePlaylistCountBadge();
-
-    // Fetch Firebase Cloud Storage audio files for both playlists
-    this.loadFromFirebaseStorage('ahirani');
-    this.loadFromFirebaseStorage('kanubai');
-  }
-
-  applyPlaylistVisuals(playlistId) {
-    const bgImage = document.getElementById('bgImage');
-    if (bgImage) {
-      if (playlistId === 'kanubai') {
-        bgImage.style.backgroundImage = "url('assets/kanubai-bg.jpg')";
-      } else {
-        bgImage.style.backgroundImage = "url('assets/khandeshi-jatra-bg.jpg')";
-      }
-    }
-
-    const labelEl = document.getElementById('playlistCurrentLabel');
-    const iconEl = document.getElementById('currentPlaylistIcon');
-    if (labelEl) {
-      labelEl.textContent = playlistId === 'kanubai' ? 'कानुबाई स्पेशल' : 'अहिराणी गाणी';
-    }
-    if (iconEl) {
-      iconEl.textContent = playlistId === 'kanubai' ? '🙏' : '🎵';
-    }
-
-    document.querySelectorAll('.playlist-option-item').forEach(btn => {
-      const isMatch = btn.getAttribute('data-playlist') === playlistId;
-      btn.classList.toggle('active', isMatch);
-      btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
-    });
-  }
-
-  async switchPlaylist(playlistId, autoPlay = false) {
-    if (!this.playlists[playlistId]) return;
-    this.currentPlaylistId = playlistId;
-    localStorage.setItem('kj_active_playlist', playlistId);
-
-    // Apply visual background and topbar label
-    const bgImage = document.getElementById('bgImage');
-    if (bgImage) {
-      bgImage.style.transition = 'opacity 0.35s ease';
-      bgImage.style.opacity = '0.6';
-      setTimeout(() => {
-        this.applyPlaylistVisuals(playlistId);
-        bgImage.style.opacity = '1';
-      }, 150);
-    } else {
-      this.applyPlaylistVisuals(playlistId);
-    }
-
-    // Close Dropdown
-    const dropdown = document.getElementById('playlistDropdownMenu');
-    const wrapper = document.getElementById('playlistSelectorWrapper');
-    const selectBtn = document.getElementById('playlistSelectBtn');
-    if (dropdown) dropdown.style.display = 'none';
-    if (wrapper) wrapper.classList.remove('open');
-    if (selectBtn) selectBtn.setAttribute('aria-expanded', 'false');
-
-    // Switch active tracks list
-    this.playlist = [...this.playlists[playlistId]];
-    this.currentIndex = 0;
-    this.updatePlaylistCountBadge();
-
-    if (this.isPlaylistOpen) {
-      this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
-    }
-
-    // Load first track of the playlist
-    await this.loadTrack(0, autoPlay || this.isPlaying);
-
-    // Ensure latest storage tracks are refreshed
-    this.loadFromFirebaseStorage(playlistId);
+    this.loadFromFirebaseStorage();
   }
 
   toggleShuffle() {
@@ -708,63 +598,85 @@ class MiniMusicPlayer {
    * Intelligently parses MP3 filenames into clean Title, Singer, Artist, Vocals and Category
    */
   parseSongMetadata(filename, index) {
-    if (!filename) {
-      return {
-        id: `storage_track_${index + 1}`,
-        title: `गाणे क्रमांक ${index + 1}`,
-        singer: "अहिराणी खजिना",
-        artist: "अहिराणी खजिना",
-        vocals: "अहिराणी खजिना",
-        singerName: "अहिराणी खजिना",
-        artistName: "अहिराणी खजिना",
-        category: "खान्देशी अहिराणी",
-        filename: filename || '',
-        itemRef: null,
-        audioUrl: null,
-        isFirebaseStorage: true,
-        duration: '--:--',
-        cover: 'assets/khandeshi-jatra-bg.jpg'
-      };
+    // 1. Strip file extensions (.mp3, .wav, .m4a, .aac, .ogg, .flac)
+    let clean = filename.replace(/\.[^/.]+$/, '');
+    // 2. Strip leading track order patterns (e.g. "01 - ", "01. ", "01_", "1. ", "Track 01 - ")
+    clean = clean.replace(/^(?:track\s*)?\d+[\s\.\-_]+/i, '');
+    // 3. Normalize underscores to spaces
+    clean = clean.replace(/_+/g, ' ').trim();
+
+    let title = clean;
+    let singer = null;
+    const category = "खान्देशी अहिराणी";
+
+    // A. Check for keywords directly in the filename first (e.g. 'Ramakant', 'Bhaiya More')
+    const kwSinger = extractSingerKeyword(clean);
+    if (kwSinger) {
+      singer = kwSinger;
     }
 
-    let cleanName = filename.replace(/\.(mp3|wav|m4a|aac|ogg|flac)$/i, '').trim();
-    cleanName = cleanName.replace(/^[0-9]+[\.\-\_\s]+/, '').trim();
-    cleanName = cleanName.replace(/[_\-]+/g, ' ').replace(/\s+/g, ' ').trim();
-
-    let recognizedSinger = extractSingerKeyword(cleanName) || extractSingerKeyword(filename);
-    let title = cleanName;
-    let singer = recognizedSinger || "अहिराणी खजिना";
-    let category = "खान्देशी अहिराणी";
-
-    if (cleanName.includes(' - ')) {
-      const parts = cleanName.split(' - ');
-      if (parts.length >= 2) {
-        const potentialSinger = parts[0].trim();
-        const potentialTitle = parts.slice(1).join(' - ').trim();
-        if (extractSingerKeyword(potentialSinger)) {
-          singer = potentialSinger;
-          title = potentialTitle;
-        } else {
-          title = potentialTitle || potentialSinger;
-          singer = recognizedSinger || potentialSinger;
+    // B. Check parentheses or brackets: "Title (Singer)" or "[Singer] Title"
+    if (!singer) {
+      const bracketMatch = clean.match(/^(.*?)\s*[\(\[](.*?)[\)\]]\s*(.*)$/);
+      if (bracketMatch) {
+        const left = bracketMatch[1].trim();
+        const inside = bracketMatch[2].trim();
+        const right = bracketMatch[3].trim();
+        
+        const singerInside = extractSingerKeyword(inside);
+        if (singerInside) {
+          singer = singerInside;
+          title = (left + (right ? ' ' + right : '')).trim();
+        } else if (inside.length >= 3 && inside.length <= 35 && !inside.toLowerCase().includes('remix') && !inside.toLowerCase().includes('dj')) {
+          singer = inside;
+          title = (left + (right ? ' ' + right : '')).trim();
         }
       }
     }
 
-    const lower = cleanName.toLowerCase();
-    if (lower.includes('kanbai') || lower.includes('kanubai') || cleanName.includes('कानुबाई') || cleanName.includes('कानबाई')) {
-      category = 'कानुबाई स्पेशल';
-    } else if (lower.includes('lagan') || lower.includes('halad') || cleanName.includes('लग्न') || cleanName.includes('हळद')) {
-      category = 'लग्नगीत';
-    } else if (lower.includes('bhaiya') || cleanName.includes('भैय्या')) {
-      category = 'भैय्या मोरे स्पेशल';
-    } else if (lower.includes('khandesh') || cleanName.includes('खान्देश')) {
-      category = 'खान्देशी धमाका';
+    // C. Check separator delimiter: " - ", " – ", " — ", " | "
+    if (!singer && (clean.includes(' - ') || clean.includes(' – ') || clean.includes(' — ') || clean.includes(' | '))) {
+      const parts = clean.split(/\s*[\-–—|]\s*/);
+      if (parts.length >= 2) {
+        const part0 = parts[0].trim();
+        const part1 = parts.slice(1).join(' - ').trim();
+
+        const s0 = extractSingerKeyword(part0);
+        const s1 = extractSingerKeyword(part1);
+
+        if (s0) {
+          singer = s0;
+          title = part1;
+        } else if (s1) {
+          singer = s1;
+          title = part0;
+        } else {
+          // Default heuristic: part0 is Title, part1 is Singer
+          title = part0;
+          singer = part1;
+        }
+      }
+    }
+
+    // D. Clean up title if singer was extracted
+    if (singer && title) {
+      const esc = singer.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      title = title.replace(new RegExp(`(?:\\s*[-–—|]?\\s*(?:by|singer|ft\\.?|feat\\.?)?\\s*)?${esc}\\s*`, 'gi'), '').trim();
+      title = title.replace(/^[\-–—|\s\(\)\[\]]+|[\-–—|\s\(\)\[\]]+$/g, '').trim();
+    }
+
+    if (!title || title.length === 0) {
+      title = clean;
+    }
+
+    // E. If still no singer found, check if title string contains any keywords
+    if (!singer) {
+      singer = extractSingerKeyword(title);
     }
 
     return {
-      id: `storage_track_${index + 1}_${encodeURIComponent(filename.substring(0, 16))}`,
-      title: title,
+      id: `fb_track_${index + 1}`,
+      title: title || `खान्देशी गीत ${index + 1}`,
       singer: singer || "अहिराणी खजिना",
       artist: singer || "अहिराणी खजिना",
       vocals: singer || "अहिराणी खजिना",
@@ -781,18 +693,13 @@ class MiniMusicPlayer {
   }
 
   /**
-   * Connects to Firebase Cloud Storage and loads all MP3 tracks in the directory ('music' or 'kanbai')
+   * Connects to Firebase Cloud Storage and loads all MP3 tracks in the 'music/' directory
    */
-  async loadFromFirebaseStorage(targetPlaylist = null) {
+  async loadFromFirebaseStorage() {
     if (typeof firebase === 'undefined' || !firebase.storage) {
       console.info('ℹ️ Firebase Storage SDK not active.');
       return;
     }
-
-    const playlistId = targetPlaylist || this.currentPlaylistId || 'ahirani';
-    const folderNames = playlistId === 'kanubai' 
-      ? ['kanbai', 'kanubai', 'kanbai_songs', 'kanubai_songs', 'kanbai_special', 'kanubai_special'] 
-      : ['music', 'ahirani', 'songs'];
 
     try {
       if (!firebase.apps || !firebase.apps.length) {
@@ -800,59 +707,45 @@ class MiniMusicPlayer {
       }
 
       const storage = firebase.storage();
+      const musicRef = storage.ref('music');
 
-      for (const folder of folderNames) {
-        try {
-          const folderRef = storage.ref(folder);
-          const listResult = await folderRef.listAll();
+      const listResult = await musicRef.listAll();
 
-          if (listResult && listResult.items && listResult.items.length > 0) {
-            const storageTracks = [];
-            for (let i = 0; i < listResult.items.length; i++) {
-              const item = listResult.items[i];
-              const name = item.name;
-              const lower = name.toLowerCase();
+      if (!listResult || !listResult.items || listResult.items.length === 0) {
+        console.info('ℹ️ Firebase Storage music/ folder is empty. Upload your MP3 files to music/ in Firebase Console.');
+        return;
+      }
 
-              // Match audio formats
-              if (lower.endsWith('.mp3') || lower.endsWith('.wav') || lower.endsWith('.m4a') || lower.endsWith('.aac') || lower.endsWith('.ogg') || lower.endsWith('.flac')) {
-                const parsed = this.parseSongMetadata(name, i);
-                parsed.itemRef = item;
-                if (playlistId === 'kanubai') {
-                  parsed.category = 'कानुबाई स्पेशल';
-                  parsed.cover = 'assets/kanubai-bg.jpg';
-                }
-                storageTracks.push(parsed);
-              }
-            }
+      const storageTracks = [];
+      for (let i = 0; i < listResult.items.length; i++) {
+        const item = listResult.items[i];
+        const name = item.name;
+        const lower = name.toLowerCase();
 
-            if (storageTracks.length > 0) {
-              storageTracks.sort((a, b) => a.filename.localeCompare(b.filename, undefined, { numeric: true, sensitivity: 'base' }));
-              console.log(`🎶 Firebase Cloud Storage: Loaded ${storageTracks.length} tracks from "${folder}/" for playlist [${playlistId}].`);
-              
-              this.playlists[playlistId] = storageTracks;
+        // Match audio formats
+        if (lower.endsWith('.mp3') || lower.endsWith('.wav') || lower.endsWith('.m4a') || lower.endsWith('.aac') || lower.endsWith('.ogg') || lower.endsWith('.flac')) {
+          const parsed = this.parseSongMetadata(name, i);
+          parsed.itemRef = item;
+          storageTracks.push(parsed);
+        }
+      }
 
-              if (this.currentPlaylistId === playlistId) {
-                this.playlist = storageTracks;
-                this.updatePlaylistCountBadge();
+      if (storageTracks.length > 0) {
+        storageTracks.sort((a, b) => a.filename.localeCompare(b.filename, undefined, { numeric: true, sensitivity: 'base' }));
 
-                if (this.isPlaylistOpen) {
-                  this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
-                }
+        console.log(`🎶 Firebase Cloud Storage: Loaded ${storageTracks.length} tracks.`);
+        this.playlist = storageTracks;
+        this.currentIndex = 0;
+        this.updatePlaylistCountBadge();
 
-                // If audio isn't loaded yet or is on placeholder track, load index 0
-                if (!this.isPlaying && (!this.audio.src || this.audio.src.includes('blob:null') || this.audio.src === '')) {
-                  await this.loadTrack(0, false);
-                }
+        if (this.isPlaylistOpen) {
+          this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
+        }
 
-                if (storageTracks.length > 1) {
-                  this.prefetchDownloadUrl(1);
-                }
-              }
-              return; // Found tracks, exit folder search
-            }
-          }
-        } catch (fErr) {
-          // Folder not found or empty, try next
+        await this.loadTrack(0, false);
+
+        if (storageTracks.length > 1) {
+          this.prefetchDownloadUrl(1);
         }
       }
     } catch (err) {
@@ -2051,56 +1944,6 @@ function initRealtimeAnnouncementSync() {
   } catch (e) {}
 }
 
-/**
- * Playlist Selector Dropdown Interactions
- */
-function initPlaylistSelectorDropdown(player) {
-  const selectBtn = document.getElementById('playlistSelectBtn');
-  const dropdown = document.getElementById('playlistDropdownMenu');
-  const wrapper = document.getElementById('playlistSelectorWrapper');
-  if (!selectBtn || !dropdown || !wrapper || !player) return;
-
-  selectBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const isVisible = dropdown.style.display === 'flex';
-    if (isVisible) {
-      dropdown.style.display = 'none';
-      wrapper.classList.remove('open');
-      selectBtn.setAttribute('aria-expanded', 'false');
-    } else {
-      dropdown.style.display = 'flex';
-      wrapper.classList.add('open');
-      selectBtn.setAttribute('aria-expanded', 'true');
-    }
-  });
-
-  document.querySelectorAll('.playlist-option-item').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const playlistId = btn.getAttribute('data-playlist');
-      if (playlistId) {
-        player.switchPlaylist(playlistId, true);
-      }
-    });
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!wrapper.contains(e.target)) {
-      dropdown.style.display = 'none';
-      wrapper.classList.remove('open');
-      selectBtn.setAttribute('aria-expanded', 'false');
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && dropdown.style.display === 'flex') {
-      dropdown.style.display = 'none';
-      wrapper.classList.remove('open');
-      selectBtn.setAttribute('aria-expanded', 'false');
-    }
-  });
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   initDateTimeWidget();
   initFullscreenToggle();
@@ -2116,7 +1959,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initRealtimeAnnouncementSync();
   window.presenceTracker = new RealtimePresenceTracker();
   window.khandeshiPlayer = new MiniMusicPlayer(initialPlaylist);
-  initPlaylistSelectorDropdown(window.khandeshiPlayer);
 });
 
 // Global alias for next track advancement
