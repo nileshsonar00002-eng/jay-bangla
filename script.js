@@ -1424,6 +1424,11 @@ class MiniMusicPlayer {
         case 'KeyS':
           this.toggleShuffle();
           break;
+        case 'KeyA':
+          if (e.shiftKey || e.ctrlKey) {
+            window.open('admin.html', '_blank');
+          }
+          break;
       }
     });
 
