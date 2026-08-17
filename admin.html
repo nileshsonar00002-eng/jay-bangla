@@ -1038,24 +1038,26 @@
       }
     }
 
-    // B2. Cloud Firestore Realtime Visitor Locations Listener (user_visits)
+    // B2. Cloud Firestore Realtime Users & Unique Visitors Listener (users/{uid})
     if (firestore) {
       try {
-        firestore.collection('user_visits').orderBy('timestamp', 'desc').limit(15).onSnapshot((snap) => {
+        firestore.collection('users').orderBy('last_visited', 'desc').limit(20).onSnapshot((snap) => {
           if (!snap.empty) {
             snap.forEach((doc) => {
               const data = doc.data();
-              if (data.location) {
-                activeSessionsMap.set(doc.id, {
+              const uid = data.uid || doc.id;
+              if (uid) {
+                activeSessionsMap.set(uid, {
                   device: data.device_type || 'Mobile',
-                  location: data.location,
+                  location: data.location || 'Maharashtra, India',
+                  visitCount: data.visit_count || 1,
                   lastSeen: Date.now()
                 });
               }
             });
             renderSessionsTable();
           }
-        }, (err) => console.info('Firestore user_visits notice:', err.message));
+        }, (err) => console.info('Firestore users notice:', err.message));
       } catch (e) {}
     }
 
@@ -1309,15 +1311,18 @@
 
         if (typeof window.testFirestoreConnection === 'function') {
           const res = await window.testFirestoreConnection();
-          visitDocId = res.visitDocId;
+          visitDocId = res.uid;
           songDocId = res.songDocId;
         } else if (firestore) {
-          const vRef = await firestore.collection('user_visits').add({
+          const uid = (firebase.auth && firebase.auth().currentUser) ? firebase.auth().currentUser.uid : 'admin_test_uid';
+          await firestore.collection('users').doc(uid).set({
+            uid: uid,
             location: 'Maharashtra, India (Diagnostic Test)',
             device_type: 'Desktop',
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-          });
-          visitDocId = vRef.id;
+            last_visited: firebase.firestore.FieldValue.serverTimestamp(),
+            visit_count: firebase.firestore.FieldValue.increment(1)
+          }, { merge: true });
+          visitDocId = uid;
           const sDocId = 'Laganma_Machadu_Dhum';
           await firestore.collection('song_analytics').doc(sDocId).set({
             title: 'Laganma Machadu Dhum',
@@ -1334,7 +1339,7 @@
           firestoreTestResult.innerHTML = `
             <div style="color: #34d399; font-weight: 700; margin-bottom: 4px;">✅ Firestore Database Connected &amp; Verified 100%!</div>
             <div style="color: #cbd5e1; line-height: 1.5;">
-              • <strong>user_visits collection:</strong> Visit document created (Doc ID: <code>${visitDocId || 'created'}</code>)<br>
+              • <strong>users collection:</strong> Synced under <code>users/${visitDocId}</code> (No duplicates!)<br>
               • <strong>song_analytics collection:</strong> Play counter incremented for <em>Laganma Machadu Dhum</em><br>
               👉 Open your <a href="https://console.firebase.google.com/" target="_blank" style="color:var(--gold-primary);text-decoration:underline;">Firebase Console > Firestore Database</a> to see the documents live!
             </div>

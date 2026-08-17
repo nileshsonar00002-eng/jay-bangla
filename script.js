@@ -1759,19 +1759,20 @@ function initTopTitleScrollFade() {
  * Tracks live_users/count, live_users/sessions, and analytics/page_views
  */
 function initFirebaseRealtimeUserTracking() {
-  // 1. Local page view increment
-  try {
-    const currViews = parseInt(localStorage.getItem('kj_total_views') || '142', 10) + 1;
-    localStorage.setItem('kj_total_views', currViews.toString());
-  } catch (e) {}
-
   if (typeof firebase === 'undefined' || !firebase.database) return;
 
   try {
     const db = firebase.database();
     const connectedRef = db.ref('.info/connected');
     const liveCountRef = db.ref('live_users/count');
-    const mySessionRef = db.ref('live_users/sessions').push();
+    
+    // Persistent UID per device/visitor
+    let userUid = localStorage.getItem('kj_user_uid');
+    if (!userUid) {
+      userUid = 'user_' + Math.random().toString(36).substring(2, 10);
+      localStorage.setItem('kj_user_uid', userUid);
+    }
+    const mySessionRef = db.ref(`live_users/sessions/${userUid}`);
 
     // Detect device type
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -1780,10 +1781,10 @@ function initFirebaseRealtimeUserTracking() {
 
     connectedRef.on('value', (snap) => {
       if (snap.val() === true) {
-        // Register session on connect
+        // Register session on connect without duplicate keys
         mySessionRef.onDisconnect().remove();
         mySessionRef.set({
-          sessionId: mySessionRef.key,
+          uid: userUid,
           device: deviceType,
           joinedAt: firebase.database.ServerValue.TIMESTAMP,
           userAgent: (navigator.userAgent || '').substring(0, 100),
@@ -1796,30 +1797,31 @@ function initFirebaseRealtimeUserTracking() {
       }
     });
 
-    // Realtime fallback count synchronizer
+    // Realtime count synchronizer
     db.ref('live_users/sessions').on('value', (snap) => {
       const activeSessions = snap.numChildren();
       if (activeSessions > 0) {
         liveCountRef.set(activeSessions);
       }
     });
-
-    // Log Page View & Device Telemetry
-    db.ref('analytics/total_views').transaction((curr) => (curr || 0) + 1);
-    db.ref(`analytics/devices/${deviceType}`).transaction((curr) => (curr || 0) + 1);
   } catch (err) {
     console.warn('Firebase user presence tracking notice:', err);
   }
 }
 
 /**
- * Cloud Firestore User Location & Visits Tracker (ipapi.co -> user_visits)
+ * Cloud Firestore Persistent User Record Sync under users/{uid}
+ * Re-visits from the same browser/device update the existing document, NOT creating duplicates.
  */
 async function trackUserVisitLocationFirestore() {
   try {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     const isTablet = /iPad|Tablet/i.test(navigator.userAgent);
     const deviceType = isTablet ? 'Tablet' : (isMobile ? 'Mobile' : 'Desktop');
+
+    const uid = (typeof firebase !== 'undefined' && firebase.auth && firebase.auth().currentUser)
+      ? firebase.auth().currentUser.uid
+      : (localStorage.getItem('kj_user_uid') || 'user_guest');
 
     let locationString = 'Maharashtra, India';
 
@@ -1834,7 +1836,6 @@ async function trackUserVisitLocationFirestore() {
         }
       }
     } catch (apiErr) {
-      // Secondary fallback
       try {
         const fbRes = await fetch('https://ipwho.is/');
         if (fbRes.ok) {
@@ -1850,15 +1851,21 @@ async function trackUserVisitLocationFirestore() {
       const firestore = (firebase.app && typeof firebase.app().firestore === 'function')
         ? (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })()
         : firebase.firestore();
-      await firestore.collection('user_visits').add({
+
+      // Store/update under users/{uid} using merge to prevent duplicate docs
+      await firestore.collection('users').doc(uid).set({
+        uid: uid,
         location: locationString,
         device_type: deviceType,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      console.log('📍 Logged user visit to Firestore (user_visits) on database "khandeshijatra":', locationString, deviceType);
+        last_visited: firebase.firestore.FieldValue.serverTimestamp(),
+        visit_count: firebase.firestore.FieldValue.increment(1),
+        user_agent: (navigator.userAgent || '').substring(0, 100)
+      }, { merge: true });
+
+      console.log(`📍 [Firestore Compat] Synced user record in users/${uid}:`, locationString, deviceType);
     }
   } catch (err) {
-    console.info('Firestore user_visits logging note:', err.message);
+    console.info('Firestore users/{uid} logging note:', err.message);
   }
 }
 

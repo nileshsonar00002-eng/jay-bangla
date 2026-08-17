@@ -2,19 +2,18 @@
  * ==========================================================================
  * Cloud Firestore Analytics Engine (Firebase v10+ Modular SDK)
  * ==========================================================================
- * - Target Database: 'khandeshijatra'
- * - Firestore Initialization using getFirestore(app, 'khandeshijatra')
- * - Instant Non-blocking User Location Tracking ('user_visits' collection)
- * - Real-time Song Analytics Tracking ('song_analytics' collection)
+ * - Persistent Anonymous Authentication (users/{uid})
+ * - Zero Login/Signup UI (100% Background Execution)
+ * - Single Document per Visitor (Re-visits update existing record, no duplicates)
+ * - Deduplicated Session Tracking & Real-Time Song Analytics
  * ==========================================================================
  */
 
 import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { 
   getFirestore, 
   collection, 
-  addDoc, 
   doc, 
   setDoc, 
   getDoc,
@@ -40,7 +39,7 @@ export const DATABASE_ID = 'khandeshijatra';
 export const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
 
-// Connect directly to the custom named database 'khandeshijatra'
+// Connect directly to custom named database 'khandeshijatra'
 let dbInstance;
 try {
   dbInstance = getFirestore(app, DATABASE_ID);
@@ -55,34 +54,17 @@ try {
 }
 export const db = dbInstance;
 
-// Attempt anonymous sign-in in background
-signInAnonymously(auth)
-  .then((userCred) => {
-    console.log('🔥 [Firestore] Anonymous Auth connected successfully (UID:', userCred.user.uid, ')');
-  })
-  .catch((err) => {
-    console.info('ℹ️ [Firestore] Auth note:', err.message);
-  });
+// Global persistent UID tracking
+let currentUid = null;
+try {
+  currentUid = localStorage.getItem('kj_user_uid') || null;
+} catch (e) {}
 
 /**
- * 2. User Location Tracking (user_visits Collection)
- * Automatically writes on page load with non-blocking location resolution.
+ * Fast Non-Blocking User Location Resolver
  */
-let hasLoggedVisit = false;
-
-export async function trackUserVisitLocation() {
-  if (hasLoggedVisit) return;
-  hasLoggedVisit = true;
-
-  // Determine Device & Platform
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  const isTablet = /iPad|Tablet/i.test(navigator.userAgent);
-  const deviceType = isTablet ? 'Tablet' : (isMobile ? 'Mobile' : 'Desktop');
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Asia/Kolkata';
-
+async function resolveUserLocation() {
   let locationData = 'Maharashtra, India';
-
-  // Fast non-blocking location fetch with 1.8s timeout
   try {
     const fetchWithTimeout = (url, ms = 1800) => {
       const controller = new AbortController();
@@ -110,30 +92,90 @@ export async function trackUserVisitLocation() {
         }
       }
     } catch (e) {
-      locationData = `Location (${timezone})`;
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Asia/Kolkata';
+      locationData = `Location (${tz})`;
     }
   }
+  return locationData;
+}
 
-  // Write visit document to Firestore 'user_visits' collection
+/**
+ * 2. Persistent User Record Synchronization under users/{uid}
+ * Re-visits from the same browser/device update the existing document, NOT creating duplicates.
+ */
+export async function syncUserRecord(user) {
+  if (!user || !user.uid) return;
+  const uid = user.uid;
+  currentUid = uid;
+  try { localStorage.setItem('kj_user_uid', uid); } catch (e) {}
+
+  // Determine Device & Platform
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const isTablet = /iPad|Tablet/i.test(navigator.userAgent);
+  const deviceType = isTablet ? 'Tablet' : (isMobile ? 'Mobile' : 'Desktop');
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Asia/Kolkata';
+
+  // Check if this browser tab session was already counted
+  const sessionKey = `kj_session_recorded_${uid}`;
+  const isNewSession = !sessionStorage.getItem(sessionKey);
+
+  const locationData = await resolveUserLocation();
+
   try {
-    const docRef = await addDoc(collection(db, 'user_visits'), {
+    const userDocRef = doc(db, 'users', uid);
+    
+    // Construct merged payload (stores/updates under users/{uid})
+    const updateData = {
+      uid: uid,
       location: locationData,
       device_type: deviceType,
       timezone: timezone,
-      timestamp: serverTimestamp(),
-      page_url: window.location.pathname || '/'
-    });
+      last_visited: serverTimestamp(),
+      user_agent: (navigator.userAgent || '').substring(0, 100)
+    };
 
-    console.log(`✅ [Firestore] Visit successfully written to 'user_visits' | Doc ID: ${docRef.id} | Location: ${locationData} [${deviceType}]`);
-    return { success: true, id: docRef.id, location: locationData };
+    if (isNewSession) {
+      updateData.visit_count = increment(1);
+    }
+
+    // Update users/{uid} without duplicate document creation
+    await setDoc(userDocRef, updateData, { merge: true });
+    sessionStorage.setItem(sessionKey, 'true');
+
+    console.log(`✅ [Firestore Auth] Synced persistent visitor record: users/${uid} (${locationData} | ${deviceType})`);
+    
+    return { success: true, uid: uid, location: locationData, deviceType: deviceType };
   } catch (error) {
-    console.error('❌ [Firestore Write Error in user_visits]:', error);
+    console.error('❌ [Firestore Sync Error users/{uid}]:', error);
     return { success: false, error: error };
   }
 }
 
+// 3. Persistent Anonymous Authentication Lifecycle (Zero Login/Signup UI)
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    console.log('🔥 [Firestore Auth] Persistent Anonymous User Restored | UID:', user.uid);
+    await syncUserRecord(user);
+  } else {
+    try {
+      const userCred = await signInAnonymously(auth);
+      console.log('🔥 [Firestore Auth] New Anonymous User Created | UID:', userCred.user.uid);
+      await syncUserRecord(userCred.user);
+    } catch (err) {
+      console.info('ℹ️ [Firestore Auth Note]:', err.message);
+      // Fallback guest tracking if auth is disabled
+      let fallbackUid = localStorage.getItem('kj_user_uid');
+      if (!fallbackUid) {
+        fallbackUid = 'user_' + Math.random().toString(36).substring(2, 12);
+        localStorage.setItem('kj_user_uid', fallbackUid);
+      }
+      await syncUserRecord({ uid: fallbackUid });
+    }
+  }
+});
+
 /**
- * 3. Song Analytics Tracking (song_analytics Collection with increment(1))
+ * 4. Song Analytics Tracking (song_analytics Collection with increment(1))
  * Increments play count whenever a song is clicked or played.
  */
 export async function trackSongPlay(songTitle, singer) {
@@ -149,6 +191,17 @@ export async function trackSongPlay(songTitle, singer) {
       last_played: serverTimestamp()
     }, { merge: true });
 
+    // Also update user's last played song inside users/{uid}
+    if (currentUid) {
+      try {
+        const userDocRef = doc(db, 'users', currentUid);
+        await setDoc(userDocRef, {
+          last_played_song: songTitle,
+          last_active: serverTimestamp()
+        }, { merge: true });
+      } catch (e) {}
+    }
+
     console.log(`✅ [Firestore] Incremented play count in 'song_analytics' for: "${songTitle}"`);
     return { success: true, docId: docId };
   } catch (error) {
@@ -158,20 +211,18 @@ export async function trackSongPlay(songTitle, singer) {
 }
 
 /**
- * 4. Diagnostics & Live Connection Test
+ * 5. Diagnostics & Live Connection Test
  */
 export async function testFirestoreConnection() {
   console.log(`🔄 Running Cloud Firestore Diagnostic Test on database "${DATABASE_ID}"...`);
   try {
-    // Test 1: Write to user_visits
-    const visitRes = await trackUserVisitLocation();
-    
-    // Test 2: Write to song_analytics
+    const user = auth.currentUser || { uid: currentUid || 'admin_test_uid' };
+    const userRes = await syncUserRecord(user);
     const songRes = await trackSongPlay('Laganma Machadu Dhum', 'Bhaiya More');
 
     return {
-      success: visitRes && visitRes.success && songRes && songRes.success,
-      visitDocId: visitRes ? visitRes.id : null,
+      success: userRes && userRes.success && songRes && songRes.success,
+      uid: user.uid,
       songDocId: songRes ? songRes.docId : null,
       databaseId: DATABASE_ID
     };
@@ -181,13 +232,10 @@ export async function testFirestoreConnection() {
   }
 }
 
-// Global Export & Auto-Run
+// Global Exports
 if (typeof window !== 'undefined') {
   window.firestoreDb = db;
   window.trackSongPlayModular = trackSongPlay;
-  window.trackUserVisitModular = trackUserVisitLocation;
+  window.syncUserRecord = syncUserRecord;
   window.testFirestoreConnection = testFirestoreConnection;
-
-  // Execute location tracking immediately on script load
-  trackUserVisitLocation();
 }
