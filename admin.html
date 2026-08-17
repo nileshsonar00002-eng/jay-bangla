@@ -574,10 +574,85 @@
         padding: 0 1rem;
       }
 
-      .admin-content {
-        padding: 1.25rem 1rem;
-        gap: 1.25rem;
-      }
+    /* Festive Billboard Live Preview */
+    .admin-billboard-preview-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 12px;
+      border: 1px dashed rgba(251, 191, 36, 0.35);
+      margin: 1rem 0;
+      min-height: 70px;
+    }
+
+    .festive-billboard-preview {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 1.1rem;
+      border-radius: 9999px;
+      background: rgba(26, 15, 8, 0.92);
+      border: 1.5px solid rgba(251, 191, 36, 0.6);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 16px rgba(251, 191, 36, 0.35);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .preview-text {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #fffbeb;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.9), 0 0 20px rgba(255, 140, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.9);
+      text-transform: uppercase;
+    }
+
+    .preset-pill {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e2e8f0;
+      padding: 0.35rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .preset-pill:hover {
+      background: rgba(251, 191, 36, 0.25);
+      border-color: var(--gold-primary);
+      color: #fbbf24;
+      transform: translateY(-1px);
+    }
+
+    /* Auth Modal Overlay */
+    .admin-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .admin-modal-overlay.active {
+      display: flex;
+    }
+
+    .admin-modal-card {
+      background: #140d07;
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      border-radius: 16px;
+      padding: 1.75rem;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(245,158,11,0.2);
     }
   </style>
 </head>
@@ -618,6 +693,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
           Music Streaming
         </a>
+        <a href="#announcementSection" class="nav-item" id="tabAnnouncement">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5.882V19.24a1.76 1.76 0 0 1-3.417.592l-2.147-6.15M18 8a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3zm0 0v3a2 2 0 0 1-2 2h-1"></path></svg>
+          Announcement Badge
+        </a>
       </nav>
 
       <div class="sidebar-footer">
@@ -646,7 +725,11 @@
           <h2 class="topbar-heading">Real-Time Analytics & Operations</h2>
         </div>
 
-        <div class="topbar-right">
+        <div class="topbar-right" style="display:flex; align-items:center; gap:0.75rem;">
+          <div id="adminAuthBadge" style="display:flex; align-items:center; gap:0.5rem; background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.3); padding:0.3rem 0.65rem; border-radius:8px; font-size:0.75rem; color:#fff;">
+            <span id="adminUserEmailText">🔐 Admin Mode</span>
+            <button id="btnAdminAuthAction" class="action-btn-sm" style="padding:0.2rem 0.5rem; font-size:0.7rem;">Sign In</button>
+          </div>
           <div class="live-status-pill" id="realtimeStatusPill">
             <span class="pulse-dot"></span>
             <span id="syncText">LIVE TELEMETRY ACTIVE</span>
@@ -673,10 +756,87 @@
             <button class="action-btn-sm" id="btnRunFirestoreTest" style="background: rgba(16, 185, 129, 0.2); border-color: #10b981; color: #34d399; padding: 0.4rem 0.85rem;">
               <span>⚡ Run Instant Test &amp; Send to Firebase</span>
             </button>
+        <!-- Announcement Badge Manager Panel (Firebase Powered) -->
+        <section class="dashboard-panel" id="announcementSection" style="border: 1px solid rgba(251, 191, 36, 0.4); background: linear-gradient(180deg, rgba(32, 19, 10, 0.96), rgba(18, 11, 5, 0.98));">
+          <div class="panel-header" style="border-bottom: 1px solid rgba(251, 191, 36, 0.2); padding-bottom: 0.85rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <h3 class="panel-title" style="color: var(--gold-primary); display: flex; align-items: center; gap: 0.5rem; font-size: 1.05rem;">
+                <span>📢 Top Announcement Badge Manager</span>
+              </h3>
+              <p style="font-size: 0.76rem; color: var(--text-secondary); margin-top: 3px;">
+                Change website announcement in real-time without redeploying. Stores in <code style="color:var(--gold-primary);">siteSettings/announcement</code>.
+              </p>
+            </div>
+            <span class="panel-badge" id="announcementStatusBadge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); font-weight: 700;">🟢 Live on Website</span>
           </div>
-          <div id="firestoreTestResult" style="display: none; margin-top: 0.75rem; padding: 0.65rem 0.85rem; border-radius: 8px; font-size: 0.78rem; background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle);"></div>
-        </div>
-        
+
+          <div style="padding-top: 1rem;">
+            <!-- Live Preview -->
+            <label style="font-size: 0.78rem; font-weight: 700; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between;">
+              <span>Live Visual Preview (Website Navbar):</span>
+              <span id="previewVisibilityLabel" style="color: #34d399; font-size: 0.75rem;">Status: Visible</span>
+            </label>
+            
+            <div class="admin-billboard-preview-container" id="previewContainer">
+              <div class="festive-billboard-preview" id="previewBillboard">
+                <span style="font-size:0.85rem;" aria-hidden="true">✨</span>
+                <span class="preview-text" id="previewBillboardText">HBD SANDEEP</span>
+                <span style="font-size:0.85rem;" aria-hidden="true">✨</span>
+              </div>
+            </div>
+
+            <!-- Form Controls: Responsive Mobile Grid -->
+            <div style="display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: end; margin-top: 1rem;">
+              <div>
+                <label for="announcementTextInput" style="display: block; font-size: 0.82rem; font-weight: 600; color: #e2e8f0; margin-bottom: 0.4rem;">
+                  Announcement Text:
+                </label>
+                <input 
+                  type="text" 
+                  id="announcementTextInput" 
+                  value="HBD SANDEEP" 
+                  placeholder="उदा. 🎉 HBD SANDEEP 🎉 किंवा ✨ HAPPY NEW YEAR ✨" 
+                  style="width: 100%; padding: 0.75rem 1rem; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(251, 191, 36, 0.4); border-radius: 8px; color: #ffffff; font-size: 0.95rem; font-weight: 700; outline: none; transition: border-color 0.2s;"
+                />
+              </div>
+
+              <!-- Toggle Show / Hide -->
+              <div>
+                <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #e2e8f0; margin-bottom: 0.4rem;">
+                  Badge Visibility:
+                </label>
+                <label style="display: inline-flex; align-items: center; gap: 0.55rem; cursor: pointer; background: rgba(0, 0, 0, 0.5); padding: 0.65rem 1rem; border: 1px solid var(--border-subtle); border-radius: 8px;">
+                  <input type="checkbox" id="announcementToggle" checked style="width: 18px; height: 18px; accent-color: var(--gold-primary); cursor: pointer;" />
+                  <span id="toggleStatusLabel" style="font-size: 0.85rem; font-weight: 600; color: #34d399;">Show Badge</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Quick Presets for Mobile Typing -->
+            <div style="margin-top: 0.95rem;">
+              <span style="font-size: 0.75rem; color: var(--text-secondary); margin-right: 0.5rem; font-weight: 600;">Quick Presets:</span>
+              <div style="display: inline-flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.35rem;">
+                <button type="button" class="preset-pill" data-text="🎉 HBD SANDEEP 🎉">🎉 HBD SANDEEP 🎉</button>
+                <button type="button" class="preset-pill" data-text="🔥 जय खान्देश 🔥">🔥 जय खान्देश 🔥</button>
+                <button type="button" class="preset-pill" data-text="✨ HAPPY DIWALI ✨">✨ HAPPY DIWALI ✨</button>
+                <button type="button" class="preset-pill" data-text="✨ HAPPY NEW YEAR ✨">✨ HAPPY NEW YEAR ✨</button>
+                <button type="button" class="preset-pill" data-text="🎶 नवीन अहिराणी गाणे आले! 🎶">🎶 नवीन अहिराणी गाणे आले! 🎶</button>
+              </div>
+            </div>
+
+            <!-- Save & Publish Button -->
+            <div style="margin-top: 1.25rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+              <button class="action-btn-sm" id="btnPublishAnnouncement" style="background: linear-gradient(135deg, #fbbf24, #d97706); color: #140a05; font-weight: 800; padding: 0.75rem 1.5rem; font-size: 0.92rem; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4);">
+                <span>⚡ Save &amp; Publish Announcement</span>
+              </button>
+              <span id="announcementSaveResult" style="font-size: 0.85rem; font-weight: 600; color: #34d399; display: none;">
+                ✅ Published to Firestore! Live website updated in real-time.
+              </span>
+            </div>
+
+          </div>
+        </section>
+
         <!-- 4 Key Stat Cards -->
         <section class="stats-grid">
           
@@ -1443,10 +1603,204 @@
       }
     });
 
+    /* --------------------------------------------------------------------------
+       Announcement Badge Manager (Firestore doc: siteSettings/announcement)
+       -------------------------------------------------------------------------- */
+    const announcementTextInput = document.getElementById('announcementTextInput');
+    const announcementToggle = document.getElementById('announcementToggle');
+    const previewBillboardText = document.getElementById('previewBillboardText');
+    const previewBillboard = document.getElementById('previewBillboard');
+    const previewVisibilityLabel = document.getElementById('previewVisibilityLabel');
+    const toggleStatusLabel = document.getElementById('toggleStatusLabel');
+    const announcementStatusBadge = document.getElementById('announcementStatusBadge');
+    const btnPublishAnnouncement = document.getElementById('btnPublishAnnouncement');
+    const announcementSaveResult = document.getElementById('announcementSaveResult');
+
+    function updatePreviewVisuals() {
+      if (!announcementTextInput || !previewBillboardText || !previewBillboard) return;
+      const val = announcementTextInput.value.trim() || 'HBD SANDEEP';
+      const isEnabled = announcementToggle ? announcementToggle.checked : true;
+
+      previewBillboardText.textContent = val;
+      if (isEnabled) {
+        previewBillboard.style.opacity = '1';
+        previewBillboard.style.transform = 'scale(1)';
+        if (previewVisibilityLabel) {
+          previewVisibilityLabel.textContent = 'Status: Visible';
+          previewVisibilityLabel.style.color = '#34d399';
+        }
+        if (toggleStatusLabel) {
+          toggleStatusLabel.textContent = 'Show Badge';
+          toggleStatusLabel.style.color = '#34d399';
+        }
+        if (announcementStatusBadge) {
+          announcementStatusBadge.textContent = '🟢 Live on Website';
+          announcementStatusBadge.style.color = '#34d399';
+        }
+      } else {
+        previewBillboard.style.opacity = '0.35';
+        previewBillboard.style.transform = 'scale(0.95)';
+        if (previewVisibilityLabel) {
+          previewVisibilityLabel.textContent = 'Status: Hidden (Off)';
+          previewVisibilityLabel.style.color = '#f87171';
+        }
+        if (toggleStatusLabel) {
+          toggleStatusLabel.textContent = 'Hide Badge';
+          toggleStatusLabel.style.color = '#f87171';
+        }
+        if (announcementStatusBadge) {
+          announcementStatusBadge.textContent = '🔴 Hidden on Website';
+          announcementStatusBadge.style.color = '#f87171';
+        }
+      }
+    }
+
+    if (announcementTextInput) {
+      announcementTextInput.addEventListener('input', updatePreviewVisuals);
+    }
+    if (announcementToggle) {
+      announcementToggle.addEventListener('change', updatePreviewVisuals);
+    }
+
+    // Preset Pills Click Handler
+    document.querySelectorAll('.preset-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = btn.getAttribute('data-text');
+        if (text && announcementTextInput) {
+          announcementTextInput.value = text;
+          updatePreviewVisuals();
+        }
+      });
+    });
+
+    // Real-time Firestore Listener for Announcement Settings
+    if (firestore) {
+      firestore.collection('siteSettings').doc('announcement').onSnapshot((docSnap) => {
+        if (docSnap.exists) {
+          const data = docSnap.data();
+          if (data.text && document.activeElement !== announcementTextInput) {
+            announcementTextInput.value = data.text;
+          }
+          if (typeof data.enabled === 'boolean' && announcementToggle) {
+            announcementToggle.checked = data.enabled;
+          }
+          updatePreviewVisuals();
+        }
+      }, (err) => {
+        console.info('Announcement listener notice:', err.message);
+      });
+    }
+
+    // Publish Button Click Handler
+    if (btnPublishAnnouncement) {
+      btnPublishAnnouncement.addEventListener('click', async () => {
+        const text = (announcementTextInput ? announcementTextInput.value.trim() : '') || 'HBD SANDEEP';
+        const enabled = announcementToggle ? announcementToggle.checked : true;
+        btnPublishAnnouncement.disabled = true;
+        btnPublishAnnouncement.innerHTML = '<span>⏳ Publishing to Firestore...</span>';
+
+        try {
+          if (firestore) {
+            await firestore.collection('siteSettings').doc('announcement').set({
+              text: text,
+              enabled: enabled,
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+              updatedBy: (firebase.auth && firebase.auth().currentUser && (firebase.auth().currentUser.email || firebase.auth().currentUser.uid)) || 'admin'
+            }, { merge: true });
+
+            if (announcementSaveResult) {
+              announcementSaveResult.style.display = 'inline-block';
+              announcementSaveResult.style.color = '#34d399';
+              announcementSaveResult.textContent = `✅ Published "${text}" live to website in real-time!`;
+              setTimeout(() => { announcementSaveResult.style.display = 'none'; }, 4000);
+            }
+          }
+        } catch (err) {
+          console.error('Publish error:', err);
+          if (announcementSaveResult) {
+            announcementSaveResult.style.display = 'inline-block';
+            announcementSaveResult.style.color = '#f87171';
+            announcementSaveResult.textContent = `❌ Error: ${err.message}`;
+          }
+        } finally {
+          btnPublishAnnouncement.disabled = false;
+          btnPublishAnnouncement.innerHTML = '<span>⚡ Save &amp; Publish Announcement</span>';
+        }
+      });
+    }
+
+    // Firebase Auth State & Modal Handlers
+    const adminAuthModal = document.getElementById('adminAuthModal');
+    const btnShowLoginModal = document.getElementById('btnAdminAuthAction');
+    const btnCloseAuthModal = document.getElementById('btnCloseAuthModal');
+    const adminLoginForm = document.getElementById('adminLoginForm');
+    const adminUserEmailText = document.getElementById('adminUserEmailText');
+    const authErrorNotice = document.getElementById('authErrorNotice');
+
+    if (firebase.auth) {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user && user.email) {
+          if (adminUserEmailText) adminUserEmailText.textContent = `👤 ${user.email}`;
+          if (btnShowLoginModal) {
+            btnShowLoginModal.textContent = 'Logout';
+            btnShowLoginModal.onclick = () => {
+              firebase.auth().signOut().then(() => {
+                if (adminUserEmailText) adminUserEmailText.textContent = '🔐 Guest / Anon';
+                if (btnShowLoginModal) btnShowLoginModal.textContent = 'Sign In';
+              });
+            };
+          }
+        } else {
+          if (adminUserEmailText) adminUserEmailText.textContent = '🔐 Admin Mode';
+          if (btnShowLoginModal) {
+            btnShowLoginModal.textContent = 'Sign In';
+            btnShowLoginModal.onclick = () => {
+              if (adminAuthModal) adminAuthModal.classList.add('active');
+            };
+          }
+        }
+      });
+    }
+
+    if (btnCloseAuthModal && adminAuthModal) {
+      btnCloseAuthModal.addEventListener('click', () => {
+        adminAuthModal.classList.remove('active');
+      });
+    }
+
+    if (adminLoginForm) {
+      adminLoginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('adminEmailInput').value.trim();
+        const password = document.getElementById('adminPasswordInput').value;
+        const submitBtn = document.getElementById('btnAdminSignInSubmit');
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Verifying...';
+        if (authErrorNotice) authErrorNotice.style.display = 'none';
+
+        try {
+          await firebase.auth().signInWithEmailAndPassword(email, password);
+          if (adminAuthModal) adminAuthModal.classList.remove('active');
+        } catch (err) {
+          if (authErrorNotice) {
+            authErrorNotice.style.display = 'block';
+            authErrorNotice.textContent = err.message;
+          }
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Sign In as Admin';
+        }
+      });
+    }
+
     // Clock
     function updateClock() {
       const now = new Date();
-      document.getElementById('adminClock').textContent = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const clockEl = document.getElementById('adminClock');
+      if (clockEl) {
+        clockEl.textContent = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      }
     }
     setInterval(updateClock, 1000);
     updateClock();
@@ -1467,6 +1821,35 @@
       });
     }
   </script>
+
+  <!-- Firebase Auth Admin Login Modal -->
+  <div class="admin-modal-overlay" id="adminAuthModal" role="dialog" aria-modal="true" aria-labelledby="adminLoginHeading">
+    <div class="admin-modal-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+        <h3 id="adminLoginHeading" style="color:var(--gold-primary); font-size:1.15rem; font-weight:700; display:flex; align-items:center; gap:0.5rem;">
+          <span>🔐 Admin Authentication</span>
+        </h3>
+        <button id="btnCloseAuthModal" style="background:transparent; border:none; color:#94a3b8; font-size:1.25rem; cursor:pointer; padding:0.25rem;">✕</button>
+      </div>
+      <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:1.25rem;">
+        Sign in with your Firebase Admin Email to securely manage announcements and settings.
+      </p>
+      <form id="adminLoginForm" onsubmit="return false;">
+        <div style="margin-bottom:1rem;">
+          <label for="adminEmailInput" style="display:block; font-size:0.8rem; font-weight:600; color:#e2e8f0; margin-bottom:0.35rem;">Admin Email</label>
+          <input type="email" id="adminEmailInput" placeholder="admin@example.com" required style="width:100%; padding:0.75rem 1rem; background:rgba(0,0,0,0.6); border:1px solid rgba(251,191,36,0.3); border-radius:8px; color:#fff; font-size:0.9rem; outline:none;" />
+        </div>
+        <div style="margin-bottom:1.25rem;">
+          <label for="adminPasswordInput" style="display:block; font-size:0.8rem; font-weight:600; color:#e2e8f0; margin-bottom:0.35rem;">Password</label>
+          <input type="password" id="adminPasswordInput" placeholder="••••••••" required style="width:100%; padding:0.75rem 1rem; background:rgba(0,0,0,0.6); border:1px solid rgba(251,191,36,0.3); border-radius:8px; color:#fff; font-size:0.9rem; outline:none;" />
+        </div>
+        <div id="authErrorNotice" style="display:none; color:#f87171; font-size:0.8rem; margin-bottom:1rem; padding:0.5rem; background:rgba(239,68,68,0.1); border-radius:6px; border:1px solid rgba(239,68,68,0.3);"></div>
+        <button type="submit" id="btnAdminSignInSubmit" style="width:100%; background:linear-gradient(135deg, #fbbf24, #d97706); color:#140a05; font-weight:800; padding:0.8rem; border:none; border-radius:8px; font-size:0.95rem; cursor:pointer; box-shadow:0 4px 14px rgba(245,158,11,0.4);">
+          <span>Sign In as Admin</span>
+        </button>
+      </form>
+    </div>
+  </div>
 
 </body>
 </html>

@@ -1885,6 +1885,38 @@ async function trackUserVisitLocationFirestore() {
   }
 }
 
+/**
+ * Real-time Announcement Badge Sync (siteSettings/announcement)
+ */
+function initRealtimeAnnouncementSync() {
+  const bannerEl = document.getElementById('festiveAdBanner');
+  const textEl = document.getElementById('billboardText');
+  if (!bannerEl || !textEl) return;
+
+  try {
+    if (typeof firebase !== 'undefined' && firebase.app) {
+      const fs = (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })();
+      if (fs) {
+        fs.collection('siteSettings').doc('announcement').onSnapshot((docSnap) => {
+          if (docSnap.exists) {
+            const data = docSnap.data();
+            if (data.enabled === false) {
+              bannerEl.style.display = 'none';
+            } else {
+              bannerEl.style.display = '';
+              if (data.text) {
+                textEl.textContent = data.text;
+              }
+            }
+          }
+        }, (err) => {
+          console.info('Announcement sync note:', err.message);
+        });
+      }
+    }
+  } catch (e) {}
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initDateTimeWidget();
   initFullscreenToggle();
@@ -1897,6 +1929,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollIndicator();
   initFirebaseRealtimeUserTracking();
   trackUserVisitLocationFirestore();
+  initRealtimeAnnouncementSync();
   window.presenceTracker = new RealtimePresenceTracker();
   window.khandeshiPlayer = new MiniMusicPlayer(initialPlaylist);
 });

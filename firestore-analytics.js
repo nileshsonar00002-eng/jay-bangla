@@ -1,16 +1,17 @@
 /**
  * ==========================================================================
- * Cloud Firestore Analytics Engine (Firebase v10+ Modular SDK)
+ * Cloud Firestore Analytics & Announcement Engine (Firebase v10+ Modular SDK)
  * ==========================================================================
+ * - Target Database: 'khandeshijatra'
+ * - Real-Time Dynamic Top Announcement Badge ('siteSettings/announcement')
  * - Persistent Anonymous Authentication (users/{uid})
- * - Zero Login/Signup UI (100% Background Execution)
- * - Single Document per Visitor (Re-visits update existing record, no duplicates)
+ * - Zero Login/Signup UI for Normal Public Visitors
  * - Deduplicated Session Tracking & Real-Time Song Analytics
  * ==========================================================================
  */
 
 import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, signInAnonymously, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { 
   getFirestore, 
   collection, 
@@ -142,7 +143,7 @@ export async function syncUserRecord(user) {
     await setDoc(userDocRef, updateData, { merge: true });
     sessionStorage.setItem(sessionKey, 'true');
 
-    console.log(`✅ [Firestore Auth] Synced persistent visitor record: users/${uid} (${locationData} | ${deviceType})`);
+    console.log(`✅ [Firestore Auth] Synced visitor record: users/${uid} (${locationData} | ${deviceType})`);
     
     return { success: true, uid: uid, location: locationData, deviceType: deviceType };
   } catch (error) {
@@ -151,10 +152,10 @@ export async function syncUserRecord(user) {
   }
 }
 
-// 3. Persistent Anonymous Authentication Lifecycle (Zero Login/Signup UI)
+// 3. Persistent Anonymous Authentication Lifecycle (Zero Login/Signup UI for public visitors)
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    console.log('🔥 [Firestore Auth] Persistent Anonymous User Restored | UID:', user.uid);
+    console.log('🔥 [Firestore Auth] User session active | UID:', user.uid, user.email ? `(Admin: ${user.email})` : '(Anonymous)');
     await syncUserRecord(user);
   } else {
     try {
@@ -176,7 +177,6 @@ onAuthStateChanged(auth, async (user) => {
 
 /**
  * 4. Song Analytics Tracking (song_analytics Collection with increment(1))
- * Increments play count whenever a song is clicked or played.
  */
 export async function trackSongPlay(songTitle, singer) {
   if (!songTitle) return;
@@ -211,7 +211,65 @@ export async function trackSongPlay(songTitle, singer) {
 }
 
 /**
- * 5. Diagnostics & Live Connection Test
+ * 5. Real-Time Announcement Badge Synchronization
+ * Listens to doc(db, 'siteSettings', 'announcement') in real-time.
+ * Automatically updates top banner text and visibility without redeployment.
+ */
+export function initAnnouncementListener() {
+  const bannerEl = document.getElementById('festiveAdBanner');
+  const textEl = document.getElementById('billboardText');
+  if (!bannerEl && !textEl) return;
+
+  try {
+    const announcementDocRef = doc(db, 'siteSettings', 'announcement');
+    onSnapshot(announcementDocRef, (snap) => {
+      if (snap.exists()) {
+        const data = snap.data();
+        if (data.enabled === false) {
+          if (bannerEl) bannerEl.style.display = 'none';
+        } else {
+          if (bannerEl) bannerEl.style.display = '';
+          if (textEl && data.text) {
+            textEl.textContent = data.text;
+          }
+        }
+        console.log(`📢 [Firestore] Live Announcement Synced: "${data.text}" | Enabled: ${data.enabled}`);
+      } else {
+        // Default initial fallback
+        if (bannerEl) bannerEl.style.display = '';
+        if (textEl) textEl.textContent = 'HBD SANDEEP';
+      }
+    }, (err) => {
+      console.info('Announcement listener notice:', err.message);
+    });
+  } catch (e) {
+    console.warn('Announcement listener init error:', e);
+  }
+}
+
+/**
+ * Save Announcement Settings (Admin Action)
+ */
+export async function saveAnnouncementSettings(text, enabled) {
+  try {
+    const announcementDocRef = doc(db, 'siteSettings', 'announcement');
+    await setDoc(announcementDocRef, {
+      text: text || 'HBD SANDEEP',
+      enabled: Boolean(enabled),
+      updatedAt: serverTimestamp(),
+      updatedBy: (auth.currentUser && (auth.currentUser.email || auth.currentUser.uid)) || 'admin'
+    }, { merge: true });
+
+    console.log(`✅ [Firestore] Announcement settings published: "${text}" [Enabled: ${enabled}]`);
+    return { success: true };
+  } catch (error) {
+    console.error('❌ [Firestore] Error publishing announcement:', error);
+    return { success: false, error: error };
+  }
+}
+
+/**
+ * 6. Diagnostics & Live Connection Test
  */
 export async function testFirestoreConnection() {
   console.log(`🔄 Running Cloud Firestore Diagnostic Test on database "${DATABASE_ID}"...`);
@@ -232,10 +290,20 @@ export async function testFirestoreConnection() {
   }
 }
 
-// Global Exports
+// Global Exports & Automatic Initialization
 if (typeof window !== 'undefined') {
   window.firestoreDb = db;
+  window.firestoreAuth = auth;
   window.trackSongPlayModular = trackSongPlay;
   window.syncUserRecord = syncUserRecord;
   window.testFirestoreConnection = testFirestoreConnection;
+  window.saveAnnouncementSettings = saveAnnouncementSettings;
+  window.initAnnouncementListener = initAnnouncementListener;
+
+  // Initialize announcement real-time listener on website
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initAnnouncementListener());
+  } else {
+    initAnnouncementListener();
+  }
 }
