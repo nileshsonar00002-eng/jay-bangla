@@ -36,27 +36,11 @@ export const firebaseConfig = {
   measurementId: "G-0CQ0YDPPQP"
 };
 
-// Target Database ID in your Cloud Firestore console
-export const DATABASE_ID = 'khandeshijatra';
-
 // 1. Initialize Firebase App, Auth & Cloud Firestore
 export const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
-
-// Connect directly to custom named database 'khandeshijatra'
-let dbInstance;
-try {
-  dbInstance = getFirestore(app, DATABASE_ID);
-  console.log(`🔥 [Firestore] Connected to database: "${DATABASE_ID}"`);
-} catch (e) {
-  try {
-    dbInstance = getFirestore(app);
-    console.log('🔥 [Firestore] Connected to (default) database');
-  } catch (err) {
-    console.error('Firestore init error:', err);
-  }
-}
-export const db = dbInstance;
+export const db = getFirestore(app);
+console.log('🔥 [Firestore] Connected to Cloud Firestore database');
 
 // Global persistent UID tracking
 let currentUid = null;

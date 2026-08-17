@@ -1320,9 +1320,7 @@
     }
 
     const db = (typeof firebase !== 'undefined' && firebase.database) ? firebase.database() : null;
-    const firestore = (typeof firebase !== 'undefined' && firebase.app)
-      ? (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })()
-      : null;
+    const firestore = (typeof firebase !== 'undefined' && firebase.firestore) ? firebase.firestore() : null;
 
     /* --------------------------------------------------------------------------
        Firebase Authentication Guard & State Lifecycle
