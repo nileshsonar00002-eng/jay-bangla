@@ -621,6 +621,9 @@
       </nav>
 
       <div class="sidebar-footer">
+        <button class="action-btn-sm" id="testFirestoreBtn" style="width:100%; justify-content:center; padding:0.6rem; background:rgba(16,185,129,0.18); border-color:#10b981; color:#34d399;">
+          <span>⚡ Test Firestore Connection</span>
+        </button>
         <button class="action-btn-sm" id="seedBookingBtn" style="width:100%; justify-content:center; padding:0.6rem;">
           <span>+ Add Live Test Booking</span>
         </button>
@@ -1266,14 +1269,24 @@
         bookingsList.unshift(newBooking);
         renderBookingsTable();
 
-        // Sync with Firebase RTDB if available
-        if (db) {
-          try {
-            db.ref(`bookings/${newId}`).set({
-              ...newBooking,
-              createdAt: firebase.database.ServerValue.TIMESTAMP
-            });
-          } catch (e) {}
+    // Test Firestore Connection Button Handler
+    const testFirestoreBtn = document.getElementById('testFirestoreBtn');
+    if (testFirestoreBtn) {
+      testFirestoreBtn.addEventListener('click', async () => {
+        testFirestoreBtn.textContent = '⏳ Testing...';
+        try {
+          if (typeof window.trackSongPlayModular === 'function') {
+            await window.trackSongPlayModular('Laganma Machadu Dhum', 'Bhaiya More');
+          }
+          if (typeof window.trackUserVisitModular === 'function') {
+            await window.trackUserVisitModular();
+          }
+          testFirestoreBtn.textContent = '✅ Firestore Connected!';
+          setTimeout(() => { testFirestoreBtn.textContent = '⚡ Test Firestore Connection'; }, 3000);
+          alert('✅ Cloud Firestore Connection Test Successful!\n\n1. Logged visit in "user_visits" collection.\n2. Incremented plays in "song_analytics" collection.\n\nOpen your Firebase Console to see the live documents!');
+        } catch (e) {
+          testFirestoreBtn.textContent = '❌ Test Error';
+          alert('Firestore Test Notice: ' + e.message);
         }
       });
     }

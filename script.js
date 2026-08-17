@@ -978,15 +978,20 @@ class MiniMusicPlayer {
       // 2. Cloud Firestore Modular v10+ Analytics (increment(1))
       if (typeof window.trackSongPlayModular === 'function') {
         window.trackSongPlayModular(songTitle, singer);
-      } else if (typeof firebase !== 'undefined' && firebase.firestore) {
-        const firestore = firebase.firestore();
-        const docId = songTitle.trim().replace(/[\/\\]/g, '_');
-        firestore.collection('song_analytics').doc(docId).set({
-          title: songTitle,
-          singer: singer,
-          plays: firebase.firestore.FieldValue.increment(1),
-          last_played: firebase.firestore.FieldValue.serverTimestamp()
-        }, { merge: true }).catch((e) => console.info('Firestore song_analytics note:', e.message));
+      }
+      if (typeof firebase !== 'undefined' && firebase.firestore) {
+        try {
+          const firestore = firebase.firestore();
+          const docId = songTitle.trim().replace(/[\/\\]/g, '_');
+          firestore.collection('song_analytics').doc(docId).set({
+            title: songTitle,
+            singer: singer,
+            plays: firebase.firestore.FieldValue.increment(1),
+            last_played: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true }).then(() => {
+            console.log(`✅ [Firestore Compat] Logged song play: "${songTitle}"`);
+          }).catch((e) => console.info('Firestore song_analytics notice:', e.message));
+        } catch (e) {}
       }
 
       // 3. Firebase Realtime Database
