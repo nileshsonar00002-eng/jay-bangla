@@ -23,7 +23,9 @@
 
   <!-- Firebase Web SDK (Compat) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 
   <style>
@@ -857,12 +859,26 @@
     if (!firebase.apps.length) {
       try {
         firebase.initializeApp(firebaseConfig);
+        if (firebase.auth) {
+          firebase.auth().signInAnonymously()
+            .then(() => {
+              console.log('🔥 Admin Dashboard: Firebase Connected & Authenticated');
+              const syncTextEl = document.getElementById('syncText');
+              if (syncTextEl) syncTextEl.textContent = 'FIREBASE CONNECTED 🟢';
+            })
+            .catch((err) => console.info('Firebase auth notice:', err.message));
+        }
       } catch (e) {
         console.warn('Firebase init error:', e);
+      }
+    } else {
+      if (firebase.auth) {
+        firebase.auth().signInAnonymously().catch(() => {});
       }
     }
 
     const db = (typeof firebase !== 'undefined' && firebase.database) ? firebase.database() : null;
+    const firestore = (typeof firebase !== 'undefined' && firebase.firestore) ? firebase.firestore() : null;
 
     // Official Song Catalog
     const defaultSongs = [

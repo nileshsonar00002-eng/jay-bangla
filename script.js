@@ -21,10 +21,15 @@ const firebaseConfig = {
   appId: '1:762404305793:web:8ec333a65b673211af8680'
 };
 
-// Safe Firebase App Initialization
+// Safe Firebase App Initialization with Anonymous Auth
 if (typeof firebase !== 'undefined' && (!firebase.apps || !firebase.apps.length)) {
   try {
     firebase.initializeApp(firebaseConfig);
+    if (firebase.auth) {
+      firebase.auth().signInAnonymously()
+        .then(() => console.log('🔥 Firebase Connected & Authenticated (Anonymous)'))
+        .catch((err) => console.info('Firebase auth notice:', err.message));
+    }
   } catch (e) {
     console.info('Firebase initialization notice:', e);
   }
