@@ -671,12 +671,10 @@ class MiniMusicPlayer {
     }
 
     if (bgImage) {
-      const isMobile = window.innerWidth <= 680;
       if (playlistId === 'kanubai') {
-        bgImage.style.backgroundImage = isMobile
-          ? "url('assets/kanubai-mobile-bg.jpg')"
-          : "url('assets/kanubai-bg.jpg')";
+        bgImage.style.backgroundImage = "url('assets/kanubai-bg.jpg')";
       } else {
+        const isMobile = window.innerWidth <= 680;
         bgImage.style.backgroundImage = isMobile
           ? "url('assets/khandeshi-jatra-mobile-bg.jpg')"
           : "url('assets/khandeshi-jatra-bg.jpg')";
