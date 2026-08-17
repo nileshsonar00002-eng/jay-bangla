@@ -82,9 +82,10 @@ body {
   width: calc(100% + 16px);
   height: calc(100% + 16px);
   background-size: cover;
-  background-position: center center;
+  background-position: center 38%;
   background-repeat: no-repeat;
-  will-change: transform;
+  will-change: transform, opacity;
+  transition: opacity 0.4s ease, transform 0.4s ease;
   animation: cinematicBreathing 18s ease-in-out infinite alternate;
 }
 
@@ -2130,6 +2131,10 @@ body {
 
   .top-left-badge {
     padding: 0.3rem 0.55rem;
+  }
+
+  .bg-image {
+    background-position: center 30%;
   }
 
   .festive-ad-banner-container {
