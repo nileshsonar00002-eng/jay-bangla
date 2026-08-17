@@ -3,9 +3,9 @@
  * Cloud Firestore Analytics Engine (Firebase v10+ Modular SDK)
  * ==========================================================================
  * - Firestore Initialization using getFirestore()
- * - Anonymous Authentication for secure database writes
- * - User Location Tracking (ipapi.co -> 'user_visits' collection)
- * - Song Streaming Analytics (increment(1) -> 'song_analytics' collection)
+ * - Instant Non-blocking User Location Tracking ('user_visits' collection)
+ * - Real-time Song Analytics Tracking ('song_analytics' collection)
+ * - Built-in Diagnostic & Connectivity Verifier
  * ==========================================================================
  */
 
@@ -17,12 +17,10 @@ import {
   addDoc, 
   doc, 
   setDoc, 
+  getDoc,
   increment, 
   serverTimestamp,
-  onSnapshot,
-  query,
-  orderBy,
-  limit
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // Firebase Project Configuration
@@ -35,27 +33,23 @@ export const firebaseConfig = {
   appId: '1:762404305793:web:8ec333a65b673211af8680'
 };
 
-// 1. Initialize Firebase App, Auth & Cloud Firestore using getFirestore()
+// 1. Initialize Firebase App, Auth & Cloud Firestore
 export const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-export const auth = getAuth(app);
 export const db = getFirestore(app);
+export const auth = getAuth(app);
 
-// Authenticate anonymously to ensure all Firestore security rules permit writes
+// Attempt anonymous sign-in in background (does not block writes)
 signInAnonymously(auth)
   .then((userCred) => {
-    console.log('🔥 [Firestore v10+] Anonymous Auth Connected:', userCred.user.uid);
-    // Trigger location tracking after authentication
-    trackUserVisitLocation();
+    console.log('🔥 [Firestore] Anonymous Auth connected successfully (UID:', userCred.user.uid, ')');
   })
   .catch((err) => {
-    console.warn('⚠️ [Firestore v10+] Auth notice:', err.message);
-    // Still attempt write in case test mode rules permit open writes
-    trackUserVisitLocation();
+    console.info('ℹ️ [Firestore] Auth notice (Test Mode rules will still work):', err.message);
   });
 
 /**
- * 2. User Location Tracking:
- * Fetches user location (City, State) and logs an entry into 'user_visits' in Firestore.
+ * 2. User Location Tracking (user_visits Collection)
+ * Automatically writes on page load with non-blocking location resolution.
  */
 let hasLoggedVisit = false;
 
@@ -63,53 +57,71 @@ export async function trackUserVisitLocation() {
   if (hasLoggedVisit) return;
   hasLoggedVisit = true;
 
+  // Determine Device & Platform
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  const isTablet = /iPad|Tablet/i.test(navigator.userAgent);
+  const deviceType = isTablet ? 'Tablet' : (isMobile ? 'Mobile' : 'Desktop');
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Asia/Kolkata';
+
+  let locationData = 'Maharashtra, India';
+
+  // Fast non-blocking location fetch with 1.8s timeout
   try {
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    const isTablet = /iPad|Tablet/i.test(navigator.userAgent);
-    const deviceType = isTablet ? 'Tablet' : (isMobile ? 'Mobile' : 'Desktop');
+    const fetchWithTimeout = (url, ms = 1800) => {
+      const controller = new AbortController();
+      const promise = fetch(url, { signal: controller.signal });
+      const timeout = new Promise((_, reject) => setTimeout(() => { controller.abort(); reject(new Error('timeout')); }, ms));
+      return Promise.race([promise, timeout]);
+    };
 
-    let locationData = 'Maharashtra, India';
-
+    const response = await fetchWithTimeout('https://ipapi.co/json/');
+    if (response.ok) {
+      const data = await response.json();
+      if (data.city && data.region) {
+        locationData = `${data.city}, ${data.region}`;
+      } else if (data.region) {
+        locationData = `${data.region}, India`;
+      }
+    }
+  } catch (err) {
+    // Secondary fallback
     try {
-      const response = await fetch('https://ipapi.co/json/');
-      if (response.ok) {
-        const data = await response.json();
-        if (data.city && data.region) {
-          locationData = `${data.city}, ${data.region}`;
-        } else if (data.region) {
-          locationData = `${data.region}, India`;
+      const fbRes = await fetch('https://ipwho.is/');
+      if (fbRes.ok) {
+        const fbData = await fbRes.json();
+        if (fbData.city && fbData.region) {
+          locationData = `${fbData.city}, ${fbData.region}`;
         }
       }
-    } catch (err) {
-      try {
-        const fbRes = await fetch('https://ipwho.is/');
-        if (fbRes.ok) {
-          const fbData = await fbRes.json();
-          if (fbData.city && fbData.region) {
-            locationData = `${fbData.city}, ${fbData.region}`;
-          }
-        }
-      } catch (e) {}
+    } catch (e) {
+      locationData = `Location (${timezone})`;
     }
+  }
 
-    // Write visit record to Firestore 'user_visits' collection
+  // Write visit document to Firestore 'user_visits' collection
+  try {
     const docRef = await addDoc(collection(db, 'user_visits'), {
       location: locationData,
       device_type: deviceType,
+      timezone: timezone,
       timestamp: serverTimestamp(),
-      user_agent: (navigator.userAgent || '').substring(0, 100)
+      page_url: window.location.pathname || '/'
     });
 
-    console.log(`✅ [Firestore v10+] Successfully stored user visit in 'user_visits' (${docRef.id}): ${locationData} [${deviceType}]`);
+    console.log(`✅ [Firestore] Visit successfully written to 'user_visits' | Doc ID: ${docRef.id} | Location: ${locationData} [${deviceType}]`);
+    return { success: true, id: docRef.id, location: locationData };
   } catch (error) {
-    console.error('❌ [Firestore v10+] Error writing to user_visits:', error);
+    console.error('❌ [Firestore Write Error in user_visits]:', error);
+    if (error.code === 'permission-denied') {
+      console.warn('⚠️ FIRESTORE PERMISSION DENIED: Please go to Firebase Console > Cloud Firestore > Rules tab and set "allow read, write: if true;"');
+    }
+    return { success: false, error: error };
   }
 }
 
 /**
- * 3. Song Analytics Tracking:
- * Every time a user clicks play or a song starts streaming,
- * increment the play count in Firestore 'song_analytics' collection using increment(1).
+ * 3. Song Analytics Tracking (song_analytics Collection with increment(1))
+ * Increments play count whenever a song is clicked or played.
  */
 export async function trackSongPlay(songTitle, singer) {
   if (!songTitle) return;
@@ -124,15 +136,47 @@ export async function trackSongPlay(songTitle, singer) {
       last_played: serverTimestamp()
     }, { merge: true });
 
-    console.log(`✅ [Firestore v10+] Successfully incremented play count in 'song_analytics' for: "${songTitle}"`);
+    console.log(`✅ [Firestore] Incremented play count in 'song_analytics' for: "${songTitle}"`);
+    return { success: true, docId: docId };
   } catch (error) {
-    console.error('❌ [Firestore v10+] Error writing to song_analytics:', error);
+    console.error('❌ [Firestore Write Error in song_analytics]:', error);
+    if (error.code === 'permission-denied') {
+      console.warn('⚠️ FIRESTORE PERMISSION DENIED: Please go to Firebase Console > Cloud Firestore > Rules tab and set "allow read, write: if true;"');
+    }
+    return { success: false, error: error };
   }
 }
 
-// Global Exports
+/**
+ * 4. Diagnostics & Live Connection Test
+ */
+export async function testFirestoreConnection() {
+  console.log('🔄 Running Cloud Firestore Diagnostic Test...');
+  try {
+    // Test 1: Write to user_visits
+    const visitRes = await trackUserVisitLocation();
+    
+    // Test 2: Write to song_analytics
+    const songRes = await trackSongPlay('Laganma Machadu Dhum', 'Bhaiya More');
+
+    return {
+      success: visitRes && visitRes.success && songRes && songRes.success,
+      visitDocId: visitRes ? visitRes.id : null,
+      songDocId: songRes ? songRes.docId : null
+    };
+  } catch (err) {
+    console.error('❌ Firestore Diagnostic Failed:', err);
+    return { success: false, error: err.message, code: err.code };
+  }
+}
+
+// Global Export & Auto-Run
 if (typeof window !== 'undefined') {
   window.firestoreDb = db;
   window.trackSongPlayModular = trackSongPlay;
   window.trackUserVisitModular = trackUserVisitLocation;
+  window.testFirestoreConnection = testFirestoreConnection;
+
+  // Execute location tracking immediately on script load
+  trackUserVisitLocation();
 }
