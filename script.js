@@ -1115,7 +1115,16 @@ class MiniMusicPlayer {
     this.volume = parseFloat(localStorage.getItem('kj_volume') || '0.85');
 
     // DOM References
-    this.audio = document.getElementById('audioElement');
+    this.audio = document.getElementById('audioElement') || new Audio();
+    this.audio.preload = 'auto';
+    this.audio.crossOrigin = 'anonymous';
+
+    // Secondary Hidden Pre-Buffering Pipeline for 0ms transitions
+    this.prebufferAudio = new Audio();
+    this.prebufferAudio.preload = 'auto';
+    this.prebufferAudio.crossOrigin = 'anonymous';
+    this.prebufferAudio.volume = 0;
+
     this.playBtn = document.getElementById('playBtn');
     this.playIcon = document.getElementById('playIcon');
     this.pauseIcon = document.getElementById('pauseIcon');
@@ -1555,22 +1564,31 @@ class MiniMusicPlayer {
   }
 
   /**
-   * Prefetches download URL for smooth instantaneous track transitions
+   * Pre-buffers next audio track directly into memory for 0ms instantaneous track transitions
    */
-  prefetchDownloadUrl(index) {
-    if (index < 0 || index >= this.playlist.length) return;
+  prebufferTrack(index) {
+    if (!this.playlist || index < 0 || index >= this.playlist.length) return;
     const track = this.playlist[index];
-    if (track && track.isFirebaseStorage && !track.audioUrl && track.itemRef) {
-      track.itemRef.getDownloadURL()
-        .then((url) => { track.audioUrl = url; })
-        .catch(() => {});
+    if (!track) return;
+    const url = track.audioUrl || track.url;
+    if (url && this.prebufferAudio && this.prebufferAudio.src !== url) {
+      try {
+        this.prebufferAudio.src = url;
+        this.prebufferAudio.preload = 'auto';
+        this.prebufferAudio.load(); // Kick off Byte-Range HTTP streaming chunks in background
+      } catch (e) {}
     }
+  }
+
+  prefetchDownloadUrl(index) {
+    this.prebufferTrack(index);
   }
 
   async loadTrack(index, autoPlay = true) {
     if (index < 0 || index >= this.playlist.length) return;
     this.currentIndex = index;
     const currentSong = this.playlist[this.currentIndex];
+    if (!currentSong) return;
 
     // 1. Resolve Song Title
     const titleText = currentSong.title || currentSong.songName || currentSong.name || currentSong.filename || 'खान्देशी गाणे';
@@ -1585,41 +1603,14 @@ class MiniMusicPlayer {
                        currentSong.singerName || 
                        currentSong.artistName || 
                        currentSong.creator || 
-                       currentSong.author;
-
-    // 3. Check customMetadata if present
-    if (!actualSinger && currentSong.customMetadata) {
-      actualSinger = currentSong.customMetadata.singer || 
-                     currentSong.customMetadata.artist || 
-                     currentSong.customMetadata.vocals;
-    }
-
-    // 4. Keyword Fallback: Extract singer name directly from song title / filename (e.g. 'Ramakant', 'Bhaiya More')
-    if (!actualSinger || actualSinger === 'खान्देशी कलाकार' || actualSinger === 'अहिराणी खजिना') {
-      const keywordExtracted = extractSingerKeyword(currentSong.filename || '') || 
-                               extractSingerKeyword(titleText) || 
-                               extractSingerKeyword(currentSong.title || '');
-      if (keywordExtracted) {
-        actualSinger = keywordExtracted;
-        currentSong.singer = keywordExtracted;
-        currentSong.artist = keywordExtracted;
-        currentSong.vocals = keywordExtracted;
-      }
-    }
-
-    // Final fallback if no singer could be extracted
-    if (!actualSinger || actualSinger === 'खान्देशी कलाकार') {
-      actualSinger = 'अहिराणी खजिना';
-    }
-
-    // 5. Display only currentSong singer name (no category)
-    const singerDisplay = actualSinger;
+                       currentSong.author || 
+                       'अहिराणी खजिना';
 
     if (this.playerCategoryElement) {
-      this.playerCategoryElement.innerText = singerDisplay;
+      this.playerCategoryElement.innerText = actualSinger;
     }
     if (this.trackArtist && this.trackArtist !== this.playerCategoryElement) {
-      this.trackArtist.textContent = singerDisplay;
+      this.trackArtist.textContent = actualSinger;
     }
 
     this.currentTimeEl.textContent = '00:00';
@@ -1632,69 +1623,25 @@ class MiniMusicPlayer {
       this.trackCoverImg.src = currentSong.cover;
     }
 
-    // Update Media Session Metadata
+    // 3. Immediate Active State & Media Session update
+    this.highlightActivePlaylistItem();
     this.updateMediaSession();
 
-    // Fetch URL and metadata on-demand if not already pre-resolved
-    if (currentSong.isFirebaseStorage) {
-      if (!currentSong.audioUrl) {
-        if (currentSong.itemRef) {
-          try {
-            currentSong.audioUrl = await currentSong.itemRef.getDownloadURL();
-          } catch (err) {
-            console.warn(`Failed to fetch audio stream for ${currentSong.filename}:`, err);
-            return;
-          }
-        } else if (currentSong.storagePath && typeof firebase !== 'undefined' && firebase.storage) {
-          try {
-            currentSong.audioUrl = await firebase.storage().ref(currentSong.storagePath).getDownloadURL();
-          } catch (err) {
-            console.warn(`Failed to fetch audio stream for ${currentSong.storagePath}:`, err);
-          }
-        }
-      }
-
-      // Read customMetadata attached in Firebase Storage if any
-      if (!currentSong._metadataFetched && currentSong.itemRef) {
-        currentSong._metadataFetched = true;
-        currentSong.itemRef.getMetadata().then((meta) => {
-          if (meta && meta.customMetadata) {
-            const metaSinger = meta.customMetadata.singer || meta.customMetadata.artist || meta.customMetadata.vocals;
-            const metaTitle = meta.customMetadata.title || meta.customMetadata.song;
-            let updated = false;
-
-            if (metaSinger && metaSinger !== currentSong.singer) {
-              currentSong.singer = metaSinger;
-              currentSong.artist = metaSinger;
-              currentSong.vocals = metaSinger;
-              updated = true;
-            }
-            if (metaTitle && metaTitle !== currentSong.title) {
-              currentSong.title = metaTitle;
-              if (this.trackTitle) this.trackTitle.textContent = metaTitle;
-            }
-            if (updated && this.playerCategoryElement) {
-              this.playerCategoryElement.innerText = currentSong.singer || 'अहिराणी खजिना';
-            }
-          }
-        }).catch(() => {});
-      }
+    if (autoPlay) {
+      this.setPlayState(true);
     }
 
-    // 3. Prefetch next track download URL in background
-    const nextIdx = (this.currentIndex + 1) % this.playlist.length;
-    this.prefetchDownloadUrl(nextIdx);
-
-    // 4. Synchronize playlist item active state
-    this.highlightActivePlaylistItem();
-
-    // 5. Stream audio on demand with safe onloadedmetadata wrapping
+    // 4. Resolve Direct Audio URL & Kick off Byte-Range HTTP Streaming
     const directAudio = currentSong.audioUrl || currentSong.url;
     if (directAudio) {
-      this.audio.src = directAudio;
-      this.audio.loop = false;
+      if (this.audio.src !== directAudio) {
+        this.audio.src = directAudio;
+        this.audio.crossOrigin = 'anonymous';
+        this.audio.preload = 'auto';
+        this.audio.loop = false;
+        this.audio.load(); // Immediately kick off HTTP 206 Byte-Range streaming buffers
+      }
 
-      // Safe onloadedmetadata listener before updating durations
       this.audio.onloadedmetadata = () => {
         if (this.audio.duration && !isNaN(this.audio.duration)) {
           currentSong.duration = this.formatTime(this.audio.duration);
@@ -1703,11 +1650,14 @@ class MiniMusicPlayer {
         }
       };
 
-      this.audio.load();
       if (autoPlay) {
         this.playAudio();
       }
     }
+
+    // 5. Pre-buffer upcoming next track into memory
+    const nextIdx = (this.currentIndex + 1) % this.playlist.length;
+    this.prebufferTrack(nextIdx);
   }
 
   updateMediaSession() {
@@ -1763,24 +1713,39 @@ class MiniMusicPlayer {
 
   playAudio() {
     const track = this.playlist[this.currentIndex];
+    if (!track) return;
     const directAudio = track.audioUrl || track.url;
 
-    if (!this.audio.src || this.audio.src.startsWith('data:') || this.audio.src !== directAudio) {
-      if (directAudio) {
-        this.audio.src = directAudio;
-        this.audio.loop = false;
-      }
+    if (directAudio && (!this.audio.src || this.audio.src.startsWith('data:') || this.audio.src !== directAudio)) {
+      this.audio.src = directAudio;
+      this.audio.crossOrigin = 'anonymous';
+      this.audio.preload = 'auto';
+      this.audio.loop = false;
+      this.audio.load();
     }
+
+    // Immediate Active State on Click (0ms perceived latency)
+    this.setPlayState(true);
+    this.updateMediaSession();
+    this.logSongPlay(track);
+
+    // Pre-buffer next track in background
+    const nextIdx = (this.currentIndex + 1) % this.playlist.length;
+    this.prebufferTrack(nextIdx);
 
     const playPromise = this.audio.play();
     if (playPromise !== undefined) {
       playPromise
         .then(() => {
           this.setPlayState(true);
-          this.updateMediaSession();
-          this.logSongPlay(track);
+          this.syncMediaSessionPositionState();
         })
-        .catch(() => this.setPlayState(false));
+        .catch((err) => {
+          if (err.name !== 'AbortError') {
+            console.info('Playback notice:', err.message);
+            this.setPlayState(false);
+          }
+        });
     }
   }
 
@@ -2149,6 +2114,7 @@ class MiniMusicPlayer {
         e.stopPropagation();
         const idx = parseInt(elem.getAttribute('data-index'), 10);
         if (!isNaN(idx)) {
+          this.setPlayState(true);
           this.loadTrack(idx, true);
           this.highlightActivePlaylistItem();
         }
