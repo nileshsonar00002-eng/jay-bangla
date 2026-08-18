@@ -512,9 +512,18 @@ let isShuffleOn = false;
 
 class MiniMusicPlayer {
   constructor(songList = initialPlaylist) {
+    this.isLoadingPlaylist = {
+      ahirani: false,
+      kanubai: false
+    };
+
+    // Instant zero-delay load from localStorage cache if available
+    const cachedAhirani = this.loadCachedPlaylist('ahirani');
+    const cachedKanubai = this.loadCachedPlaylist('kanubai');
+
     this.playlists = {
-      ahirani: [...defaultPlaylists.ahirani],
-      kanubai: [...defaultPlaylists.kanubai]
+      ahirani: (cachedAhirani && cachedAhirani.length > 0) ? cachedAhirani : [...defaultPlaylists.ahirani],
+      kanubai: (cachedKanubai && cachedKanubai.length > 0) ? cachedKanubai : [...defaultPlaylists.kanubai]
     };
     this.currentPlaylistId = localStorage.getItem('kj_active_playlist') || 'ahirani';
     this.playlist = [...(this.playlists[this.currentPlaylistId] || this.playlists.ahirani)];
@@ -568,6 +577,56 @@ class MiniMusicPlayer {
     this.isPlaylistOpen = false;
 
     this.init();
+  }
+
+  /**
+   * Loads cached playlist from localStorage for 0ms instant display
+   */
+  loadCachedPlaylist(playlistId) {
+    try {
+      const raw = localStorage.getItem(`kj_cached_playlist_${playlistId}`);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (parsed && Array.isArray(parsed.tracks) && parsed.tracks.length > 0) {
+        return parsed.tracks;
+      }
+    } catch (e) {
+      console.warn(`Cache read notice for ${playlistId}:`, e);
+    }
+    return null;
+  }
+
+  /**
+   * Saves playlist metadata and pre-resolved download URLs to localStorage
+   */
+  saveCachedPlaylist(playlistId, tracks) {
+    if (!Array.isArray(tracks) || tracks.length === 0) return;
+    try {
+      // Exclude non-serializable references before storing
+      const serializableTracks = tracks.map(t => ({
+        id: t.id,
+        title: t.title,
+        singer: t.singer || t.artist || t.vocals || 'अहिराणी खजिना',
+        artist: t.artist || t.singer || 'अहिराणी खजिना',
+        vocals: t.vocals || t.singer || 'अहिराणी खजिना',
+        singerName: t.singerName || t.singer || 'अहिराणी खजिना',
+        artistName: t.artistName || t.artist || 'अहिराणी खजिना',
+        category: t.category || (playlistId === 'kanubai' ? 'कानुबाई स्पेशल' : 'अहिराणी गाणी'),
+        filename: t.filename,
+        storagePath: t.storagePath || (t.itemRef ? t.itemRef.fullPath : ''),
+        audioUrl: t.audioUrl || null,
+        duration: t.duration || '--:--',
+        cover: t.cover || (playlistId === 'kanubai' ? 'assets/kanubai-bg.jpg' : 'assets/khandeshi-jatra-bg.jpg'),
+        isFirebaseStorage: true
+      }));
+
+      localStorage.setItem(`kj_cached_playlist_${playlistId}`, JSON.stringify({
+        timestamp: Date.now(),
+        tracks: serializableTracks
+      }));
+    } catch (e) {
+      console.warn(`Cache save notice for ${playlistId}:`, e);
+    }
   }
 
   init() {
@@ -788,7 +847,7 @@ class MiniMusicPlayer {
   }
 
   /**
-   * Connects to Firebase Cloud Storage and loads all MP3 tracks in the directory ('kanubai special', 'kanubai', or 'music')
+   * Connects to Firebase Cloud Storage and loads all MP3 tracks concurrently with Promise.all and local caching
    */
   async loadFromFirebaseStorage(targetPlaylist = null) {
     if (typeof firebase === 'undefined' || !firebase.storage) {
@@ -797,6 +856,13 @@ class MiniMusicPlayer {
     }
 
     const playlistId = targetPlaylist || this.currentPlaylistId || 'ahirani';
+    this.isLoadingPlaylist[playlistId] = true;
+
+    // If viewing an empty playlist in drawer, immediately render skeleton state
+    if (this.isPlaylistOpen && this.currentPlaylistId === playlistId && (!this.playlist || this.playlist.length === 0)) {
+      this.renderPlaylistItems();
+    }
+
     let folderNames = playlistId === 'kanubai' 
       ? ['kanubai special', 'Kanubai Special', 'kanubai_special', 'Kanubai_Special', 'kanubaispecial', 'kanubai-special', 'kanubai', 'kanbai', 'Kanubai', 'Kanbai', 'kanubai_songs', 'kanbai_songs'] 
       : ['music', 'ahirani', 'songs', 'Ahirani', 'Music'];
@@ -837,29 +903,39 @@ class MiniMusicPlayer {
           const listResult = await folderRef.listAll();
 
           if (listResult && listResult.items && listResult.items.length > 0) {
-            const storageTracks = [];
-            for (let i = 0; i < listResult.items.length; i++) {
-              const item = listResult.items[i];
-              const name = item.name;
-              const lower = name.toLowerCase();
+            const audioItems = listResult.items.filter(item => {
+              const lower = item.name.toLowerCase();
+              return lower.endsWith('.mp3') || lower.endsWith('.wav') || lower.endsWith('.m4a') || lower.endsWith('.aac') || lower.endsWith('.ogg') || lower.endsWith('.flac') || !lower.includes('.');
+            });
 
-              // Match audio formats
-              if (lower.endsWith('.mp3') || lower.endsWith('.wav') || lower.endsWith('.m4a') || lower.endsWith('.aac') || lower.endsWith('.ogg') || lower.endsWith('.flac') || !lower.includes('.')) {
-                const parsed = this.parseSongMetadata(name, i);
-                parsed.itemRef = item;
-                if (playlistId === 'kanubai') {
-                  parsed.category = 'कानुबाई स्पेशल';
-                  parsed.cover = 'assets/kanubai-bg.jpg';
-                }
-                storageTracks.push(parsed);
+            // Concurrent URL resolution for all tracks using Promise.all()
+            const storageTracks = await Promise.all(audioItems.map(async (item, i) => {
+              const name = item.name;
+              const parsed = this.parseSongMetadata(name, i);
+              parsed.itemRef = item;
+              parsed.storagePath = item.fullPath;
+              if (playlistId === 'kanubai') {
+                parsed.category = 'कानुबाई स्पेशल';
+                parsed.cover = 'assets/kanubai-bg.jpg';
               }
-            }
+
+              // Concurrently pre-resolve direct download URL
+              try {
+                parsed.audioUrl = await item.getDownloadURL();
+              } catch (uErr) {
+                // Silently fallback to on-demand resolution
+              }
+
+              return parsed;
+            }));
 
             if (storageTracks.length > 0) {
               storageTracks.sort((a, b) => a.filename.localeCompare(b.filename, undefined, { numeric: true, sensitivity: 'base' }));
-              console.log(`🎶 Firebase Cloud Storage: Loaded ${storageTracks.length} tracks from "${folder}/" for playlist [${playlistId}].`);
+              console.log(`🎶 Firebase Cloud Storage: Concurrently loaded ${storageTracks.length} tracks from "${folder}/" for playlist [${playlistId}].`);
               
               this.playlists[playlistId] = storageTracks;
+              this.saveCachedPlaylist(playlistId, storageTracks);
+              this.isLoadingPlaylist[playlistId] = false;
 
               if (this.currentPlaylistId === playlistId) {
                 this.playlist = storageTracks;
@@ -869,7 +945,7 @@ class MiniMusicPlayer {
                   this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
                 }
 
-                // If current song is not playing, or is empty, or is placeholder, load track 0
+                // If current song is not playing, or is empty/loading, load track 0
                 const curSong = this.playlist[this.currentIndex];
                 const needsLoad = !this.isPlaying || 
                                   !this.audio.src || 
@@ -877,11 +953,7 @@ class MiniMusicPlayer {
                                   (this.trackTitle && this.trackTitle.textContent.includes('लोड'));
                 
                 if (needsLoad && this.playlist.length > 0) {
-                  await this.loadTrack(0, false);
-                }
-
-                if (storageTracks.length > 1) {
-                  this.prefetchDownloadUrl(1);
+                  await this.loadTrack(this.currentIndex >= this.playlist.length ? 0 : this.currentIndex, false);
                 }
               }
               return; // Found tracks, exit folder search
@@ -895,6 +967,11 @@ class MiniMusicPlayer {
       }
     } catch (err) {
       console.warn('Firebase Storage connection note:', err);
+    } finally {
+      this.isLoadingPlaylist[playlistId] = false;
+      if (this.isPlaylistOpen && this.currentPlaylistId === playlistId && (!this.playlist || this.playlist.length === 0)) {
+        this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
+      }
     }
   }
 
@@ -979,19 +1056,27 @@ class MiniMusicPlayer {
     // Update Media Session Metadata
     this.updateMediaSession();
 
-    // Fetch URL and metadata on-demand
-    if (currentSong.isFirebaseStorage && currentSong.itemRef) {
+    // Fetch URL and metadata on-demand if not already pre-resolved
+    if (currentSong.isFirebaseStorage) {
       if (!currentSong.audioUrl) {
-        try {
-          currentSong.audioUrl = await currentSong.itemRef.getDownloadURL();
-        } catch (err) {
-          console.warn(`Failed to fetch audio stream for ${currentSong.filename}:`, err);
-          return;
+        if (currentSong.itemRef) {
+          try {
+            currentSong.audioUrl = await currentSong.itemRef.getDownloadURL();
+          } catch (err) {
+            console.warn(`Failed to fetch audio stream for ${currentSong.filename}:`, err);
+            return;
+          }
+        } else if (currentSong.storagePath && typeof firebase !== 'undefined' && firebase.storage) {
+          try {
+            currentSong.audioUrl = await firebase.storage().ref(currentSong.storagePath).getDownloadURL();
+          } catch (err) {
+            console.warn(`Failed to fetch audio stream for ${currentSong.storagePath}:`, err);
+          }
         }
       }
 
       // Read customMetadata attached in Firebase Storage if any
-      if (!currentSong._metadataFetched) {
+      if (!currentSong._metadataFetched && currentSong.itemRef) {
         currentSong._metadataFetched = true;
         currentSong.itemRef.getMetadata().then((meta) => {
           if (meta && meta.customMetadata) {
@@ -1397,6 +1482,36 @@ class MiniMusicPlayer {
   renderPlaylistItems(filterQuery = '') {
     if (!this.playlistItemsContainer) return;
     const q = filterQuery.trim().toLowerCase();
+
+    // 1. Show smooth animated shimmer skeleton placeholders during first-time loading
+    if (this.isLoadingPlaylist && this.isLoadingPlaylist[this.currentPlaylistId] && (!this.playlist || this.playlist.length === 0)) {
+      const isKanubai = this.currentPlaylistId === 'kanubai';
+      const skeletonCount = 6;
+      let skeletonsHtml = '<div class="playlist-skeleton-container" aria-label="Loading tracks">';
+      for (let i = 0; i < skeletonCount; i++) {
+        skeletonsHtml += `
+          <div class="playlist-skeleton-item" aria-hidden="true">
+            <div class="skeleton-shimmer skeleton-idx"></div>
+            <div class="skeleton-shimmer skeleton-thumb"></div>
+            <div class="skeleton-details">
+              <div class="skeleton-shimmer skeleton-title-line"></div>
+              <div class="skeleton-shimmer skeleton-singer-line"></div>
+            </div>
+            <div class="skeleton-shimmer skeleton-play-icon"></div>
+          </div>
+        `;
+      }
+      skeletonsHtml += `
+        <div style="text-align: center; padding: 0.8rem 0.5rem 0.3rem;">
+          <p style="font-size: 0.84rem; color: var(--gold-300); font-weight: 600;">
+            ${isKanubai ? '🙏 कानुबाई स्पेशल गाणी लोड होत आहेत...' : '🎶 अहिराणी गाणी लोड होत आहेत...'}
+          </p>
+          <p style="font-size: 0.72rem; opacity: 0.7; margin-top: 2px;">Firebase Cloud Storage वरून सुरक्षितपणे कनेक्ट होत आहे</p>
+        </div>
+      </div>`;
+      this.playlistItemsContainer.innerHTML = skeletonsHtml;
+      return;
+    }
 
     const filtered = this.playlist.map((track, originalIndex) => ({
       ...track,

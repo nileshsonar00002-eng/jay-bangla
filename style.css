@@ -1569,6 +1569,94 @@ body.kanubai-active .player-container {
   font-size: 0.88rem;
 }
 
+/* Shimmer Skeleton Placeholder for Instant Playlist UI Loading */
+.playlist-skeleton-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+  padding: 0.2rem 0;
+}
+
+.playlist-skeleton-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.48rem 0.7rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 4px;
+}
+
+.skeleton-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(251, 191, 36, 0.15) 50%,
+    transparent 100%
+  );
+  animation: skeletonSweep 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes skeletonSweep {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skeleton-idx {
+  width: 18px;
+  height: 14px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.skeleton-thumb {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.skeleton-details {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.skeleton-title-line {
+  width: 72%;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.skeleton-singer-line {
+  width: 44%;
+  height: 9px;
+  border-radius: 3px;
+  opacity: 0.7;
+}
+
+.skeleton-play-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
 /* YouTube Player container (active and unobtrusive) */
 .hidden-yt-frame {
   position: fixed;
