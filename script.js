@@ -1221,6 +1221,13 @@ class MiniMusicPlayer {
     } catch (e) {}
     this.updateShuffleUI();
 
+    // Pick a random starting song index so every visit starts with a fresh random song
+    if (this.playlist && this.playlist.length > 0) {
+      this.currentIndex = Math.floor(Math.random() * this.playlist.length);
+    } else {
+      this.currentIndex = 0;
+    }
+
     // Apply saved playlist visuals (background & topbar label)
     this.applyPlaylistVisuals(this.currentPlaylistId);
 
@@ -1313,7 +1320,13 @@ class MiniMusicPlayer {
 
     // Switch active tracks list
     this.playlist = [...(this.playlists[playlistId] || [])];
-    this.currentIndex = 0;
+    
+    // Pick a random starting song index for the switched playlist
+    if (this.playlist.length > 0) {
+      this.currentIndex = Math.floor(Math.random() * this.playlist.length);
+    } else {
+      this.currentIndex = 0;
+    }
     this.updatePlaylistCountBadge();
 
     if (this.isPlaylistOpen) {
@@ -1321,7 +1334,7 @@ class MiniMusicPlayer {
     }
 
     if (this.playlist.length > 0) {
-      await this.loadTrack(0, autoPlay);
+      await this.loadTrack(this.currentIndex, autoPlay);
     } else {
       if (this.trackTitle) this.trackTitle.textContent = 'गाणी लोड होत आहेत...';
       if (this.trackArtist) this.trackArtist.textContent = 'Firebase Cloud Storage';
@@ -1332,7 +1345,7 @@ class MiniMusicPlayer {
     await this.loadFromFirebaseStorage(playlistId);
 
     if (this.playlist.length > 0 && (!this.audio.src || this.trackTitle.textContent.includes('लोड'))) {
-      await this.loadTrack(0, autoPlay);
+      await this.loadTrack(this.currentIndex, autoPlay);
     }
   }
 
@@ -1540,7 +1553,10 @@ class MiniMusicPlayer {
                                   (this.trackTitle && this.trackTitle.textContent.includes('लोड'));
                 
                 if (needsLoad && this.playlist.length > 0) {
-                  await this.loadTrack(this.currentIndex >= this.playlist.length ? 0 : this.currentIndex, false);
+                  if (this.currentIndex >= this.playlist.length || this.currentIndex < 0) {
+                    this.currentIndex = Math.floor(Math.random() * this.playlist.length);
+                  }
+                  await this.loadTrack(this.currentIndex, false);
                 }
               }
               return; // Found tracks, exit folder search
