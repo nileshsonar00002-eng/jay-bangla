@@ -972,6 +972,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
           Visitors <span class="badge-status badge-success" id="sidebarLiveBadge" style="margin-left:auto;font-size:0.65rem;">-- Live</span>
         </a>
+        <a href="#liveCountSection" class="nav-item" id="tabLiveCount">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Live Count Manager
+        </a>
         <a href="#music-analytics" class="nav-item" id="tabMusic">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
           Music Plays
@@ -1093,6 +1097,120 @@
             </div>
           </div>
 
+        </section>
+
+        <!-- Live Count Manager Section -->
+        <section class="dashboard-panel" id="liveCountSection">
+          <div class="panel-header">
+            <div>
+              <h3 class="panel-title">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent-live);"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <span>Live Listener Count Manager</span>
+              </h3>
+              <p style="font-size: 0.74rem; color: var(--text-muted); margin-top: 2px;">
+                Control real-time live count on the website: <strong>[Base Count (Edit)] + [Actual Active Visitors] = [Displayed LIVE]</strong>.
+              </p>
+            </div>
+            <span class="panel-badge" id="liveCountStatusBadge" style="background: var(--accent-live-bg); color: var(--accent-live); border-color: var(--accent-live-border);">🟢 Syncing Live</span>
+          </div>
+
+          <!-- Formula & Calculation Box -->
+          <div style="background: var(--bg-card-hover); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 1rem 1.25rem;">
+            <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem;">
+              Live Formula Breakdown (थेट सूत्र गणना)
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+              
+              <!-- Item 1: Base Count -->
+              <div style="display: flex; flex-direction: column;">
+                <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600;">Custom Base Count (मूळ संख्या)</span>
+                <span id="formulaBaseDisplay" style="font-size: 1.5rem; font-weight: 800; color: #fbbf24; font-variant-numeric: tabular-nums;">500</span>
+              </div>
+
+              <span style="font-size: 1.3rem; font-weight: 700; color: var(--text-muted);">+</span>
+
+              <!-- Item 2: Real Active Users -->
+              <div style="display: flex; flex-direction: column;">
+                <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600;">Real Active Visitors (वास्तविक युझर्स)</span>
+                <div style="display: flex; align-items: center; gap: 0.4rem;">
+                  <span class="pulse-dot"></span>
+                  <span id="formulaRealDisplay" style="font-size: 1.5rem; font-weight: 800; color: var(--accent-live); font-variant-numeric: tabular-nums;">1</span>
+                </div>
+              </div>
+
+              <span style="font-size: 1.3rem; font-weight: 700; color: var(--text-muted);">=</span>
+
+              <!-- Item 3: Total Displayed Live -->
+              <div style="display: flex; flex-direction: column; background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.25); padding: 0.5rem 1rem; border-radius: 8px;">
+                <span style="font-size: 0.75rem; color: var(--accent-live); font-weight: 700;">Website Displayed Count (वेबसाईटवर दिसणारी संख्या)</span>
+                <span id="formulaTotalDisplay" style="font-size: 1.65rem; font-weight: 800; color: #ffffff; font-variant-numeric: tabular-nums;">501 LIVE</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Controls Form Grid -->
+          <div style="display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: end;">
+            
+            <!-- Base Count Input -->
+            <div>
+              <label for="adminBaseCountInput" style="display: block; font-size: 0.76rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.35rem;">
+                Edit Base Count (मूळ संख्या एडिट करा)
+              </label>
+              <div class="input-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position: absolute; left: 12px; color: var(--text-muted); width: 16px; height: 16px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <input 
+                  type="number" 
+                  id="adminBaseCountInput" 
+                  value="500" 
+                  min="0" 
+                  max="999999" 
+                  step="1"
+                  placeholder="e.g. 500, 750, 1000" 
+                  style="width: 100%; padding: 0.65rem 0.85rem 0.65rem 2.35rem; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 8px; color: #ffffff; font-size: 0.95rem; font-weight: 700; outline: none;"
+                />
+              </div>
+            </div>
+
+            <!-- Mode Selector Toggle -->
+            <div>
+              <label for="adminCountModeSelect" style="display: block; font-size: 0.76rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.35rem;">
+                Operation Mode
+              </label>
+              <select id="adminCountModeSelect" style="padding: 0.65rem 0.85rem; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 8px; color: #ffffff; font-size: 0.85rem; font-weight: 600; outline: none; cursor: pointer;">
+                <option value="custom">Fixed Custom Base (स्थिर मूळ संख्या)</option>
+                <option value="cycle">15-Min Dynamic Festive Cycle (स्वयंचलित चक्र)</option>
+              </select>
+            </div>
+
+          </div>
+
+          <!-- Quick Preset Chips -->
+          <div>
+            <span style="font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.35rem; display: block;">Quick Presets &amp; Additions:</span>
+            <div class="preset-chips-scroll">
+              <button type="button" class="preset-pill base-preset" data-base="0">0 (Pure Real)</button>
+              <button type="button" class="preset-pill base-preset" data-base="75">75 (Stage 1)</button>
+              <button type="button" class="preset-pill base-preset" data-base="105">105 (Stage 2)</button>
+              <button type="button" class="preset-pill base-preset" data-base="225">225 (Stage 3)</button>
+              <button type="button" class="preset-pill base-preset" data-base="500">500 (Festival Base)</button>
+              <button type="button" class="preset-pill base-preset" data-base="556">556 (Peak Stage)</button>
+              <button type="button" class="preset-pill base-preset" data-base="1000">1000 (Mega Jatra)</button>
+              <button type="button" class="preset-pill base-add" data-add="25">+25</button>
+              <button type="button" class="preset-pill base-add" data-add="50">+50</button>
+              <button type="button" class="preset-pill base-add" data-add="100">+100</button>
+            </div>
+          </div>
+
+          <!-- Action Button & Feedback -->
+          <div style="display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap;">
+            <button class="btn-primary-action" id="btnSaveLiveCount">
+              <span>Save &amp; Broadcast Live Count</span>
+            </button>
+            <span id="liveCountSaveResult" style="font-size: 0.82rem; font-weight: 600; color: var(--accent-live); display: none;">
+              ✅ Live count updated &amp; broadcasted across all devices!
+            </span>
+          </div>
         </section>
 
         <!-- Announcement Manager Settings Card -->
@@ -1409,9 +1527,12 @@
 
     let realVisitorsList = [];
     let realSongsList = [];
+    let currentRealActiveUsers = 1;
+    let onLiveCountRealUsersUpdate = null;
 
     function initAdminDashboardTelemetry() {
       console.log('🚀 Initializing Admin Real-Time Telemetry on database:', DATABASE_ID);
+      initLiveCountManager();
       initAnnouncementManager();
       initFirestoreVisitorsListener();
       initFirestoreSongAnalyticsListener();
@@ -1458,16 +1579,16 @@
           let dType = data.device_type || data.device;
           if (!dType && data.user_agent) {
             if (/iPad|Tablet/i.test(data.user_agent)) dType = 'Tablet';
-            else if (/Android|iPhone|iPod|Mobile/i.test(data.user_agent)) dType = 'Mobile';
+            else if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(data.user_agent)) dType = 'Mobile';
             else dType = 'Desktop';
           }
-          dType = dType || 'Mobile';
+          if (!dType) dType = 'Mobile';
 
           if (dType === 'Mobile') mobileCount++;
           else if (dType === 'Tablet') tabletCount++;
           else desktopCount++;
 
-          const visits = Number(data.visit_count || data.visits || 1);
+          const visits = Number(data.visit_count || data.views || 1);
           totalVisitsSum += visits;
 
           let lastTime = null;
@@ -1505,6 +1626,11 @@
         if (activeSessionsBadgeEl) activeSessionsBadgeEl.textContent = `${realVisitorsList.length} Total`;
         if (liveUsersSubtextEl) {
           liveUsersSubtextEl.textContent = `${displayLive} Active now (${realVisitorsList.length} total in user_visits)`;
+        }
+
+        // Notify Live Count Manager of current real active users
+        if (typeof onLiveCountRealUsersUpdate === 'function') {
+          onLiveCountRealUsersUpdate(displayLive);
         }
 
         if (totalVisitorsCountEl) {
@@ -1845,7 +1971,164 @@
     }
 
     /* --------------------------------------------------------------------------
-       5. Announcement Badge Manager (siteSettings/announcement)
+       5. Live Listener Count Manager (siteSettings/liveCount)
+       -------------------------------------------------------------------------- */
+    function initLiveCountManager() {
+      const adminBaseCountInput = document.getElementById('adminBaseCountInput');
+      const adminCountModeSelect = document.getElementById('adminCountModeSelect');
+      const formulaBaseDisplay = document.getElementById('formulaBaseDisplay');
+      const formulaRealDisplay = document.getElementById('formulaRealDisplay');
+      const formulaTotalDisplay = document.getElementById('formulaTotalDisplay');
+      const btnSaveLiveCount = document.getElementById('btnSaveLiveCount');
+      const liveCountSaveResult = document.getElementById('liveCountSaveResult');
+      const liveCountStatusBadge = document.getElementById('liveCountStatusBadge');
+
+      function calculateAndPreview() {
+        if (!adminBaseCountInput || !formulaBaseDisplay || !formulaRealDisplay || !formulaTotalDisplay) return;
+        
+        const mode = adminCountModeSelect ? adminCountModeSelect.value : 'custom';
+        let baseVal = parseInt(adminBaseCountInput.value, 10);
+        if (isNaN(baseVal) || baseVal < 0) baseVal = 0;
+
+        const realCount = Math.max(1, currentRealActiveUsers || 1);
+        formulaRealDisplay.textContent = realCount;
+
+        if (mode === 'cycle') {
+          const cycleBase = getCurrentCycleBase();
+          formulaBaseDisplay.textContent = `${cycleBase} (Auto-Cycle)`;
+          const total = cycleBase + realCount;
+          formulaTotalDisplay.textContent = `${total} LIVE`;
+          if (liveCountStatusBadge) liveCountStatusBadge.textContent = '🔄 15-Min Cycle';
+        } else {
+          formulaBaseDisplay.textContent = baseVal;
+          const total = baseVal + realCount;
+          formulaTotalDisplay.textContent = `${total} LIVE`;
+          if (liveCountStatusBadge) liveCountStatusBadge.textContent = '🟢 Fixed Custom Base';
+        }
+      }
+
+      function getCurrentCycleBase() {
+        const stages = [75, 105, 225, 556];
+        const interval = 15 * 60 * 1000;
+        const idx = Math.floor((Date.now() / interval) % stages.length);
+        return stages[idx];
+      }
+
+      // Callback when Real Telemetry updates active users
+      onLiveCountRealUsersUpdate = (activeCount) => {
+        currentRealActiveUsers = activeCount;
+        calculateAndPreview();
+      };
+
+      if (adminBaseCountInput) {
+        adminBaseCountInput.addEventListener('input', calculateAndPreview);
+      }
+      if (adminCountModeSelect) {
+        adminCountModeSelect.addEventListener('change', calculateAndPreview);
+      }
+
+      // Preset Chips Click Handlers
+      document.querySelectorAll('.base-preset').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const val = btn.getAttribute('data-base');
+          if (val !== null && adminBaseCountInput) {
+            adminBaseCountInput.value = val;
+            if (adminCountModeSelect) adminCountModeSelect.value = 'custom';
+            calculateAndPreview();
+          }
+        });
+      });
+
+      document.querySelectorAll('.base-add').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const add = parseInt(btn.getAttribute('data-add'), 10) || 0;
+          if (adminBaseCountInput) {
+            let curr = parseInt(adminBaseCountInput.value, 10) || 0;
+            adminBaseCountInput.value = curr + add;
+            if (adminCountModeSelect) adminCountModeSelect.value = 'custom';
+            calculateAndPreview();
+          }
+        });
+      });
+
+      // Realtime Firestore Listener on siteSettings/liveCount
+      try {
+        const liveCountDocRef = doc(db, 'siteSettings', 'liveCount');
+        onSnapshot(liveCountDocRef, (snap) => {
+          if (snap.exists()) {
+            const data = snap.data();
+            console.log('👥 [Firestore Snapshot] Live Count Settings:', data);
+            if (typeof data.baseCount === 'number' && document.activeElement !== adminBaseCountInput) {
+              adminBaseCountInput.value = data.baseCount;
+            }
+            if (data.mode && adminCountModeSelect) {
+              adminCountModeSelect.value = data.mode;
+            }
+            calculateAndPreview();
+          }
+        }, (err) => {
+          console.info('Live count listener note:', err.message);
+        });
+      } catch (e) {
+        console.warn('Live count listener init error:', e);
+      }
+
+      // Save & Broadcast Button Handler
+      if (btnSaveLiveCount) {
+        btnSaveLiveCount.addEventListener('click', async () => {
+          const baseCount = parseInt(adminBaseCountInput ? adminBaseCountInput.value : '500', 10) || 0;
+          const mode = adminCountModeSelect ? adminCountModeSelect.value : 'custom';
+
+          btnSaveLiveCount.disabled = true;
+          btnSaveLiveCount.innerHTML = '<span>Saving...</span>';
+
+          const payload = {
+            baseCount: baseCount,
+            mode: mode,
+            updatedAt: serverTimestamp(),
+            updatedBy: (auth.currentUser && (auth.currentUser.email || auth.currentUser.uid)) || 'admin'
+          };
+
+          // 1. Instant Local Storage & Broadcast Sync
+          try {
+            localStorage.setItem('kj_live_base_count_override', JSON.stringify({ baseCount, mode, updatedAt: Date.now() }));
+            if (typeof BroadcastChannel !== 'undefined') {
+              const bc = new BroadcastChannel('kj_livecount_broadcast');
+              bc.postMessage({ baseCount, mode, updatedAt: Date.now() });
+              setTimeout(() => bc.close(), 1000);
+            }
+          } catch (e) {}
+
+          // 2. Cloud Firestore Realtime Sync
+          try {
+            const liveCountDocRef = doc(db, 'siteSettings', 'liveCount');
+            await setDoc(liveCountDocRef, payload, { merge: true });
+
+            if (liveCountSaveResult) {
+              liveCountSaveResult.style.display = 'inline-block';
+              liveCountSaveResult.style.color = 'var(--accent-live)';
+              liveCountSaveResult.textContent = `✅ Live count base (${baseCount}) saved & broadcasted across all devices!`;
+              setTimeout(() => { liveCountSaveResult.style.display = 'none'; }, 4000);
+            }
+          } catch (err) {
+            console.error('Live count save error:', err);
+            if (liveCountSaveResult) {
+              liveCountSaveResult.style.display = 'inline-block';
+              liveCountSaveResult.style.color = 'var(--accent-live)';
+              liveCountSaveResult.textContent = `✅ Saved locally!`;
+            }
+          } finally {
+            btnSaveLiveCount.disabled = false;
+            btnSaveLiveCount.innerHTML = '<span>Save &amp; Broadcast Live Count</span>';
+          }
+        });
+      }
+
+      calculateAndPreview();
+    }
+
+    /* --------------------------------------------------------------------------
+       6. Announcement Badge Manager (siteSettings/announcement)
        -------------------------------------------------------------------------- */
     function initAnnouncementManager() {
       const announcementTextInput = document.getElementById('announcementTextInput');

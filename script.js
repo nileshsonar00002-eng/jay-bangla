@@ -77,30 +77,107 @@ class RealtimePresenceTracker {
       { host: 'broker.emqx.io', port: 8084, path: '/mqtt' }
     ];
     this.currentBrokerIndex = 0;
+    
+    // Dynamic Admin-Editable Base Count State
+    this.customBaseCount = 500;
+    this.countMode = 'custom'; // 'custom' (admin edited) or 'cycle' (15-min dynamic)
 
     this.init();
   }
 
   init() {
-    // 1. Initial display using current synchronized base + 1 active user
+    // 1. Initial cached state from local storage
+    try {
+      const cached = localStorage.getItem('kj_live_base_count_override');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (typeof parsed.baseCount === 'number') this.customBaseCount = parsed.baseCount;
+        if (parsed.mode) this.countMode = parsed.mode;
+      }
+    } catch (e) {}
+
+    // 2. Initial display using current base + 1 active user
     this.updateBadge(1);
 
-    // 2. Local multi-tab coordination (BroadcastChannel + LocalStorage)
+    // 3. Local multi-tab coordination (BroadcastChannel + LocalStorage)
     this.initLocalTabCoordinator();
 
-    // 3. Global multi-device MQTT WebSocket presence
+    // 4. Global multi-device MQTT WebSocket presence
     this.initGlobalMQTTPresence();
 
-    // 4. Periodic prune timer for dead devices & stage transitions
+    // 5. Real-Time Admin Live Count Listener (Firestore + BroadcastChannel)
+    this.initAdminLiveCountSync();
+
+    // 6. Periodic prune timer for dead devices & stage transitions
     setInterval(() => this.pruneStalePeers(), 1500);
     setInterval(() => this.recalculateTotal(), 10000);
   }
 
+  initAdminLiveCountSync() {
+    const applyCountData = (data) => {
+      if (!data) return;
+      if (typeof data.baseCount === 'number') {
+        this.customBaseCount = data.baseCount;
+      }
+      if (data.mode) {
+        this.countMode = data.mode;
+      }
+      this.recalculateTotal();
+    };
+
+    // BroadcastChannel Listener for instant 0ms sync across tabs
+    try {
+      if (typeof BroadcastChannel !== 'undefined') {
+        const bc = new BroadcastChannel('kj_livecount_broadcast');
+        bc.onmessage = (ev) => {
+          if (ev.data) applyCountData(ev.data);
+        };
+      }
+    } catch (e) {}
+
+    // Window Storage Listener
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'kj_live_base_count_override' && e.newValue) {
+        try { applyCountData(JSON.parse(e.newValue)); } catch (err) {}
+      }
+    });
+
+    // Cloud Firestore Live Listener on siteSettings/liveCount
+    try {
+      if (typeof firebase !== 'undefined' && firebase.app) {
+        const fs = (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })();
+        if (fs) {
+          fs.collection('siteSettings').doc('liveCount').onSnapshot((docSnap) => {
+            if (docSnap.exists) {
+              const data = docSnap.data();
+              applyCountData(data);
+              try {
+                localStorage.setItem('kj_live_base_count_override', JSON.stringify(data));
+              } catch (e) {}
+            }
+          }, (err) => {
+            console.info('Live count sync note:', err.message);
+          });
+        }
+      }
+    } catch (e) {}
+  }
+
   updateBadge(actualActiveUsers) {
     if (!this.badgeEl) return;
-    const currentBase = getCurrentBaseCount();
     const effectiveUsers = Math.max(1, actualActiveUsers || 1);
-    const displayedCount = currentBase + effectiveUsers;
+    
+    // Formula: [Admin Base Count] + [Actual Active Visitors] = [LIVE Count]
+    let base = 500;
+    if (this.countMode === 'cycle') {
+      base = getCurrentBaseCount();
+    } else if (typeof this.customBaseCount === 'number' && !isNaN(this.customBaseCount)) {
+      base = this.customBaseCount;
+    } else {
+      base = 500;
+    }
+
+    const displayedCount = base + effectiveUsers;
     this.badgeEl.textContent = `${displayedCount} LIVE`;
   }
 
