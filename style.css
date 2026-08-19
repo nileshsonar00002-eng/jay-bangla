@@ -813,9 +813,9 @@ body {
   transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1), bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Specifically when Kanubai Special playlist is active: Shift player lower below the text */
+/* Specifically when Kanubai Special playlist is active: Shift player comfortably into the upper section */
 body.kanubai-active .player-container {
-  top: clamp(185px, 23vh, 225px);
+  top: clamp(110px, 14vh, 145px);
   bottom: auto;
 }
 
@@ -2164,7 +2164,7 @@ body.kanubai-active .player-container {
   }
 
   body.kanubai-active .player-container {
-    top: calc(clamp(215px, 26.5vh, 250px) + env(safe-area-inset-top, 0px));
+    top: calc(clamp(125px, 15.5vh, 155px) + env(safe-area-inset-top, 0px));
     bottom: auto;
   }
 
@@ -2331,7 +2331,7 @@ body.kanubai-active .player-container {
   }
 
   body.kanubai-active .player-container {
-    top: calc(clamp(195px, 24vh, 230px) + env(safe-area-inset-top, 0px));
+    top: calc(clamp(125px, 15.5vh, 155px) + env(safe-area-inset-top, 0px));
     bottom: auto;
     margin-top: 0;
     margin-bottom: 0;
