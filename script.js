@@ -1294,6 +1294,12 @@ class MiniMusicPlayer {
     this.currentPlaylistId = playlistId;
     localStorage.setItem('kj_active_playlist', playlistId);
 
+    // Stop current playback when switching playlists unless explicitly requested
+    if (!autoPlay && this.audio) {
+      this.audio.pause();
+      this.setPlayState(false);
+    }
+
     // Apply visual background and topbar label immediately
     this.applyPlaylistVisuals(playlistId);
 
@@ -2822,7 +2828,7 @@ function initPlaylistSelectorDropdown(player) {
       e.stopPropagation();
       const playlistId = btn.getAttribute('data-playlist');
       if (playlistId) {
-        player.switchPlaylist(playlistId, true);
+        player.switchPlaylist(playlistId, false);
       }
     });
   });
