@@ -2221,8 +2221,9 @@ body.kanubai-active .player-container {
   }
 
   .bg-wrapper.kanubai-active .bg-image {
-    background-image: url('assets/kanubai-bg.jpg') !important;
-    background-position: center center !important;
+    background-image: url('assets/kanubai-mobile-bg.jpg') !important;
+    background-position: center top !important;
+    background-size: cover !important;
   }
 
   .top-center-title-container {
@@ -2259,7 +2260,7 @@ body.kanubai-active .player-container {
   }
 
   .bg-wrapper.kanubai-active .bg-image {
-    background-position: center 38%;
+    background-position: center top !important;
   }
 
   .festive-ad-banner-container {
@@ -2330,7 +2331,7 @@ body.kanubai-active .player-container {
   }
 
   body.kanubai-active .player-container {
-    top: calc(clamp(225px, 27.5vh, 260px) + env(safe-area-inset-top, 0px));
+    top: calc(clamp(195px, 24vh, 230px) + env(safe-area-inset-top, 0px));
     bottom: auto;
     margin-top: 0;
     margin-bottom: 0;
