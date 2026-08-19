@@ -28,6 +28,133 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Rozha+One&family=Tiro+Devanagari+Marathi:ital@0;1&family=Yatra+One&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css?v=10.0">
+
+  <!-- Global Catch-All Application Error Handler & Non-Intrusive Toast System -->
+  <script>
+    (function initGlobalErrorHandler() {
+      if (window.__globalErrorHandlerInitialized) return;
+      window.__globalErrorHandlerInitialized = true;
+
+      let activeToast = null;
+      let dismissTimer = null;
+      let lastToastTime = 0;
+
+      const IGNORED_PATTERNS = [
+        'ResizeObserver loop',
+        'AbortError',
+        'NotAllowedError',
+        'The play() request was interrupted',
+        'play() failed because the user didn\'t interact',
+        'QuotaExceededError',
+        'chrome-extension://',
+        'moz-extension://',
+        'safari-extension://'
+      ];
+
+      function shouldIgnore(errorMsg) {
+        if (!errorMsg) return false;
+        const str = String(errorMsg);
+        return IGNORED_PATTERNS.some(pattern => str.includes(pattern));
+      }
+
+      function showGlobalErrorToast() {
+        const now = Date.now();
+        if (!document.body) {
+          document.addEventListener('DOMContentLoaded', () => showGlobalErrorToast(), { once: true });
+          return;
+        }
+
+        if (activeToast && document.body.contains(activeToast)) {
+          if (dismissTimer) clearTimeout(dismissTimer);
+          dismissTimer = setTimeout(dismissToast, 5000);
+          return;
+        }
+
+        if (now - lastToastTime < 1500) return;
+        lastToastTime = now;
+
+        dismissToast();
+
+        const toast = document.createElement('div');
+        toast.className = 'global-error-toast';
+        toast.setAttribute('role', 'alert');
+        toast.setAttribute('aria-live', 'assertive');
+
+        toast.innerHTML = `
+          <div class="global-error-toast-inner">
+            <div class="global-error-toast-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+            </div>
+            <p class="global-error-toast-text">काहीतरी तांत्रिक अडचण आली आहे. कृपया थोड्या वेळाने प्रयत्न करा.</p>
+            <button type="button" class="global-error-toast-reload-btn" id="globalErrorToastReload" aria-label="रिफ्रेश करा">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M23 4v6h-6"></path>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+              </svg>
+              <span>रिफ्रेश</span>
+            </button>
+          </div>
+        `;
+
+        document.body.appendChild(toast);
+        activeToast = toast;
+
+        const reloadBtn = toast.querySelector('#globalErrorToastReload');
+        if (reloadBtn) {
+          reloadBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            window.location.reload();
+          });
+        }
+
+        dismissTimer = setTimeout(dismissToast, 5000);
+      }
+
+      function dismissToast() {
+        if (dismissTimer) {
+          clearTimeout(dismissTimer);
+          dismissTimer = null;
+        }
+        if (activeToast) {
+          const el = activeToast;
+          activeToast = null;
+          el.classList.add('fade-out');
+          setTimeout(() => {
+            if (el && el.parentNode) {
+              el.parentNode.removeChild(el);
+            }
+          }, 320);
+        }
+      }
+
+      window.onerror = function(message, source, lineno, colno, error) {
+        console.error('⚠️ [Global Runtime Error Caught]:', { message, source, lineno, colno, error });
+        const errorMsg = (error && error.message) ? error.message : String(message);
+        if (!shouldIgnore(message) && !shouldIgnore(errorMsg)) {
+          showGlobalErrorToast();
+        }
+        return true;
+      };
+
+      window.addEventListener('unhandledrejection', function(event) {
+        const reason = event.reason;
+        const msg = (reason && reason.message) ? reason.message : String(reason);
+        console.error('⚠️ [Global Unhandled Promise Rejection Caught]:', reason);
+        if (!shouldIgnore(msg)) {
+          showGlobalErrorToast();
+        }
+        if (event && typeof event.preventDefault === 'function') {
+          event.preventDefault();
+        }
+      });
+
+      window.__showGlobalErrorToast = showGlobalErrorToast;
+    })();
+  </script>
 </head>
 <body>
   <!-- Top Left Group: Real-Time Live Listener Presence Badge + "HBD SANDEEP" Celebration Badge -->

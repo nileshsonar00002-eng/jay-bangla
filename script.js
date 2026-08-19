@@ -10,6 +10,169 @@
  * ==========================================================================
  */
 
+/**
+ * --------------------------------------------------------------------------
+ * Global Catch-All Application Error Handler & Non-Intrusive Toast System
+ * --------------------------------------------------------------------------
+ * 1. Catches all unhandled runtime errors (window.onerror) and unhandled promise
+ *    rejections (unhandledrejection).
+ * 2. Suppresses raw system errors, stack traces, and default browser alert popups.
+ * 3. Replaces technical error displays with a sleek, non-intrusive bottom toast in Marathi:
+ *    "काहीतरी तांत्रिक अडचण आली आहे. कृपया थोड्या वेळाने प्रयत्न करा."
+ * 4. Includes a clean "रिफ्रेश" (Reload) button inside the toast and auto-dismisses after 5s.
+ * 5. Keeps full technical error logs only inside console.error for debugging.
+ * --------------------------------------------------------------------------
+ */
+(function initGlobalErrorHandler() {
+  if (window.__globalErrorHandlerInitialized) return;
+  window.__globalErrorHandlerInitialized = true;
+
+  let activeToast = null;
+  let dismissTimer = null;
+  let lastToastTime = 0;
+
+  // Known benign browser notices that shouldn't display an error popup
+  const IGNORED_PATTERNS = [
+    'ResizeObserver loop',
+    'AbortError',
+    'NotAllowedError',
+    'The play() request was interrupted',
+    'play() failed because the user didn\'t interact',
+    'QuotaExceededError',
+    'chrome-extension://',
+    'moz-extension://',
+    'safari-extension://'
+  ];
+
+  function shouldIgnore(errorMsg) {
+    if (!errorMsg) return false;
+    const str = String(errorMsg);
+    return IGNORED_PATTERNS.some(pattern => str.includes(pattern));
+  }
+
+  function showGlobalErrorToast() {
+    const now = Date.now();
+    
+    // Ensure document body is available
+    if (!document.body) {
+      document.addEventListener('DOMContentLoaded', () => showGlobalErrorToast(), { once: true });
+      return;
+    }
+
+    // Rate limit: if a toast is already visible, extend its timer to 5s instead of stacking
+    if (activeToast && document.body.contains(activeToast)) {
+      if (dismissTimer) clearTimeout(dismissTimer);
+      dismissTimer = setTimeout(dismissToast, 5000);
+      return;
+    }
+
+    // Debounce: minimum 1.5s interval between distinct toasts
+    if (now - lastToastTime < 1500) return;
+    lastToastTime = now;
+
+    // Dismiss any previous stale toast
+    dismissToast();
+
+    // Create Toast Element
+    const toast = document.createElement('div');
+    toast.className = 'global-error-toast';
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'assertive');
+
+    toast.innerHTML = `
+      <div class="global-error-toast-inner">
+        <div class="global-error-toast-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        <p class="global-error-toast-text">काहीतरी तांत्रिक अडचण आली आहे. कृपया थोड्या वेळाने प्रयत्न करा.</p>
+        <button type="button" class="global-error-toast-reload-btn" id="globalErrorToastReload" aria-label="रिफ्रेश करा">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M23 4v6h-6"></path>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+          </svg>
+          <span>रिफ्रेश</span>
+        </button>
+      </div>
+    `;
+
+    document.body.appendChild(toast);
+    activeToast = toast;
+
+    // Attach reload handler
+    const reloadBtn = toast.querySelector('#globalErrorToastReload');
+    if (reloadBtn) {
+      reloadBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.location.reload();
+      });
+    }
+
+    // Auto-dismiss after 5 seconds
+    dismissTimer = setTimeout(dismissToast, 5000);
+  }
+
+  function dismissToast() {
+    if (dismissTimer) {
+      clearTimeout(dismissTimer);
+      dismissTimer = null;
+    }
+    if (activeToast) {
+      const el = activeToast;
+      activeToast = null;
+      el.classList.add('fade-out');
+      setTimeout(() => {
+        if (el && el.parentNode) {
+          el.parentNode.removeChild(el);
+        }
+      }, 320);
+    }
+  }
+
+  // 1. Global Runtime Error Handler
+  window.onerror = function(message, source, lineno, colno, error) {
+    // Keep full technical error logs only in console.error for debugging
+    console.error('⚠️ [Global Runtime Error Caught]:', {
+      message: message,
+      source: source,
+      lineno: lineno,
+      colno: colno,
+      error: error
+    });
+
+    const errorMsg = (error && error.message) ? error.message : String(message);
+    if (!shouldIgnore(message) && !shouldIgnore(errorMsg)) {
+      showGlobalErrorToast();
+    }
+
+    // Suppress raw system error messages / default browser popups
+    return true;
+  };
+
+  // 2. Global Unhandled Promise Rejection Handler
+  window.addEventListener('unhandledrejection', function(event) {
+    const reason = event.reason;
+    const msg = (reason && reason.message) ? reason.message : String(reason);
+
+    // Keep full technical error logs only in console.error for debugging
+    console.error('⚠️ [Global Unhandled Promise Rejection Caught]:', reason);
+
+    if (!shouldIgnore(msg)) {
+      showGlobalErrorToast();
+    }
+
+    // Suppress default browser unhandled rejection alert/logging
+    if (event && typeof event.preventDefault === 'function') {
+      event.preventDefault();
+    }
+  });
+
+  window.__showGlobalErrorToast = showGlobalErrorToast;
+})();
+
 // Firebase Project Configuration (khaneshijatra)
 const firebaseConfig = {
   apiKey: "AIzaSyDnVjfQrfksPVnq57OhjNios9Yd6A0EjSA",
