@@ -28,7 +28,7 @@ def create_feathered_artwork():
     mask_d = mask_d.filter(ImageFilter.GaussianBlur(75))
 
     idol_x_d = (dw - target_iw_d) // 2
-    idol_y_d = (dh - target_ih_d) // 2 + 50
+    idol_y_d = (dh - target_ih_d) // 2 + 120
     desktop_canvas.paste(idol_d, (idol_x_d, idol_y_d), mask_d)
 
     # Save Desktop Background without text overlay
@@ -53,7 +53,7 @@ def create_feathered_artwork():
     mask_m = mask_m.filter(ImageFilter.GaussianBlur(60))
 
     idol_x_m = (mw - target_iw_m) // 2
-    idol_y_m = (mh - target_ih_m) // 2 + 110
+    idol_y_m = (mh - target_ih_m) // 2 + 230
     mobile_canvas.paste(idol_m, (idol_x_m, idol_y_m), mask_m)
 
     # Save Mobile Background without text overlay

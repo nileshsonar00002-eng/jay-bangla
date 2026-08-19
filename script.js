@@ -1862,16 +1862,22 @@ class MiniMusicPlayer {
 
   setPlayState(playing) {
     this.isPlaying = playing;
+    const trackThumb = document.getElementById('trackThumb');
+    const playerContainer = document.querySelector('.player-container');
     if (playing) {
       this.playIcon.style.display = 'none';
       this.pauseIcon.style.display = 'block';
       this.playBtn.classList.add('playing');
       if (this.miniSoundwave) this.miniSoundwave.classList.add('active');
+      if (trackThumb) trackThumb.classList.add('spinning');
+      if (playerContainer) playerContainer.classList.add('is-playing');
     } else {
       this.playIcon.style.display = 'block';
       this.pauseIcon.style.display = 'none';
       this.playBtn.classList.remove('playing');
       if (this.miniSoundwave) this.miniSoundwave.classList.remove('active');
+      if (trackThumb) trackThumb.classList.remove('spinning');
+      if (playerContainer) playerContainer.classList.remove('is-playing');
     }
 
     if ('mediaSession' in navigator) {
