@@ -35,37 +35,22 @@ def create_feathered_artwork():
     draw_d = ImageDraw.Draw(desktop_canvas)
     
     try:
-        font_title_d = ImageFont.truetype('fonts/RozhaOne-Regular.ttf', 72)
+        font_title_d = ImageFont.truetype('fonts/RozhaOne-Regular.ttf', 76)
     except:
-        font_title_d = ImageFont.truetype(r'C:\Windows\Fonts\NirmalaB.ttf', 72)
-        
-    try:
-        font_sub_d = ImageFont.truetype('fonts/RozhaOne-Regular.ttf', 42)
-    except:
-        font_sub_d = ImageFont.truetype(r'C:\Windows\Fonts\NirmalaB.ttf', 42)
+        font_title_d = ImageFont.truetype(r'C:\Windows\Fonts\NirmalaB.ttf', 76)
 
     title_text = "कानबाई माता"
-    sub_text = "उत्सव"
 
-    # Shifted lower down (y_start = 120px)
     title_bbox = draw_d.textbbox((0, 0), title_text, font=font_title_d)
     t_w = title_bbox[2] - title_bbox[0]
     t_x = (dw - t_w) // 2
-    t_y = 120  # Positioned comfortably lower
+    t_y = 135  # Positioned comfortably
 
     # Drop shadows for title
     draw_d.text((t_x + 3, t_y + 3), title_text, font=font_title_d, fill=(20, 1, 1))
     draw_d.text((t_x + 2, t_y + 2), title_text, font=font_title_d, fill=(40, 2, 2))
     draw_d.text((t_x - 1, t_y - 1), title_text, font=font_title_d, fill=(255, 230, 180))
     draw_d.text((t_x, t_y), title_text, font=font_title_d, fill=(255, 255, 255))
-
-    sub_bbox = draw_d.textbbox((0, 0), sub_text, font=font_sub_d)
-    s_w = sub_bbox[2] - sub_bbox[0]
-    s_x = (dw - s_w) // 2
-    s_y = t_y + 88  # Centered directly below main title
-
-    draw_d.text((s_x + 2, s_y + 2), sub_text, font=font_sub_d, fill=(20, 1, 1))
-    draw_d.text((s_x, s_y), sub_text, font=font_sub_d, fill=(255, 250, 240))
 
     desktop_canvas.save('assets/kanubai-bg.jpg', 'JPEG', quality=95)
     desktop_canvas.save('assets/images/kanubai-bg.jpg', 'JPEG', quality=95)
@@ -94,33 +79,19 @@ def create_feathered_artwork():
     draw_m = ImageDraw.Draw(mobile_canvas)
     
     try:
-        font_title_m = ImageFont.truetype('fonts/RozhaOne-Regular.ttf', 62)
+        font_title_m = ImageFont.truetype('fonts/RozhaOne-Regular.ttf', 64)
     except:
-        font_title_m = ImageFont.truetype(r'C:\Windows\Fonts\NirmalaB.ttf', 62)
-        
-    try:
-        font_sub_m = ImageFont.truetype('fonts/RozhaOne-Regular.ttf', 36)
-    except:
-        font_sub_m = ImageFont.truetype(r'C:\Windows\Fonts\NirmalaB.ttf', 36)
+        font_title_m = ImageFont.truetype(r'C:\Windows\Fonts\NirmalaB.ttf', 64)
 
-    # Shifted lower down on mobile (t_y_m = 165px)
     title_bbox_m = draw_m.textbbox((0, 0), title_text, font=font_title_m)
     tm_w = title_bbox_m[2] - title_bbox_m[0]
     tm_x = (mw - tm_w) // 2
-    tm_y = 165
+    tm_y = 180
 
     draw_m.text((tm_x + 3, tm_y + 3), title_text, font=font_title_m, fill=(20, 1, 1))
     draw_m.text((tm_x + 1, tm_y + 1), title_text, font=font_title_m, fill=(40, 2, 2))
     draw_m.text((tm_x - 1, tm_y - 1), title_text, font=font_title_m, fill=(255, 230, 180))
     draw_m.text((tm_x, tm_y), title_text, font=font_title_m, fill=(255, 255, 255))
-
-    sub_bbox_m = draw_m.textbbox((0, 0), sub_text, font=font_sub_m)
-    sm_w = sub_bbox_m[2] - sub_bbox_m[0]
-    sm_x = (mw - sm_w) // 2
-    sm_y = tm_y + 78
-
-    draw_m.text((sm_x + 2, sm_y + 2), sub_text, font=font_sub_m, fill=(20, 1, 1))
-    draw_m.text((sm_x, sm_y), sub_text, font=font_sub_m, fill=(255, 250, 240))
 
     mobile_canvas.save('assets/kanubai-mobile-bg.jpg', 'JPEG', quality=95)
     mobile_canvas.save('assets/images/kanubai-mobile-bg.jpg', 'JPEG', quality=95)
