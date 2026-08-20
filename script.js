@@ -1396,6 +1396,7 @@ class MiniMusicPlayer {
     this.playlistSearchClear = document.getElementById('playlistSearchClear');
     this.playlistItemsContainer = document.getElementById('playlistItemsContainer');
     this.isPlaylistOpen = false;
+    this.isRevertingHistory = false;
 
     this.init();
   }
@@ -2289,11 +2290,22 @@ class MiniMusicPlayer {
    */
   openPlaylist() {
     if (!this.playlistModalBackdrop) return;
+    if (this.isPlaylistOpen) return;
+
     this.isPlaylistOpen = true;
     this.playlistModalBackdrop.classList.add('open');
     this.playlistModalBackdrop.setAttribute('aria-hidden', 'false');
     this.updatePlaylistCountBadge();
     this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
+
+    // 1. Push history state so device/browser physical back button closes the overlay
+    try {
+      if (!history.state || !history.state.playlistOpen) {
+        history.pushState({ playlistOpen: true }, '');
+      }
+    } catch (e) {
+      console.warn('History pushState notice:', e);
+    }
 
     // Auto-scroll active track into view
     setTimeout(() => {
@@ -2306,12 +2318,27 @@ class MiniMusicPlayer {
 
   /**
    * Closes the playlist drawer
+   * @param {boolean} fromPopState - True if triggered by browser back button (popstate event)
    */
-  closePlaylist() {
+  closePlaylist(fromPopState = false) {
     if (!this.playlistModalBackdrop) return;
+    if (!this.isPlaylistOpen && !this.playlistModalBackdrop.classList.contains('open')) return;
+
     this.isPlaylistOpen = false;
     this.playlistModalBackdrop.classList.remove('open');
     this.playlistModalBackdrop.setAttribute('aria-hidden', 'true');
+
+    // 3. If closed using UI close icon/backdrop/esc, revert history state cleanly without double-navigation
+    if (!fromPopState) {
+      try {
+        if (history.state && history.state.playlistOpen) {
+          this.isRevertingHistory = true;
+          history.back();
+        }
+      } catch (e) {
+        console.warn('History back notice:', e);
+      }
+    }
   }
 
   /**
@@ -2593,6 +2620,17 @@ class MiniMusicPlayer {
         }
       });
     }
+
+    // 2. Intercept device/browser Back button via window.onpopstate
+    window.addEventListener('popstate', (e) => {
+      if (this.isRevertingHistory) {
+        this.isRevertingHistory = false;
+        return;
+      }
+      if (this.isPlaylistOpen) {
+        this.closePlaylist(true);
+      }
+    });
 
     // Global Keyboard Shortcuts
     window.addEventListener('keydown', (e) => {
