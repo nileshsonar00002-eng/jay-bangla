@@ -1529,12 +1529,12 @@ class MiniMusicPlayer {
     const labelEl = document.getElementById('playlistCurrentLabel');
     const iconEl = document.getElementById('currentPlaylistIcon');
     if (labelEl) {
-      if (playlistId === 'kanubai') labelEl.textContent = '২';
+      if (playlistId === 'kanubai') labelEl.textContent = 'কুমার শানু';
       else if (playlistId === 'aarti') labelEl.textContent = '৩';
       else labelEl.textContent = 'বাংলা গান';
     }
     if (iconEl) {
-      if (playlistId === 'kanubai') iconEl.textContent = '🙏';
+      if (playlistId === 'kanubai') iconEl.textContent = '🎤';
       else if (playlistId === 'aarti') iconEl.textContent = '🪔';
       else iconEl.textContent = '🎵';
     }
@@ -1567,6 +1567,19 @@ class MiniMusicPlayer {
     if (dropdown) dropdown.style.display = 'none';
     if (wrapper) wrapper.classList.remove('open');
     if (selectBtn) selectBtn.setAttribute('aria-expanded', 'false');
+
+    // Playlist No. 2: Kumar Sanu YouTube Music Official Link
+    if (playlistId === 'kanubai') {
+      window.open('https://music.youtube.com/@thekumarsanuofficial?si=eXDdCDrU0jimx0om', '_blank');
+      if (this.trackTitle) this.trackTitle.textContent = 'কুমার শানু (Kumar Sanu)';
+      if (this.trackArtist) this.trackArtist.textContent = 'YouTube Music Official';
+      if (this.totalDurationEl) this.totalDurationEl.textContent = 'YouTube';
+      this.updatePlaylistCountBadge();
+      if (this.isPlaylistOpen) {
+        this.renderPlaylistItems();
+      }
+      return;
+    }
 
     // Switch active tracks list
     this.playlist = [...(this.playlists[playlistId] || [])];
@@ -2301,7 +2314,11 @@ class MiniMusicPlayer {
    */
   updatePlaylistCountBadge() {
     if (this.playlistCountBadge) {
-      this.playlistCountBadge.textContent = `${this.playlist.length}টি গান`;
+      if (this.currentPlaylistId === 'kanubai') {
+        this.playlistCountBadge.textContent = 'YouTube Music';
+      } else {
+        this.playlistCountBadge.textContent = `${this.playlist.length}টি গান`;
+      }
     }
   }
 
@@ -2377,6 +2394,31 @@ class MiniMusicPlayer {
    */
   renderPlaylistItems(filterQuery = '') {
     if (!this.playlistItemsContainer) return;
+
+    // Playlist No. 2: Kumar Sanu YouTube Music Card
+    if (this.currentPlaylistId === 'kanubai') {
+      this.playlistItemsContainer.innerHTML = `
+        <div style="padding: 1.8rem 1rem; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #ff0000, #990000); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 4px 20px rgba(255,0,0,0.4); margin-bottom: 0.8rem;">
+            🎤
+          </div>
+          <h4 style="font-size: 1.15rem; color: #ffffff; margin: 0 0 0.25rem; font-weight: 700;">কুমার শানু (Kumar Sanu)</h4>
+          <p style="font-size: 0.82rem; color: var(--gold-400); margin: 0 0 1.2rem; opacity: 0.95;">Official YouTube Music Channel</p>
+          
+          <a href="https://music.youtube.com/@thekumarsanuofficial?si=eXDdCDrU0jimx0om" 
+             target="_blank" rel="noopener noreferrer"
+             style="display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; background: linear-gradient(135deg, #ff0000, #cc0000); color: #ffffff; padding: 0.8rem 1.6rem; border-radius: 999px; font-weight: 700; font-size: 0.92rem; text-decoration: none; box-shadow: 0 4px 18px rgba(255,0,0,0.45); transition: transform 0.2s, box-shadow 0.2s;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+            YouTube Music-এ শুনুন
+          </a>
+          
+          <p style="font-size: 0.74rem; color: rgba(255,255,255,0.65); margin-top: 1.2rem; line-height: 1.45; max-width: 280px;">
+            কুমার শানুর জনপ্রিয় সকল বাংলা ও হিন্দি গান শুনতে YouTube Music-এ সরাসরি যুক্ত হন।
+          </p>
+        </div>
+      `;
+      return;
+    }
 
     const q = filterQuery.trim().toLowerCase();
 
