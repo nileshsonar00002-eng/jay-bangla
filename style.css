@@ -92,7 +92,7 @@ body {
 }
 
 .bg-wrapper.aarti-active .bg-image {
-  background-position: center 18% !important;
+  background-position: center 8% !important;
 }
 
 /* Edge Vignette */
@@ -2298,7 +2298,7 @@ body.kanubai-active .mini-player-bar {
   }
 
   .bg-wrapper.aarti-active .bg-image {
-    background-position: center 18% !important;
+    background-position: center 8% !important;
   }
 
   .festive-ad-banner-container {
