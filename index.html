@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="mr">
+<html lang="bn">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>खान्देशी जत्रा | Khandeshi Songs</title>
-  <meta name="description" content="खान्देशी जत्रा — मना गाव, मना देश, जय खान्देश. ऐका लोकप्रिय खान्देशी गाणी एकाच ठिकाणी.">
+  <title>জয় বাংলা | বাংলা গান</title>
+  <meta name="description" content="জয় বাংলা — জনপ্রিয় বাংলা গান একই স্থানে শুনুন।">
   <meta name="theme-color" content="#0a0805">
 
   <!-- OpenGraph -->
   <meta property="og:type" content="music.playlist">
-  <meta property="og:title" content="खान्देशी जत्रा | Khandeshi Songs">
-  <meta property="og:description" content="खान्देशी जत्रा — मना गाव, मना देश, जय खान्देश.">
-  <meta property="og:image" content="assets/khandeshi-jatra-bg.jpg">
+  <meta property="og:title" content="জয় বাংলা | বাংলা গান">
+  <meta property="og:description" content="জয় বাংলা — জনপ্রিয় বাংলা গান।">
+  <meta property="og:image" content="assets/images/jay-bangla-bg.png">
 
   <!-- Favicon & Touch Icons (Traditional Orange Khandeshi Pheta) -->
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
@@ -89,13 +89,13 @@
                 <line x1="12" y1="16" x2="12.01" y2="16"></line>
               </svg>
             </div>
-            <p class="global-error-toast-text">काहीतरी तांत्रिक अडचण आली आहे. कृपया थोड्या वेळाने प्रयत्न करा.</p>
-            <button type="button" class="global-error-toast-reload-btn" id="globalErrorToastReload" aria-label="रिफ्रेश करा">
+            <p class="global-error-toast-text">কিছু প্রযুক্তিগত সমস্যা হয়েছে। অনুগ্রহ করে কিছুক্ষণ পরে আবার চেষ্টা করুন।</p>
+            <button type="button" class="global-error-toast-reload-btn" id="globalErrorToastReload" aria-label="রিফ্রেশ করুন">
               <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M23 4v6h-6"></path>
                 <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
               </svg>
-              <span>रिफ्रेश</span>
+              <span>রিফ্রেশ</span>
             </button>
           </div>
         `;
@@ -176,8 +176,8 @@
   </div>
 
   <!-- Top Center: Main Website Title -->
-  <header class="top-center-title-container" id="topMainTitle" aria-label="मुख्य शीर्षक">
-    <h1 class="main-top-title">अहिराणी गाण्यांचा खजिना</h1>
+  <header class="top-center-title-container" id="topMainTitle" aria-label="মূল শিরোনাম">
+    <h1 class="main-top-title">বাংলা গানের সম্ভার</h1>
   </header>
 
   <!-- Top Right Group: Fullscreen Icon Button + Date & Clock Widget + Playlist Switcher -->
@@ -200,9 +200,9 @@
 
     <!-- Playlist Selector Dropdown (Positioned directly below Date & Time) -->
     <div class="playlist-selector-wrapper" id="playlistSelectorWrapper" aria-label="Select Song Playlist">
-      <button class="playlist-select-pill" id="playlistSelectBtn" type="button" aria-haspopup="listbox" aria-expanded="false" title="गाणी प्लेलिस्ट निवडा">
+      <button class="playlist-select-pill" id="playlistSelectBtn" type="button" aria-haspopup="listbox" aria-expanded="false" title="প্লেলিস্ট নির্বাচন করুন">
         <span class="playlist-icon" id="currentPlaylistIcon">🎵</span>
-        <span class="playlist-current-label" id="playlistCurrentLabel">अहिराणी गाणी</span>
+        <span class="playlist-current-label" id="playlistCurrentLabel">বাংলা গান</span>
         <svg class="playlist-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
       </button>
 
@@ -211,24 +211,24 @@
         <button type="button" class="playlist-option-item active" data-playlist="ahirani" role="option" aria-selected="true">
           <span class="option-icon">🎶</span>
           <div class="option-text-group">
-            <span class="option-title">अहिराणी गाणी</span>
-            <span class="option-sub">पारंपारिक व लोकगीते</span>
+            <span class="option-title">বাংলা গান</span>
+            <span class="option-sub">ঐতিহ্যবাহী ও লোকগীতি</span>
           </div>
           <span class="option-check">✓</span>
         </button>
         <button type="button" class="playlist-option-item" data-playlist="kanubai" role="option" aria-selected="false">
           <span class="option-icon">🙏</span>
           <div class="option-text-group">
-            <span class="option-title">कानुबाई स्पेशल</span>
-            <span class="option-sub">आई कानुबाईची भक्तीगीते</span>
+            <span class="option-title">বাংলা স্পেশাল</span>
+            <span class="option-sub">রবীন্দ্র ও নজরুল গীতি</span>
           </div>
           <span class="option-check">✓</span>
         </button>
         <button type="button" class="playlist-option-item" data-playlist="aarti" role="option" aria-selected="false">
           <span class="option-icon">🪔</span>
           <div class="option-text-group">
-            <span class="option-title">आरती संग्रह</span>
-            <span class="option-sub">श्री गणेश व देवींच्या पावन आरती</span>
+            <span class="option-title">উৎসবের গান</span>
+            <span class="option-sub">বাংলা ভক্তি ও আরতি</span>
           </div>
           <span class="option-check">✓</span>
         </button>
@@ -239,10 +239,10 @@
   <!-- ======================================================================
        SECTION 1: HERO SCREEN (First Viewport)
        ====================================================================== -->
-  <section class="hero-screen" id="heroSection" aria-label="खान्देशी जत्रा मुख्य दालन">
+  <section class="hero-screen" id="heroSection" aria-label="জয় বাংলা প্রধান গ্যালারি">
     <!-- Full-Screen 16:9 Hero Background with Cinematic Motion -->
     <div class="bg-wrapper" id="bgWrapper">
-      <div class="bg-image" id="bgImage" style="background-image: url('assets/khandeshi-jatra-bg.jpg');"></div>
+      <div class="bg-image" id="bgImage" style="background-image: url('assets/images/jay-bangla-bg.png');"></div>
       
       <!-- Subtle Ambient Festival Lights Glow Overlay -->
       <div class="lights-glow-layer" aria-hidden="true">
@@ -266,8 +266,8 @@
     <div class="festive-dust-container" id="festiveDust" aria-hidden="true"></div>
 
     <!-- Subtle Scroll Down Indicator -->
-    <a href="#welcomeSection" class="scroll-indicator" id="scrollIndicator" aria-label="खाली स्क्रोल करा">
-      <span class="scroll-text">खाली स्क्रोल करा</span>
+    <a href="#welcomeSection" class="scroll-indicator" id="scrollIndicator" aria-label="নিচে স্ক্রোল করুন">
+      <span class="scroll-text">নিচে স্ক্রোল করুন</span>
       <span class="scroll-arrow" aria-hidden="true">↓</span>
     </a>
   </section>
@@ -276,14 +276,14 @@
        SECTION 2: WELCOME SECTION (Normal Document Flow)
        ====================================================================== -->
   <main class="content-scroll-container" id="contentScrollContainer">
-    <section class="cultural-section welcome-section" id="welcomeSection" data-reveal aria-label="स्वागत व परिचय">
+    <section class="cultural-section welcome-section" id="welcomeSection" data-reveal aria-label="স্বাগতম ও পরিচয়">
       <div class="section-container">
-        <h2 class="welcome-heading">मना गाव, मना देश, जय खान्देश <span class="heart-accent">❤️</span></h2>
+        <h2 class="welcome-heading">জয় বাংলা, বাংলার গান <span class="heart-accent">❤️</span></h2>
         
         <p class="welcome-lead">
-          खान्देशच्या मातीचा सुगंध,<br>
-          आपल्या बोलीचा गोडवा,<br>
-          आणि आपल्या संगीताची खास ओळख.
+          বাংলার মাটির সুবাস,<br>
+          বাংলা ভাষার মিষ্টি সুর,<br>
+          এবং আমাদের সঙ্গীতের অনন্য পরিচয়।
         </p>
 
         <div class="section-ornament-divider" aria-hidden="true">
@@ -293,9 +293,9 @@
         </div>
 
         <p class="welcome-body">
-          इथे तुम्हाला खान्देशी आणि अहिराणी गाण्यांचा आनंद घेता येईल.<br>
-          हा छोटासा डिजिटल प्रयत्न खान्देशच्या संगीताला,<br>
-          संस्कृतीला आणि आपल्या माणसांना समर्पित.
+          এখানে আপনি সেরা বাংলা গানের আনন্দ নিতে পারবেন।<br>
+          এই ডিজিটাল উদ্যোগ বাংলা সঙ্গীত,<br>
+          সংস্কৃতি এবং আমাদের মানুষদের প্রতি উৎসর্গীকৃত।
         </p>
       </div>
     </section>
@@ -337,8 +337,8 @@
              class="social-icon-link social-yt-link" 
              target="_blank" 
              rel="noopener noreferrer" 
-             aria-label="YouTube वर खान्देशी जत्रा चॅनेल पहा"
-             title="Follow खान्देशी जत्रा on YouTube">
+             aria-label="YouTube-এ জয় বাংলা চ্যানেল দেখুন"
+             title="Follow জয় বাংলা on YouTube">
             <svg class="social-svg-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
               <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
             </svg>
@@ -366,17 +366,17 @@
       
       <!-- Line 1: Song Info (Title & Subtitle) + Mute/Volume Button -->
       <div class="player-top-row">
-        <div class="track-info-section" id="trackInfoSection" title="गाण्यांची प्लेलिस्ट पहा (Click to View Playlist)" role="button" tabindex="0" aria-label="गाण्यांची प्लेलिस्ट उघडा">
+        <div class="track-info-section" id="trackInfoSection" title="প্লেলিস্ট দেখুন" role="button" tabindex="0" aria-label="প্লেলিস্ট খুলুন">
           <div class="track-thumb" id="trackThumb">
-            <img src="assets/khandeshi-jatra-bg.jpg" alt="Track Cover" id="trackCoverImg">
+            <img src="assets/images/jay-bangla-bg.png" alt="Track Cover" id="trackCoverImg">
             <div class="mini-soundwave" id="miniSoundwave" aria-hidden="true">
               <span></span><span></span><span></span>
             </div>
           </div>
 
           <div class="track-text">
-            <h2 class="track-title" id="trackTitle">खान्देशी अहिराणी गाणी</h2>
-            <p class="track-artist" id="trackArtist">Bhaiya More</p>
+            <h2 class="track-title" id="trackTitle">বাংলা গান</h2>
+            <p class="track-artist" id="trackArtist">বাংলা সঙ্গীত</p>
           </div>
         </div>
 
@@ -392,7 +392,7 @@
           <input type="range" class="mini-volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.85" aria-label="Volume">
 
           <!-- Sleek Playlist Icon Button -->
-          <button class="ctrl-btn playlist-trigger-btn" id="playerPlaylistBtn" title="गाण्यांची प्लेलिस्ट उघडा (Click to View Playlist)" aria-label="गाण्यांची प्लेलिस्ट उघडा">
+          <button class="ctrl-btn playlist-trigger-btn" id="playerPlaylistBtn" title="প্লেলিস্ট খুলুন" aria-label="প্লেলিস্ট খুলুন">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
               <path d="M4 10h12v2H4zm0-4h12v2H4zm0 8h8v2H4zm10 0v6l5-3z"/>
             </svg>
@@ -461,17 +461,17 @@
 
   <!-- Glassmorphic Playlist Drawer / Modal -->
   <div class="playlist-modal-backdrop" id="playlistModalBackdrop" aria-hidden="true">
-    <div class="playlist-drawer" id="playlistDrawer" role="dialog" aria-modal="true" aria-label="गाण्यांची प्लेलिस्ट">
+    <div class="playlist-drawer" id="playlistDrawer" role="dialog" aria-modal="true" aria-label="প্লেলিস্ট">
       <!-- Header -->
       <div class="playlist-header">
         <div class="playlist-header-info">
           <div class="playlist-title-wrap">
             <span class="playlist-icon" aria-hidden="true">🎶</span>
-            <h3 class="playlist-title">अहिराणी गाण्यांचा खजिना</h3>
+            <h3 class="playlist-title">বাংলা গানের সম্ভার</h3>
           </div>
-          <span class="playlist-count-badge" id="playlistCountBadge">० गाणी</span>
+          <span class="playlist-count-badge" id="playlistCountBadge">০টি গান</span>
         </div>
-        <button class="playlist-close-btn" id="playlistCloseBtn" title="बंद करा (Close)" aria-label="Close Playlist">
+        <button class="playlist-close-btn" id="playlistCloseBtn" title="বন্ধ করুন (Close)" aria-label="Close Playlist">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -485,7 +485,7 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <input type="text" id="playlistSearchInput" class="playlist-search-input" placeholder="गाणे किंवा गायक शोधा... (Search song/singer)" autocomplete="off">
+        <input type="text" id="playlistSearchInput" class="playlist-search-input" placeholder="গান বা গায়ক খুঁজুন... (Search song/singer)" autocomplete="off">
         <button class="playlist-search-clear" id="playlistSearchClear" title="Clear" aria-label="Clear Search" style="display:none;">✕</button>
       </div>
 

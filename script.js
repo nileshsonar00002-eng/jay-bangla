@@ -88,13 +88,13 @@
             <line x1="12" y1="16" x2="12.01" y2="16"></line>
           </svg>
         </div>
-        <p class="global-error-toast-text">काहीतरी तांत्रिक अडचण आली आहे. कृपया थोड्या वेळाने प्रयत्न करा.</p>
-        <button type="button" class="global-error-toast-reload-btn" id="globalErrorToastReload" aria-label="रिफ्रेश करा">
+        <p class="global-error-toast-text">কিছু প্রযুক্তিগত সমস্যা হয়েছে। অনুগ্রহ করে কিছুক্ষণ পরে আবার চেষ্টা করুন。</p>
+        <button type="button" class="global-error-toast-reload-btn" id="globalErrorToastReload" aria-label="রিফ্রেশ করুন">
           <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M23 4v6h-6"></path>
             <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
           </svg>
-          <span>रिफ्रेश</span>
+          <span>রিফ্রেশ</span>
         </button>
       </div>
     `;
@@ -736,28 +736,28 @@ const defaultPlaylists = {
         "vocals": "Dj Bhaiya",
         "singerName": "Dj Bhaiya",
         "artistName": "Dj Bhaiya",
-        "category": "अहिराणी गाणी",
+        "category": "বাংলা গান",
         "filename": "?????????_?????_????_???_??_????_Khandeshi_Bhawani_Powerfull_Duff_2022_(_Dj_Bhaiya_Jalgaon_).mp3",
-        "storagePath": "music/?????????_?????_????_???_??_????_Khandeshi_Bhawani_Powerfull_Duff_2022_(_Dj_Bhaiya_Jalgaon_).mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2F%3F%3F%3F%3F%3F%3F%3F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F_%3F%3F_%3F%3F%3F%3F_Khandeshi_Bhawani_Powerfull_Duff_2022_%28_Dj_Bhaiya_Jalgaon_%29.mp3?alt=media",
+        "storagePath": "jay bangla/?????????_?????_????_???_??_????_Khandeshi_Bhawani_Powerfull_Duff_2022_(_Dj_Bhaiya_Jalgaon_).mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2F%3F%3F%3F%3F%3F%3F%3F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F_%3F%3F_%3F%3F%3F%3F_Khandeshi_Bhawani_Powerfull_Duff_2022_%28_Dj_Bhaiya_Jalgaon_%29.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_35",
         "title": "Aaj Lagani tile hayad Ahirani Khandeshi Song",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "??_?????_????_???_Aaj_Lagani_tile_hayad_Ahirani_Khandeshi_Song_Video_Generation.mp3",
-        "storagePath": "music/??_?????_????_???_Aaj_Lagani_tile_hayad_Ahirani_Khandeshi_Song_Video_Generation.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F_Aaj_Lagani_tile_hayad_Ahirani_Khandeshi_Song_Video_Generation.mp3?alt=media",
+        "storagePath": "jay bangla/??_?????_????_???_Aaj_Lagani_tile_hayad_Ahirani_Khandeshi_Song_Video_Generation.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F_Aaj_Lagani_tile_hayad_Ahirani_Khandeshi_Song_Video_Generation.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
@@ -768,12 +768,12 @@ const defaultPlaylists = {
         "vocals": "Vinod Kumavat",
         "singerName": "Vinod Kumavat",
         "artistName": "Vinod Kumavat",
-        "category": "अहिराणी गाणी",
+        "category": "বাংলা গান",
         "filename": "?_???_?????_????_???_?_Hai_jhumka_vali_por_?Super_hit_ahirani_khandeshi_song_Vinod_kumavat.mp3",
-        "storagePath": "music/?_???_?????_????_???_?_Hai_jhumka_vali_por_?Super_hit_ahirani_khandeshi_song_Vinod_kumavat.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2F%3F_%3F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F_%3F_Hai_jhumka_vali_por_%3FSuper_hit_ahirani_khandeshi_song_Vinod_kumavat.mp3?alt=media",
+        "storagePath": "jay bangla/?_???_?????_????_???_?_Hai_jhumka_vali_por_?Super_hit_ahirani_khandeshi_song_Vinod_kumavat.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2F%3F_%3F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F_%3F_Hai_jhumka_vali_por_%3FSuper_hit_ahirani_khandeshi_song_Vinod_kumavat.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
@@ -784,28 +784,28 @@ const defaultPlaylists = {
         "vocals": "Ajay Mali",
         "singerName": "Ajay Mali",
         "artistName": "Ajay Mali",
-        "category": "अहिराणी गाणी",
+        "category": "বাংলা গান",
         "filename": "Char_varis_na_pyar,_???_????_??_?????_Ajay_Mali,_Anshuman_More,_new_khandeshi_song,ahirani_song.mp3",
-        "storagePath": "music/Char_varis_na_pyar,_???_????_??_?????_Ajay_Mali,_Anshuman_More,_new_khandeshi_song,ahirani_song.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FChar_varis_na_pyar%2C_%3F%3F%3F_%3F%3F%3F%3F_%3F%3F_%3F%3F%3F%3F%3F_Ajay_Mali%2C_Anshuman_More%2C_new_khandeshi_song%2Cahirani_song.mp3?alt=media",
+        "storagePath": "jay bangla/Char_varis_na_pyar,_???_????_??_?????_Ajay_Mali,_Anshuman_More,_new_khandeshi_song,ahirani_song.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FChar_varis_na_pyar%2C_%3F%3F%3F_%3F%3F%3F%3F_%3F%3F_%3F%3F%3F%3F%3F_Ajay_Mali%2C_Anshuman_More%2C_new_khandeshi_song%2Cahirani_song.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_2",
         "title": "Dang Maa Chalay Pori",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Dang_Maa_Chalay_Pori.mp3",
-        "storagePath": "music/Dang_Maa_Chalay_Pori.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FDang_Maa_Chalay_Pori.mp3?alt=media",
+        "storagePath": "jay bangla/Dang_Maa_Chalay_Pori.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FDang_Maa_Chalay_Pori.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
@@ -816,44 +816,44 @@ const defaultPlaylists = {
         "vocals": "Anjana Barlekar",
         "singerName": "Anjana Barlekar",
         "artistName": "Anjana Barlekar",
-        "category": "अहिराणी गाणी",
+        "category": "বাংলা গান",
         "filename": "Dekh_Tuni_Bayko_Superhit_Ahirani_Song_Anjana_Barlekar_Jagdish_Sandhanshiv.mp3",
-        "storagePath": "music/Dekh_Tuni_Bayko_Superhit_Ahirani_Song_Anjana_Barlekar_Jagdish_Sandhanshiv.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FDekh_Tuni_Bayko_Superhit_Ahirani_Song_Anjana_Barlekar_Jagdish_Sandhanshiv.mp3?alt=media",
+        "storagePath": "jay bangla/Dekh_Tuni_Bayko_Superhit_Ahirani_Song_Anjana_Barlekar_Jagdish_Sandhanshiv.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FDekh_Tuni_Bayko_Superhit_Ahirani_Song_Anjana_Barlekar_Jagdish_Sandhanshiv.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_4",
         "title": "Dena Tuni Sath",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Dena_Tuni_Sath.mp3",
-        "storagePath": "music/Dena_Tuni_Sath.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FDena_Tuni_Sath.mp3?alt=media",
+        "storagePath": "jay bangla/Dena_Tuni_Sath.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FDena_Tuni_Sath.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_5",
         "title": "Dhokebaz Hui Gai",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Dhokebaz_Hui_Gai.mp3",
-        "storagePath": "music/Dhokebaz_Hui_Gai.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FDhokebaz_Hui_Gai.mp3?alt=media",
+        "storagePath": "jay bangla/Dhokebaz_Hui_Gai.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FDhokebaz_Hui_Gai.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
@@ -864,172 +864,172 @@ const defaultPlaylists = {
         "vocals": "Ramakant Kapadnis",
         "singerName": "Ramakant Kapadnis",
         "artistName": "Ramakant Kapadnis",
-        "category": "अहिराणी गाणी",
+        "category": "বাংলা গান",
         "filename": "Ghadina_Kata_Gar_Gar_Fire_Part_2_?????_????_?????_?_Ramakant_Kapadnis,_Shashikant_Kachave.mp3",
-        "storagePath": "music/Ghadina_Kata_Gar_Gar_Fire_Part_2_?????_????_?????_?_Ramakant_Kapadnis,_Shashikant_Kachave.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FGhadina_Kata_Gar_Gar_Fire_Part_2_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F%3F%3F_%3F_Ramakant_Kapadnis%2C_Shashikant_Kachave.mp3?alt=media",
+        "storagePath": "jay bangla/Ghadina_Kata_Gar_Gar_Fire_Part_2_?????_????_?????_?_Ramakant_Kapadnis,_Shashikant_Kachave.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FGhadina_Kata_Gar_Gar_Fire_Part_2_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F%3F%3F_%3F_Ramakant_Kapadnis%2C_Shashikant_Kachave.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_7",
         "title": "Girana Kathale Mana Gaav",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Girana_Kathale_Mana_Gaav.mp3",
-        "storagePath": "music/Girana_Kathale_Mana_Gaav.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FGirana_Kathale_Mana_Gaav.mp3?alt=media",
+        "storagePath": "jay bangla/Girana_Kathale_Mana_Gaav.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FGirana_Kathale_Mana_Gaav.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_8",
         "title": "Haat Mehandi Na",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Haat_Mehandi_Na.mp3",
-        "storagePath": "music/Haat_Mehandi_Na.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FHaat_Mehandi_Na.mp3?alt=media",
+        "storagePath": "jay bangla/Haat_Mehandi_Na.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FHaat_Mehandi_Na.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_9",
         "title": "Hai Khandeshi Tam Tam",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Hai_Khandeshi_Tam_Tam.mp3",
-        "storagePath": "music/Hai_Khandeshi_Tam_Tam.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FHai_Khandeshi_Tam_Tam.mp3?alt=media",
+        "storagePath": "jay bangla/Hai_Khandeshi_Tam_Tam.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FHai_Khandeshi_Tam_Tam.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_10",
         "title": "Hai Saali Pyaar Karna",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Hai_Saali_Pyaar_Karna.mp3",
-        "storagePath": "music/Hai_Saali_Pyaar_Karna.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FHai_Saali_Pyaar_Karna.mp3?alt=media",
+        "storagePath": "jay bangla/Hai_Saali_Pyaar_Karna.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FHai_Saali_Pyaar_Karna.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_11",
         "title": "Kanbai Chalni Gangevari",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Kanbai_Chalni_Gangevari.mp3",
-        "storagePath": "music/Kanbai_Chalni_Gangevari.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FKanbai_Chalni_Gangevari.mp3?alt=media",
+        "storagePath": "jay bangla/Kanbai_Chalni_Gangevari.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FKanbai_Chalni_Gangevari.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_12",
         "title": "Kar Man Lagan",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Kar_Man_Lagan.mp3",
-        "storagePath": "music/Kar_Man_Lagan.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FKar_Man_Lagan.mp3?alt=media",
+        "storagePath": "jay bangla/Kar_Man_Lagan.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FKar_Man_Lagan.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_13",
         "title": "Khandeshi Band Mix Pawri, Pt. 3",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Khandeshi_Band_Mix_Pawri,_Pt._3.mp3",
-        "storagePath": "music/Khandeshi_Band_Mix_Pawri,_Pt._3.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FKhandeshi_Band_Mix_Pawri%2C_Pt._3.mp3?alt=media",
+        "storagePath": "jay bangla/Khandeshi_Band_Mix_Pawri,_Pt._3.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FKhandeshi_Band_Mix_Pawri%2C_Pt._3.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_14",
         "title": "Laganma Machadu Dhum Ra Dhum",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Laganma_Machadu_Dhum_Ra_Dhum.mp3",
-        "storagePath": "music/Laganma_Machadu_Dhum_Ra_Dhum.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FLaganma_Machadu_Dhum_Ra_Dhum.mp3?alt=media",
+        "storagePath": "jay bangla/Laganma_Machadu_Dhum_Ra_Dhum.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FLaganma_Machadu_Dhum_Ra_Dhum.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_15",
         "title": "Lak Lak Chamakana Nanduri Na Gad",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Lak_Lak_Chamakana_Nanduri_Na_Gad.mp3",
-        "storagePath": "music/Lak_Lak_Chamakana_Nanduri_Na_Gad.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FLak_Lak_Chamakana_Nanduri_Na_Gad.mp3?alt=media",
+        "storagePath": "jay bangla/Lak_Lak_Chamakana_Nanduri_Na_Gad.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FLak_Lak_Chamakana_Nanduri_Na_Gad.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_16",
         "title": "Mani Darling",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Mani_Darling.mp3",
-        "storagePath": "music/Mani_Darling.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FMani_Darling.mp3?alt=media",
+        "storagePath": "jay bangla/Mani_Darling.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FMani_Darling.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
@@ -1040,60 +1040,60 @@ const defaultPlaylists = {
         "vocals": "Bhaiya More",
         "singerName": "Bhaiya More",
         "artistName": "Bhaiya More",
-        "category": "अहिराणी गाणी",
+        "category": "বাংলা গান",
         "filename": "Mani_Dilbar_Tu_???_?????_??_khandeshi_Superhit_Song_Singer_Bhaiya_More_Vinod_Kumavat.mp3",
-        "storagePath": "music/Mani_Dilbar_Tu_???_?????_??_khandeshi_Superhit_Song_Singer_Bhaiya_More_Vinod_Kumavat.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FMani_Dilbar_Tu_%3F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F_khandeshi_Superhit_Song_Singer_Bhaiya_More_Vinod_Kumavat.mp3?alt=media",
+        "storagePath": "jay bangla/Mani_Dilbar_Tu_???_?????_??_khandeshi_Superhit_Song_Singer_Bhaiya_More_Vinod_Kumavat.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FMani_Dilbar_Tu_%3F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F_khandeshi_Superhit_Song_Singer_Bhaiya_More_Vinod_Kumavat.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_18",
         "title": "May Mani Khandesh Ni Malan",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "May_Mani_Khandesh_Ni_Malan.mp3",
-        "storagePath": "music/May_Mani_Khandesh_Ni_Malan.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FMay_Mani_Khandesh_Ni_Malan.mp3?alt=media",
+        "storagePath": "jay bangla/May_Mani_Khandesh_Ni_Malan.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FMay_Mani_Khandesh_Ni_Malan.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_19",
         "title": "Me Ragush Tu Mani Maina",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Me_Ragush_Tu_Mani_Maina.mp3",
-        "storagePath": "music/Me_Ragush_Tu_Mani_Maina.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FMe_Ragush_Tu_Mani_Maina.mp3?alt=media",
+        "storagePath": "jay bangla/Me_Ragush_Tu_Mani_Maina.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FMe_Ragush_Tu_Mani_Maina.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_20",
         "title": "Mi Tuna Divana S",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Mi_Tuna_Divana_S.mp3",
-        "storagePath": "music/Mi_Tuna_Divana_S.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FMi_Tuna_Divana_S.mp3?alt=media",
+        "storagePath": "jay bangla/Mi_Tuna_Divana_S.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FMi_Tuna_Divana_S.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
@@ -1104,12 +1104,12 @@ const defaultPlaylists = {
         "vocals": "Bhagyashree Sathe",
         "singerName": "Bhagyashree Sathe",
         "artistName": "Bhagyashree Sathe",
-        "category": "अहिराणी गाणी",
+        "category": "বাংলা গান",
         "filename": "Na_Bhulau_Raja_Tula_(feat._Bhagyashree_Sathe).mp3",
-        "storagePath": "music/Na_Bhulau_Raja_Tula_(feat._Bhagyashree_Sathe).mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FNa_Bhulau_Raja_Tula_%28feat._Bhagyashree_Sathe%29.mp3?alt=media",
+        "storagePath": "jay bangla/Na_Bhulau_Raja_Tula_(feat._Bhagyashree_Sathe).mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FNa_Bhulau_Raja_Tula_%28feat._Bhagyashree_Sathe%29.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
@@ -1120,44 +1120,44 @@ const defaultPlaylists = {
         "vocals": "Arun Ahire",
         "singerName": "Arun Ahire",
         "artistName": "Arun Ahire",
-        "category": "अहिराणी गाणी",
+        "category": "বাংলা গান",
         "filename": "New_Aadiwasi_Song_????_??_??_?????_Zing_Lak_Lak_Pawri_Arun_Ahire_Official_Song.mp3",
-        "storagePath": "music/New_Aadiwasi_Song_????_??_??_?????_Zing_Lak_Lak_Pawri_Arun_Ahire_Official_Song.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FNew_Aadiwasi_Song_%3F%3F%3F%3F_%3F%3F_%3F%3F_%3F%3F%3F%3F%3F_Zing_Lak_Lak_Pawri_Arun_Ahire_Official_Song.mp3?alt=media",
+        "storagePath": "jay bangla/New_Aadiwasi_Song_????_??_??_?????_Zing_Lak_Lak_Pawri_Arun_Ahire_Official_Song.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FNew_Aadiwasi_Song_%3F%3F%3F%3F_%3F%3F_%3F%3F_%3F%3F%3F%3F%3F_Zing_Lak_Lak_Pawri_Arun_Ahire_Official_Song.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_23",
         "title": "Paisa Wali Tai",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Paisa_Wali_Tai.mp3",
-        "storagePath": "music/Paisa_Wali_Tai.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FPaisa_Wali_Tai.mp3?alt=media",
+        "storagePath": "jay bangla/Paisa_Wali_Tai.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FPaisa_Wali_Tai.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_24",
         "title": "Phiri Phiri Nach Pori",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Phiri_Phiri_Nach_Pori.mp3",
-        "storagePath": "music/Phiri_Phiri_Nach_Pori.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FPhiri_Phiri_Nach_Pori.mp3?alt=media",
+        "storagePath": "jay bangla/Phiri_Phiri_Nach_Pori.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FPhiri_Phiri_Nach_Pori.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
@@ -1168,108 +1168,108 @@ const defaultPlaylists = {
         "vocals": "Babu More",
         "singerName": "Babu More",
         "artistName": "Babu More",
-        "category": "अहिराणी गाणी",
+        "category": "বাংলা গান",
         "filename": "Phiri_phiri_nach_pora_new_ahirani_song_female_version_khandeshi_song_babu_more_shrawani_more.mp3",
-        "storagePath": "music/Phiri_phiri_nach_pora_new_ahirani_song_female_version_khandeshi_song_babu_more_shrawani_more.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FPhiri_phiri_nach_pora_new_ahirani_song_female_version_khandeshi_song_babu_more_shrawani_more.mp3?alt=media",
+        "storagePath": "jay bangla/Phiri_phiri_nach_pora_new_ahirani_song_female_version_khandeshi_song_babu_more_shrawani_more.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FPhiri_phiri_nach_pora_new_ahirani_song_female_version_khandeshi_song_babu_more_shrawani_more.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_26",
         "title": "Pori Tuni Payal",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Pori_Tuni_Payal.mp3",
-        "storagePath": "music/Pori_Tuni_Payal.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FPori_Tuni_Payal.mp3?alt=media",
+        "storagePath": "jay bangla/Pori_Tuni_Payal.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FPori_Tuni_Payal.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_27",
         "title": "Pyar M Tuna Sajani",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Pyar_M_Tuna_Sajani.mp3",
-        "storagePath": "music/Pyar_M_Tuna_Sajani.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FPyar_M_Tuna_Sajani.mp3?alt=media",
+        "storagePath": "jay bangla/Pyar_M_Tuna_Sajani.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FPyar_M_Tuna_Sajani.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_28",
         "title": "Raja Re (Raja Tu, Tu Mana Raja Re)",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Raja_Re_(Raja_Tu,_Tu_Mana_Raja_Re).mp3",
-        "storagePath": "music/Raja_Re_(Raja_Tu,_Tu_Mana_Raja_Re).mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FRaja_Re_%28Raja_Tu%2C_Tu_Mana_Raja_Re%29.mp3?alt=media",
+        "storagePath": "jay bangla/Raja_Re_(Raja_Tu,_Tu_Mana_Raja_Re).mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FRaja_Re_%28Raja_Tu%2C_Tu_Mana_Raja_Re%29.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_29",
         "title": "Rani Mana Khandesh Say Kamal",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Rani_Mana_Khandesh_Say_Kamal.mp3",
-        "storagePath": "music/Rani_Mana_Khandesh_Say_Kamal.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FRani_Mana_Khandesh_Say_Kamal.mp3?alt=media",
+        "storagePath": "jay bangla/Rani_Mana_Khandesh_Say_Kamal.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FRani_Mana_Khandesh_Say_Kamal.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_30",
         "title": "Sali Mi Nadan Sa",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Sali_Mi_Nadan_Sa.mp3",
-        "storagePath": "music/Sali_Mi_Nadan_Sa.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FSali_Mi_Nadan_Sa.mp3?alt=media",
+        "storagePath": "jay bangla/Sali_Mi_Nadan_Sa.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FSali_Mi_Nadan_Sa.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_31",
         "title": "Tule Jai Ti Dhoka Disan",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Tule_Jai_Ti_Dhoka_Disan.mp3",
-        "storagePath": "music/Tule_Jai_Ti_Dhoka_Disan.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FTule_Jai_Ti_Dhoka_Disan.mp3?alt=media",
+        "storagePath": "jay bangla/Tule_Jai_Ti_Dhoka_Disan.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FTule_Jai_Ti_Dhoka_Disan.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
@@ -1280,44 +1280,44 @@ const defaultPlaylists = {
         "vocals": "Sachin Kumavat",
         "singerName": "Sachin Kumavat",
         "artistName": "Sachin Kumavat",
-        "category": "अहिराणी गाणी",
+        "category": "বাংলা গান",
         "filename": "Vadi_Vadi_Chandan_Vadi_(feat._Sachin_Kumavat,Ankita_Raut).mp3",
-        "storagePath": "music/Vadi_Vadi_Chandan_Vadi_(feat._Sachin_Kumavat,Ankita_Raut).mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FVadi_Vadi_Chandan_Vadi_%28feat._Sachin_Kumavat%2CAnkita_Raut%29.mp3?alt=media",
+        "storagePath": "jay bangla/Vadi_Vadi_Chandan_Vadi_(feat._Sachin_Kumavat,Ankita_Raut).mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FVadi_Vadi_Chandan_Vadi_%28feat._Sachin_Kumavat%2CAnkita_Raut%29.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_33",
         "title": "Vicky Bhagya Ni Pawari s Khandeshi",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Vicky_Bhagya_Ni_Pawari_Ahirani_songs_Khandeshi_Dance_performance_Nakalp_cam_vision_studio.mp3",
-        "storagePath": "music/Vicky_Bhagya_Ni_Pawari_Ahirani_songs_Khandeshi_Dance_performance_Nakalp_cam_vision_studio.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FVicky_Bhagya_Ni_Pawari_Ahirani_songs_Khandeshi_Dance_performance_Nakalp_cam_vision_studio.mp3?alt=media",
+        "storagePath": "jay bangla/Vicky_Bhagya_Ni_Pawari_Ahirani_songs_Khandeshi_Dance_performance_Nakalp_cam_vision_studio.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FVicky_Bhagya_Ni_Pawari_Ahirani_songs_Khandeshi_Dance_performance_Nakalp_cam_vision_studio.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     },
     {
         "id": "storage_track_34",
         "title": "Zim Zim Pani Ma",
-        "singer": "अहिराणी खजिना",
-        "artist": "अहिराणी खजिना",
-        "vocals": "अहिराणी खजिना",
-        "singerName": "अहिराणी खजिना",
-        "artistName": "अहिराणी खजिना",
-        "category": "अहिराणी गाणी",
+        "singer": "বাংলা সঙ্গীত",
+        "artist": "বাংলা সঙ্গীত",
+        "vocals": "বাংলা সঙ্গীত",
+        "singerName": "বাংলা সঙ্গীত",
+        "artistName": "বাংলা সঙ্গীত",
+        "category": "বাংলা গান",
         "filename": "Zim_Zim_Pani_Ma.mp3",
-        "storagePath": "music/Zim_Zim_Pani_Ma.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/music%2FZim_Zim_Pani_Ma.mp3?alt=media",
+        "storagePath": "jay bangla/Zim_Zim_Pani_Ma.mp3",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FZim_Zim_Pani_Ma.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/khandeshi-jatra-bg.jpg",
+        "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     }
 ],
@@ -1433,17 +1433,17 @@ class MiniMusicPlayer {
       const serializableTracks = tracks.map(t => ({
         id: t.id,
         title: t.title,
-        singer: t.singer || t.artist || t.vocals || 'अहिराणी खजिना',
-        artist: t.artist || t.singer || 'अहिराणी खजिना',
-        vocals: t.vocals || t.singer || 'अहिराणी खजिना',
-        singerName: t.singerName || t.singer || 'अहिराणी खजिना',
-        artistName: t.artistName || t.artist || 'अहिराणी खजिना',
-        category: t.category || (playlistId === 'kanubai' ? 'कानुबाई स्पेशल' : (playlistId === 'aarti' ? 'आरती संग्रह' : 'अहिराणी गाणी')),
+        singer: t.singer || t.artist || t.vocals || 'বাংলা সঙ্গীত',
+        artist: t.artist || t.singer || 'বাংলা সঙ্গীত',
+        vocals: t.vocals || t.singer || 'বাংলা সঙ্গীত',
+        singerName: t.singerName || t.singer || 'বাংলা সঙ্গীত',
+        artistName: t.artistName || t.artist || 'বাংলা সঙ্গীত',
+        category: t.category || (playlistId === 'kanubai' ? 'বাংলা স্পেশাল' : (playlistId === 'aarti' ? 'উৎসবের গান' : 'বাংলা গান')),
         filename: t.filename,
         storagePath: t.storagePath || (t.itemRef ? t.itemRef.fullPath : ''),
         audioUrl: t.audioUrl || null,
         duration: t.duration || '--:--',
-        cover: t.cover || (playlistId === 'kanubai' ? 'assets/kanubai-bg.jpg' : (playlistId === 'aarti' ? 'assets/images/aarti-sangrah-bg.png' : 'assets/khandeshi-jatra-bg.jpg')),
+        cover: t.cover || 'assets/images/jay-bangla-bg.png',
         isFirebaseStorage: true
       }));
 
@@ -1520,38 +1520,19 @@ class MiniMusicPlayer {
     }
 
     if (bgImage) {
-      const isMobile = window.innerWidth <= 680;
-      if (playlistId === 'kanubai') {
-        bgImage.style.backgroundImage = isMobile
-          ? "url('assets/kanubai-mobile-bg.jpg')"
-          : "url('assets/kanubai-bg.jpg')";
-      } else if (playlistId === 'aarti') {
-        bgImage.style.backgroundImage = isMobile
-          ? "url('assets/images/aarti-sangrah-mobile-bg.png')"
-          : "url('assets/images/aarti-sangrah-bg.png')";
-      } else {
-        bgImage.style.backgroundImage = isMobile
-          ? "url('assets/khandeshi-jatra-mobile-bg.jpg')"
-          : "url('assets/khandeshi-jatra-bg.jpg')";
-      }
+      bgImage.style.backgroundImage = "url('assets/images/jay-bangla-bg.png')";
     }
 
     if (this.trackCoverImg) {
-      if (playlistId === 'kanubai') {
-        this.trackCoverImg.src = 'assets/kanubai-bg.jpg';
-      } else if (playlistId === 'aarti') {
-        this.trackCoverImg.src = 'assets/images/aarti-sangrah-bg.png';
-      } else {
-        this.trackCoverImg.src = 'assets/khandeshi-jatra-bg.jpg';
-      }
+      this.trackCoverImg.src = 'assets/images/jay-bangla-bg.png';
     }
 
     const labelEl = document.getElementById('playlistCurrentLabel');
     const iconEl = document.getElementById('currentPlaylistIcon');
     if (labelEl) {
-      if (playlistId === 'kanubai') labelEl.textContent = 'कानुबाई स्पेशल';
-      else if (playlistId === 'aarti') labelEl.textContent = 'आरती संग्रह';
-      else labelEl.textContent = 'अहिराणी गाणी';
+      if (playlistId === 'kanubai') labelEl.textContent = 'বাংলা স্পেশাল';
+      else if (playlistId === 'aarti') labelEl.textContent = 'উৎসবের গান';
+      else labelEl.textContent = 'বাংলা গান';
     }
     if (iconEl) {
       if (playlistId === 'kanubai') iconEl.textContent = '🙏';
@@ -1606,7 +1587,7 @@ class MiniMusicPlayer {
     if (this.playlist.length > 0) {
       await this.loadTrack(this.currentIndex, autoPlay);
     } else {
-      if (this.trackTitle) this.trackTitle.textContent = 'गाणी लोड होत आहेत...';
+      if (this.trackTitle) this.trackTitle.textContent = 'গান লোড হচ্ছে...';
       if (this.trackArtist) this.trackArtist.textContent = 'Firebase Cloud Storage';
       if (this.totalDurationEl) this.totalDurationEl.textContent = '--:--';
     }
@@ -1649,19 +1630,19 @@ class MiniMusicPlayer {
     if (!filename) {
       return {
         id: `storage_track_${index + 1}`,
-        title: `गाणे क्रमांक ${index + 1}`,
-        singer: "अहिराणी खजिना",
-        artist: "अहिराणी खजिना",
-        vocals: "अहिराणी खजिना",
-        singerName: "अहिराणी खजिना",
-        artistName: "अहिराणी खजिना",
-        category: "खान्देशी अहिराणी",
+        title: `গান নং ${index + 1}`,
+        singer: "বাংলা সঙ্গীত",
+        artist: "বাংলা সঙ্গীত",
+        vocals: "বাংলা সঙ্গীত",
+        singerName: "বাংলা সঙ্গীত",
+        artistName: "বাংলা সঙ্গীত",
+        category: "বাংলা গান",
         filename: filename || '',
         itemRef: null,
         audioUrl: null,
         isFirebaseStorage: true,
         duration: '--:--',
-        cover: 'assets/khandeshi-jatra-bg.jpg'
+        cover: 'assets/images/jay-bangla-bg.png'
       };
     }
 
@@ -1671,8 +1652,8 @@ class MiniMusicPlayer {
 
     let recognizedSinger = extractSingerKeyword(cleanName) || extractSingerKeyword(filename);
     let title = cleanName;
-    let singer = recognizedSinger || "अहिराणी खजिना";
-    let category = "खान्देशी अहिराणी";
+    let singer = recognizedSinger || "বাংলা সঙ্গীত";
+    let category = "বাংলা গান";
 
     if (cleanName.includes(' - ')) {
       const parts = cleanName.split(' - ');
@@ -1691,30 +1672,30 @@ class MiniMusicPlayer {
 
     const lower = cleanName.toLowerCase();
     if (lower.includes('kanbai') || lower.includes('kanubai') || cleanName.includes('कानुबाई') || cleanName.includes('कानबाई')) {
-      category = 'कानुबाई स्पेशल';
+      category = 'বাংলা স্পেশাল';
     } else if (lower.includes('lagan') || lower.includes('halad') || cleanName.includes('लग्न') || cleanName.includes('हळद')) {
-      category = 'लग्नगीत';
+      category = 'বাংলা লোকগীতি';
     } else if (lower.includes('bhaiya') || cleanName.includes('भैय्या')) {
-      category = 'भैय्या मोरे स्पेशल';
+      category = 'বিশেষ গান';
     } else if (lower.includes('khandesh') || cleanName.includes('खान्देश')) {
-      category = 'खान्देशी धमाका';
+      category = 'বাংলা গান';
     }
 
     return {
       id: `storage_track_${index + 1}_${encodeURIComponent(filename.substring(0, 16))}`,
       title: title,
-      singer: singer || "अहिराणी खजिना",
-      artist: singer || "अहिराणी खजिना",
-      vocals: singer || "अहिराणी खजिना",
-      singerName: singer || "अहिराणी खजिना",
-      artistName: singer || "अहिराणी खजिना",
+      singer: singer || "বাংলা সঙ্গীত",
+      artist: singer || "বাংলা সঙ্গীত",
+      vocals: singer || "বাংলা সঙ্গীত",
+      singerName: singer || "বাংলা সঙ্গীত",
+      artistName: singer || "বাংলা সঙ্গীত",
       category: category,
       filename: filename,
       itemRef: null,
       audioUrl: null,
       isFirebaseStorage: true,
       duration: '--:--',
-      cover: 'assets/khandeshi-jatra-bg.jpg'
+      cover: 'assets/images/jay-bangla-bg.png'
     };
   }
 
@@ -1741,7 +1722,7 @@ class MiniMusicPlayer {
     } else if (playlistId === 'aarti') {
       folderNames = ['aarti sangrah', 'Aarti Sangrah', 'aarti_sangrah', 'Aarti_Sangrah', 'aartisangrah', 'aarti-sangrah', 'aarti', 'Aarti', 'aarti_songs'];
     } else {
-      folderNames = ['music', 'ahirani', 'songs', 'Ahirani', 'Music'];
+      folderNames = ['jay bangla', 'Jay Bangla', 'jay_bangla', 'Jay_Bangla', 'jaybangla', 'music', 'ahirani', 'songs', 'Ahirani', 'Music'];
     }
 
     try {
@@ -1764,7 +1745,7 @@ class MiniMusicPlayer {
               discoveredFolders.push(pName);
             } else if (playlistId === 'aarti' && (pLower.includes('aarti') || pLower.includes('sangrah') || pLower.includes('arti'))) {
               discoveredFolders.push(pName);
-            } else if (playlistId === 'ahirani' && (pLower.includes('music') || pLower.includes('ahirani') || pLower.includes('song'))) {
+            } else if (playlistId === 'ahirani' && (pLower.includes('jay') || pLower.includes('bangla') || pLower.includes('music') || pLower.includes('ahirani') || pLower.includes('song'))) {
               discoveredFolders.push(pName);
             }
           });
@@ -1793,12 +1774,13 @@ class MiniMusicPlayer {
               const parsed = this.parseSongMetadata(name, i);
               parsed.itemRef = item;
               parsed.storagePath = item.fullPath;
+              parsed.cover = 'assets/images/jay-bangla-bg.png';
               if (playlistId === 'kanubai') {
-                parsed.category = 'कानुबाई स्पेशल';
-                parsed.cover = 'assets/kanubai-bg.jpg';
+                parsed.category = 'বাংলা স্পেশাল';
+                parsed.cover = 'assets/images/jay-bangla-bg.png';
               } else if (playlistId === 'aarti') {
-                parsed.category = 'आरती संग्रह';
-                parsed.cover = 'assets/images/aarti-sangrah-bg.png';
+                parsed.category = 'উৎসবের গান';
+                parsed.cover = 'assets/images/jay-bangla-bg.png';
               }
 
               // Compute instant direct Google Cloud CDN media URL (0ms latency)
@@ -1898,8 +1880,8 @@ class MiniMusicPlayer {
                      currentSong.customMetadata.vocals;
     }
 
-    // 4. Keyword Fallback: Extract singer name directly from song title / filename (e.g. 'Ramakant', 'Bhaiya More')
-    if (!actualSinger || actualSinger === 'खान्देशी कलाकार' || actualSinger === 'अहिराणी खजिना') {
+    // 4. Keyword Fallback: Extract singer name directly from song title / filename
+    if (!actualSinger || actualSinger === 'खान्देशी कलाकार' || actualSinger === 'अहिराणी खजिना' || actualSinger === 'বাংলা সঙ্গীত') {
       const keywordExtracted = extractSingerKeyword(currentSong.filename || '') || 
                                extractSingerKeyword(titleText) || 
                                extractSingerKeyword(currentSong.title || '');
@@ -1913,7 +1895,7 @@ class MiniMusicPlayer {
 
     // Final fallback if no singer could be extracted
     if (!actualSinger || actualSinger === 'खान्देशी कलाकार') {
-      actualSinger = 'अहिराणी खजिना';
+      actualSinger = 'বাংলা সঙ্গীত';
     }
 
     // 5. Display only currentSong singer name (no category)
@@ -1933,9 +1915,7 @@ class MiniMusicPlayer {
     this.isDragging = false;
 
     if (this.trackCoverImg) {
-      const playlistCover = this.currentPlaylistId === 'kanubai'
-        ? 'assets/kanubai-bg.jpg'
-        : (this.currentPlaylistId === 'aarti' ? 'assets/images/aarti-sangrah-bg.png' : 'assets/khandeshi-jatra-bg.jpg');
+      const playlistCover = 'assets/images/jay-bangla-bg.png';
       this.trackCoverImg.src = currentSong.cover || playlistCover;
     }
 
@@ -1981,7 +1961,7 @@ class MiniMusicPlayer {
               if (this.trackTitle) this.trackTitle.textContent = metaTitle;
             }
             if (updated && this.playerCategoryElement) {
-              this.playerCategoryElement.innerText = currentSong.singer || 'अहिराणी खजिना';
+              this.playerCategoryElement.innerText = currentSong.singer || 'বাংলা সঙ্গীত';
             }
           }
         }).catch(() => {});
@@ -2024,17 +2004,17 @@ class MiniMusicPlayer {
     if (!currentSong) return;
 
     try {
-      const artworkSrc = currentSong.cover || 'assets/khandeshi-jatra-bg.jpg';
+      const artworkSrc = currentSong.cover || 'assets/images/jay-bangla-bg.png';
       const absoluteArtwork = artworkSrc.startsWith('http')
         ? artworkSrc
         : new URL(artworkSrc, window.location.href).href;
 
-      const singerName = currentSong.singer || currentSong.artist || currentSong.vocals || 'अहिराणी खजिना';
+      const singerName = currentSong.singer || currentSong.artist || currentSong.vocals || 'বাংলা সঙ্গীত';
 
       navigator.mediaSession.metadata = new MediaMetadata({
         title: currentSong.title,
         artist: singerName,
-        album: 'खान्देशी जत्रा',
+        album: 'জয় বাংলা',
         artwork: [
           { src: absoluteArtwork, sizes: '96x96', type: 'image/jpeg' },
           { src: absoluteArtwork, sizes: '128x128', type: 'image/jpeg' },
@@ -2094,8 +2074,8 @@ class MiniMusicPlayer {
   logSongPlay(track) {
     if (!track) return;
     try {
-      const songTitle = track.title || 'अहिराणी गाणे';
-      const singer = track.singer || track.artist || 'अहिराणी खजिना';
+      const songTitle = track.title || 'বাংলা গান';
+      const singer = track.singer || track.artist || 'বাংলা সঙ্গীত';
       const sanitizedKey = songTitle.replace(/[\.\#\$\[\]\/]/g, '_');
 
       // 1. Local Persistent Song Stats
@@ -2324,7 +2304,7 @@ class MiniMusicPlayer {
    */
   updatePlaylistCountBadge() {
     if (this.playlistCountBadge) {
-      this.playlistCountBadge.textContent = `${this.playlist.length} गाणी`;
+      this.playlistCountBadge.textContent = `${this.playlist.length}টি গান`;
     }
   }
 
@@ -2406,7 +2386,7 @@ class MiniMusicPlayer {
     if (this.isLoadingPlaylist && this.isLoadingPlaylist[this.currentPlaylistId] && (!this.playlist || this.playlist.length === 0)) {
       const isKanubai = this.currentPlaylistId === 'kanubai';
       const isAarti = this.currentPlaylistId === 'aarti';
-      const loadingText = isKanubai ? '🙏 कानुबाई स्पेशल गाणी लोड होत आहेत...' : (isAarti ? '🪔 आरती संग्रह लोड होत आहे...' : '🎶 अहिराणी गाणी लोड होत आहेत...');
+      const loadingText = isKanubai ? '🙏 বাংলা স্পেশাল গান লোড হচ্ছে...' : (isAarti ? '🪔 উৎসবের গান লোড হচ্ছে...' : '🎶 বাংলা গান লোড হচ্ছে...');
 
       const skeletonCount = 6;
       let skeletonsHtml = '<div class="playlist-skeleton-container" aria-label="Loading tracks">';
@@ -2428,7 +2408,7 @@ class MiniMusicPlayer {
           <p style="font-size: 0.84rem; color: var(--gold-300); font-weight: 600;">
             ${loadingText}
           </p>
-          <p style="font-size: 0.72rem; opacity: 0.7; margin-top: 2px;">Firebase Cloud Storage वरून सुरक्षितपणे कनेक्ट होत आहे</p>
+          <p style="font-size: 0.72rem; opacity: 0.7; margin-top: 2px;">Firebase Cloud Storage থেকে সুরক্ষিতভাবে সংযুক্ত হচ্ছে</p>
         </div>
       </div>`;
       this.playlistItemsContainer.innerHTML = skeletonsHtml;
@@ -2450,8 +2430,8 @@ class MiniMusicPlayer {
       const isKanubai = this.currentPlaylistId === 'kanubai';
       const isAarti = this.currentPlaylistId === 'aarti';
       const emptyIcon = isKanubai ? '🙏' : (isAarti ? '🪔' : '🔍');
-      const emptyTitle = isKanubai ? 'कानुबाई स्पेशल गाणी लोड होत आहेत...' : (isAarti ? 'आरती संग्रह लोड होत आहे...' : 'कोणतेही गाणे सापडले नाही');
-      const emptySub = isKanubai ? "Firebase Storage ('kanubai special') वरून थेट कनेक्ट होत आहे" : (isAarti ? "Firebase Storage ('aarti sangrah') वरून थेट कनेक्ट होत आहे" : 'शोध शब्द तपासा');
+      const emptyTitle = isKanubai ? 'বাংলা স্পেশাল গান লোড হচ্ছে...' : (isAarti ? 'উৎসবের গান লোড হচ্ছে...' : 'কোনো গান পাওয়া যায়নি');
+      const emptySub = isKanubai ? "Firebase Storage থেকে সংযুক্ত করা হচ্ছে" : (isAarti ? "Firebase Storage থেকে সংযুক্ত করা হচ্ছে" : 'অনুগ্রহ করে অনুসন্ধানের শব্দটি পরীক্ষা করুন');
 
       this.playlistItemsContainer.innerHTML = `
         <div class="playlist-empty-state" style="padding: 2.5rem 1rem; text-align: center;">
@@ -2469,8 +2449,8 @@ class MiniMusicPlayer {
     this.playlistItemsContainer.innerHTML = filtered.map((item) => {
       const isActive = item.originalIndex === this.currentIndex;
       const isItemPlaying = isActive && this.isPlaying;
-      const singerName = item.singer || item.artist || item.vocals || 'अहिराणी खजिना';
-      const coverImg = item.cover || 'assets/khandeshi-jatra-bg.jpg';
+      const singerName = item.singer || item.artist || item.vocals || 'বাংলা সঙ্গীত';
+      const coverImg = item.cover || 'assets/images/jay-bangla-bg.png';
       const actionIconSvg = isItemPlaying ? PAUSE_ICON_SVG : PLAY_ICON_SVG;
 
       return `
@@ -2823,7 +2803,7 @@ function initClickHeartInteraction() {
     if (clickCount >= 10) {
       const text = document.createElement('div');
       text.className = 'click-khandesh-text';
-      text.textContent = 'जय खान्देश';
+      text.textContent = 'জয় বাংলা';
       text.style.left = `${clientX}px`;
       text.style.top = `${clientY}px`;
 
