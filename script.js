@@ -1535,6 +1535,16 @@ class MiniMusicPlayer {
       }
     }
 
+    if (this.trackCoverImg) {
+      if (playlistId === 'kanubai') {
+        this.trackCoverImg.src = 'assets/kanubai-bg.jpg';
+      } else if (playlistId === 'aarti') {
+        this.trackCoverImg.src = 'assets/images/aarti-sangrah-bg.png';
+      } else {
+        this.trackCoverImg.src = 'assets/khandeshi-jatra-bg.jpg';
+      }
+    }
+
     const labelEl = document.getElementById('playlistCurrentLabel');
     const iconEl = document.getElementById('currentPlaylistIcon');
     if (labelEl) {
@@ -1921,8 +1931,11 @@ class MiniMusicPlayer {
     if (this.progressSlider) this.progressSlider.value = '0';
     this.isDragging = false;
 
-    if (this.trackCoverImg && currentSong.cover) {
-      this.trackCoverImg.src = currentSong.cover;
+    if (this.trackCoverImg) {
+      const playlistCover = this.currentPlaylistId === 'kanubai'
+        ? 'assets/kanubai-bg.jpg'
+        : (this.currentPlaylistId === 'aarti' ? 'assets/images/aarti-sangrah-bg.png' : 'assets/khandeshi-jatra-bg.jpg');
+      this.trackCoverImg.src = currentSong.cover || playlistCover;
     }
 
     // Update Media Session Metadata
