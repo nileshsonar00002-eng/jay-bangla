@@ -828,6 +828,13 @@ body.kanubai-active .player-container {
   bottom: auto;
 }
 
+/* Specifically when Aarti Sangrah playlist is active: Position player in center of screen */
+body.aarti-active .player-container {
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+}
+
 .mini-player-bar {
   background: linear-gradient(135deg, rgba(54, 14, 10, 0.72) 0%, rgba(26, 7, 5, 0.82) 50%, rgba(42, 11, 8, 0.76) 100%);
   backdrop-filter: blur(18px) saturate(160%);
@@ -2237,6 +2244,12 @@ body.kanubai-active .mini-player-bar {
     bottom: auto;
   }
 
+  body.aarti-active .player-container {
+    top: 50%;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+  }
+
   .cultural-section {
     padding: 2.5rem 1.25rem 2rem;
   }
@@ -2403,6 +2416,14 @@ body.kanubai-active .mini-player-bar {
   body.kanubai-active .player-container {
     top: calc(clamp(125px, 15.5vh, 155px) + env(safe-area-inset-top, 0px));
     bottom: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  body.aarti-active .player-container {
+    top: 50%;
+    bottom: auto;
+    transform: translate(-50%, -50%);
     margin-top: 0;
     margin-bottom: 0;
   }
