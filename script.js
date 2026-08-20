@@ -1530,8 +1530,8 @@ class MiniMusicPlayer {
     const labelEl = document.getElementById('playlistCurrentLabel');
     const iconEl = document.getElementById('currentPlaylistIcon');
     if (labelEl) {
-      if (playlistId === 'kanubai') labelEl.textContent = '২. বাংলা স্পেশাল';
-      else if (playlistId === 'aarti') labelEl.textContent = '৩. উৎসবের গান';
+      if (playlistId === 'kanubai') labelEl.textContent = '২';
+      else if (playlistId === 'aarti') labelEl.textContent = '৩';
       else labelEl.textContent = 'বাংলা গান';
     }
     if (iconEl) {
@@ -2386,7 +2386,7 @@ class MiniMusicPlayer {
     if (this.isLoadingPlaylist && this.isLoadingPlaylist[this.currentPlaylistId] && (!this.playlist || this.playlist.length === 0)) {
       const isKanubai = this.currentPlaylistId === 'kanubai';
       const isAarti = this.currentPlaylistId === 'aarti';
-      const loadingText = isKanubai ? '🙏 ২. বাংলা স্পেশাল গান লোড হচ্ছে...' : (isAarti ? '🪔 ৩. উৎসবের গান লোড হচ্ছে...' : '🎶 বাংলা গান লোড হচ্ছে...');
+      const loadingText = isKanubai ? '🙏 ২ গান লোড হচ্ছে...' : (isAarti ? '🪔 ৩ গান লোড হচ্ছে...' : '🎶 বাংলা গান লোড হচ্ছে...');
 
       const skeletonCount = 6;
       let skeletonsHtml = '<div class="playlist-skeleton-container" aria-label="Loading tracks">';
@@ -2430,7 +2430,7 @@ class MiniMusicPlayer {
       const isKanubai = this.currentPlaylistId === 'kanubai';
       const isAarti = this.currentPlaylistId === 'aarti';
       const emptyIcon = isKanubai ? '🙏' : (isAarti ? '🪔' : '🔍');
-      const emptyTitle = isKanubai ? '২. বাংলা স্পেশাল গান লোড হচ্ছে...' : (isAarti ? '৩. উৎসবের গান লোড হচ্ছে...' : 'কোনো গান পাওয়া যায়নি');
+      const emptyTitle = isKanubai ? '২ গান লোড হচ্ছে...' : (isAarti ? '৩ গান লোড হচ্ছে...' : 'কোনো গান পাওয়া যায়নি');
       const emptySub = isKanubai ? "Firebase Storage থেকে সংযুক্ত করা হচ্ছে" : (isAarti ? "Firebase Storage থেকে সংযুক্ত করা হচ্ছে" : 'অনুগ্রহ করে অনুসন্ধানের শব্দটি পরীক্ষা করুন');
 
       this.playlistItemsContainer.innerHTML = `
