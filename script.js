@@ -1346,7 +1346,7 @@ class MiniMusicPlayer {
 
     this.playlists = {
       ahirani: (cachedAhirani && cachedAhirani.length > 0) ? cachedAhirani : [...defaultPlaylists.ahirani],
-      kanubai: (cachedKanubai && cachedKanubai.length > 0) ? cachedKanubai : ((defaultPlaylists.kanubai && defaultPlaylists.kanubai.length > 0) ? [...defaultPlaylists.kanubai] : [...defaultPlaylists.ahirani]),
+      kanubai: (cachedKanubai && cachedKanubai.length > 0) ? cachedKanubai : [...defaultPlaylists.kanubai],
       aarti: (cachedAarti && cachedAarti.length > 0) ? cachedAarti : [...(defaultPlaylists.aarti || [])]
     };
     this.currentPlaylistId = localStorage.getItem('kj_active_playlist') || 'ahirani';
@@ -1563,6 +1563,24 @@ class MiniMusicPlayer {
     // Close Dropdown
     const dropdown = document.getElementById('playlistDropdownMenu');
     const wrapper = document.getElementById('playlistSelectorWrapper');
+    const selectBtn = document.getElementById('playlistSelectBtn');
+    if (dropdown) dropdown.style.display = 'none';
+    if (wrapper) wrapper.classList.remove('open');
+    if (selectBtn) selectBtn.setAttribute('aria-expanded', 'false');
+
+    // Playlist No. 2: Kumar Sanu YouTube Music Official Link
+    if (playlistId === 'kanubai') {
+      window.open('https://music.youtube.com/@thekumarsanuofficial?si=eXDdCDrU0jimx0om', '_blank');
+      if (this.trackTitle) this.trackTitle.textContent = 'কুমার শানু (Kumar Sanu)';
+      if (this.trackArtist) this.trackArtist.textContent = 'YouTube Music Official';
+      if (this.totalDurationEl) this.totalDurationEl.textContent = 'YouTube';
+      this.updatePlaylistCountBadge();
+      if (this.isPlaylistOpen) {
+        this.renderPlaylistItems();
+      }
+      return;
+    }
+
     // Switch active tracks list
     this.playlist = [...(this.playlists[playlistId] || [])];
     
@@ -1572,8 +1590,6 @@ class MiniMusicPlayer {
     } else {
       this.currentIndex = 0;
     }
-    this.updatePlaylistCountBadge();
-
     if (this.isPlaylistOpen) {
       this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
     }
@@ -2298,7 +2314,11 @@ class MiniMusicPlayer {
    */
   updatePlaylistCountBadge() {
     if (this.playlistCountBadge) {
-      this.playlistCountBadge.textContent = `${this.playlist.length}টি গান`;
+      if (this.currentPlaylistId === 'kanubai') {
+        this.playlistCountBadge.textContent = 'YouTube Music';
+      } else {
+        this.playlistCountBadge.textContent = `${this.playlist.length}টি গান`;
+      }
     }
   }
 
@@ -2375,13 +2395,38 @@ class MiniMusicPlayer {
   renderPlaylistItems(filterQuery = '') {
     if (!this.playlistItemsContainer) return;
 
+    // Playlist No. 2: Kumar Sanu YouTube Music Card
+    if (this.currentPlaylistId === 'kanubai') {
+      this.playlistItemsContainer.innerHTML = `
+        <div style="padding: 1.8rem 1rem; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #ff0000, #990000); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: 0 4px 20px rgba(255,0,0,0.4); margin-bottom: 0.8rem;">
+            🎤
+          </div>
+          <h4 style="font-size: 1.15rem; color: #ffffff; margin: 0 0 0.25rem; font-weight: 700;">কুমার শানু (Kumar Sanu)</h4>
+          <p style="font-size: 0.82rem; color: var(--gold-400); margin: 0 0 1.2rem; opacity: 0.95;">Official YouTube Music Channel</p>
+          
+          <a href="https://music.youtube.com/@thekumarsanuofficial?si=eXDdCDrU0jimx0om" 
+             target="_blank" rel="noopener noreferrer"
+             style="display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; background: linear-gradient(135deg, #ff0000, #cc0000); color: #ffffff; padding: 0.8rem 1.6rem; border-radius: 999px; font-weight: 700; font-size: 0.92rem; text-decoration: none; box-shadow: 0 4px 18px rgba(255,0,0,0.45); transition: transform 0.2s, box-shadow 0.2s;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+            YouTube Music-এ শুনুন
+          </a>
+          
+          <p style="font-size: 0.74rem; color: rgba(255,255,255,0.65); margin-top: 1.2rem; line-height: 1.45; max-width: 280px;">
+            কুমার শানুর জনপ্রিয় সকল বাংলা ও হিন্দি গান শুনতে YouTube Music-এ সরাসরি যুক্ত হন।
+          </p>
+        </div>
+      `;
+      return;
+    }
+
     const q = filterQuery.trim().toLowerCase();
 
     // 1. Show smooth animated shimmer skeleton placeholders during first-time loading
     if (this.isLoadingPlaylist && this.isLoadingPlaylist[this.currentPlaylistId] && (!this.playlist || this.playlist.length === 0)) {
       const isKanubai = this.currentPlaylistId === 'kanubai';
       const isAarti = this.currentPlaylistId === 'aarti';
-      const loadingText = isKanubai ? '🎤 কুমার শানুর গান লোড হচ্ছে...' : (isAarti ? '🪔 ৩ গান লোড হচ্ছে...' : '🎶 বাংলা গান লোড হচ্ছে...');
+      const loadingText = isKanubai ? '🙏 ২ গান লোড হচ্ছে...' : (isAarti ? '🪔 ৩ গান লোড হচ্ছে...' : '🎶 বাংলা গান লোড হচ্ছে...');
 
       const skeletonCount = 6;
       let skeletonsHtml = '<div class="playlist-skeleton-container" aria-label="Loading tracks">';
@@ -2424,8 +2469,8 @@ class MiniMusicPlayer {
     if (filtered.length === 0) {
       const isKanubai = this.currentPlaylistId === 'kanubai';
       const isAarti = this.currentPlaylistId === 'aarti';
-      const emptyIcon = isKanubai ? '🎤' : (isAarti ? '🪔' : '🔍');
-      const emptyTitle = isKanubai ? 'কুমার শানুর গান লোড হচ্ছে...' : (isAarti ? '৩ গান লোড হচ্ছে...' : 'কোনো গান পাওয়া যায়নি');
+      const emptyIcon = isKanubai ? '🙏' : (isAarti ? '🪔' : '🔍');
+      const emptyTitle = isKanubai ? '২ গান লোড হচ্ছে...' : (isAarti ? '৩ গান লোড হচ্ছে...' : 'কোনো গান পাওয়া যায়নি');
       const emptySub = isKanubai ? "Firebase Storage থেকে সংযুক্ত করা হচ্ছে" : (isAarti ? "Firebase Storage থেকে সংযুক্ত করা হচ্ছে" : 'অনুগ্রহ করে অনুসন্ধানের শব্দটি পরীক্ষা করুন');
 
       this.playlistItemsContainer.innerHTML = `
