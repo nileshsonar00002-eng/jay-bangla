@@ -2244,16 +2244,16 @@ body.kanubai-active .mini-player-bar {
 
 @media (max-width: 680px) {
   .bg-image {
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
+    background-size: contain !important;
+    background-position: center top !important;
+    background-repeat: no-repeat !important;
     animation: none; /* Keep background static on mobile for performance */
     transition: background-image 0.4s ease-in-out, opacity 0.4s ease;
   }
 
   .bg-wrapper.kanubai-active .bg-image {
-    background-position: center 75% !important;
-    background-size: cover !important;
+    background-size: contain !important;
+    background-position: center top !important;
   }
 
   .top-center-title-container {
@@ -2286,11 +2286,13 @@ body.kanubai-active .mini-player-bar {
   }
 
   .bg-image {
-    background-position: center 42%;
+    background-position: center top !important;
+    background-size: contain !important;
   }
 
   .bg-wrapper.kanubai-active .bg-image {
-    background-position: center 75% !important;
+    background-position: center top !important;
+    background-size: contain !important;
   }
 
   .festive-ad-banner-container {
