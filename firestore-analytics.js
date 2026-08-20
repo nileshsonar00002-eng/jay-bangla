@@ -2,7 +2,7 @@
  * ==========================================================================
  * Cloud Firestore Analytics & Announcement Engine (Firebase v10+ Modular SDK)
  * ==========================================================================
- * - Target Database: 'khandeshijatra'
+ * - Target Database: 'default' (bangla-f3985)
  * - Real-Time Dynamic Top Announcement Badge ('siteSettings/announcement')
  * - Visitor & Device Tracking ('user_visits' & 'users')
  * - Song Streaming Analytics ('song_analytics')
@@ -24,39 +24,34 @@ import {
   onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// Firebase Project Configuration (khaneshijatra)
+// Firebase Project Configuration (bangla-f3985)
 export const firebaseConfig = {
-  apiKey: "AIzaSyDnVjfQrfksPVnq57OhjNios9Yd6A0EjSA",
-  authDomain: "khaneshijatra.firebaseapp.com",
-  databaseURL: "https://khaneshijatra-default-rtdb.firebaseio.com",
-  projectId: "khaneshijatra",
-  storageBucket: "khaneshijatra.firebasestorage.app",
-  messagingSenderId: "762404305793",
-  appId: "1:762404305793:web:8ec333a65b673211af8680",
-  measurementId: "G-0CQ0YDPPQP"
+  apiKey: "AIzaSyD2PXCfJFl7CODIRkQSDqmdbj13tMoVSyE",
+  authDomain: "bangla-f3985.firebaseapp.com",
+  projectId: "bangla-f3985",
+  storageBucket: "bangla-f3985.firebasestorage.app",
+  messagingSenderId: "630741936336",
+  appId: "1:630741936336:web:6b4233a5046d9a830956d5",
+  measurementId: "G-KYHSCJMV43"
 };
 
-// Target Database ID in your Cloud Firestore console
-export const DATABASE_ID = 'khandeshijatra';
+// Target Database ID — using (default) database in bangla-f3985
+export const DATABASE_ID = 'default';
 
 // 1. Initialize Firebase App, Auth & Cloud Firestore
 export const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
 
-// Connect directly to custom named database 'khandeshijatra'
+// Connect to (default) Firestore database
 let dbInstance;
 try {
-  dbInstance = getFirestore(app, DATABASE_ID);
-  console.log(`🔥 [Firestore] Connected to database: "${DATABASE_ID}"`);
+  dbInstance = getFirestore(app);
+  console.log(`🔥 [Firestore] Connected to (default) database on bangla-f3985`);
 } catch (e) {
-  try {
-    dbInstance = getFirestore(app);
-    console.log('🔥 [Firestore] Connected to (default) database');
-  } catch (err) {
-    console.error('Firestore init error:', err);
-  }
+  console.error('Firestore init error:', e);
 }
 export const db = dbInstance;
+
 
 // Global persistent UID tracking
 let currentUid = null;
