@@ -1525,7 +1525,9 @@ class MiniMusicPlayer {
           ? "url('assets/kanubai-mobile-bg.jpg')"
           : "url('assets/kanubai-bg.jpg')";
       } else if (playlistId === 'aarti') {
-        bgImage.style.backgroundImage = "url('assets/images/aarti-sangrah-bg.png')";
+        bgImage.style.backgroundImage = isMobile
+          ? "url('assets/images/aarti-sangrah-mobile-bg.png')"
+          : "url('assets/images/aarti-sangrah-bg.png')";
       } else {
         bgImage.style.backgroundImage = isMobile
           ? "url('assets/khandeshi-jatra-mobile-bg.jpg')"
@@ -2697,6 +2699,11 @@ class MiniMusicPlayer {
       if (this.isPlaylistOpen) {
         this.closePlaylist(true);
       }
+    });
+
+    // Dynamically update mobile/desktop background image on window resize
+    window.addEventListener('resize', () => {
+      this.applyPlaylistVisuals(this.currentPlaylistId);
     });
 
     // Global Keyboard Shortcuts
