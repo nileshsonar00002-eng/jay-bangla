@@ -1592,6 +1592,7 @@ class MiniMusicPlayer {
     }
 
     if (this.isPlaylistOpen) {
+      this.restoreNormalDrawerLayout();
       this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
     }
 
@@ -1613,27 +1614,52 @@ class MiniMusicPlayer {
 
   showSpotifyEmbed() {
     if (!this.playlistItemsContainer) return;
+
+    // Hide the search box — not needed for Spotify
+    const searchBox = document.querySelector('.playlist-search-box');
+    if (searchBox) searchBox.style.display = 'none';
+
+    // Expand the drawer to fit the Spotify player properly
+    const drawer = document.getElementById('playlistDrawer');
+    if (drawer) {
+      drawer.style.maxHeight = 'min(88vh, 700px)';
+    }
+
+    // Remove container padding so iframe fills full width
+    this.playlistItemsContainer.style.padding = '0.5rem 0.5rem 0.25rem';
+
     this.playlistItemsContainer.innerHTML = `
-      <div style="padding: 1rem 0.75rem 0.5rem; text-align: center;">
-        <p style="font-size: 0.78rem; color: var(--gold-300); font-weight: 600; margin-bottom: 0.75rem;">
-          🎵 Bangla Dance Hits 🔥💯
-        </p>
-        <iframe
-          style="border-radius:12px; display:block; width:100%; border:none;"
-          src="https://open.spotify.com/embed/playlist/3wqvRkJQsKLCxTQ6YnTpE6?utm_source=generator&theme=0"
-          height="380"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"
-          title="Bangla Dance Hits on Spotify">
-        </iframe>
-        <a href="https://open.spotify.com/playlist/3wqvRkJQsKLCxTQ6YnTpE6"
-           target="_blank" rel="noopener noreferrer"
-           style="display:inline-block; margin-top:0.65rem; font-size:0.72rem; color:var(--gold-400); opacity:0.85; text-decoration:underline;">
-          ➜ Spotify-তে খুলুন
-        </a>
-      </div>
+      <iframe
+        style="border-radius:12px; display:block; width:100%; border:none; flex-shrink:0;"
+        src="https://open.spotify.com/embed/playlist/3wqvRkJQsKLCxTQ6YnTpE6?utm_source=generator&theme=0"
+        height="500"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"
+        title="Bangla Dance Hits on Spotify">
+      </iframe>
+      <a href="https://open.spotify.com/playlist/3wqvRkJQsKLCxTQ6YnTpE6"
+         target="_blank" rel="noopener noreferrer"
+         style="display:block; text-align:center; padding:0.4rem 0 0.2rem; font-size:0.72rem; color:var(--gold-400); opacity:0.85; text-decoration:underline;">
+        ➜ Spotify-তে খুলুন
+      </a>
     `;
   }
+
+  restoreNormalDrawerLayout() {
+    // Restore search box visibility
+    const searchBox = document.querySelector('.playlist-search-box');
+    if (searchBox) searchBox.style.display = '';
+
+    // Restore drawer max-height
+    const drawer = document.getElementById('playlistDrawer');
+    if (drawer) drawer.style.maxHeight = '';
+
+    // Restore container padding
+    if (this.playlistItemsContainer) {
+      this.playlistItemsContainer.style.padding = '';
+    }
+  }
+
 
   toggleShuffle() {
     isShuffleOn = !isShuffleOn;
