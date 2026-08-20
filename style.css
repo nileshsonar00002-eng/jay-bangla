@@ -92,7 +92,7 @@ body {
 }
 
 .bg-wrapper.aarti-active .bg-image {
-  background-position: center top !important;
+  background-position: center 12% !important;
 }
 
 /* Edge Vignette */
@@ -829,11 +829,11 @@ body.kanubai-active .player-container {
   transform: translateX(-50%);
 }
 
-/* Specifically when Aarti Sangrah playlist is active: Position player comfortably higher in upper-center section */
+/* Specifically when Aarti Sangrah playlist is active: Position player comfortably in dark space below title */
 body.aarti-active .player-container {
-  top: 38%;
+  top: clamp(140px, 18vh, 175px);
   bottom: auto;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
 }
 
 .mini-player-bar {
@@ -1913,6 +1913,8 @@ body.aarti-active .mini-player-bar {
   cursor: pointer;
 }
 
+body.aarti-active .scroll-indicator,
+body.kanubai-active .scroll-indicator,
 .scroll-indicator.hidden-on-scroll {
   opacity: 0 !important;
   visibility: hidden !important;
@@ -2216,9 +2218,9 @@ body.aarti-active .mini-player-bar {
   }
 
   body.aarti-active .player-container {
-    top: 38%;
+    top: calc(clamp(135px, 16.5vh, 165px) + env(safe-area-inset-top, 0px));
     bottom: auto;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
   }
 
   .cultural-section {
@@ -2276,7 +2278,7 @@ body.aarti-active .mini-player-bar {
   }
 
   .bg-wrapper.aarti-active .bg-image {
-    background-position: center top !important;
+    background-position: center 12% !important;
     background-size: cover !important;
   }
 
@@ -2397,9 +2399,9 @@ body.aarti-active .mini-player-bar {
   }
 
   body.aarti-active .player-container {
-    top: 38%;
+    top: calc(clamp(135px, 16.5vh, 165px) + env(safe-area-inset-top, 0px));
     bottom: auto;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     margin-top: 0;
     margin-bottom: 0;
   }
