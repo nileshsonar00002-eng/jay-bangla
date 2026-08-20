@@ -91,6 +91,10 @@ body {
   animation: cinematicBreathing 18s ease-in-out infinite alternate;
 }
 
+.bg-wrapper.aarti-active .bg-image {
+  background-position: center 18% !important;
+}
+
 /* Edge Vignette */
 .bg-vignette {
   position: absolute;
@@ -2291,6 +2295,10 @@ body.kanubai-active .mini-player-bar {
 
   .bg-wrapper.kanubai-active .bg-image {
     background-position: center 75% !important;
+  }
+
+  .bg-wrapper.aarti-active .bg-image {
+    background-position: center 18% !important;
   }
 
   .festive-ad-banner-container {
