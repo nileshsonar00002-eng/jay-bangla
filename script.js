@@ -2452,13 +2452,13 @@ class MiniMusicPlayer {
             <span style="font-size: 1.25rem;">🎤</span>
             <div style="min-width: 0;">
               <div style="font-size: 0.84rem; font-weight: 700; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">কুমার শানু (Kumar Sanu)</div>
-              <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7);">YouTube Music Official</div>
+              <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7);">YouTube Music Playlist</div>
             </div>
           </div>
-          <a href="https://music.youtube.com/@thekumarsanuofficial?si=eXDdCDrU0jimx0om" 
+          <a href="https://music.youtube.com/playlist?list=PLWBr-lODEy10&si=94MIhijoFlUd2AdZ" 
              target="_blank" rel="noopener noreferrer"
              style="display: inline-flex; align-items: center; gap: 0.3rem; background: #ff0000; color: #ffffff; padding: 0.35rem 0.75rem; border-radius: 999px; font-weight: 700; font-size: 0.72rem; text-decoration: none; white-space: nowrap; box-shadow: 0 2px 8px rgba(255,0,0,0.4);">
-            চ্যানেল ↗
+            প্লেলিস্ট ↗
           </a>
         </div>
       `;
