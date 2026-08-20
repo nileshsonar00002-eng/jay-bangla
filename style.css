@@ -86,8 +86,8 @@ body {
   background-repeat: no-repeat;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
-  will-change: transform, opacity;
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  will-change: transform, opacity, background-image;
+  transition: background-image 0.4s ease-in-out, opacity 0.4s ease, transform 0.4s ease;
   animation: cinematicBreathing 18s ease-in-out infinite alternate;
 }
 
@@ -2248,14 +2248,10 @@ body.kanubai-active .mini-player-bar {
     background-position: center center;
     background-repeat: no-repeat;
     animation: none; /* Keep background static on mobile for performance */
-  }
-
-  .bg-wrapper:not(.kanubai-active) .bg-image {
-    background-image: url('assets/khandeshi-jatra-mobile-bg.jpg');
+    transition: background-image 0.4s ease-in-out, opacity 0.4s ease;
   }
 
   .bg-wrapper.kanubai-active .bg-image {
-    background-image: url('assets/kanubai-mobile-bg.jpg') !important;
     background-position: center 75% !important;
     background-size: cover !important;
   }

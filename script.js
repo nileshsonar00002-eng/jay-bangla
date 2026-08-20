@@ -1321,7 +1321,8 @@ const defaultPlaylists = {
         "isFirebaseStorage": true
     }
 ],
-  kanubai: []
+  kanubai: [],
+  aarti: []
 };
 
 const initialPlaylist = defaultPlaylists.ahirani;
@@ -1335,16 +1336,19 @@ class MiniMusicPlayer {
   constructor(songList = initialPlaylist) {
     this.isLoadingPlaylist = {
       ahirani: false,
-      kanubai: false
+      kanubai: false,
+      aarti: false
     };
 
     // Instant zero-delay load from localStorage cache if available
     const cachedAhirani = this.loadCachedPlaylist('ahirani');
     const cachedKanubai = this.loadCachedPlaylist('kanubai');
+    const cachedAarti = this.loadCachedPlaylist('aarti');
 
     this.playlists = {
       ahirani: (cachedAhirani && cachedAhirani.length > 0) ? cachedAhirani : [...defaultPlaylists.ahirani],
-      kanubai: (cachedKanubai && cachedKanubai.length > 0) ? cachedKanubai : [...defaultPlaylists.kanubai]
+      kanubai: (cachedKanubai && cachedKanubai.length > 0) ? cachedKanubai : [...defaultPlaylists.kanubai],
+      aarti: (cachedAarti && cachedAarti.length > 0) ? cachedAarti : [...(defaultPlaylists.aarti || [])]
     };
     this.currentPlaylistId = localStorage.getItem('kj_active_playlist') || 'ahirani';
     this.playlist = [...(this.playlists[this.currentPlaylistId] || this.playlists.ahirani)];
@@ -1433,12 +1437,12 @@ class MiniMusicPlayer {
         vocals: t.vocals || t.singer || 'अहिराणी खजिना',
         singerName: t.singerName || t.singer || 'अहिराणी खजिना',
         artistName: t.artistName || t.artist || 'अहिराणी खजिना',
-        category: t.category || (playlistId === 'kanubai' ? 'कानुबाई स्पेशल' : 'अहिराणी गाणी'),
+        category: t.category || (playlistId === 'kanubai' ? 'कानुबाई स्पेशल' : (playlistId === 'aarti' ? 'आरती संग्रह' : 'अहिराणी गाणी')),
         filename: t.filename,
         storagePath: t.storagePath || (t.itemRef ? t.itemRef.fullPath : ''),
         audioUrl: t.audioUrl || null,
         duration: t.duration || '--:--',
-        cover: t.cover || (playlistId === 'kanubai' ? 'assets/kanubai-bg.jpg' : 'assets/khandeshi-jatra-bg.jpg'),
+        cover: t.cover || (playlistId === 'kanubai' ? 'assets/kanubai-bg.jpg' : (playlistId === 'aarti' ? 'assets/images/aarti-sangrah-bg.png' : 'assets/khandeshi-jatra-bg.jpg')),
         isFirebaseStorage: true
       }));
 
@@ -1476,9 +1480,10 @@ class MiniMusicPlayer {
     this.bindEvents();
     this.updatePlaylistCountBadge();
 
-    // Fetch Firebase Cloud Storage audio files for both playlists
+    // Fetch Firebase Cloud Storage audio files for all playlists
     this.loadFromFirebaseStorage('ahirani');
     this.loadFromFirebaseStorage('kanubai');
+    this.loadFromFirebaseStorage('aarti');
   }
 
   applyPlaylistVisuals(playlistId) {
@@ -1486,9 +1491,9 @@ class MiniMusicPlayer {
     const bgWrapper = document.getElementById('bgWrapper');
     const topMainTitle = document.getElementById('topMainTitle');
 
-    // 1. Show Main Top Title ONLY for Ahirani playlist, hide for Kanubai Special
+    // 1. Show Main Top Title ONLY for Ahirani playlist, hide for Kanubai Special and Aarti Sangrah
     if (topMainTitle) {
-      if (playlistId === 'kanubai') {
+      if (playlistId === 'kanubai' || playlistId === 'aarti') {
         topMainTitle.classList.add('playlist-hidden');
       } else {
         topMainTitle.classList.remove('playlist-hidden');
@@ -1497,13 +1502,18 @@ class MiniMusicPlayer {
 
     // 2. Set Background Image & Background Wrapper Color
     if (bgWrapper) {
+      bgWrapper.classList.remove('kanubai-active', 'aarti-active');
+      document.body.classList.remove('kanubai-active', 'aarti-active');
+
       if (playlistId === 'kanubai') {
         bgWrapper.classList.add('kanubai-active');
         document.body.classList.add('kanubai-active');
         bgWrapper.style.backgroundColor = '#540302';
+      } else if (playlistId === 'aarti') {
+        bgWrapper.classList.add('aarti-active');
+        document.body.classList.add('aarti-active');
+        bgWrapper.style.backgroundColor = '#1a0704';
       } else {
-        bgWrapper.classList.remove('kanubai-active');
-        document.body.classList.remove('kanubai-active');
         bgWrapper.style.backgroundColor = '#000000';
       }
     }
@@ -1514,6 +1524,8 @@ class MiniMusicPlayer {
         bgImage.style.backgroundImage = isMobile
           ? "url('assets/kanubai-mobile-bg.jpg')"
           : "url('assets/kanubai-bg.jpg')";
+      } else if (playlistId === 'aarti') {
+        bgImage.style.backgroundImage = "url('assets/images/aarti-sangrah-bg.png')";
       } else {
         bgImage.style.backgroundImage = isMobile
           ? "url('assets/khandeshi-jatra-mobile-bg.jpg')"
@@ -1524,10 +1536,14 @@ class MiniMusicPlayer {
     const labelEl = document.getElementById('playlistCurrentLabel');
     const iconEl = document.getElementById('currentPlaylistIcon');
     if (labelEl) {
-      labelEl.textContent = playlistId === 'kanubai' ? 'कानुबाई स्पेशल' : 'अहिराणी गाणी';
+      if (playlistId === 'kanubai') labelEl.textContent = 'कानुबाई स्पेशल';
+      else if (playlistId === 'aarti') labelEl.textContent = 'आरती संग्रह';
+      else labelEl.textContent = 'अहिराणी गाणी';
     }
     if (iconEl) {
-      iconEl.textContent = playlistId === 'kanubai' ? '🙏' : '🎵';
+      if (playlistId === 'kanubai') iconEl.textContent = '🙏';
+      else if (playlistId === 'aarti') iconEl.textContent = '🪔';
+      else iconEl.textContent = '🎵';
     }
 
     document.querySelectorAll('.playlist-option-item').forEach(btn => {
@@ -1706,9 +1722,14 @@ class MiniMusicPlayer {
       this.renderPlaylistItems();
     }
 
-    let folderNames = playlistId === 'kanubai' 
-      ? ['kanubai special', 'Kanubai Special', 'kanubai_special', 'Kanubai_Special', 'kanubaispecial', 'kanubai-special', 'kanubai', 'kanbai', 'Kanubai', 'Kanbai', 'kanubai_songs', 'kanbai_songs'] 
-      : ['music', 'ahirani', 'songs', 'Ahirani', 'Music'];
+    let folderNames = [];
+    if (playlistId === 'kanubai') {
+      folderNames = ['kanubai special', 'Kanubai Special', 'kanubai_special', 'Kanubai_Special', 'kanubaispecial', 'kanubai-special', 'kanubai', 'kanbai', 'Kanubai', 'Kanbai', 'kanubai_songs', 'kanbai_songs'];
+    } else if (playlistId === 'aarti') {
+      folderNames = ['aarti sangrah', 'Aarti Sangrah', 'aarti_sangrah', 'Aarti_Sangrah', 'aartisangrah', 'aarti-sangrah', 'aarti', 'Aarti', 'aarti_songs'];
+    } else {
+      folderNames = ['music', 'ahirani', 'songs', 'Ahirani', 'Music'];
+    }
 
     try {
       if (!firebase.apps || !firebase.apps.length) {
@@ -1727,6 +1748,8 @@ class MiniMusicPlayer {
             const pName = p.name;
             const pLower = pName.toLowerCase().replace(/[\s\-_]/g, '');
             if (playlistId === 'kanubai' && (pLower.includes('kanu') || pLower.includes('kanb') || pLower.includes('special'))) {
+              discoveredFolders.push(pName);
+            } else if (playlistId === 'aarti' && (pLower.includes('aarti') || pLower.includes('sangrah') || pLower.includes('arti'))) {
               discoveredFolders.push(pName);
             } else if (playlistId === 'ahirani' && (pLower.includes('music') || pLower.includes('ahirani') || pLower.includes('song'))) {
               discoveredFolders.push(pName);
@@ -1760,6 +1783,9 @@ class MiniMusicPlayer {
               if (playlistId === 'kanubai') {
                 parsed.category = 'कानुबाई स्पेशल';
                 parsed.cover = 'assets/kanubai-bg.jpg';
+              } else if (playlistId === 'aarti') {
+                parsed.category = 'आरती संग्रह';
+                parsed.cover = 'assets/images/aarti-sangrah-bg.png';
               }
 
               // Compute instant direct Google Cloud CDN media URL (0ms latency)
@@ -2363,6 +2389,9 @@ class MiniMusicPlayer {
     // 1. Show smooth animated shimmer skeleton placeholders during first-time loading
     if (this.isLoadingPlaylist && this.isLoadingPlaylist[this.currentPlaylistId] && (!this.playlist || this.playlist.length === 0)) {
       const isKanubai = this.currentPlaylistId === 'kanubai';
+      const isAarti = this.currentPlaylistId === 'aarti';
+      const loadingText = isKanubai ? '🙏 कानुबाई स्पेशल गाणी लोड होत आहेत...' : (isAarti ? '🪔 आरती संग्रह लोड होत आहे...' : '🎶 अहिराणी गाणी लोड होत आहेत...');
+
       const skeletonCount = 6;
       let skeletonsHtml = '<div class="playlist-skeleton-container" aria-label="Loading tracks">';
       for (let i = 0; i < skeletonCount; i++) {
@@ -2381,7 +2410,7 @@ class MiniMusicPlayer {
       skeletonsHtml += `
         <div style="text-align: center; padding: 0.8rem 0.5rem 0.3rem;">
           <p style="font-size: 0.84rem; color: var(--gold-300); font-weight: 600;">
-            ${isKanubai ? '🙏 कानुबाई स्पेशल गाणी लोड होत आहेत...' : '🎶 अहिराणी गाणी लोड होत आहेत...'}
+            ${loadingText}
           </p>
           <p style="font-size: 0.72rem; opacity: 0.7; margin-top: 2px;">Firebase Cloud Storage वरून सुरक्षितपणे कनेक्ट होत आहे</p>
         </div>
@@ -2403,11 +2432,16 @@ class MiniMusicPlayer {
 
     if (filtered.length === 0) {
       const isKanubai = this.currentPlaylistId === 'kanubai';
+      const isAarti = this.currentPlaylistId === 'aarti';
+      const emptyIcon = isKanubai ? '🙏' : (isAarti ? '🪔' : '🔍');
+      const emptyTitle = isKanubai ? 'कानुबाई स्पेशल गाणी लोड होत आहेत...' : (isAarti ? 'आरती संग्रह लोड होत आहे...' : 'कोणतेही गाणे सापडले नाही');
+      const emptySub = isKanubai ? "Firebase Storage ('kanubai special') वरून थेट कनेक्ट होत आहे" : (isAarti ? "Firebase Storage ('aarti sangrah') वरून थेट कनेक्ट होत आहे" : 'शोध शब्द तपासा');
+
       this.playlistItemsContainer.innerHTML = `
         <div class="playlist-empty-state" style="padding: 2.5rem 1rem; text-align: center;">
-          <p style="font-size: 1.6rem; margin-bottom: 0.5rem;">${isKanubai ? '🙏' : '🔍'}</p>
-          <p style="font-weight: 700; color: var(--gold-200); font-size: 0.92rem;">${isKanubai ? 'कानुबाई स्पेशल गाणी लोड होत आहेत...' : 'कोणतेही गाणे सापडले नाही'}</p>
-          <p style="font-size: 0.76rem; opacity: 0.75; margin-top: 0.35rem;">${isKanubai ? "Firebase Storage ('kanubai special') वरून थेट कनेक्ट होत आहे" : 'शोध शब्द तपासा'}</p>
+          <p style="font-size: 1.6rem; margin-bottom: 0.5rem;">${emptyIcon}</p>
+          <p style="font-weight: 700; color: var(--gold-200); font-size: 0.92rem;">${emptyTitle}</p>
+          <p style="font-size: 0.76rem; opacity: 0.75; margin-top: 0.35rem;">${emptySub}</p>
         </div>
       `;
       return;
