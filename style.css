@@ -2442,8 +2442,7 @@ body.kanubai-active .mini-player-bar {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 4.5ch;
-    display: inline-block;
+    max-width: 100%;
   }
 
   .track-artist {
