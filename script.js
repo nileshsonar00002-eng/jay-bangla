@@ -2147,6 +2147,7 @@ class MiniMusicPlayer {
       navigator.mediaSession.playbackState = playing ? 'playing' : 'paused';
     }
     this.syncMediaSessionPositionState();
+    this.highlightActivePlaylistItem();
   }
 
   prevTrack() {
@@ -2412,13 +2413,18 @@ class MiniMusicPlayer {
       return;
     }
 
+    const PLAY_ICON_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>`;
+    const PAUSE_ICON_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>`;
+
     this.playlistItemsContainer.innerHTML = filtered.map((item) => {
       const isActive = item.originalIndex === this.currentIndex;
+      const isItemPlaying = isActive && this.isPlaying;
       const singerName = item.singer || item.artist || item.vocals || 'अहिराणी खजिना';
       const coverImg = item.cover || 'assets/khandeshi-jatra-bg.jpg';
+      const actionIconSvg = isItemPlaying ? PAUSE_ICON_SVG : PLAY_ICON_SVG;
 
       return `
-        <div class="playlist-item ${isActive ? 'active' : ''}" data-index="${item.originalIndex}" role="button" tabindex="0" aria-label="${item.title}">
+        <div class="playlist-item ${isActive ? 'active' : ''} ${isItemPlaying ? 'item-playing' : ''}" data-index="${item.originalIndex}" role="button" tabindex="0" aria-label="${item.title}">
           <div class="item-index-wrap">
             <span class="item-num">${item.originalIndex + 1}</span>
             <div class="item-playing-equalizer" aria-hidden="true">
@@ -2430,10 +2436,8 @@ class MiniMusicPlayer {
             <span class="item-title">${item.title}</span>
             <span class="item-singer">${singerName}</span>
           </div>
-          <div class="item-action-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-              <polygon points="6 4 20 12 6 20 6 4"></polygon>
-            </svg>
+          <div class="item-action-icon ${isItemPlaying ? 'playing' : ''}" aria-hidden="true">
+            ${actionIconSvg}
           </div>
         </div>
       `;
@@ -2446,7 +2450,13 @@ class MiniMusicPlayer {
         e.stopPropagation();
         const idx = parseInt(elem.getAttribute('data-index'), 10);
         if (!isNaN(idx)) {
-          this.loadTrack(idx, true);
+          if (idx === this.currentIndex) {
+            // Toggles play/pause state seamlessly if currently loaded song is clicked
+            this.togglePlay();
+          } else {
+            // Immediately loads and plays the new track
+            this.loadTrack(idx, true);
+          }
           this.highlightActivePlaylistItem();
         }
       });
@@ -2454,20 +2464,43 @@ class MiniMusicPlayer {
   }
 
   /**
-   * Highlights current active playing track in playlist drawer
+   * Highlights current active playing track in playlist drawer and synchronizes Play/Pause icons
    */
   highlightActivePlaylistItem() {
     if (!this.playlistItemsContainer) return;
+    const PLAY_ICON_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg>`;
+    const PAUSE_ICON_SVG = `<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>`;
+
     const items = this.playlistItemsContainer.querySelectorAll('.playlist-item');
     items.forEach((elem) => {
       const idx = parseInt(elem.getAttribute('data-index'), 10);
-      if (idx === this.currentIndex) {
+      const actionIcon = elem.querySelector('.item-action-icon');
+      const isActive = idx === this.currentIndex;
+      const isItemPlaying = isActive && this.isPlaying;
+
+      if (isActive) {
         elem.classList.add('active');
         if (this.isPlaylistOpen) {
           elem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
         }
       } else {
         elem.classList.remove('active');
+      }
+
+      if (isItemPlaying) {
+        elem.classList.add('item-playing');
+      } else {
+        elem.classList.remove('item-playing');
+      }
+
+      if (actionIcon) {
+        if (isItemPlaying) {
+          actionIcon.classList.add('playing');
+          actionIcon.innerHTML = PAUSE_ICON_SVG;
+        } else {
+          actionIcon.classList.remove('playing');
+          actionIcon.innerHTML = PLAY_ICON_SVG;
+        }
       }
     });
   }

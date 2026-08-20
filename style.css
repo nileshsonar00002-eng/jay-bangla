@@ -1511,7 +1511,7 @@ body.kanubai-active .mini-player-bar {
   color: rgba(255, 255, 255, 0.45);
 }
 
-.playlist-item.active .item-num {
+.playlist-item.active.item-playing .item-num {
   display: none;
 }
 
@@ -1522,7 +1522,7 @@ body.kanubai-active .mini-player-bar {
   height: 14px;
 }
 
-.playlist-item.active .item-playing-equalizer {
+.playlist-item.active.item-playing .item-playing-equalizer {
   display: flex;
 }
 
