@@ -173,16 +173,15 @@
   window.__showGlobalErrorToast = showGlobalErrorToast;
 })();
 
-// Firebase Project Configuration (khaneshijatra)
+// Firebase Project Configuration (bangla-f3985)
 const firebaseConfig = {
-  apiKey: "AIzaSyDnVjfQrfksPVnq57OhjNios9Yd6A0EjSA",
-  authDomain: "khaneshijatra.firebaseapp.com",
-  databaseURL: "https://khaneshijatra-default-rtdb.firebaseio.com",
-  projectId: "khaneshijatra",
-  storageBucket: "khaneshijatra.firebasestorage.app",
-  messagingSenderId: "762404305793",
-  appId: "1:762404305793:web:8ec333a65b673211af8680",
-  measurementId: "G-0CQ0YDPPQP"
+  apiKey: "AIzaSyD2PXCfJFl7CODIRkQSDqmdbj13tMoVSyE",
+  authDomain: "bangla-f3985.firebaseapp.com",
+  projectId: "bangla-f3985",
+  storageBucket: "bangla-f3985.firebasestorage.app",
+  messagingSenderId: "630741936336",
+  appId: "1:630741936336:web:6b4233a5046d9a830956d5",
+  measurementId: "G-KYHSCJMV43"
 };
 
 // Safe Firebase App Initialization with Anonymous Auth
