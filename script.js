@@ -1580,6 +1580,18 @@ class MiniMusicPlayer {
     }
     this.updatePlaylistCountBadge();
 
+    // Spotify embed for Playlist No. 2 (kanubai) — skip Firebase loading
+    if (playlistId === 'kanubai') {
+      if (this.trackTitle) this.trackTitle.textContent = 'Bangla Dance Hits 🔥💯';
+      if (this.trackArtist) this.trackArtist.textContent = 'Spotify Playlist';
+      if (this.totalDurationEl) this.totalDurationEl.textContent = '--:--';
+      this.updatePlaylistCountBadge();
+      if (this.isPlaylistOpen) {
+        this.showSpotifyEmbed();
+      }
+      return;
+    }
+
     if (this.isPlaylistOpen) {
       this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
     }
@@ -1598,6 +1610,30 @@ class MiniMusicPlayer {
     if (this.playlist.length > 0 && (!this.audio.src || this.trackTitle.textContent.includes('लोड'))) {
       await this.loadTrack(this.currentIndex, autoPlay);
     }
+  }
+
+  showSpotifyEmbed() {
+    if (!this.playlistItemsContainer) return;
+    this.playlistItemsContainer.innerHTML = `
+      <div style="padding: 1rem 0.75rem 0.5rem; text-align: center;">
+        <p style="font-size: 0.78rem; color: var(--gold-300); font-weight: 600; margin-bottom: 0.75rem;">
+          🎵 Bangla Dance Hits 🔥💯
+        </p>
+        <iframe
+          style="border-radius:12px; display:block; width:100%; border:none;"
+          src="https://open.spotify.com/embed/playlist/3wqvRkJQsKLCxTQ6YnTpE6?utm_source=generator&theme=0"
+          height="380"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+          title="Bangla Dance Hits on Spotify">
+        </iframe>
+        <a href="https://open.spotify.com/playlist/3wqvRkJQsKLCxTQ6YnTpE6"
+           target="_blank" rel="noopener noreferrer"
+           style="display:inline-block; margin-top:0.65rem; font-size:0.72rem; color:var(--gold-400); opacity:0.85; text-decoration:underline;">
+          ➜ Spotify-তে খুলুন
+        </a>
+      </div>
+    `;
   }
 
   toggleShuffle() {
@@ -2304,7 +2340,11 @@ class MiniMusicPlayer {
    */
   updatePlaylistCountBadge() {
     if (this.playlistCountBadge) {
-      this.playlistCountBadge.textContent = `${this.playlist.length}টি গান`;
+      if (this.currentPlaylistId === 'kanubai') {
+        this.playlistCountBadge.textContent = '🎧 Spotify';
+      } else {
+        this.playlistCountBadge.textContent = `${this.playlist.length}টি গান`;
+      }
     }
   }
 
@@ -2380,6 +2420,13 @@ class MiniMusicPlayer {
    */
   renderPlaylistItems(filterQuery = '') {
     if (!this.playlistItemsContainer) return;
+
+    // Playlist No. 2 (kanubai) always shows Spotify embed instead of Firebase tracks
+    if (this.currentPlaylistId === 'kanubai') {
+      this.showSpotifyEmbed();
+      return;
+    }
+
     const q = filterQuery.trim().toLowerCase();
 
     // 1. Show smooth animated shimmer skeleton placeholders during first-time loading
