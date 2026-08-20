@@ -829,9 +829,9 @@ body.kanubai-active .player-container {
   transform: translateX(-50%);
 }
 
-/* Specifically when Aarti Sangrah playlist is active: Position player in vertical & horizontal center */
+/* Specifically when Aarti Sangrah playlist is active: Position player comfortably higher in upper-center section */
 body.aarti-active .player-container {
-  top: 50%;
+  top: 38%;
   bottom: auto;
   transform: translate(-50%, -50%);
 }
@@ -2216,7 +2216,7 @@ body.aarti-active .mini-player-bar {
   }
 
   body.aarti-active .player-container {
-    top: 50%;
+    top: 38%;
     bottom: auto;
     transform: translate(-50%, -50%);
   }
@@ -2397,7 +2397,7 @@ body.aarti-active .mini-player-bar {
   }
 
   body.aarti-active .player-container {
-    top: 50%;
+    top: 38%;
     bottom: auto;
     transform: translate(-50%, -50%);
     margin-top: 0;
