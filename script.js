@@ -1366,6 +1366,7 @@ class MiniMusicPlayer {
     this.prevBtn = document.getElementById('prevBtn');
     this.nextBtn = document.getElementById('nextBtn');
     this.shuffleBtn = document.getElementById('shuffleBtn');
+    this.playerPlaylistBtn = document.getElementById('playerPlaylistBtn');
     
     this.trackTitle = document.getElementById('trackTitle');
     this.trackArtist = document.getElementById('trackArtist') || document.getElementById('playerCategoryElement');
@@ -2575,6 +2576,13 @@ class MiniMusicPlayer {
       this.playlistToggleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         this.togglePlaylist();
+      });
+    }
+
+    if (this.playerPlaylistBtn) {
+      this.playerPlaylistBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.openPlaylist();
       });
     }
 
