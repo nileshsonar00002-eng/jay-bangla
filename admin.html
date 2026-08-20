@@ -1676,9 +1676,9 @@
 
     const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
     const auth = getAuth(app);
-    const db = getFirestore(app, DATABASE_ID);
+    const db = getFirestore(app); // No named DB — connects to (default) database
 
-    console.log(`🔥 [Admin Panel] Connected to Cloud Firestore database: "${DATABASE_ID}"`);
+    console.log(`🔥 [Admin Panel] Connected to Cloud Firestore (default) database on bangla-f3985`);
 
     /* --------------------------------------------------------------------------
        Firebase Authentication Guard & State Lifecycle
