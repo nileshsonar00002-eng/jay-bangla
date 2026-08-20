@@ -82,17 +82,13 @@ body {
   width: calc(100% + 16px);
   height: calc(100% + 16px);
   background-size: cover;
-  background-position: center top;
+  background-position: center center;
   background-repeat: no-repeat;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
   will-change: transform, opacity, background-image;
   transition: background-image 0.4s ease-in-out, opacity 0.4s ease, transform 0.4s ease;
   animation: cinematicBreathing 18s ease-in-out infinite alternate;
-}
-
-.bg-wrapper.aarti-active .bg-image {
-  background-position: center 12% !important;
 }
 
 /* Edge Vignette */
@@ -819,21 +815,13 @@ body {
   max-width: 470px;
   z-index: 50;
   animation: fadeTranslateUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.65s both;
-  transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1), bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1), bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Specifically when Kanubai Special playlist is active: Shift player comfortably into the upper section */
 body.kanubai-active .player-container {
   top: clamp(110px, 14vh, 145px);
   bottom: auto;
-  transform: translateX(-50%);
-}
-
-/* Specifically when Aarti Sangrah playlist is active: Position player comfortably in dark space below title */
-body.aarti-active .player-container {
-  top: clamp(140px, 18vh, 175px);
-  bottom: auto;
-  transform: translateX(-50%);
 }
 
 .mini-player-bar {
@@ -856,8 +844,7 @@ body.aarti-active .player-container {
   box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.7), 0 0 24px rgba(245, 158, 11, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.25);
 }
 
-body.kanubai-active .mini-player-bar,
-body.aarti-active .mini-player-bar {
+body.kanubai-active .mini-player-bar {
   background: linear-gradient(135deg, rgba(78, 12, 10, 0.78) 0%, rgba(38, 5, 4, 0.88) 50%, rgba(62, 9, 7, 0.82) 100%);
   border: 1px solid rgba(253, 230, 138, 0.40);
   box-shadow: 0 10px 30px -4px rgba(20, 2, 2, 0.75), 0 0 22px rgba(251, 191, 36, 0.26), inset 0 1px 1px rgba(255, 235, 175, 0.22);
@@ -1913,8 +1900,6 @@ body.aarti-active .mini-player-bar {
   cursor: pointer;
 }
 
-body.aarti-active .scroll-indicator,
-body.kanubai-active .scroll-indicator,
 .scroll-indicator.hidden-on-scroll {
   opacity: 0 !important;
   visibility: hidden !important;
@@ -2217,12 +2202,6 @@ body.kanubai-active .scroll-indicator,
     bottom: auto;
   }
 
-  body.aarti-active .player-container {
-    top: calc(clamp(135px, 16.5vh, 165px) + env(safe-area-inset-top, 0px));
-    bottom: auto;
-    transform: translateX(-50%);
-  }
-
   .cultural-section {
     padding: 2.5rem 1.25rem 2rem;
   }
@@ -2266,7 +2245,7 @@ body.kanubai-active .scroll-indicator,
 @media (max-width: 680px) {
   .bg-image {
     background-size: cover;
-    background-position: center top;
+    background-position: center center;
     background-repeat: no-repeat;
     animation: none; /* Keep background static on mobile for performance */
     transition: background-image 0.4s ease-in-out, opacity 0.4s ease;
@@ -2274,11 +2253,6 @@ body.kanubai-active .scroll-indicator,
 
   .bg-wrapper.kanubai-active .bg-image {
     background-position: center 75% !important;
-    background-size: cover !important;
-  }
-
-  .bg-wrapper.aarti-active .bg-image {
-    background-position: center 12% !important;
     background-size: cover !important;
   }
 
@@ -2312,15 +2286,11 @@ body.kanubai-active .scroll-indicator,
   }
 
   .bg-image {
-    background-position: center top;
+    background-position: center 42%;
   }
 
   .bg-wrapper.kanubai-active .bg-image {
     background-position: center 75% !important;
-  }
-
-  .bg-wrapper.aarti-active .bg-image {
-    background-position: center top !important;
   }
 
   .festive-ad-banner-container {
@@ -2398,14 +2368,6 @@ body.kanubai-active .scroll-indicator,
     margin-bottom: 0;
   }
 
-  body.aarti-active .player-container {
-    top: calc(clamp(135px, 16.5vh, 165px) + env(safe-area-inset-top, 0px));
-    bottom: auto;
-    transform: translateX(-50%);
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
   .mini-player-bar {
     position: relative;
     padding: 12px;
@@ -2418,8 +2380,7 @@ body.kanubai-active .scroll-indicator,
     box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.75), 0 0 20px rgba(251, 191, 36, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2);
   }
 
-  body.kanubai-active .mini-player-bar,
-  body.aarti-active .mini-player-bar {
+  body.kanubai-active .mini-player-bar {
     background: linear-gradient(135deg, rgba(82, 12, 10, 0.86) 0%, rgba(42, 5, 4, 0.94) 50%, rgba(68, 9, 8, 0.90) 100%);
     border: 1px solid rgba(253, 230, 138, 0.45);
     box-shadow: 0 10px 30px -4px rgba(20, 2, 2, 0.8), 0 0 24px rgba(251, 191, 36, 0.30), inset 0 1px 1px rgba(255, 235, 175, 0.25);
