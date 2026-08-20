@@ -82,13 +82,17 @@ body {
   width: calc(100% + 16px);
   height: calc(100% + 16px);
   background-size: cover;
-  background-position: center center;
+  background-position: center top;
   background-repeat: no-repeat;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
   will-change: transform, opacity, background-image;
   transition: background-image 0.4s ease-in-out, opacity 0.4s ease, transform 0.4s ease;
   animation: cinematicBreathing 18s ease-in-out infinite alternate;
+}
+
+.bg-wrapper.aarti-active .bg-image {
+  background-position: center top !important;
 }
 
 /* Edge Vignette */
@@ -2245,7 +2249,7 @@ body.kanubai-active .mini-player-bar {
 @media (max-width: 680px) {
   .bg-image {
     background-size: cover;
-    background-position: center center;
+    background-position: center top;
     background-repeat: no-repeat;
     animation: none; /* Keep background static on mobile for performance */
     transition: background-image 0.4s ease-in-out, opacity 0.4s ease;
@@ -2253,6 +2257,11 @@ body.kanubai-active .mini-player-bar {
 
   .bg-wrapper.kanubai-active .bg-image {
     background-position: center 75% !important;
+    background-size: cover !important;
+  }
+
+  .bg-wrapper.aarti-active .bg-image {
+    background-position: center top !important;
     background-size: cover !important;
   }
 
@@ -2286,11 +2295,15 @@ body.kanubai-active .mini-player-bar {
   }
 
   .bg-image {
-    background-position: center 42%;
+    background-position: center top;
   }
 
   .bg-wrapper.kanubai-active .bg-image {
     background-position: center 75% !important;
+  }
+
+  .bg-wrapper.aarti-active .bg-image {
+    background-position: center top !important;
   }
 
   .festive-ad-banner-container {
