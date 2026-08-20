@@ -819,13 +819,21 @@ body {
   max-width: 470px;
   z-index: 50;
   animation: fadeTranslateUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.65s both;
-  transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1), bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1), bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Specifically when Kanubai Special playlist is active: Shift player comfortably into the upper section */
 body.kanubai-active .player-container {
   top: clamp(110px, 14vh, 145px);
   bottom: auto;
+  transform: translateX(-50%);
+}
+
+/* Specifically when Aarti Sangrah playlist is active: Position player in vertical & horizontal center */
+body.aarti-active .player-container {
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
 }
 
 .mini-player-bar {
@@ -848,7 +856,8 @@ body.kanubai-active .player-container {
   box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.7), 0 0 24px rgba(245, 158, 11, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.25);
 }
 
-body.kanubai-active .mini-player-bar {
+body.kanubai-active .mini-player-bar,
+body.aarti-active .mini-player-bar {
   background: linear-gradient(135deg, rgba(78, 12, 10, 0.78) 0%, rgba(38, 5, 4, 0.88) 50%, rgba(62, 9, 7, 0.82) 100%);
   border: 1px solid rgba(253, 230, 138, 0.40);
   box-shadow: 0 10px 30px -4px rgba(20, 2, 2, 0.75), 0 0 22px rgba(251, 191, 36, 0.26), inset 0 1px 1px rgba(255, 235, 175, 0.22);
@@ -2206,6 +2215,12 @@ body.kanubai-active .mini-player-bar {
     bottom: auto;
   }
 
+  body.aarti-active .player-container {
+    top: 50%;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+  }
+
   .cultural-section {
     padding: 2.5rem 1.25rem 2rem;
   }
@@ -2381,6 +2396,14 @@ body.kanubai-active .mini-player-bar {
     margin-bottom: 0;
   }
 
+  body.aarti-active .player-container {
+    top: 50%;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
   .mini-player-bar {
     position: relative;
     padding: 12px;
@@ -2393,7 +2416,8 @@ body.kanubai-active .mini-player-bar {
     box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.75), 0 0 20px rgba(251, 191, 36, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2);
   }
 
-  body.kanubai-active .mini-player-bar {
+  body.kanubai-active .mini-player-bar,
+  body.aarti-active .mini-player-bar {
     background: linear-gradient(135deg, rgba(82, 12, 10, 0.86) 0%, rgba(42, 5, 4, 0.94) 50%, rgba(68, 9, 8, 0.90) 100%);
     border: 1px solid rgba(253, 230, 138, 0.45);
     box-shadow: 0 10px 30px -4px rgba(20, 2, 2, 0.8), 0 0 24px rgba(251, 191, 36, 0.30), inset 0 1px 1px rgba(255, 235, 175, 0.25);
