@@ -307,7 +307,7 @@ class RealtimePresenceTracker {
     // Cloud Firestore Live Listener on siteSettings/liveCount
     try {
       if (typeof firebase !== 'undefined' && firebase.app) {
-        const fs = (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })();
+        const fs = (function() { try { return firebase.app().firestore(); } catch(e) { return firebase.firestore(); } })();
         if (fs) {
           fs.collection('siteSettings').doc('liveCount').onSnapshot((docSnap) => {
             if (docSnap.exists) {
@@ -738,7 +738,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "?????????_?????_????_???_??_????_Khandeshi_Bhawani_Powerfull_Duff_2022_(_Dj_Bhaiya_Jalgaon_).mp3",
         "storagePath": "jay bangla/?????????_?????_????_???_??_????_Khandeshi_Bhawani_Powerfull_Duff_2022_(_Dj_Bhaiya_Jalgaon_).mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2F%3F%3F%3F%3F%3F%3F%3F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F_%3F%3F_%3F%3F%3F%3F_Khandeshi_Bhawani_Powerfull_Duff_2022_%28_Dj_Bhaiya_Jalgaon_%29.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2F%3F%3F%3F%3F%3F%3F%3F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F_%3F%3F_%3F%3F%3F%3F_Khandeshi_Bhawani_Powerfull_Duff_2022_%28_Dj_Bhaiya_Jalgaon_%29.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -754,7 +754,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "??_?????_????_???_Aaj_Lagani_tile_hayad_Ahirani_Khandeshi_Song_Video_Generation.mp3",
         "storagePath": "jay bangla/??_?????_????_???_Aaj_Lagani_tile_hayad_Ahirani_Khandeshi_Song_Video_Generation.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F_Aaj_Lagani_tile_hayad_Ahirani_Khandeshi_Song_Video_Generation.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F_Aaj_Lagani_tile_hayad_Ahirani_Khandeshi_Song_Video_Generation.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -770,7 +770,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "?_???_?????_????_???_?_Hai_jhumka_vali_por_?Super_hit_ahirani_khandeshi_song_Vinod_kumavat.mp3",
         "storagePath": "jay bangla/?_???_?????_????_???_?_Hai_jhumka_vali_por_?Super_hit_ahirani_khandeshi_song_Vinod_kumavat.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2F%3F_%3F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F_%3F_Hai_jhumka_vali_por_%3FSuper_hit_ahirani_khandeshi_song_Vinod_kumavat.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2F%3F_%3F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F_%3F_Hai_jhumka_vali_por_%3FSuper_hit_ahirani_khandeshi_song_Vinod_kumavat.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -786,7 +786,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Char_varis_na_pyar,_???_????_??_?????_Ajay_Mali,_Anshuman_More,_new_khandeshi_song,ahirani_song.mp3",
         "storagePath": "jay bangla/Char_varis_na_pyar,_???_????_??_?????_Ajay_Mali,_Anshuman_More,_new_khandeshi_song,ahirani_song.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FChar_varis_na_pyar%2C_%3F%3F%3F_%3F%3F%3F%3F_%3F%3F_%3F%3F%3F%3F%3F_Ajay_Mali%2C_Anshuman_More%2C_new_khandeshi_song%2Cahirani_song.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FChar_varis_na_pyar%2C_%3F%3F%3F_%3F%3F%3F%3F_%3F%3F_%3F%3F%3F%3F%3F_Ajay_Mali%2C_Anshuman_More%2C_new_khandeshi_song%2Cahirani_song.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -802,7 +802,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Dang_Maa_Chalay_Pori.mp3",
         "storagePath": "jay bangla/Dang_Maa_Chalay_Pori.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FDang_Maa_Chalay_Pori.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FDang_Maa_Chalay_Pori.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -818,7 +818,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Dekh_Tuni_Bayko_Superhit_Ahirani_Song_Anjana_Barlekar_Jagdish_Sandhanshiv.mp3",
         "storagePath": "jay bangla/Dekh_Tuni_Bayko_Superhit_Ahirani_Song_Anjana_Barlekar_Jagdish_Sandhanshiv.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FDekh_Tuni_Bayko_Superhit_Ahirani_Song_Anjana_Barlekar_Jagdish_Sandhanshiv.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FDekh_Tuni_Bayko_Superhit_Ahirani_Song_Anjana_Barlekar_Jagdish_Sandhanshiv.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -834,7 +834,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Dena_Tuni_Sath.mp3",
         "storagePath": "jay bangla/Dena_Tuni_Sath.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FDena_Tuni_Sath.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FDena_Tuni_Sath.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -850,7 +850,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Dhokebaz_Hui_Gai.mp3",
         "storagePath": "jay bangla/Dhokebaz_Hui_Gai.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FDhokebaz_Hui_Gai.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FDhokebaz_Hui_Gai.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -866,7 +866,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Ghadina_Kata_Gar_Gar_Fire_Part_2_?????_????_?????_?_Ramakant_Kapadnis,_Shashikant_Kachave.mp3",
         "storagePath": "jay bangla/Ghadina_Kata_Gar_Gar_Fire_Part_2_?????_????_?????_?_Ramakant_Kapadnis,_Shashikant_Kachave.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FGhadina_Kata_Gar_Gar_Fire_Part_2_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F%3F%3F_%3F_Ramakant_Kapadnis%2C_Shashikant_Kachave.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FGhadina_Kata_Gar_Gar_Fire_Part_2_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F%3F%3F_%3F_Ramakant_Kapadnis%2C_Shashikant_Kachave.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -882,7 +882,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Girana_Kathale_Mana_Gaav.mp3",
         "storagePath": "jay bangla/Girana_Kathale_Mana_Gaav.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FGirana_Kathale_Mana_Gaav.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FGirana_Kathale_Mana_Gaav.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -898,7 +898,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Haat_Mehandi_Na.mp3",
         "storagePath": "jay bangla/Haat_Mehandi_Na.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FHaat_Mehandi_Na.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FHaat_Mehandi_Na.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -914,7 +914,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Hai_Khandeshi_Tam_Tam.mp3",
         "storagePath": "jay bangla/Hai_Khandeshi_Tam_Tam.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FHai_Khandeshi_Tam_Tam.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FHai_Khandeshi_Tam_Tam.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -930,7 +930,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Hai_Saali_Pyaar_Karna.mp3",
         "storagePath": "jay bangla/Hai_Saali_Pyaar_Karna.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FHai_Saali_Pyaar_Karna.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FHai_Saali_Pyaar_Karna.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -946,7 +946,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Kanbai_Chalni_Gangevari.mp3",
         "storagePath": "jay bangla/Kanbai_Chalni_Gangevari.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FKanbai_Chalni_Gangevari.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FKanbai_Chalni_Gangevari.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -962,7 +962,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Kar_Man_Lagan.mp3",
         "storagePath": "jay bangla/Kar_Man_Lagan.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FKar_Man_Lagan.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FKar_Man_Lagan.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -978,7 +978,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Khandeshi_Band_Mix_Pawri,_Pt._3.mp3",
         "storagePath": "jay bangla/Khandeshi_Band_Mix_Pawri,_Pt._3.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FKhandeshi_Band_Mix_Pawri%2C_Pt._3.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FKhandeshi_Band_Mix_Pawri%2C_Pt._3.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -994,7 +994,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Laganma_Machadu_Dhum_Ra_Dhum.mp3",
         "storagePath": "jay bangla/Laganma_Machadu_Dhum_Ra_Dhum.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FLaganma_Machadu_Dhum_Ra_Dhum.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FLaganma_Machadu_Dhum_Ra_Dhum.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1010,7 +1010,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Lak_Lak_Chamakana_Nanduri_Na_Gad.mp3",
         "storagePath": "jay bangla/Lak_Lak_Chamakana_Nanduri_Na_Gad.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FLak_Lak_Chamakana_Nanduri_Na_Gad.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FLak_Lak_Chamakana_Nanduri_Na_Gad.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1026,7 +1026,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Mani_Darling.mp3",
         "storagePath": "jay bangla/Mani_Darling.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FMani_Darling.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FMani_Darling.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1042,7 +1042,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Mani_Dilbar_Tu_???_?????_??_khandeshi_Superhit_Song_Singer_Bhaiya_More_Vinod_Kumavat.mp3",
         "storagePath": "jay bangla/Mani_Dilbar_Tu_???_?????_??_khandeshi_Superhit_Song_Singer_Bhaiya_More_Vinod_Kumavat.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FMani_Dilbar_Tu_%3F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F_khandeshi_Superhit_Song_Singer_Bhaiya_More_Vinod_Kumavat.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FMani_Dilbar_Tu_%3F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F_khandeshi_Superhit_Song_Singer_Bhaiya_More_Vinod_Kumavat.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1058,7 +1058,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "May_Mani_Khandesh_Ni_Malan.mp3",
         "storagePath": "jay bangla/May_Mani_Khandesh_Ni_Malan.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FMay_Mani_Khandesh_Ni_Malan.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FMay_Mani_Khandesh_Ni_Malan.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1074,7 +1074,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Me_Ragush_Tu_Mani_Maina.mp3",
         "storagePath": "jay bangla/Me_Ragush_Tu_Mani_Maina.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FMe_Ragush_Tu_Mani_Maina.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FMe_Ragush_Tu_Mani_Maina.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1090,7 +1090,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Mi_Tuna_Divana_S.mp3",
         "storagePath": "jay bangla/Mi_Tuna_Divana_S.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FMi_Tuna_Divana_S.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FMi_Tuna_Divana_S.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1106,7 +1106,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Na_Bhulau_Raja_Tula_(feat._Bhagyashree_Sathe).mp3",
         "storagePath": "jay bangla/Na_Bhulau_Raja_Tula_(feat._Bhagyashree_Sathe).mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FNa_Bhulau_Raja_Tula_%28feat._Bhagyashree_Sathe%29.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FNa_Bhulau_Raja_Tula_%28feat._Bhagyashree_Sathe%29.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1122,7 +1122,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "New_Aadiwasi_Song_????_??_??_?????_Zing_Lak_Lak_Pawri_Arun_Ahire_Official_Song.mp3",
         "storagePath": "jay bangla/New_Aadiwasi_Song_????_??_??_?????_Zing_Lak_Lak_Pawri_Arun_Ahire_Official_Song.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FNew_Aadiwasi_Song_%3F%3F%3F%3F_%3F%3F_%3F%3F_%3F%3F%3F%3F%3F_Zing_Lak_Lak_Pawri_Arun_Ahire_Official_Song.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FNew_Aadiwasi_Song_%3F%3F%3F%3F_%3F%3F_%3F%3F_%3F%3F%3F%3F%3F_Zing_Lak_Lak_Pawri_Arun_Ahire_Official_Song.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1138,7 +1138,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Paisa_Wali_Tai.mp3",
         "storagePath": "jay bangla/Paisa_Wali_Tai.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FPaisa_Wali_Tai.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FPaisa_Wali_Tai.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1154,7 +1154,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Phiri_Phiri_Nach_Pori.mp3",
         "storagePath": "jay bangla/Phiri_Phiri_Nach_Pori.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FPhiri_Phiri_Nach_Pori.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FPhiri_Phiri_Nach_Pori.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1170,7 +1170,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Phiri_phiri_nach_pora_new_ahirani_song_female_version_khandeshi_song_babu_more_shrawani_more.mp3",
         "storagePath": "jay bangla/Phiri_phiri_nach_pora_new_ahirani_song_female_version_khandeshi_song_babu_more_shrawani_more.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FPhiri_phiri_nach_pora_new_ahirani_song_female_version_khandeshi_song_babu_more_shrawani_more.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FPhiri_phiri_nach_pora_new_ahirani_song_female_version_khandeshi_song_babu_more_shrawani_more.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1186,7 +1186,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Pori_Tuni_Payal.mp3",
         "storagePath": "jay bangla/Pori_Tuni_Payal.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FPori_Tuni_Payal.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FPori_Tuni_Payal.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1202,7 +1202,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Pyar_M_Tuna_Sajani.mp3",
         "storagePath": "jay bangla/Pyar_M_Tuna_Sajani.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FPyar_M_Tuna_Sajani.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FPyar_M_Tuna_Sajani.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1218,7 +1218,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Raja_Re_(Raja_Tu,_Tu_Mana_Raja_Re).mp3",
         "storagePath": "jay bangla/Raja_Re_(Raja_Tu,_Tu_Mana_Raja_Re).mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FRaja_Re_%28Raja_Tu%2C_Tu_Mana_Raja_Re%29.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FRaja_Re_%28Raja_Tu%2C_Tu_Mana_Raja_Re%29.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1234,7 +1234,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Rani_Mana_Khandesh_Say_Kamal.mp3",
         "storagePath": "jay bangla/Rani_Mana_Khandesh_Say_Kamal.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FRani_Mana_Khandesh_Say_Kamal.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FRani_Mana_Khandesh_Say_Kamal.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1250,7 +1250,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Sali_Mi_Nadan_Sa.mp3",
         "storagePath": "jay bangla/Sali_Mi_Nadan_Sa.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FSali_Mi_Nadan_Sa.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FSali_Mi_Nadan_Sa.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1266,7 +1266,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Tule_Jai_Ti_Dhoka_Disan.mp3",
         "storagePath": "jay bangla/Tule_Jai_Ti_Dhoka_Disan.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FTule_Jai_Ti_Dhoka_Disan.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FTule_Jai_Ti_Dhoka_Disan.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1282,7 +1282,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Vadi_Vadi_Chandan_Vadi_(feat._Sachin_Kumavat,Ankita_Raut).mp3",
         "storagePath": "jay bangla/Vadi_Vadi_Chandan_Vadi_(feat._Sachin_Kumavat,Ankita_Raut).mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FVadi_Vadi_Chandan_Vadi_%28feat._Sachin_Kumavat%2CAnkita_Raut%29.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FVadi_Vadi_Chandan_Vadi_%28feat._Sachin_Kumavat%2CAnkita_Raut%29.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1298,7 +1298,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Vicky_Bhagya_Ni_Pawari_Ahirani_songs_Khandeshi_Dance_performance_Nakalp_cam_vision_studio.mp3",
         "storagePath": "jay bangla/Vicky_Bhagya_Ni_Pawari_Ahirani_songs_Khandeshi_Dance_performance_Nakalp_cam_vision_studio.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FVicky_Bhagya_Ni_Pawari_Ahirani_songs_Khandeshi_Dance_performance_Nakalp_cam_vision_studio.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FVicky_Bhagya_Ni_Pawari_Ahirani_songs_Khandeshi_Dance_performance_Nakalp_cam_vision_studio.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -1314,7 +1314,7 @@ const defaultPlaylists = {
         "category": "বাংলা গান",
         "filename": "Zim_Zim_Pani_Ma.mp3",
         "storagePath": "jay bangla/Zim_Zim_Pani_Ma.mp3",
-        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/khaneshijatra.firebasestorage.app/o/jay%20bangla%2FZim_Zim_Pani_Ma.mp3?alt=media",
+        "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FZim_Zim_Pani_Ma.mp3?alt=media",
         "duration": "--:--",
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
@@ -2130,7 +2130,7 @@ class MiniMusicPlayer {
       if (typeof firebase !== 'undefined' && firebase.firestore) {
         try {
           const firestore = (firebase.app && typeof firebase.app().firestore === 'function')
-            ? (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })()
+            ? (function() { try { return firebase.app().firestore(); } catch(e) { return firebase.firestore(); } })()
             : firebase.firestore();
           const docId = songTitle.trim().replace(/[\/\\]/g, '_');
           firestore.collection('song_analytics').doc(docId).set({
@@ -2139,7 +2139,7 @@ class MiniMusicPlayer {
             plays: firebase.firestore.FieldValue.increment(1),
             last_played: firebase.firestore.FieldValue.serverTimestamp()
           }, { merge: true }).then(() => {
-            console.log(`✅ [Firestore Compat] Logged song play: "${songTitle}" on database "khandeshijatra"`);
+            console.log(`✅ [Firestore Compat] Logged song play: "${songTitle}" on database "bangla-f3985"`);
           }).catch((e) => console.info('Firestore song_analytics notice:', e.message));
         } catch (e) {}
       }
@@ -3137,7 +3137,7 @@ async function trackUserVisitLocationFirestore() {
 
     if (typeof firebase !== 'undefined' && firebase.firestore) {
       const firestore = (firebase.app && typeof firebase.app().firestore === 'function')
-        ? (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })()
+        ? (function() { try { return firebase.app().firestore(); } catch(e) { return firebase.firestore(); } })()
         : firebase.firestore();
 
       // Store/update under users/{uid} using merge to prevent duplicate docs
@@ -3199,7 +3199,7 @@ function initRealtimeAnnouncementSync() {
   // 4. Firestore listener
   try {
     if (typeof firebase !== 'undefined' && firebase.app) {
-      const fs = (function() { try { return firebase.app().firestore('khandeshijatra'); } catch(e) { return firebase.firestore(); } })();
+      const fs = (function() { try { return firebase.app().firestore(); } catch(e) { return firebase.firestore(); } })();
       if (fs) {
         fs.collection('siteSettings').doc('announcement').onSnapshot((docSnap) => {
           if (docSnap.exists) {

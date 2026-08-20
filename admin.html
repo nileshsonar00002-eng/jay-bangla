@@ -1185,7 +1185,7 @@
             </div>
             <div class="stat-subtext">
               <span class="pulse-dot"></span>
-              <span id="liveUsersSubtext">Syncing khandeshijatra...</span>
+              <span id="liveUsersSubtext">Syncing bangla-f3985...</span>
             </div>
           </div>
 
@@ -1471,7 +1471,7 @@
               <tbody id="liveSessionsTableBody">
                 <tr>
                   <td colspan="5" style="text-align:center; padding:1.25rem; color:var(--text-muted);">
-                    Connecting to Firestore user_visits on khandeshijatra database...
+                    Connecting to Firestore user_visits on bangla-f3985 database...
                   </td>
                 </tr>
               </tbody>
@@ -1515,7 +1515,7 @@
             <div style="display: flex; align-items: center; gap: 0.5rem;">
               <span class="pulse-dot"></span>
               <span style="font-size: 0.78rem; font-weight: 600; color: var(--text-secondary);">
-                Cloud Firestore (Database: <code style="color:#ffffff;">khandeshijatra</code>): <span id="firestoreStatusText" style="color: var(--accent-live);">Active</span>
+                Cloud Firestore (Database: <code style="color:#ffffff;">bangla-f3985</code>): <span id="firestoreStatusText" style="color: var(--accent-live);">Active</span>
               </span>
             </div>
             <button class="action-btn-sm" id="btnRunFirestoreTest">
@@ -1654,7 +1654,7 @@
     })();
   </script>
 
-  <!-- Firebase Modular v10 SDK Integration (Database: khandeshijatra) -->
+  <!-- Firebase Modular v10 SDK Integration (Database: bangla-f3985) -->
   <script type="module">
     import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -2528,7 +2528,7 @@
       if (testFirestoreBtn) testFirestoreBtn.textContent = 'Verifying...';
       if (firestoreTestResult) {
         firestoreTestResult.style.display = 'block';
-        firestoreTestResult.innerHTML = '<span style="color:var(--text-secondary);">Querying Firestore collections on khandeshijatra...</span>';
+        firestoreTestResult.innerHTML = '<span style="color:var(--text-secondary);">Querying Firestore collections on bangla-f3985...</span>';
       }
 
       try {
