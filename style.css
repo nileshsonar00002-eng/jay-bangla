@@ -801,14 +801,18 @@ body.aarti-active .player-container {
 /* Hide player smoothly when scrolling down */
 .player-hidden,
 .player-container.player-hidden,
+.player-container.hidden-on-scroll,
 body.kanubai-active .player-container.player-hidden,
 body.arjit-active .player-container.player-hidden,
-body.aarti-active .player-container.player-hidden {
+body.aarti-active .player-container.player-hidden,
+body.kanubai-active .player-container.hidden-on-scroll,
+body.arjit-active .player-container.hidden-on-scroll,
+body.aarti-active .player-container.hidden-on-scroll {
   opacity: 0 !important;
   pointer-events: none !important;
   transform: translate(-50%, calc(-50% + 20px)) !important;
   visibility: hidden !important;
-  transition: all 0.3s ease-in-out !important;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s ease-in-out !important;
 }
 
 .mini-player-bar {

@@ -3005,15 +3005,18 @@ function initTopTitleScrollFade() {
 }
 
 function initPlayerScrollHide() {
-  const playerContainer = document.getElementById('playerContainer');
-  if (!playerContainer) return;
+  const getPlayer = () => document.getElementById('playerContainer') || document.querySelector('.player-container');
 
   const handleScroll = () => {
+    const player = getPlayer();
+    if (!player) return;
     const scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     if (scrollY > 10) {
-      playerContainer.classList.add('player-hidden');
+      player.classList.add('player-hidden');
+      player.classList.add('hidden-on-scroll');
     } else {
-      playerContainer.classList.remove('player-hidden');
+      player.classList.remove('player-hidden');
+      player.classList.remove('hidden-on-scroll');
     }
   };
 
