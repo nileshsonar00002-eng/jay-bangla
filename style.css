@@ -235,102 +235,20 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   5. Music-Reactive Craftsman Blow-Torch Flame & Sparks Layer
+   5. Central Artwork Soft Golden Highlight Sweep
    -------------------------------------------------------------------------- */
-.music-flame-wrapper {
+.center-shine-sweep {
   position: absolute;
-  top: 30%;
-  left: 52.6%;
+  top: 32%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  width: 200px;
-  height: 200px;
+  width: 480px;
+  height: 260px;
+  background: radial-gradient(ellipse at center, rgba(251, 191, 36, 0.14) 0%, transparent 68%);
+  filter: blur(20px);
   pointer-events: none;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  will-change: transform, opacity;
-}
-
-/* Outer Warm Orange/Amber Ambient Pulse Glow */
-.flame-glow-outer {
-  position: absolute;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(255, 140, 0, 0.50) 0%,
-    rgba(255, 90, 0, 0.32) 35%,
-    rgba(255, 50, 0, 0.12) 65%,
-    transparent 80%
-  );
-  filter: blur(14px);
-  transform: scale(var(--flame-outer-scale, 1));
-  opacity: var(--flame-outer-opacity, 0.65);
-  transition: transform 0.05s ease-out, opacity 0.05s ease-out;
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-
-/* Intense Electric Blue / Cyan Blow-Torch Core Glow */
-.flame-glow-core {
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 50% 50%,
-    #ffffff 0%,
-    #b3f0ff 25%,
-    #00d4ff 50%,
-    #0077ff 75%,
-    transparent 100%
-  );
-  filter: blur(5px) drop-shadow(0 0 14px #00d4ff);
-  transform: scale(var(--flame-core-scale, 1));
-  opacity: var(--flame-core-opacity, 0.85);
-  transition: transform 0.04s ease-out, opacity 0.04s ease-out;
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-
-/* High-frequency White/Cyan Pinpoint Flame Tip */
-.flame-tip-flicker {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 0 10px #00f0ff, 0 0 20px #0088ff, 0 0 30px #ff7700;
-  transform: scale(var(--flame-tip-scale, 1));
-  opacity: var(--flame-tip-opacity, 0.9);
-  transition: transform 0.03s ease-out, opacity 0.03s ease-out;
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
-
-/* Real-Time Upward Sparks & Embers Canvas */
-.flame-sparks-canvas {
-  position: absolute;
-  top: -60px;
-  left: -60px;
-  width: 320px;
-  height: 320px;
-  pointer-events: none;
-  z-index: 4;
-}
-
-/* Subtle Idle / Paused Natural Flame Flicker */
-@keyframes flameIdleFlicker {
-  0% { transform: translate(-50%, -50%) scale(0.96); opacity: 0.72; }
-  35% { transform: translate(-50%, -50%) scale(1.03); opacity: 0.88; }
-  70% { transform: translate(-50%, -50%) scale(0.98); opacity: 0.76; }
-  100% { transform: translate(-50%, -50%) scale(0.96); opacity: 0.72; }
-}
-
-.music-flame-wrapper.is-idle {
-  animation: flameIdleFlicker 3s ease-in-out infinite;
+  opacity: 0;
+  animation: goldenSweep 10s ease-in-out 3s infinite;
 }
 
 /* --------------------------------------------------------------------------
