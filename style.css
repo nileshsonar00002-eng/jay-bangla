@@ -1098,88 +1098,18 @@ body.aarti-active .player-container.hidden-on-scroll {
   transition: color var(--theme-transition);
 }
 
-/* Top-Right Playback Control Group: Prev (⏮), Play/Pause (⏯), Next (⏭) */
-.top-playback-group {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  flex-shrink: 0;
-}
-
-.top-ctrl-btn {
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
-  min-height: 28px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--theme-player-border);
-  color: var(--theme-accent-bright);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  outline: none;
-  transition: transform var(--transition-fast), color var(--transition-fast), border-color var(--theme-transition), background var(--transition-fast), box-shadow var(--theme-transition);
-  -webkit-tap-highlight-color: transparent;
-}
-
-.top-ctrl-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: var(--theme-accent);
-  color: #FFFFFF;
-  transform: scale(1.12);
-  box-shadow: 0 0 12px var(--theme-glow);
-}
-
-.top-ctrl-btn:active {
-  transform: scale(0.92);
-}
-
-.top-play-btn {
-  width: 34px;
-  height: 34px;
-  min-width: 34px;
-  min-height: 34px;
-  border-radius: 50%;
-  background: var(--theme-btn-bg);
-  border: none;
-  color: var(--theme-btn-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  outline: none;
-  box-shadow: 0 2px 8px var(--theme-glow);
-  transition: transform var(--transition-fast), box-shadow var(--theme-transition), background var(--theme-transition);
-  flex-shrink: 0;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.top-play-btn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 3px 14px var(--theme-glow-strong);
-}
-
-.top-play-btn.playing {
-  box-shadow: 0 0 18px var(--theme-glow-strong);
-}
-
-.top-play-btn:active {
-  transform: scale(0.94);
-}
-
-/* Bottom Mini Row: Playlist Drawer Button + Shuffle Button + Progress Bar & Time */
+/* Bottom Mini Row: Playback Buttons + Scrubber + Volume */
 .player-main-controls {
   display: flex;
   align-items: center;
   gap: 0.55rem;
 }
 
-.bottom-left-group {
+/* Playback Buttons */
+.playback-btn-group {
   display: flex;
   align-items: center;
-  gap: 0.28rem;
+  gap: 0.2rem;
   flex-shrink: 0;
 }
 
@@ -1207,38 +1137,6 @@ body.aarti-active .player-container.hidden-on-scroll {
   transform: scale(0.95);
 }
 
-/* Playlist Trigger Button (Moved to Bottom Controls Row) */
-.playlist-trigger-btn {
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
-  min-height: 28px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--theme-player-border);
-  color: var(--theme-accent-bright);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  outline: none;
-  transition: transform var(--transition-fast), color var(--transition-fast), border-color var(--theme-transition), background var(--transition-fast), box-shadow var(--theme-transition);
-  flex-shrink: 0;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.playlist-trigger-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: var(--theme-accent);
-  color: #FFFFFF;
-  transform: scale(1.12);
-  box-shadow: 0 0 12px var(--theme-glow);
-}
-
-.playlist-trigger-btn:active {
-  transform: scale(0.92);
-}
-
 /* Shuffle Button Toggle State */
 .shuffle-btn {
   position: relative;
@@ -1263,6 +1161,36 @@ body.aarti-active .player-container.hidden-on-scroll {
 .shuffle-btn.active:hover {
   transform: scale(1.1);
   box-shadow: 0 0 16px var(--theme-glow-strong);
+}
+
+.play-toggle-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--theme-btn-bg);
+  border: none;
+  color: var(--theme-btn-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 2px 8px var(--theme-glow);
+  transition: transform var(--transition-fast), box-shadow var(--theme-transition), background var(--theme-transition);
+  flex-shrink: 0;
+}
+
+.play-toggle-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 3px 14px var(--theme-glow-strong);
+}
+
+.play-toggle-btn.playing {
+  box-shadow: 0 0 18px var(--theme-glow-strong);
+}
+
+.play-toggle-btn:active {
+  transform: scale(0.94);
 }
 
 /* Progress Bar & Time */
@@ -2676,43 +2604,62 @@ body.aarti-active .player-container.hidden-on-scroll {
     max-width: 100%;
   }
 
-  /* Top-Right Playback Control Group: Prev (⏮), Play/Pause (⏯), Next (⏭) */
-  .top-playback-group {
+  /* Volume Mute Button on Line 1 */
+  .mini-volume-box {
+    position: static;
     display: flex;
     align-items: center;
-    gap: 0.28rem;
+    margin: 0;
+    padding: 0;
     flex-shrink: 0;
   }
 
-  .top-ctrl-btn {
-    width: 30px;
-    height: 30px;
-    min-width: 30px;
-    min-height: 30px;
+  .vol-btn {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.08);
-    border: 1px solid var(--theme-player-border);
-    color: var(--theme-accent-bright);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
     -webkit-tap-highlight-color: transparent;
   }
 
-  .top-ctrl-btn svg {
-    width: 15px;
-    height: 15px;
+  .vol-btn svg {
+    width: 16px;
+    height: 16px;
   }
 
-  .top-ctrl-btn:active {
-    transform: scale(0.92);
+  .mini-volume-slider {
+    display: none;
   }
 
-  .top-play-btn {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    min-height: 36px;
+  /* Line 2: Playback Buttons (Left) + Progress/Seek Bar (Center/Right) */
+  .player-main-controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.55rem;
+    width: 100%;
+  }
+
+  .playback-btn-group {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    flex-shrink: 0;
+    margin: 0;
+  }
+
+  .play-toggle-btn {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
     border-radius: 50%;
     background: var(--theme-btn-bg) !important;
     color: var(--theme-btn-color) !important;
@@ -2723,54 +2670,12 @@ body.aarti-active .player-container.hidden-on-scroll {
     -webkit-tap-highlight-color: transparent;
   }
 
-  .top-play-btn svg {
-    width: 17px;
-    height: 17px;
+  .play-toggle-btn svg {
+    width: 18px;
+    height: 18px;
   }
 
-  .top-play-btn:active {
-    transform: scale(0.92);
-  }
-
-  /* Line 2: Playlist Drawer Button + Shuffle Button + Progress/Seek Bar */
-  .player-main-controls {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.55rem;
-    width: 100%;
-  }
-
-  .bottom-left-group {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    flex-shrink: 0;
-    margin: 0;
-  }
-
-  .playlist-trigger-btn {
-    width: 30px;
-    height: 30px;
-    min-width: 30px;
-    min-height: 30px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid var(--theme-player-border);
-    color: var(--theme-accent-bright);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .playlist-trigger-btn svg {
-    width: 15px;
-    height: 15px;
-  }
-
-  .playlist-trigger-btn:active {
+  .play-toggle-btn:active {
     transform: scale(0.92);
   }
 

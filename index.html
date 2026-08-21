@@ -364,7 +364,7 @@
   <div class="player-container" id="playerContainer">
     <div class="mini-player-bar" id="playerBar" role="region" aria-label="Music Player">
       
-      <!-- Line 1: Track Info (Title & Subtitle) + Reverse, Play/Pause, Forward Controls -->
+      <!-- Line 1: Song Info (Title & Subtitle) + Mute/Volume Button -->
       <div class="player-top-row">
         <div class="track-info-section" id="trackInfoSection" title="প্লেলিস্ট দেখুন" role="button" tabindex="0" aria-label="প্লেলিস্ট খুলুন">
           <div class="track-thumb" id="trackThumb">
@@ -380,17 +380,37 @@
           </div>
         </div>
 
-        <!-- Top-Right Action Controls: Reverse, Play/Pause, Forward Buttons -->
-        <div class="top-playback-group" id="topPlaybackGroup">
-          <!-- Previous / Reverse Button -->
-          <button class="ctrl-btn top-ctrl-btn" id="prevBtn" title="Previous (P)" aria-label="Previous Song">
+        <!-- Playlist Quick Trigger -->
+        <div class="mini-volume-box">
+          <!-- Sleek Playlist Icon Button -->
+          <button class="ctrl-btn playlist-trigger-btn" id="playerPlaylistBtn" title="প্লেলিস্ট খুলুন" aria-label="প্লেলিস্ট খুলুন">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M4 10h12v2H4zm0-4h12v2H4zm0 8h8v2H4zm10 0v6l5-3z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Line 2: Playback Buttons (Prev, Play/Pause, Next) + Progress/Seek Bar -->
+      <div class="player-main-controls">
+        
+        <div class="playback-btn-group">
+          <!-- Shuffle Button -->
+          <button class="ctrl-btn shuffle-btn" id="shuffleBtn" title="Shuffle (S)" aria-label="Toggle Shuffle">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+              <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/>
+            </svg>
+          </button>
+
+          <!-- Previous Button -->
+          <button class="ctrl-btn" id="prevBtn" title="Previous (P)" aria-label="Previous Song">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
               <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
             </svg>
           </button>
 
           <!-- Play / Pause Button -->
-          <button class="play-toggle-btn top-play-btn" id="playBtn" title="Play / Pause (Space)" aria-label="Play or Pause">
+          <button class="play-toggle-btn" id="playBtn" title="Play / Pause (Space)" aria-label="Play or Pause">
             <svg id="playIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
               <polygon points="6 4 20 12 6 20 6 4"></polygon>
             </svg>
@@ -400,30 +420,10 @@
             </svg>
           </button>
 
-          <!-- Next / Forward Button -->
-          <button class="ctrl-btn top-ctrl-btn" id="nextBtn" title="Next (N)" aria-label="Next Song">
+          <!-- Next Button -->
+          <button class="ctrl-btn" id="nextBtn" title="Next (N)" aria-label="Next Song">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
               <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Line 2: Playlist Drawer Button + Shuffle Button + Progress Bar & Time -->
-      <div class="player-main-controls">
-        
-        <div class="bottom-left-group">
-          <!-- Playlist Trigger Button -->
-          <button class="ctrl-btn playlist-trigger-btn" id="playerPlaylistBtn" title="প্লেলিস্ট খুলুন" aria-label="প্লেলিস্ট খুলুন">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
-              <path d="M4 10h12v2H4zm0-4h12v2H4zm0 8h8v2H4zm10 0v6l5-3z"/>
-            </svg>
-          </button>
-
-          <!-- Shuffle Button -->
-          <button class="ctrl-btn shuffle-btn" id="shuffleBtn" title="Shuffle (S)" aria-label="Toggle Shuffle">
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
-              <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/>
             </svg>
           </button>
         </div>
