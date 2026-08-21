@@ -812,9 +812,10 @@ body {
    -------------------------------------------------------------------------- */
 .player-container {
   position: fixed;
-  bottom: 1.25rem;
+  top: 50%;
+  bottom: auto;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   width: calc(100% - 2rem);
   max-width: 470px;
   z-index: 50;
@@ -822,9 +823,10 @@ body {
   transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1), bottom 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Specifically when Playlist 2 (Arjit Bangla Hits) is active: Position player in center of screen */
+/* Position player in center of screen for all playlists */
 body.kanubai-active .player-container,
-body.arjit-active .player-container {
+body.arjit-active .player-container,
+body.aarti-active .player-container {
   top: 50%;
   bottom: auto;
   transform: translate(-50%, -50%);
@@ -2234,20 +2236,16 @@ body.kanubai-active .mini-player-bar {
    -------------------------------------------------------------------------- */
 @media (max-width: 768px) {
   .player-container {
-    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    top: 50%;
+    bottom: auto;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     width: calc(100% - 1.25rem);
     max-width: 440px;
   }
 
   body.kanubai-active .player-container,
-  body.arjit-active .player-container {
-    top: 50%;
-    bottom: auto;
-    transform: translate(-50%, -50%);
-  }
-
+  body.arjit-active .player-container,
   body.aarti-active .player-container {
     top: 50%;
     bottom: auto;
@@ -2398,25 +2396,19 @@ body.kanubai-active .mini-player-bar {
 
   /* Compact 2-Layer Mobile Music Player (Touch-Friendly & Non-Obtrusive) */
   .player-container {
-    margin-top: 8px;
-    margin-bottom: 8px;
-    bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    margin-top: 0;
+    margin-bottom: 0;
+    top: 50%;
+    bottom: auto;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     width: calc(100% - 1rem);
     max-width: 460px;
     z-index: 50;
   }
 
   body.kanubai-active .player-container,
-  body.arjit-active .player-container {
-    top: 50%;
-    bottom: auto;
-    transform: translate(-50%, -50%);
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
+  body.arjit-active .player-container,
   body.aarti-active .player-container {
     top: 50%;
     bottom: auto;
