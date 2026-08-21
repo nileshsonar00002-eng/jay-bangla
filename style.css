@@ -572,17 +572,17 @@ body {
 }
 
 .main-top-title {
-  font-family: 'Cinzel Decorative', 'Syne', 'Outfit', 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(1.6rem, 3.6vw, 2.5rem);
+  font-family: 'Unbounded', 'Syne', 'Outfit', sans-serif;
+  font-size: clamp(1.75rem, 4.2vw, 2.9rem);
   font-weight: 900;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  background: linear-gradient(135deg, #FFF8DC 0%, #F5C469 35%, #D4A359 70%, #FFE599 100%) !important;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFF3C4 20%, #F5C469 48%, #D4A359 75%, #9E6F24 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
   color: #F5C469 !important;
-  line-height: 1.2;
+  line-height: 1.15;
   margin: 0 !important;
   padding: 0 !important;
   text-align: center;
@@ -591,7 +591,7 @@ body {
   box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 16px rgba(212, 163, 89, 0.45));
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 22px rgba(245, 196, 105, 0.5));
   display: inline-block !important;
   animation: none !important;
 }
@@ -2307,17 +2307,17 @@ body.kanubai-active .mini-player-bar {
   }
 
   .main-top-title {
-    font-size: clamp(1.25rem, 5.2vw, 1.7rem) !important;
-    letter-spacing: 0.1em !important;
+    font-size: clamp(1.2rem, 5vw, 1.7rem) !important;
+    letter-spacing: 0.14em !important;
     padding: 0 !important;
-    background: linear-gradient(135deg, #FFF8DC 0%, #F5C469 35%, #D4A359 70%, #FFE599 100%) !important;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFF3C4 20%, #F5C469 48%, #D4A359 75%, #9E6F24 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
     color: #F5C469 !important;
     border: none !important;
     box-shadow: none !important;
-    line-height: 1.2;
+    line-height: 1.15;
   }
 
   .top-left-group {
