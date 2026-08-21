@@ -572,10 +572,10 @@ body {
 }
 
 .main-top-title {
-  font-family: 'Unbounded', 'Syne', 'Outfit', sans-serif;
-  font-size: clamp(1.75rem, 4.2vw, 2.9rem);
-  font-weight: 900;
-  letter-spacing: 0.18em;
+  font-family: 'Protest Guerrilla', sans-serif;
+  font-size: clamp(2rem, 4.8vw, 3.4rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   background: linear-gradient(180deg, #FFFFFF 0%, #FFF3C4 20%, #F5C469 48%, #D4A359 75%, #9E6F24 100%) !important;
   -webkit-background-clip: text !important;
@@ -2307,8 +2307,8 @@ body.kanubai-active .mini-player-bar {
   }
 
   .main-top-title {
-    font-size: clamp(1.2rem, 5vw, 1.7rem) !important;
-    letter-spacing: 0.14em !important;
+    font-size: clamp(1.45rem, 6.2vw, 2.1rem) !important;
+    letter-spacing: 0.08em !important;
     padding: 0 !important;
     background: linear-gradient(180deg, #FFFFFF 0%, #FFF3C4 20%, #F5C469 48%, #D4A359 75%, #9E6F24 100%) !important;
     -webkit-background-clip: text !important;
