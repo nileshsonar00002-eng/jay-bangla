@@ -198,12 +198,33 @@
       </div>
     </div>
 
-    <!-- Playlist Selector (Hidden since only single main playlist exists) -->
-    <div class="playlist-selector-wrapper" id="playlistSelectorWrapper" aria-label="Song Playlist" style="display: none;">
-      <button class="playlist-select-pill" id="playlistSelectBtn" type="button" aria-haspopup="listbox" aria-expanded="false" title="বাংলা গান">
+    <!-- Playlist Selector Dropdown (Positioned directly below Date & Time) -->
+    <div class="playlist-selector-wrapper" id="playlistSelectorWrapper" aria-label="Select Song Playlist">
+      <button class="playlist-select-pill" id="playlistSelectBtn" type="button" aria-haspopup="listbox" aria-expanded="false" title="প্লেলিস্ট নির্বাচন করুন">
         <span class="playlist-icon" id="currentPlaylistIcon">🎵</span>
         <span class="playlist-current-label" id="playlistCurrentLabel">বাংলা গান</span>
+        <svg class="playlist-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
       </button>
+
+      <!-- Dropdown Menu Options -->
+      <div class="playlist-dropdown-menu" id="playlistDropdownMenu" role="listbox" style="display: none;">
+        <button type="button" class="playlist-option-item active" data-playlist="ahirani" role="option" aria-selected="true">
+          <span class="option-icon">🎶</span>
+          <div class="option-text-group">
+            <span class="option-title">বাংলা গান</span>
+            <span class="option-sub">ঐতিহ্যবাহী ও লোকগীতি</span>
+          </div>
+          <span class="option-check">✓</span>
+        </button>
+        <button type="button" class="playlist-option-item" data-playlist="arjit" role="option" aria-selected="false">
+          <span class="option-icon">🎤</span>
+          <div class="option-text-group">
+            <span class="option-title">Arjit Bangla Hits</span>
+            <span class="option-sub">অরিজিৎ সিং • Firebase Storage</span>
+          </div>
+          <span class="option-check">✓</span>
+        </button>
+      </div>
     </div>
   </div>
 

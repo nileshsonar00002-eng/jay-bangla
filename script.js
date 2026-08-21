@@ -194,6 +194,7 @@ if (typeof firebase !== 'undefined' && (!firebase.apps || !firebase.apps.length)
           console.log('🔥 Firebase Connected & Authenticated (Anonymous)');
           if (window.khandeshiPlayer) {
             window.khandeshiPlayer.loadFromFirebaseStorage('ahirani');
+            window.khandeshiPlayer.loadFromFirebaseStorage('arjit');
           }
         })
         .catch((err) => console.info('Firebase auth notice:', err.message));
@@ -1318,7 +1319,8 @@ const defaultPlaylists = {
         "cover": "assets/images/jay-bangla-bg.png",
         "isFirebaseStorage": true
     }
-]
+  ],
+  arjit: []
 };
 
 const initialPlaylist = defaultPlaylists.ahirani;
@@ -1331,17 +1333,20 @@ let isShuffleOn = false;
 class MiniMusicPlayer {
   constructor(songList = initialPlaylist) {
     this.isLoadingPlaylist = {
-      ahirani: false
+      ahirani: false,
+      arjit: false
     };
 
     // Instant zero-delay load from localStorage cache if available
     const cachedAhirani = this.loadCachedPlaylist('ahirani');
+    const cachedArjit = this.loadCachedPlaylist('arjit');
 
     this.playlists = {
-      ahirani: (cachedAhirani && cachedAhirani.length > 0) ? cachedAhirani : [...defaultPlaylists.ahirani]
+      ahirani: (cachedAhirani && cachedAhirani.length > 0) ? cachedAhirani : [...defaultPlaylists.ahirani],
+      arjit: (cachedArjit && cachedArjit.length > 0) ? cachedArjit : (defaultPlaylists.arjit || [])
     };
-    this.currentPlaylistId = 'ahirani';
-    this.playlist = [...(this.playlists.ahirani || [])];
+    this.currentPlaylistId = localStorage.getItem('kj_active_playlist') || 'ahirani';
+    this.playlist = [...(this.playlists[this.currentPlaylistId] || this.playlists.ahirani)];
     this.currentIndex = 0;
     this.isPlaying = false;
     this.isMuted = false;
@@ -1428,7 +1433,7 @@ class MiniMusicPlayer {
         vocals: t.vocals || t.singer || 'বাংলা সঙ্গীত',
         singerName: t.singerName || t.singer || 'বাংলা সঙ্গীত',
         artistName: t.artistName || t.artist || 'বাংলা সঙ্গীত',
-        category: t.category || 'বাংলা গান',
+        category: t.category || (playlistId === 'arjit' ? 'Arjit Bangla Hits' : 'বাংলা গান'),
         filename: t.filename,
         storagePath: t.storagePath || (t.itemRef ? t.itemRef.fullPath : ''),
         audioUrl: t.audioUrl || null,
@@ -1465,14 +1470,15 @@ class MiniMusicPlayer {
     }
 
     // Apply saved playlist visuals (background & topbar label)
-    this.applyPlaylistVisuals('ahirani');
+    this.applyPlaylistVisuals(this.currentPlaylistId);
 
     this.loadTrack(this.currentIndex, false);
     this.bindEvents();
     this.updatePlaylistCountBadge();
 
-    // Fetch Firebase Cloud Storage audio files
+    // Fetch Firebase Cloud Storage audio files for both playlists
     this.loadFromFirebaseStorage('ahirani');
+    this.loadFromFirebaseStorage('arjit');
   }
 
   applyPlaylistVisuals(playlistId = 'ahirani') {
@@ -1481,13 +1487,23 @@ class MiniMusicPlayer {
     const topMainTitle = document.getElementById('topMainTitle');
 
     if (topMainTitle) {
-      topMainTitle.classList.remove('playlist-hidden');
+      if (playlistId === 'arjit') {
+        topMainTitle.classList.add('playlist-hidden');
+      } else {
+        topMainTitle.classList.remove('playlist-hidden');
+      }
     }
 
     if (bgWrapper) {
       bgWrapper.classList.remove('kanubai-active', 'aarti-active');
       document.body.classList.remove('kanubai-active', 'aarti-active');
-      bgWrapper.style.backgroundColor = '#000000';
+      if (playlistId === 'arjit') {
+        bgWrapper.classList.add('kanubai-active');
+        document.body.classList.add('kanubai-active');
+        bgWrapper.style.backgroundColor = '#540302';
+      } else {
+        bgWrapper.style.backgroundColor = '#000000';
+      }
     }
 
     if (bgImage) {
@@ -1500,12 +1516,17 @@ class MiniMusicPlayer {
 
     const labelEl = document.getElementById('playlistCurrentLabel');
     const iconEl = document.getElementById('currentPlaylistIcon');
-    if (labelEl) labelEl.textContent = 'বাংলা গান';
-    if (iconEl) iconEl.textContent = '🎵';
+    if (labelEl) {
+      labelEl.textContent = playlistId === 'arjit' ? 'Arjit Bangla Hits' : 'বাংলা গান';
+    }
+    if (iconEl) {
+      iconEl.textContent = playlistId === 'arjit' ? '🎤' : '🎵';
+    }
 
     document.querySelectorAll('.playlist-option-item').forEach(btn => {
-      btn.classList.add('active');
-      btn.setAttribute('aria-selected', 'true');
+      const isMatch = btn.getAttribute('data-playlist') === playlistId;
+      btn.classList.toggle('active', isMatch);
+      btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
     });
   }
 
@@ -1534,12 +1555,10 @@ class MiniMusicPlayer {
     // Switch active tracks list
     this.playlist = [...(this.playlists[playlistId] || [])];
     
-    // Pick a random starting song index for the switched playlist
-    if (this.playlist.length > 0) {
-      this.currentIndex = Math.floor(Math.random() * this.playlist.length);
-    } else {
-      this.currentIndex = 0;
-    }
+    // Reset starting song index
+    this.currentIndex = 0;
+    this.updatePlaylistCountBadge();
+
     if (this.isPlaylistOpen) {
       this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
     }
@@ -1548,14 +1567,14 @@ class MiniMusicPlayer {
       await this.loadTrack(this.currentIndex, autoPlay);
     } else {
       if (this.trackTitle) this.trackTitle.textContent = 'গান লোড হচ্ছে...';
-      if (this.trackArtist) this.trackArtist.textContent = 'Firebase Cloud Storage';
+      if (this.trackArtist) this.trackArtist.textContent = playlistId === 'arjit' ? 'Arjit Bangla Hits' : 'Firebase Cloud Storage';
       if (this.totalDurationEl) this.totalDurationEl.textContent = '--:--';
     }
 
     // Always fetch fresh tracks from Firebase Storage
     await this.loadFromFirebaseStorage(playlistId);
 
-    if (this.playlist.length > 0 && (!this.audio.src || this.trackTitle.textContent.includes('লোড'))) {
+    if (this.playlist.length > 0 && (!this.audio.src || (this.trackTitle && this.trackTitle.textContent.includes('লোড')))) {
       await this.loadTrack(this.currentIndex, autoPlay);
     }
   }
@@ -1631,13 +1650,16 @@ class MiniMusicPlayer {
     }
 
     const lower = cleanName.toLowerCase();
-    if (lower.includes('kanbai') || lower.includes('kanubai') || cleanName.includes('कानुबाई') || cleanName.includes('कानबाई')) {
+    if (lower.includes('arjit') || lower.includes('arijit')) {
+      category = 'Arjit Bangla Hits';
+      singer = 'Arijit Singh';
+    } else if (lower.includes('kanbai') || lower.includes('kanubai') || cleanName.includes('কানুবাই') || cleanName.includes('কানবাই')) {
       category = 'বাংলা স্পেশাল';
     } else if (lower.includes('lagan') || lower.includes('halad') || cleanName.includes('लग्न') || cleanName.includes('हळद')) {
       category = 'বাংলা লোকগীতি';
-    } else if (lower.includes('bhaiya') || cleanName.includes('भैय्या')) {
+    } else if (lower.includes('bhaiya') || cleanName.includes('ভৈয়্যা')) {
       category = 'বিশেষ গান';
-    } else if (lower.includes('khandesh') || cleanName.includes('खान्देश')) {
+    } else if (lower.includes('khandesh') || cleanName.includes('খান্দাদেশ')) {
       category = 'বাংলা গান';
     }
 
@@ -1676,7 +1698,18 @@ class MiniMusicPlayer {
       this.renderPlaylistItems();
     }
 
-    let folderNames = ['jay bangla', 'Jay Bangla', 'jay_bangla', 'Jay_Bangla', 'jaybangla', 'music', 'ahirani', 'songs', 'Ahirani', 'Music'];
+    let folderNames = [];
+    if (playlistId === 'arjit' || playlistId === 'kanubai') {
+      folderNames = [
+        'Arjit Bangla Hit', 'arjit bangla hit', 'Arjit Bangla Hits', 'arjit bangla hits',
+        'Arjit_Bangla_Hit', 'arjit_bangla_hit', 'Arjit_Bangla_Hits', 'arjit_bangla_hits',
+        'ArjitBanglaHit', 'ArjitBanglaHits', 'Arijit Bangla Hit', 'arijit bangla hit',
+        'Arijit Bangla Hits', 'arijit bangla hits', 'Arijit Singh', 'arijit singh',
+        'arijit', 'Arijit', 'arjit', 'Arjit'
+      ];
+    } else {
+      folderNames = ['jay bangla', 'Jay Bangla', 'jay_bangla', 'Jay_Bangla', 'jaybangla', 'music', 'ahirani', 'songs', 'Ahirani', 'Music'];
+    }
 
     try {
       if (!firebase.apps || !firebase.apps.length) {
@@ -1694,7 +1727,9 @@ class MiniMusicPlayer {
           rootResult.prefixes.forEach((p) => {
             const pName = p.name;
             const pLower = pName.toLowerCase().replace(/[\s\-_]/g, '');
-            if (pLower.includes('jay') || pLower.includes('bangla') || pLower.includes('music') || pLower.includes('ahirani') || pLower.includes('song')) {
+            if ((playlistId === 'arjit' || playlistId === 'kanubai') && (pLower.includes('arjit') || pLower.includes('arijit') || pLower.includes('hit'))) {
+              discoveredFolders.push(pName);
+            } else if (playlistId === 'ahirani' && (pLower.includes('jay') || pLower.includes('bangla') || pLower.includes('music') || pLower.includes('ahirani') || pLower.includes('song'))) {
               discoveredFolders.push(pName);
             }
           });
@@ -1724,6 +1759,16 @@ class MiniMusicPlayer {
               parsed.itemRef = item;
               parsed.storagePath = item.fullPath;
               parsed.cover = 'assets/images/jay-bangla-bg.png';
+              if (playlistId === 'arjit' || playlistId === 'kanubai') {
+                parsed.category = 'Arjit Bangla Hits';
+                if (!parsed.singer || parsed.singer === 'বাংলা সঙ্গীত') {
+                  parsed.singer = 'Arijit Singh';
+                  parsed.artist = 'Arijit Singh';
+                  parsed.vocals = 'Arijit Singh';
+                  parsed.singerName = 'Arijit Singh';
+                  parsed.artistName = 'Arijit Singh';
+                }
+              }
 
               // Compute instant direct Google Cloud CDN media URL (0ms latency)
               const fullStoragePath = item.fullPath || `${folder}/${name}`;
@@ -1754,7 +1799,7 @@ class MiniMusicPlayer {
                 const needsLoad = !this.isPlaying || 
                                   !this.audio.src || 
                                   this.audio.src.includes('blob:null') || 
-                                  (this.trackTitle && this.trackTitle.textContent.includes('लोड'));
+                                  (this.trackTitle && this.trackTitle.textContent.includes('লোড'));
                 
                 if (needsLoad && this.playlist.length > 0) {
                   if (this.currentIndex >= this.playlist.length || this.currentIndex < 0) {
