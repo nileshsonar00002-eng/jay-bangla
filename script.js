@@ -1515,6 +1515,17 @@ class MiniMusicPlayer {
       iconEl.textContent = config.icon;
     }
 
+    // Dynamic Playlist Theme Switching
+    let themeKey = 'arijit';
+    if (playlistId === 'sanu' || (config.name && config.name.includes('Hindi'))) {
+      themeKey = 'hindi';
+    } else if (playlistId === 'jaybangla' || (config.name && config.name.includes('Rewind'))) {
+      themeKey = 'rewind';
+    } else {
+      themeKey = 'arijit';
+    }
+    document.body.setAttribute('data-theme', themeKey);
+
     document.querySelectorAll('.playlist-option-item').forEach(btn => {
       const isMatch = btn.getAttribute('data-playlist') === playlistId;
       btn.classList.toggle('active', isMatch);
