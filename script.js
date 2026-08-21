@@ -1463,10 +1463,7 @@ class MiniMusicPlayer {
       if (!raw) return null;
       const parsed = JSON.parse(raw);
       if (parsed && Array.isArray(parsed.tracks) && parsed.tracks.length > 0) {
-        return parsed.tracks.map(t => ({
-          ...t,
-          cover: 'assets/images/vinyl-record.svg'
-        }));
+        return parsed.tracks;
       }
     } catch (e) {
       console.warn(`Cache read notice for ${playlistId}:`, e);
@@ -1494,7 +1491,7 @@ class MiniMusicPlayer {
         storagePath: t.storagePath || (t.itemRef ? t.itemRef.fullPath : ''),
         audioUrl: t.audioUrl || null,
         duration: t.duration || '--:--',
-        cover: 'assets/images/vinyl-record.svg',
+        cover: t.cover || 'assets/images/vinyl-record.svg',
         isFirebaseStorage: true
       }));
 
@@ -1781,7 +1778,7 @@ class MiniMusicPlayer {
               const parsed = this.parseSongMetadata(name, i, playlistId);
               parsed.itemRef = item;
               parsed.storagePath = item.fullPath;
-              parsed.cover = 'assets/images/vinyl-record.svg';
+              parsed.cover = 'assets/images/jay-bangla-bg.png';
               parsed.category = config.category;
 
               // Direct Google Cloud CDN media URL (0ms latency)
@@ -1934,7 +1931,8 @@ class MiniMusicPlayer {
     this.isDragging = false;
 
     if (this.trackCoverImg) {
-      this.trackCoverImg.src = 'assets/images/vinyl-record.svg';
+      const playlistCover = 'assets/images/vinyl-record.svg';
+      this.trackCoverImg.src = currentSong.cover || playlistCover;
     }
 
     // Update Media Session Metadata
