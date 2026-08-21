@@ -7,21 +7,6 @@
   /* Color Palette */
   --bg-dark: #0a0805;
   
-  /* Dynamic Theme Variables (Default: Hindi Melodies / Amber Gold) */
-  --theme-primary: #f59e0b;
-  --theme-secondary: #fbbf24;
-  --theme-glow: rgba(245, 158, 11, 0.4);
-  --theme-player-bg: linear-gradient(135deg, rgba(54, 14, 10, 0.76) 0%, rgba(26, 7, 5, 0.86) 50%, rgba(42, 11, 8, 0.80) 100%);
-  --theme-player-border: rgba(251, 191, 36, 0.38);
-  --theme-player-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.65), 0 0 20px rgba(245, 158, 11, 0.25);
-  --theme-badge-border: rgba(251, 191, 36, 0.5);
-  --theme-badge-glow: 0 0 12px rgba(245, 158, 11, 0.35);
-  --theme-progress-track: rgba(255, 255, 255, 0.15);
-  --theme-progress-fill: linear-gradient(90deg, #d97706, #fbbf24);
-  --theme-btn-bg: linear-gradient(135deg, #fbbf24, #d97706);
-  --theme-btn-color: #140a05;
-  --theme-thumb-color: #fbbf24;
-  
   /* High-Transparency Festive Glassmorphism */
   --bg-glass-player: linear-gradient(135deg, rgba(54, 14, 10, 0.72) 0%, rgba(26, 7, 5, 0.82) 50%, rgba(42, 11, 8, 0.76) 100%);
   --bg-glass-badge: rgba(46, 12, 8, 0.65);
@@ -46,65 +31,6 @@
 
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  --theme-transition: 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ==========================================================================
-   DYNAMIC COLOR ACCENT THEMES (Per Playlist)
-   ========================================================================== */
-
-/* 1. Default & Hindi Melodies: Warm Amber / Gold */
-[data-theme="hindi"],
-[data-theme="sanu"] {
-  --theme-primary: #f59e0b;
-  --theme-secondary: #fbbf24;
-  --theme-glow: rgba(245, 158, 11, 0.4);
-  --theme-player-bg: linear-gradient(135deg, rgba(54, 14, 10, 0.76) 0%, rgba(26, 7, 5, 0.86) 50%, rgba(42, 11, 8, 0.80) 100%);
-  --theme-player-border: rgba(251, 191, 36, 0.38);
-  --theme-player-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.65), 0 0 20px rgba(245, 158, 11, 0.25);
-  --theme-badge-border: rgba(251, 191, 36, 0.5);
-  --theme-badge-glow: 0 0 12px rgba(245, 158, 11, 0.35);
-  --theme-progress-track: rgba(255, 255, 255, 0.15);
-  --theme-progress-fill: linear-gradient(90deg, #d97706, #fbbf24);
-  --theme-btn-bg: linear-gradient(135deg, #fbbf24, #d97706);
-  --theme-btn-color: #140a05;
-  --theme-thumb-color: #fbbf24;
-}
-
-/* 2. Arijit Express: Deep Purple-Indigo (#2D1B4E) + Electric Blue (#00d4ff) */
-[data-theme="arijit"],
-[data-theme="arjit"] {
-  --theme-primary: #00d4ff;
-  --theme-secondary: #a855f7;
-  --theme-glow: rgba(0, 212, 255, 0.45);
-  --theme-player-bg: linear-gradient(135deg, rgba(45, 27, 78, 0.86) 0%, rgba(20, 10, 38, 0.92) 50%, rgba(35, 18, 62, 0.88) 100%);
-  --theme-player-border: rgba(0, 212, 255, 0.42);
-  --theme-player-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.75), 0 0 24px rgba(0, 212, 255, 0.28);
-  --theme-badge-border: rgba(0, 212, 255, 0.55);
-  --theme-badge-glow: 0 0 14px rgba(0, 212, 255, 0.45);
-  --theme-progress-track: rgba(168, 85, 247, 0.22);
-  --theme-progress-fill: linear-gradient(90deg, #a855f7, #00d4ff);
-  --theme-btn-bg: linear-gradient(135deg, #00d4ff, #8b5cf6);
-  --theme-btn-color: #060212;
-  --theme-thumb-color: #00d4ff;
-}
-
-/* 3. Rewind 2000s: Bright Teal-Pink-Yellow Y2K Retro Palette */
-[data-theme="rewind"],
-[data-theme="jaybangla"] {
-  --theme-primary: #ec4899;
-  --theme-secondary: #06b6d4;
-  --theme-glow: rgba(236, 72, 153, 0.45);
-  --theme-player-bg: linear-gradient(135deg, rgba(14, 45, 52, 0.86) 0%, rgba(35, 10, 28, 0.90) 50%, rgba(20, 30, 48, 0.88) 100%);
-  --theme-player-border: rgba(236, 72, 153, 0.45);
-  --theme-player-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.75), 0 0 24px rgba(6, 182, 212, 0.30);
-  --theme-badge-border: rgba(6, 182, 212, 0.6);
-  --theme-badge-glow: 0 0 14px rgba(236, 72, 153, 0.45);
-  --theme-progress-track: rgba(6, 182, 212, 0.22);
-  --theme-progress-fill: linear-gradient(90deg, #06b6d4 0%, #ec4899 50%, #facc15 100%);
-  --theme-btn-bg: linear-gradient(135deg, #ec4899, #facc15);
-  --theme-btn-color: #0d0614;
-  --theme-thumb-color: #facc15;
 }
 
 *, *::before, *::after {
@@ -357,9 +283,6 @@ body {
   align-items: center;
   gap: 0.45rem;
   padding: 0.4rem 0.75rem;
-  border: 1px solid var(--theme-badge-border);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), var(--theme-badge-glow);
-  transition: border-color var(--theme-transition), box-shadow var(--theme-transition);
   animation: fadeTranslateDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
 }
 
@@ -414,7 +337,7 @@ body {
   background: var(--bg-glass-badge);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--theme-badge-border);
+  border: 1px solid rgba(251, 191, 36, 0.3);
   border-radius: 9999px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
   color: #ffffff;
@@ -423,14 +346,14 @@ body {
   font-weight: 700;
   cursor: pointer;
   outline: none;
-  transition: all 0.2s ease, border-color var(--theme-transition), box-shadow var(--theme-transition);
+  transition: all 0.2s ease;
 }
 
 .playlist-select-pill:hover,
 .playlist-select-pill:focus-visible {
-  border-color: var(--theme-primary);
+  border-color: var(--gold-primary);
   background: rgba(30, 18, 10, 0.85);
-  box-shadow: 0 0 14px var(--theme-glow);
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.35);
   transform: translateY(-1px);
 }
 
@@ -440,13 +363,12 @@ body {
 
 .playlist-current-label {
   letter-spacing: 0.02em;
-  color: var(--theme-secondary);
-  transition: color var(--theme-transition);
+  color: var(--gold-200);
 }
 
 .playlist-chevron {
-  color: var(--theme-primary);
-  transition: transform 0.2s ease, color var(--theme-transition);
+  color: var(--gold-primary);
+  transition: transform 0.2s ease;
 }
 
 .playlist-selector-wrapper.open {
@@ -466,15 +388,14 @@ body {
   background: rgba(28, 12, 8, 0.96);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--theme-player-border);
+  border: 1px solid rgba(251, 191, 36, 0.45);
   border-radius: 12px;
   padding: 0.35rem;
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.85), var(--theme-player-shadow);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.85), 0 0 24px rgba(251, 191, 36, 0.25);
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   animation: dropdownSlide 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
-  transition: border-color var(--theme-transition), box-shadow var(--theme-transition);
 }
 
 @keyframes dropdownSlide {
@@ -499,15 +420,15 @@ body {
 }
 
 .playlist-option-item:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(251, 191, 36, 0.12);
   color: #ffffff;
-  border-color: var(--theme-badge-border);
+  border-color: rgba(251, 191, 36, 0.25);
 }
 
 .playlist-option-item.active {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: var(--theme-primary);
-  color: var(--theme-primary);
+  background: rgba(251, 191, 36, 0.18);
+  border-color: rgba(251, 191, 36, 0.45);
+  color: var(--gold-primary);
   font-weight: 700;
 }
 
@@ -895,22 +816,29 @@ body.aarti-active .player-container.hidden-on-scroll {
 }
 
 .mini-player-bar {
-  background: var(--theme-player-bg) !important;
+  background: linear-gradient(135deg, rgba(54, 14, 10, 0.72) 0%, rgba(26, 7, 5, 0.82) 50%, rgba(42, 11, 8, 0.76) 100%);
   backdrop-filter: blur(18px) saturate(160%);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
-  border: 1px solid var(--theme-player-border) !important;
+  border: 1px solid rgba(251, 191, 36, 0.32);
   border-radius: 16px;
-  box-shadow: var(--theme-player-shadow), inset 0 1px 1px rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.65), 0 0 18px rgba(245, 158, 11, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.18);
   padding: 0.6rem 0.95rem;
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  transition: border-color var(--theme-transition), background var(--theme-transition), box-shadow var(--theme-transition) !important;
+  transition: border-color var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-normal);
 }
 
 .mini-player-bar:hover {
-  border-color: var(--theme-primary) !important;
-  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.7), 0 0 24px var(--theme-glow), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+  border-color: rgba(251, 191, 36, 0.55);
+  background: linear-gradient(135deg, rgba(68, 18, 12, 0.78) 0%, rgba(34, 9, 7, 0.86) 50%, rgba(52, 14, 10, 0.80) 100%);
+  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.7), 0 0 24px rgba(245, 158, 11, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
+body.kanubai-active .mini-player-bar {
+  background: linear-gradient(135deg, rgba(78, 12, 10, 0.78) 0%, rgba(38, 5, 4, 0.88) 50%, rgba(62, 9, 7, 0.82) 100%);
+  border: 1px solid rgba(253, 230, 138, 0.40);
+  box-shadow: 0 10px 30px -4px rgba(20, 2, 2, 0.75), 0 0 22px rgba(251, 191, 36, 0.26), inset 0 1px 1px rgba(255, 235, 175, 0.22);
 }
 
 /* Top Row: Track Info Section (Left) & Volume Control (Right) */
@@ -1085,7 +1013,7 @@ body.aarti-active .player-container.hidden-on-scroll {
 }
 
 .ctrl-btn:hover {
-  color: var(--theme-primary);
+  color: #ffffff;
   transform: scale(1.12);
 }
 
@@ -1102,47 +1030,47 @@ body.aarti-active .player-container.hidden-on-scroll {
 
 .shuffle-btn:hover {
   opacity: 1;
-  color: var(--theme-primary);
+  color: var(--gold-300);
   transform: scale(1.1);
 }
 
 .shuffle-btn.active {
   opacity: 1;
-  color: var(--theme-btn-color);
-  background: var(--theme-btn-bg);
+  color: #140a05;
+  background: linear-gradient(135deg, #fbbf24, #d97706);
   border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 0 12px var(--theme-glow), 0 2px 6px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.65), 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .shuffle-btn.active:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 16px var(--theme-glow);
+  box-shadow: 0 0 16px rgba(251, 191, 36, 0.85);
 }
 
 .play-toggle-btn {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: var(--theme-btn-bg);
+  background: linear-gradient(135deg, var(--gold-400), var(--gold-600));
   border: none;
-  color: var(--theme-btn-color);
+  color: #140a05;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   outline: none;
-  box-shadow: 0 2px 10px var(--theme-glow);
-  transition: transform var(--transition-fast), box-shadow var(--theme-transition), background var(--theme-transition);
+  box-shadow: 0 2px 8px var(--gold-glow);
+  transition: transform var(--transition-fast), box-shadow var(--transition-normal);
   flex-shrink: 0;
 }
 
 .play-toggle-btn:hover {
   transform: scale(1.08);
-  box-shadow: 0 3px 14px var(--theme-glow);
+  box-shadow: 0 3px 12px rgba(245, 158, 11, 0.5);
 }
 
 .play-toggle-btn.playing {
-  box-shadow: 0 0 18px var(--theme-glow);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.55);
 }
 
 .play-toggle-btn:active {
@@ -1168,192 +1096,27 @@ body.aarti-active .player-container.hidden-on-scroll {
 
 .current-time {
   text-align: right;
-  color: var(--theme-secondary);
-  transition: color var(--theme-transition);
+  color: var(--gold-300);
 }
 
 .progress-bar-wrapper {
   flex: 1;
   position: relative;
-  padding: 6px 0;
+  padding: 8px 0;
   cursor: pointer;
   outline: none;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 3px;
-}
-
-/* ==========================================================================
-   DYNAMIC AUDIO OBJECT VISUALIZERS (Interactive playlist animation)
-   ========================================================================== */
-.audio-object-visualizer {
-  display: flex;
   align-items: center;
-  justify-content: center;
-  height: 16px;
-  pointer-events: none;
-  user-select: none;
-}
-
-.audio-obj-item {
-  display: none;
-  align-items: center;
-  gap: 5px;
-  opacity: 0.95;
-}
-
-/* Default & Hindi Melodies: Spinning Gold Vinyl */
-:root .audio-obj-vinyl,
-[data-theme="hindi"] .audio-obj-vinyl,
-[data-theme="sanu"] .audio-obj-vinyl {
-  display: inline-flex;
-}
-[data-theme="arijit"] .audio-obj-vinyl,
-[data-theme="arjit"] .audio-obj-vinyl,
-[data-theme="rewind"] .audio-obj-vinyl,
-[data-theme="jaybangla"] .audio-obj-vinyl {
-  display: none !important;
-}
-
-/* Arijit Express: Concert Live Equalizer */
-[data-theme="arijit"] .audio-obj-equalizer,
-[data-theme="arjit"] .audio-obj-equalizer {
-  display: inline-flex !important;
-}
-
-/* Rewind 2000s: Dual Reel Retro Cassette */
-[data-theme="rewind"] .audio-obj-cassette,
-[data-theme="jaybangla"] .audio-obj-cassette {
-  display: inline-flex !important;
-}
-
-.audio-obj-label {
-  font-size: 0.6rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--theme-primary);
-  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-  transition: color var(--theme-transition);
-}
-
-/* 1. Mini Vinyl Record */
-.mini-vinyl-badge {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #2a2a2a 0%, #050505 55%, #1f1f1f 75%, #000 100%);
-  border: 1px solid var(--theme-primary);
-  box-shadow: 0 0 6px var(--theme-glow);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: spinVinyl 3s linear infinite;
-  animation-play-state: paused;
-  transition: border-color var(--theme-transition), box-shadow var(--theme-transition);
-}
-
-.player-container.is-playing .mini-vinyl-badge {
-  animation-play-state: running;
-}
-
-.mini-vinyl-hole {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #000;
-  border: 1px solid var(--theme-primary);
-}
-
-/* 2. Stage Live Equalizer Bars */
-.stage-eq-bars {
-  display: flex;
-  align-items: flex-end;
-  gap: 2px;
-  height: 13px;
-}
-
-.stage-eq-bars span {
-  width: 2.5px;
-  height: 3px;
-  background: linear-gradient(180deg, var(--theme-primary), var(--theme-secondary));
-  border-radius: 1px;
-  box-shadow: 0 0 5px var(--theme-glow);
-  animation: stageEqPulse 0.75s ease-in-out infinite alternate;
-  animation-play-state: paused;
-}
-
-.player-container.is-playing .stage-eq-bars span {
-  animation-play-state: running;
-}
-
-.stage-eq-bars span:nth-child(1) { animation-duration: 0.60s; animation-delay: 0.1s; }
-.stage-eq-bars span:nth-child(2) { animation-duration: 0.80s; animation-delay: 0.3s; }
-.stage-eq-bars span:nth-child(3) { animation-duration: 0.50s; animation-delay: 0.05s; }
-.stage-eq-bars span:nth-child(4) { animation-duration: 0.90s; animation-delay: 0.4s; }
-.stage-eq-bars span:nth-child(5) { animation-duration: 0.65s; animation-delay: 0.2s; }
-.stage-eq-bars span:nth-child(6) { animation-duration: 0.55s; animation-delay: 0.35s; }
-.stage-eq-bars span:nth-child(7) { animation-duration: 0.75s; animation-delay: 0.15s; }
-
-@keyframes stageEqPulse {
-  0% { height: 3px; }
-  100% { height: 13px; }
-}
-
-/* 3. Dual Reel Retro Cassette Tape */
-.cassette-tape-body {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  padding: 1px 3px;
-  background: rgba(0, 0, 0, 0.65);
-  border: 1px solid var(--theme-primary);
-  border-radius: 3px;
-  box-shadow: 0 0 8px var(--theme-glow);
-  transition: border-color var(--theme-transition), box-shadow var(--theme-transition);
-}
-
-.tape-reel {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  border: 1.5px dashed var(--theme-primary);
-  animation: spinVinyl 1.8s linear infinite;
-  animation-play-state: paused;
-}
-
-.player-container.is-playing .tape-reel {
-  animation-play-state: running;
-}
-
-.tape-center-window {
-  width: 12px;
-  height: 3.5px;
-  background: rgba(255, 255, 255, 0.18);
-  border-radius: 2px;
-  position: relative;
-  overflow: hidden;
-}
-
-.tape-ribbon {
-  position: absolute;
-  top: 0.5px;
-  left: 0;
-  width: 100%;
-  height: 2.5px;
-  background: linear-gradient(90deg, #ec4899, #06b6d4, #facc15);
 }
 
 .progress-track {
   width: 100%;
   height: 4px;
-  background: var(--theme-progress-track);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 9999px;
   position: relative;
   overflow: hidden;
-  transition: height var(--transition-fast), background var(--theme-transition);
+  transition: height var(--transition-fast);
   pointer-events: none;
 }
 
@@ -1378,9 +1141,8 @@ body.aarti-active .player-container.hidden-on-scroll {
   left: 0;
   height: 100%;
   width: 0%;
-  background: var(--theme-progress-fill);
+  background: linear-gradient(90deg, var(--gold-600), var(--gold-400));
   border-radius: 9999px;
-  transition: background var(--theme-transition);
 }
 
 .progress-thumb {
@@ -1392,9 +1154,9 @@ body.aarti-active .player-container.hidden-on-scroll {
   height: 10px;
   border-radius: 50%;
   background: #ffffff;
-  border: 1.5px solid var(--theme-thumb-color);
-  box-shadow: 0 0 8px var(--theme-glow);
-  transition: transform var(--transition-fast), border-color var(--theme-transition), box-shadow var(--theme-transition);
+  border: 1.5px solid var(--gold-500);
+  box-shadow: 0 0 8px var(--gold-glow);
+  transition: transform var(--transition-fast);
 }
 
 .progress-bar-wrapper:hover .progress-thumb,
@@ -1457,11 +1219,11 @@ body.aarti-active .player-container.hidden-on-scroll {
   color: var(--gold-300);
 }
 
-/* Sleek Playlist Trigger Button */
+/* Sleek Golden/Amber Playlist Trigger Button */
 .playlist-trigger-btn {
-  color: var(--theme-secondary);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--theme-badge-border);
+  color: var(--gold-300);
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.35);
   border-radius: 50%;
   width: 26px;
   height: 26px;
@@ -1471,17 +1233,17 @@ body.aarti-active .player-container.hidden-on-scroll {
   cursor: pointer;
   outline: none;
   margin-left: 0.35rem;
-  transition: all var(--transition-fast), border-color var(--theme-transition), box-shadow var(--theme-transition);
-  box-shadow: 0 0 8px var(--theme-glow);
+  transition: all var(--transition-fast);
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.18);
   flex-shrink: 0;
 }
 
 .playlist-trigger-btn:hover {
   color: #ffffff;
-  background: var(--theme-btn-bg);
-  border-color: var(--theme-primary);
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.45), rgba(217, 119, 6, 0.55));
+  border-color: var(--gold-400);
   transform: scale(1.12);
-  box-shadow: 0 0 14px var(--theme-glow), 0 2px 6px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 14px rgba(251, 191, 36, 0.55), 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .playlist-trigger-btn:active {
@@ -1505,10 +1267,10 @@ body.aarti-active .player-container.hidden-on-scroll {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--theme-primary);
-  box-shadow: 0 0 4px var(--theme-glow);
+  background: var(--gold-400);
+  box-shadow: 0 0 4px var(--gold-glow);
   cursor: pointer;
-  transition: transform var(--transition-fast), background var(--theme-transition);
+  transition: transform var(--transition-fast);
 }
 
 .mini-volume-slider::-webkit-slider-thumb:hover {
@@ -1520,9 +1282,9 @@ body.aarti-active .player-container.hidden-on-scroll {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--theme-primary);
+  background: var(--gold-400);
   border: none;
-  box-shadow: 0 0 4px var(--theme-glow);
+  box-shadow: 0 0 4px var(--gold-glow);
   cursor: pointer;
 }
 
@@ -1754,9 +1516,9 @@ body.aarti-active .player-container.hidden-on-scroll {
 }
 
 .playlist-item.active {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: var(--theme-primary);
-  box-shadow: 0 2px 10px var(--theme-glow);
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.15);
 }
 
 .item-index-wrap {
@@ -1791,7 +1553,7 @@ body.aarti-active .player-container.hidden-on-scroll {
 .item-playing-equalizer span {
   width: 2.5px;
   height: 12px;
-  background: var(--theme-primary);
+  background: var(--gold-400);
   border-radius: 1px;
   animation: wave 0.8s ease-in-out infinite alternate;
 }
@@ -1803,7 +1565,7 @@ body.aarti-active .player-container.hidden-on-scroll {
   height: 36px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid var(--theme-badge-border);
+  border: 1px solid rgba(251, 191, 36, 0.4);
   background: #08080a;
   flex-shrink: 0;
   transform-origin: center center;
@@ -1815,8 +1577,8 @@ body.aarti-active .player-container.hidden-on-scroll {
 
 .playlist-item.active.item-playing .item-thumb {
   animation-play-state: running;
-  border-color: var(--theme-primary);
-  box-shadow: 0 0 10px var(--theme-glow);
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.45);
 }
 
 .item-details {
