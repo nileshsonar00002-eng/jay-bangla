@@ -2260,6 +2260,7 @@ class MiniMusicPlayer {
   }
 
   updateVolumeIcon() {
+    if (!this.volumeIcon) return;
     if (this.isMuted || this.volume === 0) {
       this.volumeIcon.innerHTML = `
         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
@@ -2523,7 +2524,9 @@ class MiniMusicPlayer {
     if (this.shuffleBtn) {
       this.shuffleBtn.addEventListener('click', () => this.toggleShuffle());
     }
-    this.volumeBtn.addEventListener('click', () => this.toggleMute());
+    if (this.volumeBtn) {
+      this.volumeBtn.addEventListener('click', () => this.toggleMute());
+    }
 
     // Open/Toggle Playlist on clicking player track info or playlist button
     if (this.trackInfoSection) {
