@@ -572,17 +572,17 @@ body {
 }
 
 .main-top-title {
-  font-family: 'Jockey One', sans-serif;
-  font-size: clamp(2.1rem, 5.2vw, 3.6rem);
+  font-family: 'Protest Guerrilla', sans-serif;
+  font-size: clamp(2rem, 4.8vw, 3.4rem);
   font-weight: 400;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   background: linear-gradient(180deg, #FFFFFF 0%, #FFF3C4 20%, #F5C469 48%, #D4A359 75%, #9E6F24 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   background-clip: text !important;
   color: #F5C469 !important;
-  line-height: 1.1;
+  line-height: 1.15;
   margin: 0 !important;
   padding: 0 !important;
   text-align: center;
@@ -2307,8 +2307,8 @@ body.kanubai-active .mini-player-bar {
   }
 
   .main-top-title {
-    font-size: clamp(1.5rem, 6.8vw, 2.25rem) !important;
-    letter-spacing: 0.1em !important;
+    font-size: clamp(1.45rem, 6.2vw, 2.1rem) !important;
+    letter-spacing: 0.08em !important;
     padding: 0 !important;
     background: linear-gradient(180deg, #FFFFFF 0%, #FFF3C4 20%, #F5C469 48%, #D4A359 75%, #9E6F24 100%) !important;
     -webkit-background-clip: text !important;
@@ -2317,7 +2317,7 @@ body.kanubai-active .mini-player-bar {
     color: #F5C469 !important;
     border: none !important;
     box-shadow: none !important;
-    line-height: 1.1;
+    line-height: 1.15;
   }
 
   .top-left-group {
