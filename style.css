@@ -418,6 +418,74 @@ body {
 }
 
 
+/* --------------------------------------------------------------------------
+   6A. Live 24K Bombay Gold Rate Badge
+   -------------------------------------------------------------------------- */
+.gold-rate-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.38rem 0.72rem;
+  border-radius: 10px;
+  background: rgba(22, 13, 8, 0.82);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid #d4a359;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.5),
+    0 0 12px rgba(212, 163, 89, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  pointer-events: auto;
+  user-select: none;
+  animation: fadeTranslateDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.gold-rate-badge:hover {
+  transform: translateY(-1px);
+  border-color: #f59e0b;
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.6),
+    0 0 18px rgba(212, 163, 89, 0.45);
+}
+
+.gold-badge-icon {
+  font-size: 0.84rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.85));
+}
+
+.gold-badge-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: #d4a359;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.gold-badge-price {
+  font-family: 'Cinzel', var(--font-body), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(212, 163, 89, 0.65), 0 1px 3px rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+}
+
+.gold-sync-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green-live);
+  box-shadow: 0 0 8px var(--green-live);
+  animation: pulseGreen 2s infinite ease-in-out;
+  margin-left: 2px;
+  flex-shrink: 0;
+}
+
 /* Top Right: Date/Clock Widget & Fullscreen Button Group + Playlist Switcher */
 .top-right-group {
   position: fixed;
@@ -2442,6 +2510,25 @@ body.aarti-active .player-container.hidden-on-scroll {
 
   .top-left-badge {
     padding: 0.3rem 0.55rem;
+  }
+
+  .gold-rate-badge {
+    padding: 0.28rem 0.52rem;
+    gap: 0.3rem;
+    border-radius: 8px;
+  }
+
+  .gold-badge-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.05em;
+  }
+
+  .gold-badge-price {
+    font-size: 0.68rem;
+  }
+
+  .gold-badge-icon {
+    font-size: 0.74rem;
   }
 
   .festive-ad-banner-container {

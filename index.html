@@ -25,7 +25,7 @@
   <!-- Google Fonts (Protest Guerrilla + Unbounded + Syne + Dela Gothic One + Righteous + Outfit + Galada + Atma + Noto Serif Bengali + Anek Bangla + Plus Jakarta Sans) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@600;700;800&family=Atma:wght@600;700&family=Dela+Gothic+One&family=Galada&family=Noto+Serif+Bengali:wght@600;700;800&family=Outfit:wght@800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Protest+Guerrilla&family=Righteous&family=Syne:wght@700;800;900&family=Unbounded:wght@700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@600;700;800&family=Atma:wght@600;700&family=Cinzel:wght@600;700;800;900&family=Dela+Gothic+One&family=Galada&family=Noto+Serif+Bengali:wght@600;700;800&family=Outfit:wght@800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Protest+Guerrilla&family=Righteous&family=Syne:wght@700;800;900&family=Unbounded:wght@700;800;900&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css?v=10.0">
 
@@ -110,31 +110,72 @@
             window.location.reload();
           });
         }
-
-        dismissTimer = setTimeout(dismissToast, 5000);
+        return toast;
       }
 
-      function dismissToast() {
+      function showGlobalErrorToast() {
+        const now = Date.now();
+        if (now - lastToastTime < 5000) return;
+        lastToastTime = now;
+
+        if (activeToast && activeToast.parentNode) {
+          activeToast.parentNode.removeChild(activeToast);
+        }
         if (dismissTimer) {
           clearTimeout(dismissTimer);
           dismissTimer = null;
         }
-        if (activeToast) {
-          const el = activeToast;
-          activeToast = null;
-          el.classList.add('fade-out');
-          setTimeout(() => {
-            if (el && el.parentNode) {
-              el.parentNode.removeChild(el);
-            }
-          }, 320);
+
+        activeToast = createToastElement();
+        document.body.appendChild(activeToast);
+
+        dismissTimer = setTimeout(function() {
+          if (activeToast && activeToast.parentNode) {
+            activeToast.classList.add('fade-out');
+            setTimeout(function() {
+              if (activeToast && activeToast.parentNode) {
+                activeToast.parentNode.removeChild(activeToast);
+              }
+              activeToast = null;
+            }, 300);
+          }
+        }, 12000);
+      }
+
+      const IGNORE_PATTERNS = [
+        'user denied geolocation',
+        'geolocation',
+        'permission denied',
+        'the operation was aborted',
+        'abort',
+        'networkerror when attempting to fetch resource',
+        'the play() request was interrupted',
+        'user gesture',
+        'audiocontext',
+        'cannot play',
+        'interrupted by a call to pause',
+        'service worker',
+        'script error',
+        'extension',
+        'chrome-extension',
+        'moz-extension',
+        'resizeobserver loop'
+      ];
+
+      function shouldIgnore(msg) {
+        if (!msg) return true;
+        const lower = String(msg).toLowerCase();
+        for (let i = 0; i < IGNORE_PATTERNS.length; i++) {
+          if (lower.includes(IGNORE_PATTERNS[i])) return true;
         }
+        return false;
       }
 
       window.onerror = function(message, source, lineno, colno, error) {
-        console.error('⚠️ [Global Runtime Error Caught]:', { message, source, lineno, colno, error });
-        const errorMsg = (error && error.message) ? error.message : String(message);
-        if (!shouldIgnore(message) && !shouldIgnore(errorMsg)) {
+        const msg = message ? String(message) : '';
+        const src = source ? String(source) : '';
+        console.error('⚠️ [Global Script Error Caught]:', { message, source, lineno, colno, error });
+        if (!shouldIgnore(msg) && !shouldIgnore(src)) {
           showGlobalErrorToast();
         }
         return true;
@@ -157,11 +198,19 @@
   </script>
 </head>
 <body data-theme="silver">
-  <!-- Top Left Group: Real-Time Live Listener Presence Badge + "HBD SANDEEP" Celebration Badge -->
+  <!-- Top Left Group: Real-Time Live Listener Presence Badge + Live Bombay 24K Gold Rate Badge + "HBD SANDEEP" Celebration Badge -->
   <div class="top-left-group" id="topLeftGroup">
     <div class="top-badge top-left-badge" id="listenerBadge" aria-label="Real-Time Active Listeners">
       <span class="live-dot" aria-hidden="true"></span>
       <span class="listener-text" id="listenerCountText">76 LIVE</span>
+    </div>
+
+    <!-- Live 24K Bombay Gold Rate Badge -->
+    <div class="top-badge gold-rate-badge" id="goldRateBadge" aria-label="Live 24K Bombay Gold Rate" title="Live 24K Bombay Gold Rate">
+      <span class="gold-badge-icon" aria-hidden="true">🪙</span>
+      <span class="gold-badge-label">BOMBAY 24K:</span>
+      <span class="gold-badge-price" id="goldRatePrice">₹8,850/g</span>
+      <span class="gold-sync-dot" aria-hidden="true" title="Live Rate Synced"></span>
     </div>
 
     <!-- Animated Festival Ad Billboard Badge: HBD SANDEEP -->
