@@ -1495,11 +1495,11 @@ class MiniMusicPlayer {
     }
 
     if (bgWrapper) {
-      bgWrapper.classList.remove('kanubai-active', 'aarti-active');
-      document.body.classList.remove('kanubai-active', 'aarti-active');
-      if (playlistId === 'arjit') {
-        bgWrapper.classList.add('kanubai-active');
-        document.body.classList.add('kanubai-active');
+      bgWrapper.classList.remove('kanubai-active', 'arjit-active', 'aarti-active');
+      document.body.classList.remove('kanubai-active', 'arjit-active', 'aarti-active');
+      if (playlistId === 'arjit' || playlistId === 'kanubai') {
+        bgWrapper.classList.add('kanubai-active', 'arjit-active');
+        document.body.classList.add('kanubai-active', 'arjit-active');
         bgWrapper.style.backgroundColor = '#540302';
       } else {
         bgWrapper.style.backgroundColor = '#000000';
