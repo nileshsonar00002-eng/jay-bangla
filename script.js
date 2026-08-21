@@ -2157,22 +2157,29 @@ class MiniMusicPlayer {
 
   setPlayState(playing) {
     this.isPlaying = playing;
-    const trackThumb = document.getElementById('trackThumb');
     const playerContainer = document.querySelector('.player-container');
+    const mainVinyl = document.getElementById('vinylDiscClassic');
+
     if (playing) {
       this.playIcon.style.display = 'none';
       this.pauseIcon.style.display = 'block';
       this.playBtn.classList.add('playing');
       if (this.miniSoundwave) this.miniSoundwave.classList.add('active');
-      if (trackThumb) trackThumb.classList.add('spinning');
       if (playerContainer) playerContainer.classList.add('is-playing');
+      if (mainVinyl) {
+        mainVinyl.classList.add('spinning');
+        mainVinyl.classList.remove('paused');
+      }
     } else {
       this.playIcon.style.display = 'block';
       this.pauseIcon.style.display = 'none';
       this.playBtn.classList.remove('playing');
       if (this.miniSoundwave) this.miniSoundwave.classList.remove('active');
-      if (trackThumb) trackThumb.classList.remove('spinning');
       if (playerContainer) playerContainer.classList.remove('is-playing');
+      if (mainVinyl) {
+        mainVinyl.classList.add('paused');
+        mainVinyl.classList.remove('spinning');
+      }
     }
 
     if ('mediaSession' in navigator) {
@@ -2454,7 +2461,6 @@ class MiniMusicPlayer {
       const isActive = item.originalIndex === this.currentIndex;
       const isItemPlaying = isActive && this.isPlaying;
       const singerName = item.singer || item.artist || item.vocals || 'বাংলা সঙ্গীত';
-      const coverImg = item.cover || 'assets/images/vinyl-record.svg';
       const actionIconSvg = isItemPlaying ? PAUSE_ICON_SVG : PLAY_ICON_SVG;
 
       return `
@@ -2465,7 +2471,10 @@ class MiniMusicPlayer {
               <span></span><span></span><span></span>
             </div>
           </div>
-          <img src="${coverImg}" alt="${item.title}" class="item-thumb" loading="lazy">
+          <div class="vinyl-disc-classic ${isItemPlaying ? 'spinning' : 'paused'} item-vinyl" aria-hidden="true">
+            <div class="vinyl-groove"></div>
+            <div class="vinyl-center-hole"></div>
+          </div>
           <div class="item-details">
             <span class="item-title">${item.title}</span>
             <span class="item-singer">${singerName}</span>
@@ -2511,6 +2520,7 @@ class MiniMusicPlayer {
     items.forEach((elem) => {
       const idx = parseInt(elem.getAttribute('data-index'), 10);
       const actionIcon = elem.querySelector('.item-action-icon');
+      const itemVinyl = elem.querySelector('.vinyl-disc-classic');
       const isActive = idx === this.currentIndex;
       const isItemPlaying = isActive && this.isPlaying;
 
@@ -2527,6 +2537,16 @@ class MiniMusicPlayer {
         elem.classList.add('item-playing');
       } else {
         elem.classList.remove('item-playing');
+      }
+
+      if (itemVinyl) {
+        if (isItemPlaying) {
+          itemVinyl.classList.add('spinning');
+          itemVinyl.classList.remove('paused');
+        } else {
+          itemVinyl.classList.add('paused');
+          itemVinyl.classList.remove('spinning');
+        }
       }
 
       if (actionIcon) {
