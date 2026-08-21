@@ -3249,6 +3249,235 @@ function initPlaylistSelectorDropdown(player) {
   });
 }
 
+/* ==========================================================================
+   MUSIC-REACTIVE CRAFTSMAN BLOW-TORCH FLAME & SPARKS ENGINE
+   Web Audio API AnalyserNode + Bass Frequency Tracking + 60fps Spark Canvas
+   ========================================================================== */
+class MusicFlameVisualizer {
+  constructor(audioElement) {
+    this.audio = audioElement || document.getElementById('audioElement');
+    this.wrapper = document.getElementById('musicFlameWrapper');
+    this.canvas = document.getElementById('flameSparksCanvas');
+    this.ctx = this.canvas ? this.canvas.getContext('2d') : null;
+
+    this.audioCtx = null;
+    this.analyser = null;
+    this.source = null;
+    this.freqData = null;
+
+    this.isPlaying = false;
+    this.smoothedBass = 0;
+    this.prevBass = 0;
+    this.smoothedTreble = 0;
+    this.lastSparkTime = 0;
+
+    this.particles = [];
+    this.maxParticles = 40;
+
+    this.initCanvas();
+    this.setupListeners();
+    this.animate = this.animate.bind(this);
+    requestAnimationFrame(this.animate);
+  }
+
+  initCanvas() {
+    if (!this.canvas || !this.ctx) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    this.canvas.width = 320 * dpr;
+    this.canvas.height = 320 * dpr;
+    this.ctx.scale(dpr, dpr);
+  }
+
+  setupListeners() {
+    const resumeOnGesture = () => {
+      this.initWebAudio();
+      if (this.audioCtx && this.audioCtx.state === 'suspended') {
+        this.audioCtx.resume();
+      }
+    };
+
+    window.addEventListener('click', resumeOnGesture, { passive: true });
+    window.addEventListener('keydown', resumeOnGesture, { passive: true });
+    window.addEventListener('touchstart', resumeOnGesture, { passive: true });
+
+    if (this.audio) {
+      this.audio.addEventListener('play', () => {
+        this.isPlaying = true;
+        this.initWebAudio();
+        if (this.audioCtx && this.audioCtx.state === 'suspended') {
+          this.audioCtx.resume();
+        }
+        if (this.wrapper) this.wrapper.classList.remove('is-idle');
+      });
+
+      this.audio.addEventListener('pause', () => {
+        this.isPlaying = false;
+        if (this.wrapper) this.wrapper.classList.add('is-idle');
+      });
+
+      this.audio.addEventListener('ended', () => {
+        this.isPlaying = false;
+        if (this.wrapper) this.wrapper.classList.add('is-idle');
+      });
+    }
+  }
+
+  initWebAudio() {
+    if (this.audioCtx || !this.audio) return;
+    try {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) return;
+
+      this.audioCtx = new AudioContextClass();
+      if (!this.audio.crossOrigin) {
+        this.audio.crossOrigin = 'anonymous';
+      }
+
+      this.source = this.audioCtx.createMediaElementSource(this.audio);
+      this.analyser = this.audioCtx.createAnalyser();
+      this.analyser.fftSize = 256;
+      this.analyser.smoothingTimeConstant = 0.8;
+
+      this.source.connect(this.analyser);
+      this.analyser.connect(this.audioCtx.destination);
+
+      this.freqData = new Uint8Array(this.analyser.frequencyBinCount);
+    } catch (e) {
+      console.info('Web Audio visualizer note:', e);
+    }
+  }
+
+  spawnSparks(count = 3, energy = 1) {
+    if (!this.canvas || this.particles.length > this.maxParticles) return;
+    const originX = 160;
+    const originY = 160;
+
+    const colors = [
+      '#ffffff',
+      '#00f0ff',
+      '#00d4ff',
+      '#ffaa00',
+      '#ff6600',
+      '#ffd700'
+    ];
+
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.PI * 1.5) + (Math.random() - 0.5) * 1.2; // Upward spray with slight spread
+      const speed = (2.5 + Math.random() * 4.5) * (0.8 + energy * 0.5);
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      this.particles.push({
+        x: originX + (Math.random() - 0.5) * 8,
+        y: originY + (Math.random() - 0.5) * 8,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        size: 1.2 + Math.random() * 2.2,
+        color: color,
+        alpha: 1,
+        life: 0,
+        maxLife: 20 + Math.random() * 25
+      });
+    }
+  }
+
+  updateParticles() {
+    if (!this.ctx || !this.canvas) return;
+    this.ctx.clearRect(0, 0, 320, 320);
+
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      const p = this.particles[i];
+      p.life++;
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.08; // Mild gravity
+      p.vx *= 0.98; // Air drag
+      p.alpha = Math.max(0, 1 - (p.life / p.maxLife));
+
+      if (p.alpha <= 0 || p.life >= p.maxLife) {
+        this.particles.splice(i, 1);
+        continue;
+      }
+
+      this.ctx.save();
+      this.ctx.globalAlpha = p.alpha;
+      this.ctx.fillStyle = p.color;
+      this.ctx.shadowColor = p.color;
+      this.ctx.shadowBlur = 6;
+      this.ctx.beginPath();
+      this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      this.ctx.fill();
+      this.ctx.restore();
+    }
+  }
+
+  animate(timestamp) {
+    let currentBass = 0;
+    let currentTreble = 0;
+
+    if (this.isPlaying && this.analyser && this.freqData) {
+      try {
+        this.analyser.getByteFrequencyData(this.freqData);
+
+        // Low-end Bass Bins: 1 to 8 (~20Hz to ~250Hz)
+        let bassSum = 0;
+        for (let i = 1; i <= 8; i++) {
+          bassSum += this.freqData[i];
+        }
+        currentBass = (bassSum / 8) / 255;
+
+        // Mid/Treble Bins: 9 to 32
+        let trebleSum = 0;
+        for (let i = 9; i <= 32; i++) {
+          trebleSum += this.freqData[i];
+        }
+        currentTreble = (trebleSum / 24) / 255;
+      } catch (e) {}
+    } else if (this.isPlaying) {
+      // Fallback breathing pulse
+      const t = timestamp * 0.006;
+      currentBass = 0.35 + Math.sin(t) * 0.25;
+      currentTreble = 0.3 + Math.cos(t * 1.3) * 0.2;
+    }
+
+    // Smooth bass & treble interpolation (attack & decay)
+    this.smoothedBass = this.smoothedBass * 0.78 + currentBass * 0.22;
+    this.smoothedTreble = this.smoothedTreble * 0.82 + currentTreble * 0.18;
+
+    // Detect bass transients / beat drops to trigger sparks
+    const bassDelta = currentBass - this.prevBass;
+    if (this.isPlaying && currentBass > 0.58 && bassDelta > 0.08) {
+      const now = performance.now();
+      if (now - this.lastSparkTime > 120) {
+        this.spawnSparks(Math.floor(2 + currentBass * 4), currentBass);
+        this.lastSparkTime = now;
+      }
+    }
+    this.prevBass = currentBass;
+
+    // Update CSS Custom Properties on the flame element
+    if (this.wrapper) {
+      const outerScale = 0.92 + this.smoothedBass * 0.62;
+      const outerOpacity = 0.45 + this.smoothedBass * 0.52;
+      const coreScale = 0.85 + this.smoothedBass * 0.55;
+      const coreOpacity = 0.65 + this.smoothedBass * 0.35;
+      const tipScale = 0.80 + this.smoothedTreble * 0.65;
+      const tipOpacity = 0.75 + this.smoothedBass * 0.25;
+
+      this.wrapper.style.setProperty('--flame-outer-scale', outerScale.toFixed(3));
+      this.wrapper.style.setProperty('--flame-outer-opacity', outerOpacity.toFixed(3));
+      this.wrapper.style.setProperty('--flame-core-scale', coreScale.toFixed(3));
+      this.wrapper.style.setProperty('--flame-core-opacity', coreOpacity.toFixed(3));
+      this.wrapper.style.setProperty('--flame-tip-scale', tipScale.toFixed(3));
+      this.wrapper.style.setProperty('--flame-tip-opacity', tipOpacity.toFixed(3));
+    }
+
+    // Render Canvas sparks
+    this.updateParticles();
+
+    requestAnimationFrame(this.animate);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initDateTimeWidget();
   initFullscreenToggle();
@@ -3266,6 +3495,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.presenceTracker = new RealtimePresenceTracker();
   window.khandeshiPlayer = new MiniMusicPlayer(initialPlaylist);
   initPlaylistSelectorDropdown(window.khandeshiPlayer);
+  window.musicFlame = new MusicFlameVisualizer(window.khandeshiPlayer.audio);
 });
 
 // Global alias for next track advancement
