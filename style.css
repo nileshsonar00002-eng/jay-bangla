@@ -896,65 +896,44 @@ body.kanubai-active .mini-player-bar {
 }
 
 @keyframes spinVinyl {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.vinyl-disc-classic {
-  width: 48px !important;
-  height: 48px !important;
-  min-width: 48px !important;
-  border-radius: 50% !important;
-  background: radial-gradient(circle, #1a1a1a 0%, #050505 40%, #222222 45%, #0a0a0a 70%, #1a1a1a 75%, #000000 100%) !important;
-  box-shadow: 0 0 0 2px rgba(212, 163, 89, 0.5), inset 0 0 8px rgba(255, 255, 255, 0.2), 0 4px 10px rgba(0,0,0,0.7) !important;
-  position: relative !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  overflow: visible !important;
-  flex-shrink: 0 !important;
-  will-change: transform !important;
+.track-thumb {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #08080a;
+  border: 1.5px solid rgba(251, 191, 36, 0.7);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8), 0 0 10px rgba(251, 191, 36, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.vinyl-groove {
-  position: absolute !important;
-  inset: 6px !important;
-  border-radius: 50% !important;
-  border: 1px dashed rgba(255, 255, 255, 0.12) !important;
-  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.6), inset 0 0 0 6px rgba(255, 255, 255, 0.05), inset 0 0 0 10px rgba(0, 0, 0, 0.7) !important;
-  pointer-events: none !important;
+.track-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  transform-origin: center center;
+  animation: spinVinyl 5s linear infinite;
+  animation-play-state: paused;
+  will-change: transform;
+  display: block;
 }
 
-.vinyl-center-hole {
-  width: 14px !important;
-  height: 14px !important;
-  background: #0b0704 !important;
-  border: 2px solid #d4a359 !important;
-  border-radius: 50% !important;
-  box-shadow: inset 0 0 4px #000 !important;
-  z-index: 2 !important;
-  position: relative !important;
-}
-
-.vinyl-disc-classic.spinning {
-  animation: spinVinyl 3s linear infinite !important;
-}
-
-.vinyl-disc-classic.paused {
-  animation-play-state: paused !important;
-}
-
-/* Playlist Drawer Item Vinyl Variant */
-.vinyl-disc-classic.item-vinyl {
-  width: 36px !important;
-  height: 36px !important;
-  min-width: 36px !important;
-}
-
-.vinyl-disc-classic.item-vinyl .vinyl-center-hole {
-  width: 10px !important;
-  height: 10px !important;
-  border-width: 1.5px !important;
+.track-thumb.spinning img,
+.player-container.is-playing .track-thumb img {
+  animation-play-state: running;
 }
 
 /* Mini Soundwave inside thumb */
