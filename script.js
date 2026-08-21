@@ -1330,7 +1330,7 @@ defaultPlaylists.sanu = [];
 const PLAYLIST_CONFIG = {
   arjit: {
     id: 'arjit',
-    name: 'Arjit Bangla Hit',
+    name: 'Arijit Express',
     icon: '🎤',
     folderCandidates: [
       'Arjit Bangla Hit', 'arjit bangla hit', 'Arjit Bangla Hits', 'arjit bangla hits',
@@ -1340,11 +1340,11 @@ const PLAYLIST_CONFIG = {
       'arijit', 'Arijit', 'arjit', 'Arjit'
     ],
     defaultArtist: 'Arijit Singh',
-    category: 'Arjit Bangla Hit'
+    category: 'Arijit Express'
   },
   sanu: {
     id: 'sanu',
-    name: 'Sanu Hindi Hits',
+    name: 'Hindi Melodies',
     icon: '🎧',
     folderCandidates: [
       'Sanu Hindi Hits', 'sanu hindi hits', 'Sanu Hindi Hit', 'sanu hindi hit',
@@ -1353,18 +1353,18 @@ const PLAYLIST_CONFIG = {
       'Sanu', 'sanu'
     ],
     defaultArtist: 'Kumar Sanu',
-    category: 'Sanu Hindi Hits'
+    category: 'Hindi Melodies'
   },
   jaybangla: {
     id: 'jaybangla',
-    name: 'Jay Bangla',
+    name: 'Rewind 2000s',
     icon: '🎵',
     folderCandidates: [
       'jay bangla', 'Jay Bangla', 'jay_bangla', 'Jay_Bangla',
       'jaybangla', 'music', 'ahirani', 'songs', 'Ahirani', 'Music'
     ],
     defaultArtist: 'বাংলা সঙ্গীত',
-    category: 'বাংলা গান'
+    category: 'Rewind 2000s'
   }
 };
 
