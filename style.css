@@ -572,22 +572,26 @@ body {
 }
 
 .main-top-title {
-  font-family: 'Galada', 'Atma', 'Noto Serif Bengali', serif;
-  font-size: clamp(1.5rem, 3.2vw, 2.3rem);
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  color: #f5c469 !important;
-  line-height: 1.3;
+  font-family: 'Cinzel Decorative', 'Syne', 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.6rem, 3.6vw, 2.5rem);
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #FFF8DC 0%, #F5C469 35%, #D4A359 70%, #FFE599 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: #F5C469 !important;
+  line-height: 1.2;
   margin: 0 !important;
   padding: 0 !important;
   text-align: center;
-  background: transparent !important;
   border: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 12px rgba(212, 163, 89, 0.4) !important;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 16px rgba(212, 163, 89, 0.45));
   display: inline-block !important;
   animation: none !important;
 }
@@ -2303,13 +2307,17 @@ body.kanubai-active .mini-player-bar {
   }
 
   .main-top-title {
-    font-size: clamp(1.3rem, 5.5vw, 1.65rem) !important;
+    font-size: clamp(1.25rem, 5.2vw, 1.7rem) !important;
+    letter-spacing: 0.1em !important;
     padding: 0 !important;
-    background: transparent !important;
+    background: linear-gradient(135deg, #FFF8DC 0%, #F5C469 35%, #D4A359 70%, #FFE599 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: #F5C469 !important;
     border: none !important;
     box-shadow: none !important;
-    line-height: 1.3;
-    letter-spacing: 0.03em;
+    line-height: 1.2;
   }
 
   .top-left-group {
