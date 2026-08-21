@@ -1473,7 +1473,7 @@ class MiniMusicPlayer {
       this.currentIndex = 0;
     }
 
-    // Apply saved playlist visuals (background & topbar label)
+    this.initYouTubePlayer();
     this.applyPlaylistVisuals(this.currentPlaylistId);
 
     this.loadTrack(this.currentIndex, false);
@@ -1484,6 +1484,113 @@ class MiniMusicPlayer {
     this.loadFromFirebaseStorage('ahirani');
     this.loadFromFirebaseStorage('kanubai');
     this.loadFromFirebaseStorage('aarti');
+  }
+
+  /**
+   * Initializes YouTube IFrame Player instance for YouTube Music Playlist integration
+   */
+  initYouTubePlayer() {
+    this.ytPlayerReady = false;
+    this.ytPlaylistId = 'PLPJfJ0_yJdzs';
+
+    const createPlayer = () => {
+      if (this.ytPlayer) return;
+      try {
+        this.ytPlayer = new YT.Player('ytPlayer', {
+          height: '200',
+          width: '200',
+          playerVars: {
+            playsinline: 1,
+            controls: 0,
+            rel: 0,
+            listType: 'playlist',
+            list: this.ytPlaylistId,
+            enablejsapi: 1
+          },
+          events: {
+            onReady: (event) => {
+              console.log('🎬 [YouTube Player] Ready for playlist:', this.ytPlaylistId);
+              this.ytPlayerReady = true;
+              try {
+                event.target.setVolume(this.volume * 100);
+              } catch(e){}
+            },
+            onStateChange: (event) => {
+              this.onYouTubeStateChange(event.data);
+            },
+            onError: (err) => {
+              console.warn('⚠️ [YouTube Player] Error:', err);
+            }
+          }
+        });
+      } catch (err) {
+        console.warn('YouTube Player creation error:', err);
+      }
+    };
+
+    if (window.YT && window.YT.Player) {
+      createPlayer();
+    } else {
+      window.onYouTubeIframeAPIReady = () => {
+        createPlayer();
+      };
+    }
+
+    // High precision progress tracker for YouTube player
+    setInterval(() => {
+      if (this.currentPlaylistId === 'kanubai' && this.ytPlayer && this.ytPlayerReady && this.isPlaying) {
+        try {
+          if (typeof this.ytPlayer.getCurrentTime === 'function' && typeof this.ytPlayer.getDuration === 'function') {
+            const curTime = this.ytPlayer.getCurrentTime() || 0;
+            const dur = this.ytPlayer.getDuration() || 0;
+            if (dur > 0) {
+              this.currentTimeEl.textContent = this.formatTime(curTime);
+              this.totalDurationEl.textContent = this.formatTime(dur);
+              if (!this.isDragging) {
+                const pct = (curTime / dur) * 100;
+                this.progressFill.style.width = `${pct}%`;
+                if (this.progressSlider) this.progressSlider.value = pct;
+              }
+            }
+          }
+        } catch (e) {}
+      }
+    }, 500);
+  }
+
+  onYouTubeStateChange(state) {
+    if (this.currentPlaylistId !== 'kanubai') return;
+
+    if (state === 1) { // YT.PlayerState.PLAYING
+      this.isPlaying = true;
+      this.setPlayState(true);
+      this.syncYouTubeTrackInfo();
+    } else if (state === 2) { // YT.PlayerState.PAUSED
+      this.isPlaying = false;
+      this.setPlayState(false);
+    } else if (state === 0) { // YT.PlayerState.ENDED
+      this.isPlaying = false;
+      this.setPlayState(false);
+      if (this.ytPlayer && typeof this.ytPlayer.nextVideo === 'function') {
+        this.ytPlayer.nextVideo();
+      }
+    }
+  }
+
+  syncYouTubeTrackInfo() {
+    if (!this.ytPlayer || !this.ytPlayerReady) return;
+    try {
+      if (typeof this.ytPlayer.getVideoData === 'function') {
+        const data = this.ytPlayer.getVideoData();
+        if (data && data.title) {
+          if (this.trackTitle) this.trackTitle.textContent = data.title;
+          if (this.trackArtist) this.trackArtist.textContent = data.author || 'অরিজিৎ সিং';
+          if (data.video_id && this.trackCoverImg) {
+            this.trackCoverImg.src = `https://img.youtube.com/vi/${data.video_id}/mqdefault.jpg`;
+          }
+        }
+      }
+    } catch (e) {}
   }
 
   applyPlaylistVisuals(playlistId) {
@@ -1567,6 +1674,40 @@ class MiniMusicPlayer {
     if (dropdown) dropdown.style.display = 'none';
     if (wrapper) wrapper.classList.remove('open');
     if (selectBtn) selectBtn.setAttribute('aria-expanded', 'false');
+
+    if (playlistId === 'kanubai') {
+      try {
+        if (this.audio) this.audio.pause();
+      } catch (e) {}
+
+      if (this.trackTitle) this.trackTitle.textContent = 'অরিজিৎ সিং (Arjit Bangla Hit)';
+      if (this.trackArtist) this.trackArtist.textContent = 'YouTube Music Playlist';
+      if (this.totalDurationEl) this.totalDurationEl.textContent = '--:--';
+
+      if (this.ytPlayer && this.ytPlayerReady) {
+        try {
+          if (autoPlay) {
+            this.ytPlayer.loadPlaylist({ list: this.ytPlaylistId, listType: 'playlist' });
+            this.setPlayState(true);
+          } else {
+            this.ytPlayer.cuePlaylist({ list: this.ytPlaylistId, listType: 'playlist' });
+          }
+          setTimeout(() => this.syncYouTubeTrackInfo(), 1500);
+        } catch (e) {
+          console.warn('YouTube playlist load notice:', e);
+        }
+      }
+      this.updatePlaylistCountBadge();
+      if (this.isPlaylistOpen) {
+        this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
+      }
+      return;
+    } else {
+      // Switching away from YouTube playlist
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.pauseVideo === 'function') {
+        try { this.ytPlayer.pauseVideo(); } catch(e){}
+      }
+    }
 
     // Switch active tracks list
     this.playlist = [...(this.playlists[playlistId] || [])];
@@ -1851,12 +1992,27 @@ class MiniMusicPlayer {
   }
 
   async loadTrack(index, autoPlay = true) {
+    if (this.currentPlaylistId === 'kanubai') {
+      this.currentIndex = index;
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.playVideoAt === 'function') {
+        try {
+          if (autoPlay) {
+            this.ytPlayer.playVideoAt(index);
+            this.setPlayState(true);
+          }
+          this.highlightActivePlaylistItem();
+          setTimeout(() => this.syncYouTubeTrackInfo(), 1200);
+          return;
+        } catch (e) {}
+      }
+    }
+
     if (index < 0 || index >= this.playlist.length) return;
     this.currentIndex = index;
     const currentSong = this.playlist[this.currentIndex];
 
     // 1. Resolve Song Title
-    const titleText = currentSong.title || currentSong.songName || currentSong.name || currentSong.filename || 'खान्देशी गाणे';
+    const titleText = currentSong.title || currentSong.songName || currentSong.name || currentSong.filename || 'বাংলা গান';
     if (this.trackTitle) {
       this.trackTitle.textContent = titleText;
     }
@@ -2046,6 +2202,22 @@ class MiniMusicPlayer {
   }
 
   playAudio() {
+    if (this.currentPlaylistId === 'kanubai') {
+      try {
+        if (this.audio) this.audio.pause();
+      } catch (e) {}
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.playVideo === 'function') {
+        try {
+          this.ytPlayer.playVideo();
+          this.setPlayState(true);
+          setTimeout(() => this.syncYouTubeTrackInfo(), 1000);
+          return;
+        } catch (e) {}
+      }
+      this.setPlayState(true);
+      return;
+    }
+
     const track = this.playlist[this.currentIndex];
     const directAudio = track.audioUrl || track.url;
 
@@ -2128,6 +2300,16 @@ class MiniMusicPlayer {
   }
 
   pauseAudio() {
+    if (this.currentPlaylistId === 'kanubai') {
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.pauseVideo === 'function') {
+        try {
+          this.ytPlayer.pauseVideo();
+        } catch(e) {}
+      }
+      this.setPlayState(false);
+      return;
+    }
+
     try {
       this.audio.pause();
     } catch (e) {}
@@ -2170,6 +2352,17 @@ class MiniMusicPlayer {
   }
 
   prevTrack() {
+    if (this.currentPlaylistId === 'kanubai') {
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.previousVideo === 'function') {
+        try {
+          this.ytPlayer.previousVideo();
+          this.setPlayState(true);
+          setTimeout(() => this.syncYouTubeTrackInfo(), 1200);
+          return;
+        } catch (e) {}
+      }
+    }
+
     if (!this.playlist || this.playlist.length === 0) return;
 
     let nextIndex;
@@ -2191,6 +2384,17 @@ class MiniMusicPlayer {
   }
 
   nextTrack() {
+    if (this.currentPlaylistId === 'kanubai') {
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.nextVideo === 'function') {
+        try {
+          this.ytPlayer.nextVideo();
+          this.setPlayState(true);
+          setTimeout(() => this.syncYouTubeTrackInfo(), 1200);
+          return;
+        } catch (e) {}
+      }
+    }
+
     if (!this.playlist || this.playlist.length === 0) return;
 
     let nextIndex;
@@ -2224,6 +2428,18 @@ class MiniMusicPlayer {
   }
 
   seekToPercent(percent) {
+    if (this.currentPlaylistId === 'kanubai') {
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.getDuration === 'function') {
+        try {
+          const dur = this.ytPlayer.getDuration() || 0;
+          if (dur > 0) {
+            this.ytPlayer.seekTo((percent / 100) * dur, true);
+          }
+        } catch(e) {}
+      }
+      return;
+    }
+
     if (this.audio.duration && !isNaN(this.audio.duration)) {
       this.audio.currentTime = (percent / 100) * this.audio.duration;
     }
@@ -2231,6 +2447,18 @@ class MiniMusicPlayer {
   }
 
   seekRelative(seconds) {
+    if (this.currentPlaylistId === 'kanubai') {
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.getCurrentTime === 'function') {
+        try {
+          const cur = this.ytPlayer.getCurrentTime() || 0;
+          const dur = this.ytPlayer.getDuration() || 0;
+          const target = Math.max(0, Math.min(cur + seconds, dur));
+          this.ytPlayer.seekTo(target, true);
+        } catch (e) {}
+      }
+      return;
+    }
+
     if (this.audio.duration && !isNaN(this.audio.duration)) {
       const target = Math.max(0, Math.min(this.audio.currentTime + seconds, this.audio.duration));
       this.audio.currentTime = target;
@@ -2239,6 +2467,15 @@ class MiniMusicPlayer {
   }
 
   seekToTime(seconds) {
+    if (this.currentPlaylistId === 'kanubai') {
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.seekTo === 'function') {
+        try {
+          this.ytPlayer.seekTo(seconds, true);
+        } catch (e) {}
+      }
+      return;
+    }
+
     if (this.audio.duration && !isNaN(this.audio.duration)) {
       const target = Math.max(0, Math.min(seconds, this.audio.duration));
       this.audio.currentTime = target;
@@ -2252,6 +2489,12 @@ class MiniMusicPlayer {
     if (this.volumeSlider) this.volumeSlider.value = this.volume;
     localStorage.setItem('kj_volume', this.volume);
 
+    if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.setVolume === 'function') {
+      try {
+        this.ytPlayer.setVolume(this.volume * 100);
+      } catch (e) {}
+    }
+
     this.isMuted = this.volume === 0;
     this.updateVolumeIcon();
   }
@@ -2261,9 +2504,18 @@ class MiniMusicPlayer {
     if (this.isMuted) {
       this.audio.muted = true;
       if (this.volumeSlider) this.volumeSlider.value = 0;
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.mute === 'function') {
+        try { this.ytPlayer.mute(); } catch (e) {}
+      }
     } else {
       this.audio.muted = false;
       if (this.volumeSlider) this.volumeSlider.value = this.volume;
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.unMute === 'function') {
+        try {
+          this.ytPlayer.unMute();
+          this.ytPlayer.setVolume(this.volume * 100);
+        } catch (e) {}
+      }
     }
     this.updateVolumeIcon();
   }
