@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Outer Rim Bevel Gradient -->
+    <radialGradient id="outerRimGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#141416"/>
+      <stop offset="85%" stop-color="#0a0a0c"/>
+      <stop offset="98%" stop-color="#2a2a30"/>
+      <stop offset="100%" stop-color="#050507"/>
+    </radialGradient>
+
+    <!-- Vinyl Light Refraction Sheen (Dual Conic-style Highlight Simulation) -->
+    <linearGradient id="sheen1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.09)"/>
+      <stop offset="25%" stop-color="rgba(255,255,255,0.01)"/>
+      <stop offset="50%" stop-color="rgba(255,255,255,0.14)"/>
+      <stop offset="75%" stop-color="rgba(255,255,255,0.01)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.09)"/>
+    </linearGradient>
+
+    <linearGradient id="sheen2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.08)"/>
+      <stop offset="30%" stop-color="rgba(255,255,255,0)"/>
+      <stop offset="50%" stop-color="rgba(255,255,255,0.11)"/>
+      <stop offset="70%" stop-color="rgba(255,255,255,0)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.08)"/>
+    </linearGradient>
+
+    <!-- Center Label Vintage Gold-Amber Radial Gradient -->
+    <radialGradient id="centerLabelGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#181108"/>
+      <stop offset="40%" stop-color="#38220c"/>
+      <stop offset="72%" stop-color="#704518"/>
+      <stop offset="88%" stop-color="#b8860b"/>
+      <stop offset="94%" stop-color="#d4af37"/>
+      <stop offset="97%" stop-color="#52310c"/>
+      <stop offset="100%" stop-color="#1c1206"/>
+    </radialGradient>
+
+    <!-- Spindle Hole Rim Metal Ring -->
+    <radialGradient id="spindleRim" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="68%" stop-color="#000000"/>
+      <stop offset="75%" stop-color="#cccccc"/>
+      <stop offset="85%" stop-color="#ffffff"/>
+      <stop offset="95%" stop-color="#4a4a4a"/>
+      <stop offset="100%" stop-color="#1a1a1a"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 1. Main Black Vinyl Outer Body -->
+  <circle cx="256" cy="256" r="252" fill="url(#outerRimGrad)" stroke="#222226" stroke-width="2"/>
+
+  <!-- 2. Concentric Grooves (Micro-Groove Sound Bands) -->
+  <g fill="none" stroke-linecap="round">
+    <!-- Outer Lead-In Groove Band -->
+    <circle cx="256" cy="256" r="246" stroke="#1f1f24" stroke-width="1.5" opacity="0.7"/>
+    <circle cx="256" cy="256" r="242" stroke="#08080a" stroke-width="2" opacity="0.9"/>
+    <circle cx="256" cy="256" r="238" stroke="#2c2c34" stroke-width="1" opacity="0.6"/>
+    
+    <!-- Sound Track Band 1 -->
+    <circle cx="256" cy="256" r="230" stroke="#1c1c22" stroke-width="0.8" opacity="0.8"/>
+    <circle cx="256" cy="256" r="226" stroke="#292933" stroke-width="0.6" opacity="0.7"/>
+    <circle cx="256" cy="256" r="222" stroke="#121216" stroke-width="1" opacity="0.9"/>
+    <circle cx="256" cy="256" r="218" stroke="#32323e" stroke-width="0.75" opacity="0.5"/>
+    <circle cx="256" cy="256" r="214" stroke="#18181e" stroke-width="0.5" opacity="0.8"/>
+    <circle cx="256" cy="256" r="210" stroke="#252530" stroke-width="0.7" opacity="0.6"/>
+    <circle cx="256" cy="256" r="206" stroke="#0f0f13" stroke-width="1.2" opacity="0.9"/>
+    
+    <!-- Inter-track Gap 1 -->
+    <circle cx="256" cy="256" r="201" stroke="#060608" stroke-width="2.5" opacity="0.95"/>
+    <circle cx="256" cy="256" r="198" stroke="#363644" stroke-width="0.6" opacity="0.6"/>
+
+    <!-- Sound Track Band 2 -->
+    <circle cx="256" cy="256" r="192" stroke="#1f1f26" stroke-width="0.75" opacity="0.7"/>
+    <circle cx="256" cy="256" r="188" stroke="#2d2d38" stroke-width="0.6" opacity="0.55"/>
+    <circle cx="256" cy="256" r="184" stroke="#14141a" stroke-width="1" opacity="0.85"/>
+    <circle cx="256" cy="256" r="180" stroke="#30303c" stroke-width="0.8" opacity="0.5"/>
+    <circle cx="256" cy="256" r="176" stroke="#1c1c24" stroke-width="0.5" opacity="0.7"/>
+    <circle cx="256" cy="256" r="172" stroke="#282834" stroke-width="0.7" opacity="0.6"/>
+    <circle cx="256" cy="256" r="168" stroke="#101014" stroke-width="1.1" opacity="0.9"/>
+
+    <!-- Inter-track Gap 2 -->
+    <circle cx="256" cy="256" r="163" stroke="#060608" stroke-width="2.5" opacity="0.95"/>
+    <circle cx="256" cy="256" r="160" stroke="#3a3a48" stroke-width="0.6" opacity="0.5"/>
+
+    <!-- Sound Track Band 3 -->
+    <circle cx="256" cy="256" r="154" stroke="#1f1f28" stroke-width="0.8" opacity="0.7"/>
+    <circle cx="256" cy="256" r="150" stroke="#2e2e3a" stroke-width="0.6" opacity="0.55"/>
+    <circle cx="256" cy="256" r="146" stroke="#121218" stroke-width="1" opacity="0.85"/>
+    <circle cx="256" cy="256" r="142" stroke="#333342" stroke-width="0.7" opacity="0.5"/>
+    <circle cx="256" cy="256" r="138" stroke="#1a1a22" stroke-width="0.5" opacity="0.75"/>
+    <circle cx="256" cy="256" r="134" stroke="#272732" stroke-width="0.75" opacity="0.6"/>
+    <circle cx="256" cy="256" r="130" stroke="#0e0e12" stroke-width="1.2" opacity="0.9"/>
+
+    <!-- Inner Lead-Out Run-Out Groove -->
+    <circle cx="256" cy="256" r="122" stroke="#050507" stroke-width="3" opacity="0.98"/>
+    <circle cx="256" cy="256" r="116" stroke="#252530" stroke-width="1" opacity="0.6"/>
+    <circle cx="256" cy="256" r="110" stroke="#101015" stroke-width="1.5" opacity="0.85"/>
+    <circle cx="256" cy="256" r="102" stroke="#050507" stroke-width="4" opacity="0.98"/>
+  </g>
+
+  <!-- 3. Photorealistic Dual Sheen Lighting Overlay -->
+  <circle cx="256" cy="256" r="248" fill="url(#sheen1)" pointer-events="none"/>
+  <circle cx="256" cy="256" r="248" fill="url(#sheen2)" pointer-events="none"/>
+
+  <!-- 4. Center Gold/Bronze Record Label -->
+  <circle cx="256" cy="256" r="88" fill="url(#centerLabelGrad)" stroke="#1a0f05" stroke-width="2.5"/>
+  <circle cx="256" cy="256" r="82" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.65"/>
+  <circle cx="256" cy="256" r="76" fill="none" stroke="#ffd700" stroke-width="0.6" stroke-dasharray="3,2" opacity="0.5"/>
+  <circle cx="256" cy="256" r="54" fill="none" stroke="#b8860b" stroke-width="1.2" opacity="0.75"/>
+  <circle cx="256" cy="256" r="42" fill="none" stroke="#ffd700" stroke-width="0.8" opacity="0.6"/>
+
+  <!-- Label Center Monogram Star Accents -->
+  <path d="M256 182 L258 190 L266 192 L258 194 L256 202 L254 194 L246 192 L254 190 Z" fill="#ffd700" opacity="0.8"/>
+  <path d="M256 310 L258 318 L266 320 L258 322 L256 330 L254 322 L246 320 L254 318 Z" fill="#ffd700" opacity="0.8"/>
+  <path d="M192 256 L194 248 L202 246 L194 244 L192 236 L190 244 L182 246 L190 248 Z" fill="#ffd700" opacity="0.8"/>
+  <path d="M320 256 L322 248 L330 246 L322 244 L320 236 L318 244 L310 246 L318 248 Z" fill="#ffd700" opacity="0.8"/>
+
+  <!-- 5. Central Spindle Void (Center Hole with Metal Bevel Ring) -->
+  <circle cx="256" cy="256" r="24" fill="url(#spindleRim)"/>
+  <circle cx="256" cy="256" r="18" fill="#000000" stroke="#cccccc" stroke-width="1.2"/>
+  <circle cx="256" cy="256" r="14" fill="#000000"/>
+</svg>

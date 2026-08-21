@@ -906,14 +906,14 @@ body.kanubai-active .mini-player-bar {
 
 .track-thumb {
   position: relative;
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
-  background: rgba(20, 14, 10, 0.85);
-  border: 1.5px solid rgba(251, 191, 36, 0.65);
-  box-shadow: 0 0 10px rgba(245, 158, 11, 0.35);
+  background: #08080a;
+  border: 1.5px solid rgba(251, 191, 36, 0.7);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8), 0 0 10px rgba(251, 191, 36, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -924,9 +924,11 @@ body.kanubai-active .mini-player-bar {
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
-  animation: spinVinyl 6s linear infinite;
+  transform-origin: center center;
+  animation: spinVinyl 5s linear infinite;
   animation-play-state: paused;
   will-change: transform;
+  display: block;
 }
 
 .track-thumb.spinning img,
@@ -1582,12 +1584,24 @@ body.kanubai-active .mini-player-bar {
 .item-playing-equalizer span:nth-child(3) { animation-delay: 0.4s; }
 
 .item-thumb {
-  width: 34px;
-  height: 34px;
-  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  background: #08080a;
   flex-shrink: 0;
+  transform-origin: center center;
+  animation: spinVinyl 5s linear infinite;
+  animation-play-state: paused;
+  will-change: transform;
+  display: block;
+}
+
+.playlist-item.active.item-playing .item-thumb {
+  animation-play-state: running;
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.45);
 }
 
 .item-details {

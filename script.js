@@ -741,7 +741,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/?????????_?????_????_???_??_????_Khandeshi_Bhawani_Powerfull_Duff_2022_(_Dj_Bhaiya_Jalgaon_).mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2F%3F%3F%3F%3F%3F%3F%3F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F_%3F%3F_%3F%3F%3F%3F_Khandeshi_Bhawani_Powerfull_Duff_2022_%28_Dj_Bhaiya_Jalgaon_%29.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -757,7 +757,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/??_?????_????_???_Aaj_Lagani_tile_hayad_Ahirani_Khandeshi_Song_Video_Generation.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F_Aaj_Lagani_tile_hayad_Ahirani_Khandeshi_Song_Video_Generation.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -773,7 +773,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/?_???_?????_????_???_?_Hai_jhumka_vali_por_?Super_hit_ahirani_khandeshi_song_Vinod_kumavat.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2F%3F_%3F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F_%3F_Hai_jhumka_vali_por_%3FSuper_hit_ahirani_khandeshi_song_Vinod_kumavat.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -789,7 +789,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Char_varis_na_pyar,_???_????_??_?????_Ajay_Mali,_Anshuman_More,_new_khandeshi_song,ahirani_song.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FChar_varis_na_pyar%2C_%3F%3F%3F_%3F%3F%3F%3F_%3F%3F_%3F%3F%3F%3F%3F_Ajay_Mali%2C_Anshuman_More%2C_new_khandeshi_song%2Cahirani_song.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -805,7 +805,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Dang_Maa_Chalay_Pori.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FDang_Maa_Chalay_Pori.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -821,7 +821,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Dekh_Tuni_Bayko_Superhit_Ahirani_Song_Anjana_Barlekar_Jagdish_Sandhanshiv.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FDekh_Tuni_Bayko_Superhit_Ahirani_Song_Anjana_Barlekar_Jagdish_Sandhanshiv.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -837,7 +837,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Dena_Tuni_Sath.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FDena_Tuni_Sath.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -853,7 +853,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Dhokebaz_Hui_Gai.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FDhokebaz_Hui_Gai.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -869,7 +869,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Ghadina_Kata_Gar_Gar_Fire_Part_2_?????_????_?????_?_Ramakant_Kapadnis,_Shashikant_Kachave.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FGhadina_Kata_Gar_Gar_Fire_Part_2_%3F%3F%3F%3F%3F_%3F%3F%3F%3F_%3F%3F%3F%3F%3F_%3F_Ramakant_Kapadnis%2C_Shashikant_Kachave.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -885,7 +885,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Girana_Kathale_Mana_Gaav.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FGirana_Kathale_Mana_Gaav.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -901,7 +901,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Haat_Mehandi_Na.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FHaat_Mehandi_Na.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -917,7 +917,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Hai_Khandeshi_Tam_Tam.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FHai_Khandeshi_Tam_Tam.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -933,7 +933,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Hai_Saali_Pyaar_Karna.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FHai_Saali_Pyaar_Karna.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -949,7 +949,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Kanbai_Chalni_Gangevari.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FKanbai_Chalni_Gangevari.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -965,7 +965,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Kar_Man_Lagan.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FKar_Man_Lagan.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -981,7 +981,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Khandeshi_Band_Mix_Pawri,_Pt._3.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FKhandeshi_Band_Mix_Pawri%2C_Pt._3.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -997,7 +997,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Laganma_Machadu_Dhum_Ra_Dhum.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FLaganma_Machadu_Dhum_Ra_Dhum.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1013,7 +1013,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Lak_Lak_Chamakana_Nanduri_Na_Gad.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FLak_Lak_Chamakana_Nanduri_Na_Gad.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1029,7 +1029,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Mani_Darling.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FMani_Darling.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1045,7 +1045,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Mani_Dilbar_Tu_???_?????_??_khandeshi_Superhit_Song_Singer_Bhaiya_More_Vinod_Kumavat.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FMani_Dilbar_Tu_%3F%3F%3F_%3F%3F%3F%3F%3F_%3F%3F_khandeshi_Superhit_Song_Singer_Bhaiya_More_Vinod_Kumavat.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1061,7 +1061,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/May_Mani_Khandesh_Ni_Malan.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FMay_Mani_Khandesh_Ni_Malan.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1077,7 +1077,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Me_Ragush_Tu_Mani_Maina.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FMe_Ragush_Tu_Mani_Maina.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1093,7 +1093,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Mi_Tuna_Divana_S.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FMi_Tuna_Divana_S.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1109,7 +1109,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Na_Bhulau_Raja_Tula_(feat._Bhagyashree_Sathe).mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FNa_Bhulau_Raja_Tula_%28feat._Bhagyashree_Sathe%29.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1125,7 +1125,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/New_Aadiwasi_Song_????_??_??_?????_Zing_Lak_Lak_Pawri_Arun_Ahire_Official_Song.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FNew_Aadiwasi_Song_%3F%3F%3F%3F_%3F%3F_%3F%3F_%3F%3F%3F%3F%3F_Zing_Lak_Lak_Pawri_Arun_Ahire_Official_Song.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1141,7 +1141,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Paisa_Wali_Tai.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FPaisa_Wali_Tai.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1157,7 +1157,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Phiri_Phiri_Nach_Pori.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FPhiri_Phiri_Nach_Pori.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1173,7 +1173,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Phiri_phiri_nach_pora_new_ahirani_song_female_version_khandeshi_song_babu_more_shrawani_more.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FPhiri_phiri_nach_pora_new_ahirani_song_female_version_khandeshi_song_babu_more_shrawani_more.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1189,7 +1189,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Pori_Tuni_Payal.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FPori_Tuni_Payal.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1205,7 +1205,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Pyar_M_Tuna_Sajani.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FPyar_M_Tuna_Sajani.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1221,7 +1221,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Raja_Re_(Raja_Tu,_Tu_Mana_Raja_Re).mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FRaja_Re_%28Raja_Tu%2C_Tu_Mana_Raja_Re%29.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1237,7 +1237,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Rani_Mana_Khandesh_Say_Kamal.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FRani_Mana_Khandesh_Say_Kamal.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1253,7 +1253,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Sali_Mi_Nadan_Sa.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FSali_Mi_Nadan_Sa.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1269,7 +1269,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Tule_Jai_Ti_Dhoka_Disan.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FTule_Jai_Ti_Dhoka_Disan.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1285,7 +1285,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Vadi_Vadi_Chandan_Vadi_(feat._Sachin_Kumavat,Ankita_Raut).mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FVadi_Vadi_Chandan_Vadi_%28feat._Sachin_Kumavat%2CAnkita_Raut%29.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1301,7 +1301,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Vicky_Bhagya_Ni_Pawari_Ahirani_songs_Khandeshi_Dance_performance_Nakalp_cam_vision_studio.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FVicky_Bhagya_Ni_Pawari_Ahirani_songs_Khandeshi_Dance_performance_Nakalp_cam_vision_studio.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     },
     {
@@ -1317,7 +1317,7 @@ const defaultPlaylists = {
         "storagePath": "jay bangla/Zim_Zim_Pani_Ma.mp3",
         "audioUrl": "https://firebasestorage.googleapis.com/v0/b/bangla-f3985.firebasestorage.app/o/jay%20bangla%2FZim_Zim_Pani_Ma.mp3?alt=media",
         "duration": "--:--",
-        "cover": "assets/images/jay-bangla-bg.png",
+        "cover": "assets/images/vinyl-record.svg",
         "isFirebaseStorage": true
     }
   ]
@@ -1491,7 +1491,7 @@ class MiniMusicPlayer {
         storagePath: t.storagePath || (t.itemRef ? t.itemRef.fullPath : ''),
         audioUrl: t.audioUrl || null,
         duration: t.duration || '--:--',
-        cover: t.cover || 'assets/images/jay-bangla-bg.png',
+        cover: t.cover || 'assets/images/vinyl-record.svg',
         isFirebaseStorage: true
       }));
 
@@ -1646,7 +1646,7 @@ class MiniMusicPlayer {
         audioUrl: null,
         isFirebaseStorage: true,
         duration: '--:--',
-        cover: 'assets/images/jay-bangla-bg.png'
+        cover: 'assets/images/vinyl-record.svg'
       };
     }
 
@@ -1696,7 +1696,7 @@ class MiniMusicPlayer {
       audioUrl: null,
       isFirebaseStorage: true,
       duration: '--:--',
-      cover: 'assets/images/jay-bangla-bg.png'
+      cover: 'assets/images/vinyl-record.svg'
     };
   }
 
@@ -1924,7 +1924,7 @@ class MiniMusicPlayer {
     this.isDragging = false;
 
     if (this.trackCoverImg) {
-      const playlistCover = 'assets/images/jay-bangla-bg.png';
+      const playlistCover = 'assets/images/vinyl-record.svg';
       this.trackCoverImg.src = currentSong.cover || playlistCover;
     }
 
@@ -2013,7 +2013,7 @@ class MiniMusicPlayer {
     if (!currentSong) return;
 
     try {
-      const artworkSrc = currentSong.cover || 'assets/images/jay-bangla-bg.png';
+      const artworkSrc = currentSong.cover || 'assets/images/vinyl-record.svg';
       const absoluteArtwork = artworkSrc.startsWith('http')
         ? artworkSrc
         : new URL(artworkSrc, window.location.href).href;
@@ -2454,7 +2454,7 @@ class MiniMusicPlayer {
       const isActive = item.originalIndex === this.currentIndex;
       const isItemPlaying = isActive && this.isPlaying;
       const singerName = item.singer || item.artist || item.vocals || 'বাংলা সঙ্গীত';
-      const coverImg = item.cover || 'assets/images/jay-bangla-bg.png';
+      const coverImg = item.cover || 'assets/images/vinyl-record.svg';
       const actionIconSvg = isItemPlaying ? PAUSE_ICON_SVG : PLAY_ICON_SVG;
 
       return `
