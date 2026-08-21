@@ -1346,7 +1346,7 @@ class MiniMusicPlayer {
 
     this.playlists = {
       ahirani: (cachedAhirani && cachedAhirani.length > 0) ? cachedAhirani : [...defaultPlaylists.ahirani],
-      kanubai: (cachedKanubai && cachedKanubai.length > 0) ? cachedKanubai : ((defaultPlaylists.kanubai && defaultPlaylists.kanubai.length > 0) ? [...defaultPlaylists.kanubai] : [...defaultPlaylists.ahirani].map(t => ({...t, category: 'কুমার শানু', singer: 'কুমার শানু', singerName: 'কুমার শানু'}))),
+      kanubai: (cachedKanubai && cachedKanubai.length > 0) ? cachedKanubai : ((defaultPlaylists.kanubai && defaultPlaylists.kanubai.length > 0) ? [...defaultPlaylists.kanubai] : [...defaultPlaylists.ahirani].map(t => ({...t, category: 'অরিজিৎ সিং', singer: 'অরিজিৎ সিং', singerName: 'অরিজিৎ সিং'}))),
       aarti: (cachedAarti && cachedAarti.length > 0) ? cachedAarti : [...(defaultPlaylists.aarti || [])]
     };
     this.currentPlaylistId = localStorage.getItem('kj_active_playlist') || 'ahirani';
@@ -1437,7 +1437,7 @@ class MiniMusicPlayer {
         vocals: t.vocals || t.singer || 'বাংলা সঙ্গীত',
         singerName: t.singerName || t.singer || 'বাংলা সঙ্গীত',
         artistName: t.artistName || t.artist || 'বাংলা সঙ্গীত',
-        category: t.category || (playlistId === 'kanubai' ? 'কুমার শানু' : (playlistId === 'aarti' ? 'উৎসবের গান' : 'বাংলা গান')),
+        category: t.category || (playlistId === 'kanubai' ? 'অরিজিৎ সিং' : (playlistId === 'aarti' ? 'উৎসবের গান' : 'বাংলা গান')),
         filename: t.filename,
         storagePath: t.storagePath || (t.itemRef ? t.itemRef.fullPath : ''),
         audioUrl: t.audioUrl || null,
@@ -1529,7 +1529,7 @@ class MiniMusicPlayer {
     const labelEl = document.getElementById('playlistCurrentLabel');
     const iconEl = document.getElementById('currentPlaylistIcon');
     if (labelEl) {
-      if (playlistId === 'kanubai') labelEl.textContent = 'কুমার শানু';
+      if (playlistId === 'kanubai') labelEl.textContent = 'অরিজিৎ সিং';
       else if (playlistId === 'aarti') labelEl.textContent = '৩';
       else labelEl.textContent = 'বাংলা গান';
     }
@@ -1715,7 +1715,7 @@ class MiniMusicPlayer {
 
     let folderNames = [];
     if (playlistId === 'kanubai') {
-      folderNames = ['kanubai special', 'Kanubai Special', 'kanubai_special', 'Kanubai_Special', 'kanubaispecial', 'kanubai-special', 'kanubai', 'kanbai', 'Kanubai', 'Kanbai', 'kanubai_songs', 'kanbai_songs'];
+      folderNames = ['arijit singh', 'Arijit Singh', 'arijit', 'Arijit', 'arijit_singh', 'Arijit_Singh', 'arijit_bangla', 'kanubai special', 'Kanubai Special', 'kanubai_special', 'Kanubai_Special', 'kanubaispecial', 'kanubai-special', 'kanubai', 'kanbai', 'Kanubai', 'Kanbai', 'kanubai_songs', 'kanbai_songs', 'jay bangla', 'Jay Bangla'];
     } else if (playlistId === 'aarti') {
       folderNames = ['aarti sangrah', 'Aarti Sangrah', 'aarti_sangrah', 'Aarti_Sangrah', 'aartisangrah', 'aarti-sangrah', 'aarti', 'Aarti', 'aarti_songs'];
     } else {
@@ -1738,7 +1738,7 @@ class MiniMusicPlayer {
           rootResult.prefixes.forEach((p) => {
             const pName = p.name;
             const pLower = pName.toLowerCase().replace(/[\s\-_]/g, '');
-            if (playlistId === 'kanubai' && (pLower.includes('kanu') || pLower.includes('kanb') || pLower.includes('special'))) {
+            if (playlistId === 'kanubai' && (pLower.includes('arijit') || pLower.includes('kanu') || pLower.includes('kanb') || pLower.includes('special'))) {
               discoveredFolders.push(pName);
             } else if (playlistId === 'aarti' && (pLower.includes('aarti') || pLower.includes('sangrah') || pLower.includes('arti'))) {
               discoveredFolders.push(pName);
@@ -2428,7 +2428,7 @@ class MiniMusicPlayer {
       const isKanubai = this.currentPlaylistId === 'kanubai';
       const isAarti = this.currentPlaylistId === 'aarti';
       const emptyIcon = isKanubai ? '🎤' : (isAarti ? '🪔' : '🔍');
-      const emptyTitle = isKanubai ? 'কুমার শানুর গান লোড হচ্ছে...' : (isAarti ? '৩ গান লোড হচ্ছে...' : 'কোনো গান পাওয়া যায়নি');
+      const emptyTitle = isKanubai ? 'অরিজিৎ সিংয়ের গান লোড হচ্ছে...' : (isAarti ? '৩ গান লোড হচ্ছে...' : 'কোনো গান পাওয়া যায়নি');
       const emptySub = isKanubai ? "Firebase Storage থেকে সংযুক্ত করা হচ্ছে" : (isAarti ? "Firebase Storage থেকে সংযুক্ত করা হচ্ছে" : 'অনুগ্রহ করে অনুসন্ধানের শব্দটি পরীক্ষা করুন');
 
       this.playlistItemsContainer.innerHTML = `
@@ -2451,11 +2451,11 @@ class MiniMusicPlayer {
           <div style="display: flex; align-items: center; gap: 0.55rem; min-width: 0;">
             <span style="font-size: 1.25rem;">🎤</span>
             <div style="min-width: 0;">
-              <div style="font-size: 0.84rem; font-weight: 700; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">কুমার শানু (Kumar Sanu)</div>
+              <div style="font-size: 0.84rem; font-weight: 700; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">অরিজিৎ সিং (Arijit Bangla Hits)</div>
               <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7);">YouTube Music Playlist</div>
             </div>
           </div>
-          <a href="https://music.youtube.com/playlist?list=PLWBr-lODEy10&si=94MIhijoFlUd2AdZ" 
+          <a href="https://music.youtube.com/playlist?list=PLWBr-lODEy10&si=zaxyBEz32gJHpybb" 
              target="_blank" rel="noopener noreferrer"
              style="display: inline-flex; align-items: center; gap: 0.3rem; background: #ff0000; color: #ffffff; padding: 0.35rem 0.75rem; border-radius: 999px; font-weight: 700; font-size: 0.72rem; text-decoration: none; white-space: nowrap; box-shadow: 0 2px 8px rgba(255,0,0,0.4);">
             প্লেলিস্ট ↗
