@@ -4,53 +4,77 @@
    ========================================================================== */
 
 :root {
-  /* Color Palette - Silver / Metallic Chrome Tone */
-  --bg-dark: #08090b;
+  /* Color Palette */
+  --bg-dark: #0a0805;
   
-  /* Universal Silver / Metallic Theme Variables */
-  --theme-accent: #E8E8E8;
-  --theme-accent-bright: #FFFFFF;
-  --theme-accent-dark: #8A8A8A;
-  --theme-glow: rgba(220, 225, 235, 0.40);
-  --theme-glow-strong: rgba(255, 255, 255, 0.75);
+  /* Dynamic Theme Variables (Default: Warm Amber/Gold for Hindi Melodies & Rewind) */
+  --theme-accent: #fbbf24;
+  --theme-accent-bright: #fde68a;
+  --theme-accent-dark: #d97706;
+  --theme-glow: rgba(245, 158, 11, 0.35);
+  --theme-glow-strong: rgba(251, 191, 36, 0.65);
   
-  --theme-player-bg: linear-gradient(135deg, rgba(34, 38, 44, 0.82) 0%, rgba(16, 18, 22, 0.92) 50%, rgba(26, 30, 36, 0.86) 100%);
-  --theme-player-border: rgba(220, 225, 235, 0.45);
-  --theme-player-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.80), 0 0 24px rgba(200, 210, 225, 0.30);
-  --theme-badge-bg: rgba(22, 26, 32, 0.72);
-  --theme-badge-border: rgba(220, 225, 235, 0.45);
+  --theme-player-bg: linear-gradient(135deg, rgba(54, 14, 10, 0.72) 0%, rgba(26, 7, 5, 0.82) 50%, rgba(42, 11, 8, 0.76) 100%);
+  --theme-player-border: rgba(251, 191, 36, 0.32);
+  --theme-player-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.65), 0 0 18px rgba(245, 158, 11, 0.22);
+  --theme-badge-bg: rgba(46, 12, 8, 0.65);
+  --theme-badge-border: rgba(251, 191, 36, 0.3);
   
-  --theme-btn-bg: linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 45%, #9E9E9E 100%);
-  --theme-btn-color: #111418;
-  --theme-progress-fill: linear-gradient(90deg, #8A8A8A 0%, #D4D4D4 50%, #FFFFFF 100%);
-  --theme-thumb-border: #E8E8E8;
+  --theme-btn-bg: linear-gradient(135deg, #fbbf24, #d97706);
+  --theme-btn-color: #140a05;
+  --theme-progress-fill: linear-gradient(90deg, #d97706, #fbbf24);
+  --theme-thumb-border: #f59e0b;
 
-  --theme-transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --theme-transition: 0.55s cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* High-Transparency Silver Glassmorphism */
-  --bg-glass-player: linear-gradient(135deg, rgba(34, 38, 44, 0.82) 0%, rgba(16, 18, 22, 0.92) 50%, rgba(26, 30, 36, 0.86) 100%);
-  --bg-glass-badge: rgba(22, 26, 32, 0.72);
-  --glass-blur: blur(12px);
-  --border-subtle: 1px solid rgba(255, 255, 255, 0.22);
+  /* High-Transparency Festive Glassmorphism */
+  --bg-glass-player: linear-gradient(135deg, rgba(54, 14, 10, 0.72) 0%, rgba(26, 7, 5, 0.82) 50%, rgba(42, 11, 8, 0.76) 100%);
+  --bg-glass-badge: rgba(46, 12, 8, 0.65);
+  --glass-blur: blur(10px);
+  --border-subtle: 1px solid rgba(255, 255, 255, 0.15);
 
-  /* Silver / Metallic Palette Mapping */
-  --gold-300: #e2e6ec;
-  --gold-400: #c5cbd6;
-  --gold-500: #9ba3b2;
-  --gold-600: #717a8c;
-  --gold-glow: rgba(220, 225, 235, 0.35);
+  /* Warm Brand Highlights */
+  --gold-300: #fde68a;
+  --gold-400: #fbbf24;
+  --gold-500: #f59e0b;
+  --gold-600: #d97706;
+  --gold-glow: rgba(245, 158, 11, 0.22);
   --green-live: #22c55e;
 
   /* Typography */
   --text-primary: #ffffff;
-  --text-secondary: #e6ecf5;
-  --text-muted: #9ba3b2;
+  --text-secondary: #e6ded7;
+  --text-muted: #b5a79b;
 
   --font-marathi: 'Tiro Devanagari Marathi', 'Noto Serif Devanagari', serif;
   --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   SILVER / METALLIC THEME (Applied when Arijit Express is selected)
+   ========================================================================== */
+[data-theme="silver"],
+[data-theme="arijit"],
+[data-theme="arjit"] {
+  --theme-accent: #E8E8E8;
+  --theme-accent-bright: #FFFFFF;
+  --theme-accent-dark: #8A8A8A;
+  --theme-glow: rgba(220, 220, 230, 0.40);
+  --theme-glow-strong: rgba(255, 255, 255, 0.75);
+  
+  --theme-player-bg: linear-gradient(135deg, rgba(38, 42, 48, 0.80) 0%, rgba(18, 20, 24, 0.90) 50%, rgba(28, 32, 38, 0.84) 100%);
+  --theme-player-border: rgba(220, 225, 235, 0.45);
+  --theme-player-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.75), 0 0 22px rgba(200, 210, 225, 0.30);
+  --theme-badge-bg: rgba(24, 28, 34, 0.70);
+  --theme-badge-border: rgba(220, 225, 235, 0.45);
+  
+  --theme-btn-bg: linear-gradient(135deg, #FFFFFF 0%, #E0E0E0 45%, #9E9E9E 100%);
+  --theme-btn-color: #111418;
+  --theme-progress-fill: linear-gradient(90deg, #8A8A8A 0%, #D4D4D4 50%, #FFFFFF 100%);
+  --theme-thumb-border: #E8E8E8;
 }
 
 *, *::before, *::after {
@@ -107,8 +131,7 @@ body {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
   will-change: transform, opacity, background-image;
-  filter: grayscale(100%) contrast(1.15) brightness(0.92);
-  transition: filter 0.5s ease, background-image 0.4s ease-in-out, opacity 0.4s ease, transform 0.4s ease;
+  transition: background-image 0.4s ease-in-out, opacity 0.4s ease, transform 0.4s ease;
   animation: cinematicBreathing 18s ease-in-out infinite alternate;
 }
 
@@ -123,8 +146,8 @@ body {
   background: radial-gradient(
     circle at 50% 45%,
     rgba(0, 0, 0, 0) 50%,
-    rgba(14, 18, 24, 0.28) 85%,
-    rgba(8, 10, 14, 0.72) 100%
+    rgba(0, 0, 0, 0.22) 85%,
+    rgba(10, 8, 5, 0.65) 100%
   );
   pointer-events: none;
   transition: background 0.4s ease;
@@ -134,8 +157,8 @@ body {
   background: radial-gradient(
     circle at 50% 45%,
     rgba(0, 0, 0, 0) 45%,
-    rgba(20, 24, 32, 0.3) 75%,
-    rgba(10, 12, 16, 0.7) 100%
+    rgba(40, 3, 2, 0.2) 75%,
+    rgba(25, 2, 1, 0.6) 100%
   );
 }
 
@@ -164,7 +187,7 @@ body {
   left: 22%;
   width: 90px;
   height: 90px;
-  background: radial-gradient(circle, rgba(220, 230, 245, 0.22) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.22) 0%, transparent 70%);
   animation: ambientBulbPulse 4s ease-in-out infinite alternate;
 }
 
@@ -173,7 +196,7 @@ body {
   left: 50%;
   width: 110px;
   height: 110px;
-  background: radial-gradient(circle, rgba(200, 215, 235, 0.20) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.18) 0%, transparent 70%);
   animation: ambientBulbPulse 4.8s ease-in-out 1.2s infinite alternate;
 }
 
@@ -182,7 +205,7 @@ body {
   right: 24%;
   width: 95px;
   height: 95px;
-  background: radial-gradient(circle, rgba(220, 230, 245, 0.20) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.2) 0%, transparent 70%);
   animation: ambientBulbPulse 3.8s ease-in-out 2.4s infinite alternate;
 }
 
@@ -193,7 +216,7 @@ body {
   width: 160px;
   height: 160px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(220, 230, 255, 0.15) 0%, rgba(180, 200, 235, 0.08) 40%, transparent 70%);
+  background: radial-gradient(circle, rgba(244, 114, 182, 0.12) 0%, rgba(251, 191, 36, 0.08) 40%, transparent 70%);
   filter: blur(18px);
   animation: ambientFirework 7s ease-in-out infinite alternate;
 }
@@ -241,22 +264,22 @@ body {
 }
 
 .dust-gold {
-  background: #e2e8f0;
-  box-shadow: 0 0 4px rgba(255, 255, 255, 0.65);
+  background: #fbbf24;
+  box-shadow: 0 0 4px rgba(251, 191, 36, 0.55);
 }
 
 .dust-amber {
-  background: #cbd5e1;
-  box-shadow: 0 0 3px rgba(220, 230, 245, 0.55);
+  background: #f59e0b;
+  box-shadow: 0 0 3px rgba(245, 158, 11, 0.45);
 }
 
 .dust-white {
-  background: #ffffff;
-  box-shadow: 0 0 3px rgba(255, 255, 255, 0.6);
+  background: #fffbf5;
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
 }
 
 /* --------------------------------------------------------------------------
-   5. Central Artwork Soft Highlight Sweep
+   5. Central Artwork Soft Golden Highlight Sweep
    -------------------------------------------------------------------------- */
 .center-shine-sweep {
   position: absolute;
@@ -265,7 +288,7 @@ body {
   transform: translate(-50%, -50%);
   width: 480px;
   height: 260px;
-  background: radial-gradient(ellipse at center, rgba(220, 230, 245, 0.16) 0%, transparent 68%);
+  background: radial-gradient(ellipse at center, rgba(251, 191, 36, 0.14) 0%, transparent 68%);
   filter: blur(20px);
   pointer-events: none;
   opacity: 0;
@@ -660,14 +683,14 @@ body {
   gap: 0.45rem;
   padding: 0.38rem 0.85rem;
   border-radius: 10px;
-  background: var(--theme-badge-bg);
+  background: var(--bg-glass-badge);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--theme-player-border);
+  border: 1px solid rgba(255, 215, 0, 0.45);
   box-shadow: 
     0 4px 16px rgba(0, 0, 0, 0.4),
-    0 0 12px var(--theme-glow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    0 0 12px rgba(255, 140, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
   overflow: hidden;
   user-select: none;
   animation: billboardBorderGlow 3s ease-in-out infinite alternate;
@@ -680,7 +703,7 @@ body {
   left: -120%;
   width: 60%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), rgba(220, 230, 245, 0.6), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), rgba(255, 215, 0, 0.4), transparent);
   transform: skewX(-25deg);
   pointer-events: none;
   animation: billboardShimmerSweep 4.5s ease-in-out 1.2s infinite;
@@ -692,7 +715,7 @@ body {
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #FFFFFF;
+  color: #FFF8E7;
   display: inline-block;
   white-space: nowrap;
   animation: neonTextPulse 2.8s ease-in-out infinite alternate;
@@ -700,10 +723,10 @@ body {
 
 .billboard-sparkle {
   font-size: 0.82em;
-  color: #E2E8F0;
+  color: #FFD700;
   display: inline-block;
   animation: sparkleTwinkle 2s ease-in-out infinite alternate;
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9));
+  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.9));
 }
 
 .left-sparkle {
@@ -736,45 +759,45 @@ body {
 
 @keyframes billboardBorderGlow {
   0% {
-    border-color: rgba(220, 225, 235, 0.35);
+    border-color: rgba(255, 215, 0, 0.35);
     box-shadow: 
       0 4px 18px rgba(0, 0, 0, 0.6),
-      0 0 12px var(--theme-glow),
+      0 0 12px rgba(255, 140, 0, 0.22),
       inset 0 1px 1px rgba(255, 255, 255, 0.2);
   }
   100% {
-    border-color: rgba(255, 255, 255, 0.65);
+    border-color: rgba(255, 215, 0, 0.65);
     box-shadow: 
       0 6px 24px rgba(0, 0, 0, 0.7),
-      0 0 22px var(--theme-glow-strong),
-      0 0 35px rgba(220, 230, 245, 0.35),
+      0 0 22px rgba(255, 140, 0, 0.45),
+      0 0 35px rgba(255, 215, 0, 0.25),
       inset 0 1px 1px rgba(255, 255, 255, 0.35);
   }
 }
 
 @keyframes neonTextPulse {
   0% {
-    color: #F1F5F9;
+    color: #FFF3D6;
     text-shadow: 
-      0 0 4px rgba(255, 255, 255, 0.8),
-      0 0 10px rgba(200, 215, 235, 0.6),
+      0 0 4px rgba(255, 215, 0, 0.7),
+      0 0 10px rgba(255, 140, 0, 0.5),
       0 1px 3px rgba(0, 0, 0, 0.9);
   }
   50% {
     color: #FFFFFF;
     text-shadow: 
-      0 0 8px #FFFFFF,
-      0 0 18px #CBD5E1,
-      0 0 28px rgba(220, 230, 245, 0.85),
-      0 0 40px rgba(255, 255, 255, 0.55),
+      0 0 8px #FFD700,
+      0 0 18px #FF8C00,
+      0 0 28px rgba(255, 140, 0, 0.75),
+      0 0 40px rgba(255, 215, 0, 0.45),
       0 1px 4px rgba(0, 0, 0, 0.95);
   }
   100% {
-    color: #F8FAFC;
+    color: #FFF8E7;
     text-shadow: 
-      0 0 6px rgba(255, 255, 255, 0.9),
-      0 0 14px rgba(200, 220, 245, 0.7),
-      0 0 22px rgba(180, 205, 235, 0.5),
+      0 0 6px rgba(255, 215, 0, 0.8),
+      0 0 14px rgba(255, 140, 0, 0.6),
+      0 0 22px rgba(255, 100, 0, 0.4),
       0 1px 3px rgba(0, 0, 0, 0.9);
   }
 }
@@ -796,7 +819,7 @@ body {
   100% {
     transform: scale(1.15) rotate(15deg);
     opacity: 1;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1));
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 1));
   }
 }
 
@@ -994,7 +1017,7 @@ body.aarti-active .player-container.hidden-on-scroll {
 .track-artist {
   font-size: 0.74rem;
   font-weight: 500;
-  color: rgba(220, 228, 240, 0.9);
+  color: rgba(255, 230, 160, 0.88);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2434,17 +2457,17 @@ body.aarti-active .player-container.hidden-on-scroll {
     padding: 12px;
     gap: 0.55rem;
     border-radius: 16px;
-    background: var(--theme-player-bg) !important;
+    background: linear-gradient(135deg, rgba(58, 15, 10, 0.82) 0%, rgba(28, 8, 6, 0.90) 50%, rgba(46, 12, 8, 0.86) 100%);
     backdrop-filter: blur(24px) saturate(170%);
     -webkit-backdrop-filter: blur(24px) saturate(170%);
-    border: 1px solid var(--theme-player-border) !important;
-    box-shadow: var(--theme-player-shadow), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.75), 0 0 20px rgba(251, 191, 36, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2);
   }
 
   body.kanubai-active .mini-player-bar {
-    background: var(--theme-player-bg) !important;
-    border: 1px solid var(--theme-player-border) !important;
-    box-shadow: var(--theme-player-shadow), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+    background: linear-gradient(135deg, rgba(82, 12, 10, 0.86) 0%, rgba(42, 5, 4, 0.94) 50%, rgba(68, 9, 8, 0.90) 100%);
+    border: 1px solid rgba(253, 230, 138, 0.45);
+    box-shadow: 0 10px 30px -4px rgba(20, 2, 2, 0.8), 0 0 24px rgba(251, 191, 36, 0.30), inset 0 1px 1px rgba(255, 235, 175, 0.25);
   }
 
   /* Line 1: Song Info (Left) + Mute/Volume Button (Right) */
@@ -2471,8 +2494,8 @@ body.aarti-active .player-container.hidden-on-scroll {
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    border: 1.5px solid var(--theme-accent);
-    box-shadow: 0 0 10px var(--theme-glow);
+    border: 1.5px solid rgba(251, 191, 36, 0.65);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.35);
     flex-shrink: 0;
   }
 
@@ -2501,7 +2524,7 @@ body.aarti-active .player-container.hidden-on-scroll {
 
   .track-artist {
     font-size: 0.74rem;
-    color: rgba(220, 228, 240, 0.9);
+    color: rgba(255, 230, 160, 0.9);
     line-height: 1.15;
     white-space: nowrap;
     overflow: hidden;
@@ -2566,9 +2589,9 @@ body.aarti-active .player-container.hidden-on-scroll {
     min-width: 38px;
     min-height: 38px;
     border-radius: 50%;
-    background: var(--theme-btn-bg);
-    color: var(--theme-btn-color);
-    box-shadow: 0 2px 12px var(--theme-glow-strong);
+    background: linear-gradient(135deg, #fbbf24, #d97706);
+    color: #140a05;
+    box-shadow: 0 2px 12px rgba(245, 158, 11, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2624,7 +2647,7 @@ body.aarti-active .player-container.hidden-on-scroll {
   }
 
   .current-time {
-    color: var(--theme-accent-bright);
+    color: var(--gold-300);
   }
 
   .progress-bar-wrapper {
@@ -2643,8 +2666,7 @@ body.aarti-active .player-container.hidden-on-scroll {
     height: 10px;
     right: -5px;
     transform: translateY(-50%) scale(1);
-    border: 1.5px solid var(--theme-thumb-border);
-    box-shadow: 0 0 6px var(--theme-glow);
+    box-shadow: 0 0 6px var(--gold-glow);
   }
 }
 
