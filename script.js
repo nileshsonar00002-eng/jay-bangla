@@ -2961,16 +2961,18 @@ function initFullscreenToggle() {
 function initTopTitleScrollFade() {
   const title = document.getElementById('topMainTitle');
   const banner = document.getElementById('festiveAdBanner');
-  if (!title && !banner) return;
+  const playerContainer = document.getElementById('playerContainer');
 
   const handleScroll = () => {
     const scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     if (scrollY > 10) {
       if (title) title.classList.add('hidden-on-scroll');
       if (banner) banner.classList.add('hidden-on-scroll');
+      if (playerContainer) playerContainer.classList.add('scrolled-up');
     } else {
       if (title) title.classList.remove('hidden-on-scroll');
       if (banner) banner.classList.remove('hidden-on-scroll');
+      if (playerContainer) playerContainer.classList.remove('scrolled-up');
     }
   };
 
