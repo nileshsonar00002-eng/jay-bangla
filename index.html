@@ -433,6 +433,38 @@
           <span class="time-display current-time" id="currentTime">00:00</span>
           
           <div class="progress-bar-wrapper" id="progressBarWrapper">
+            <!-- Audio Object Interactive Visualizer (Dynamic per Playlist) -->
+            <div class="audio-object-visualizer" id="audioObjectVisualizer" aria-hidden="true">
+              <!-- 1. Hindi Melodies: Spinning Mini Gold Vinyl Disc -->
+              <div class="audio-obj-item audio-obj-vinyl" id="audioObjVinyl">
+                <div class="mini-vinyl-badge">
+                  <div class="mini-vinyl-groove"></div>
+                  <div class="mini-vinyl-hole"></div>
+                </div>
+                <span class="audio-obj-label">Vinyl Mode</span>
+              </div>
+
+              <!-- 2. Arijit Express: Concert Live Equalizer Visualizer Bars -->
+              <div class="audio-obj-item audio-obj-equalizer" id="audioObjEqualizer">
+                <div class="stage-eq-bars">
+                  <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                </div>
+                <span class="audio-obj-label">Stage Visualizer</span>
+              </div>
+
+              <!-- 3. Rewind 2000s: Dual Reel Retro Cassette Tape -->
+              <div class="audio-obj-item audio-obj-cassette" id="audioObjCassette">
+                <div class="cassette-tape-body">
+                  <div class="tape-reel reel-left"></div>
+                  <div class="tape-center-window">
+                    <div class="tape-ribbon"></div>
+                  </div>
+                  <div class="tape-reel reel-right"></div>
+                </div>
+                <span class="audio-obj-label">Cassette 2000s</span>
+              </div>
+            </div>
+
             <div class="progress-track">
               <div class="progress-buffered" id="progressBuffered"></div>
               <div class="progress-fill" id="progressFill">
