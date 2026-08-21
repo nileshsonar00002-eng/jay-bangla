@@ -1320,7 +1320,233 @@ const defaultPlaylists = {
         "isFirebaseStorage": true
     }
 ],
-  kanubai: [],
+  kanubai: [
+    {
+      "id": "yt_track_1",
+      "title": "বোঝে না সে বোঝে না (Bojhena Shey Bojhena)",
+      "singer": "অরিজিৎ সিং",
+      "artist": "অরিজিৎ সিং",
+      "vocals": "অরিজিৎ সিং",
+      "singerName": "অরিজিৎ সিং",
+      "artistName": "অরিজিৎ সিং",
+      "category": "অরিজিৎ সিং",
+      "videoId": "J8lX_oW8tYc",
+      "ytId": "J8lX_oW8tYc",
+      "duration": "04:32",
+      "cover": "https://img.youtube.com/vi/J8lX_oW8tYc/mqdefault.jpg",
+      "isYouTube": true
+    },
+    {
+      "id": "yt_track_2",
+      "title": "মন মাঝি রে (Mon Majhi Re - Boss)",
+      "singer": "অরিজিৎ সিং",
+      "artist": "অরিজিৎ সিং",
+      "vocals": "অরিজিৎ সিং",
+      "singerName": "অরিজিৎ সিং",
+      "artistName": "অরিজিৎ সিং",
+      "category": "অরিজিৎ সিং",
+      "videoId": "8i2y4L5r8hM",
+      "ytId": "8i2y4L5r8hM",
+      "duration": "05:12",
+      "cover": "https://img.youtube.com/vi/8i2y4L5r8hM/mqdefault.jpg",
+      "isYouTube": true
+    },
+    {
+      "id": "yt_track_3",
+      "title": "এগিয়ে দে (Egiye De - Shudhu Tomari Jonyo)",
+      "singer": "অরিজিৎ সিং",
+      "artist": "অরিজিৎ সিং",
+      "vocals": "অরিজিৎ সিং",
+      "singerName": "অরিজিৎ সিং",
+      "artistName": "অরিজিৎ সিং",
+      "category": "অরিজিৎ সিং",
+      "videoId": "y7-qO9g5l7E",
+      "ytId": "y7-qO9g5l7E",
+      "duration": "04:18",
+      "cover": "https://img.youtube.com/vi/y7-qO9g5l7E/mqdefault.jpg",
+      "isYouTube": true
+    },
+    {
+      "id": "yt_track_4",
+      "title": "পরবো না আমি ছাড়তে তোকে (Parbona Ami Chharte Toke)",
+      "singer": "অরিজিৎ সিং",
+      "artist": "অরিজিৎ সিং",
+      "vocals": "অরিজিৎ সিং",
+      "singerName": "অরিজিৎ সিং",
+      "artistName": "অরিজিৎ সিং",
+      "category": "অরিজিৎ সিং",
+      "videoId": "kYJt2xM0bK4",
+      "ytId": "kYJt2xM0bK4",
+      "duration": "04:45",
+      "cover": "https://img.youtube.com/vi/kYJt2xM0bK4/mqdefault.jpg",
+      "isYouTube": true
+    },
+    {
+      "id": "yt_track_5",
+      "title": "কী করে তোকে বলবো (Ki Kore Toke Bolbo - Rangbaaz)",
+      "singer": "অরিজিৎ সিং",
+      "artist": "অরিজিৎ সিং",
+      "vocals": "অরিজিৎ সিং",
+      "singerName": "অরিজিৎ সিং",
+      "artistName": "অরিজিৎ সিং",
+      "category": "অরিজিৎ সিং",
+      "videoId": "J_j-R8S72g0",
+      "ytId": "J_j-R8S72g0",
+      "duration": "04:22",
+      "cover": "https://img.youtube.com/vi/J_j-R8S72g0/mqdefault.jpg",
+      "isYouTube": true
+    },
+    {
+      "id": "yt_track_6",
+      "title": "ভালোবাসার মরশুম (Bhalobashar Morshum - X=Prem)",
+      "singer": "অরিজিৎ সিং",
+      "artist": "অরিজিৎ সিং",
+      "vocals": "অরিজিৎ সিং",
+      "singerName": "অরিজিৎ সিং",
+      "artistName": "অরিজিৎ সিং",
+      "category": "অরিজিৎ সিং",
+      "videoId": "kY_7-6K-40k",
+      "ytId": "kY_7-6K-40k",
+      "duration": "03:55",
+      "cover": "https://img.youtube.com/vi/kY_7-6K-40k/mqdefault.jpg",
+      "isYouTube": true
+    },
+    {
+      "id": "yt_track_7",
+      "title": "তোমাকে চাই (Tomake Chai - Gangster)",
+      "singer": "অরিজিৎ সিং",
+      "artist": "অরিজিৎ সিং",
+      "vocals": "অরিজিৎ সিং",
+      "singerName": "অরিজিৎ সিং",
+      "artistName": "অরিজিৎ সিং",
+      "category": "অরিজিৎ সিং",
+      "videoId": "6P639b78a9U",
+      "ytId": "6P639b78a9U",
+      "duration": "04:50",
+      "cover": "https://img.youtube.com/vi/6P639b78a9U/mqdefault.jpg",
+      "isYouTube": true
+    },
+    {
+      "id": "yt_track_8",
+      "title": "তোর এক কথায় (Tor Ek Kothaye)",
+      "singer": "অরিজিৎ সিং",
+      "artist": "অরিজিৎ সিং",
+      "vocals": "অরিজিৎ সিং",
+      "singerName": "অরিজিৎ সিং",
+      "artistName": "অরিজিৎ সিং",
+      "category": "অরিজিৎ সিং",
+      "videoId": "b0-v2cR1tqA",
+      "ytId": "b0-v2cR1tqA",
+      "duration": "04:05",
+      "cover": "https://img.youtube.com/vi/b0-v2cR1tqA/mqdefault.jpg",
+      "isYouTube": true
+    },
+    {
+      "id": "yt_track_9",
+      "title": "ধ্রুবতারা (Dhruvtara)",
+      "singer": "অরিজিৎ সিং",
+      "artist": "অরিজিৎ সিং",
+      "vocals": "অরিজিৎ সিং",
+      "singerName": "অরিজিৎ সিং",
+      "artistName": "অরিজিৎ সিং",
+      "category": "অরিজিৎ সিং",
+      "videoId": "P7_k_24Q7Yk",
+      "ytId": "P7_k_24Q7Yk",
+      "duration": "04:10",
+      "cover": "https://img.youtube.com/vi/P7_k_24Q7Yk/mqdefault.jpg",
+      "isYouTube": true
+    },
+    {
+      "id": "yt_track_10",
+      "title": "তুমি আসবে বলে (Tumi Asbe Bole)",
+      "singer": "অরিজিৎ সিং",
+      "artist": "অরিজিৎ সিং",
+      "vocals": "অরিজিৎ সিং",
+      "singerName": "অরিজিৎ সিং",
+      "artistName": "অরিজিৎ সিং",
+      "category": "অরিজিৎ সিং",
+      "videoId": "y1nZ4kYfU7Q",
+      "ytId": "y1nZ4kYfU7Q",
+      "duration": "04:15",
+      "cover": "https://img.youtube.com/vi/y1nZ4kYfU7Q/mqdefault.jpg",
+      "isYouTube": true
+    },
+    {
+      "id": "yt_track_11",
+      "title": "হাওয়া গাড়ি (Hawa Gari)",
+      "singer": "অরিজিৎ সিং",
+      "artist": "অরিজিৎ সিং",
+      "vocals": "অরিজিৎ সিং",
+      "singerName": "অরিজিৎ সিং",
+      "artistName": "অরিজিৎ সিং",
+      "category": "অরিজিৎ সিং",
+      "videoId": "5Z3G0fI0rC4",
+      "ytId": "5Z3G0fI0rC4",
+      "duration": "03:40",
+      "cover": "https://img.youtube.com/vi/5Z3G0fI0rC4/mqdefault.jpg",
+      "isYouTube": true
+    },
+    {
+      "id": "yt_track_12",
+      "title": "বোকা মন (Boka Mon)",
+      "singer": "অরিজিৎ সিং",
+      "artist": "অরিজিৎ সিং",
+      "vocals": "অরিজিৎ সিং",
+      "singerName": "অরিজিৎ সিং",
+      "artistName": "অরিজিৎ সিং",
+      "category": "অরিজিৎ সিং",
+      "videoId": "9z_kL1vB6bM",
+      "ytId": "9z_kL1vB6bM",
+      "duration": "03:50",
+      "cover": "https://img.youtube.com/vi/9z_kL1vB6bM/mqdefault.jpg",
+      "isYouTube": true
+    },
+    {
+      "id": "yt_track_13",
+      "title": "যে কটা দিন তুমি ছিলে পাশে (Je Kota Din)",
+      "singer": "অরিজিৎ সিং",
+      "artist": "অরিজিৎ সিং",
+      "vocals": "অরিজিৎ সিং",
+      "singerName": "অরিজিৎ সিং",
+      "artistName": "অরিজিৎ সিং",
+      "category": "অরিজিৎ সিং",
+      "videoId": "d3W9kP0rY8c",
+      "ytId": "d3W9kP0rY8c",
+      "duration": "04:12",
+      "cover": "https://img.youtube.com/vi/d3W9kP0rY8c/mqdefault.jpg",
+      "isYouTube": true
+    },
+    {
+      "id": "yt_track_14",
+      "title": "কলকাতা (Kolkata - Praktan)",
+      "singer": "অরিজিৎ সিং",
+      "artist": "অরিজিৎ সিং",
+      "vocals": "অরিজিৎ সিং",
+      "singerName": "অরিজিৎ সিং",
+      "artistName": "অরিজিৎ সিং",
+      "category": "অরিজিৎ সিং",
+      "videoId": "c8P1vG7k4y8",
+      "ytId": "c8P1vG7k4y8",
+      "duration": "03:48",
+      "cover": "https://img.youtube.com/vi/c8P1vG7k4y8/mqdefault.jpg",
+      "isYouTube": true
+    },
+    {
+      "id": "yt_track_15",
+      "title": "দেখেছি রূপসাগরে (Dekhechhi Rupshagore)",
+      "singer": "অরিজিৎ সিং",
+      "artist": "অরিজিৎ সিং",
+      "vocals": "অরিজিৎ সিং",
+      "singerName": "অরিজিৎ সিং",
+      "artistName": "অরিজিৎ সিং",
+      "category": "অরিজিৎ সিং",
+      "videoId": "e5K9bL0rY7c",
+      "ytId": "e5K9bL0rY7c",
+      "duration": "04:55",
+      "cover": "https://img.youtube.com/vi/e5K9bL0rY7c/mqdefault.jpg",
+      "isYouTube": true
+    }
+  ],
   aarti: []
 };
 
@@ -1346,7 +1572,7 @@ class MiniMusicPlayer {
 
     this.playlists = {
       ahirani: (cachedAhirani && cachedAhirani.length > 0) ? cachedAhirani : [...defaultPlaylists.ahirani],
-      kanubai: (cachedKanubai && cachedKanubai.length > 0) ? cachedKanubai : ((defaultPlaylists.kanubai && defaultPlaylists.kanubai.length > 0) ? [...defaultPlaylists.kanubai] : [...defaultPlaylists.ahirani].map(t => ({...t, category: 'অরিজিৎ সিং', singer: 'অরিজিৎ সিং', singerName: 'অরিজিৎ সিং'}))),
+      kanubai: (cachedKanubai && cachedKanubai.length > 0) ? cachedKanubai : [...defaultPlaylists.kanubai],
       aarti: (cachedAarti && cachedAarti.length > 0) ? cachedAarti : [...(defaultPlaylists.aarti || [])]
     };
     this.currentPlaylistId = localStorage.getItem('kj_active_playlist') || 'ahirani';
@@ -1473,6 +1699,7 @@ class MiniMusicPlayer {
       this.currentIndex = 0;
     }
 
+    this.initYouTubePlayer();
     // Apply saved playlist visuals (background & topbar label)
     this.applyPlaylistVisuals(this.currentPlaylistId);
 
@@ -1484,6 +1711,92 @@ class MiniMusicPlayer {
     this.loadFromFirebaseStorage('ahirani');
     this.loadFromFirebaseStorage('kanubai');
     this.loadFromFirebaseStorage('aarti');
+  }
+
+  /**
+   * Initializes YouTube IFrame Player instance for YouTube track playback
+   */
+  initYouTubePlayer() {
+    this.ytPlayerReady = false;
+
+    const createPlayer = () => {
+      if (this.ytPlayer) return;
+      try {
+        this.ytPlayer = new YT.Player('ytPlayer', {
+          height: '200',
+          width: '200',
+          playerVars: {
+            playsinline: 1,
+            controls: 0,
+            rel: 0,
+            enablejsapi: 1
+          },
+          events: {
+            onReady: (event) => {
+              this.ytPlayerReady = true;
+              try {
+                event.target.setVolume(this.volume * 100);
+              } catch(e){}
+            },
+            onStateChange: (event) => {
+              this.onYouTubeStateChange(event.data);
+            }
+          }
+        });
+      } catch (err) {
+        console.warn('YouTube Player initialization notice:', err);
+      }
+    };
+
+    if (window.YT && window.YT.Player) {
+      createPlayer();
+    } else {
+      window.onYouTubeIframeAPIReady = () => {
+        createPlayer();
+      };
+    }
+
+    // High precision progress tracker for YouTube player
+    setInterval(() => {
+      if (this.isCurrentTrackYouTube() && this.ytPlayer && this.ytPlayerReady && this.isPlaying) {
+        try {
+          if (typeof this.ytPlayer.getCurrentTime === 'function' && typeof this.ytPlayer.getDuration === 'function') {
+            const curTime = this.ytPlayer.getCurrentTime() || 0;
+            const dur = this.ytPlayer.getDuration() || 0;
+            if (dur > 0) {
+              this.currentTimeEl.textContent = this.formatTime(curTime);
+              this.totalDurationEl.textContent = this.formatTime(dur);
+              if (!this.isDragging) {
+                const pct = (curTime / dur) * 100;
+                this.progressFill.style.width = `${pct}%`;
+                if (this.progressSlider) this.progressSlider.value = pct;
+              }
+            }
+          }
+        } catch (e) {}
+      }
+    }, 500);
+  }
+
+  isCurrentTrackYouTube() {
+    const track = this.playlist && this.playlist[this.currentIndex];
+    return !!(track && (track.isYouTube || track.videoId || track.ytId));
+  }
+
+  onYouTubeStateChange(state) {
+    if (!this.isCurrentTrackYouTube()) return;
+
+    if (state === 1) { // YT.PlayerState.PLAYING
+      this.isPlaying = true;
+      this.setPlayState(true);
+    } else if (state === 2) { // YT.PlayerState.PAUSED
+      this.isPlaying = false;
+      this.setPlayState(false);
+    } else if (state === 0) { // YT.PlayerState.ENDED
+      this.isPlaying = false;
+      this.setPlayState(false);
+      this.nextTrack();
+    }
   }
 
   applyPlaylistVisuals(playlistId) {
@@ -1972,7 +2285,34 @@ class MiniMusicPlayer {
     // 4. Synchronize playlist item active state
     this.highlightActivePlaylistItem();
 
-    // 5. Stream audio on demand with safe onloadedmetadata wrapping
+    // 5. If YouTube Track: Stream via YouTube IFrame API
+    if (currentSong.isYouTube || currentSong.videoId || currentSong.ytId) {
+      try {
+        if (this.audio) this.audio.pause();
+      } catch (e) {}
+
+      const vidId = currentSong.videoId || currentSong.ytId;
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.loadVideoById === 'function') {
+        try {
+          if (autoPlay) {
+            this.ytPlayer.loadVideoById(vidId);
+            this.setPlayState(true);
+          } else {
+            this.ytPlayer.cueVideoById(vidId);
+          }
+        } catch (e) {
+          console.warn('YouTube loadVideoById error:', e);
+        }
+      }
+      return;
+    }
+
+    // Standard HTML5 Audio Track
+    if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.pauseVideo === 'function') {
+      try { this.ytPlayer.pauseVideo(); } catch(e){}
+    }
+
+    // Stream audio on demand with safe onloadedmetadata wrapping
     const directAudio = currentSong.audioUrl || currentSong.url;
     if (directAudio) {
       this.audio.src = directAudio;
@@ -2048,6 +2388,26 @@ class MiniMusicPlayer {
   playAudio() {
     const track = this.playlist[this.currentIndex];
     if (!track) return;
+
+    if (track.isYouTube || track.videoId || track.ytId) {
+      try {
+        if (this.audio) this.audio.pause();
+      } catch (e) {}
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.playVideo === 'function') {
+        try {
+          this.ytPlayer.playVideo();
+          this.setPlayState(true);
+          return;
+        } catch (e) {}
+      }
+      this.setPlayState(true);
+      return;
+    }
+
+    if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.pauseVideo === 'function') {
+      try { this.ytPlayer.pauseVideo(); } catch(e){}
+    }
+
     const directAudio = track.audioUrl || track.url;
 
     if (!this.audio.src || this.audio.src.startsWith('data:') || this.audio.src !== directAudio) {
@@ -2129,9 +2489,15 @@ class MiniMusicPlayer {
   }
 
   pauseAudio() {
-    try {
-      this.audio.pause();
-    } catch (e) {}
+    if (this.isCurrentTrackYouTube()) {
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.pauseVideo === 'function') {
+        try { this.ytPlayer.pauseVideo(); } catch(e) {}
+      }
+    } else {
+      try {
+        this.audio.pause();
+      } catch (e) {}
+    }
     this.setPlayState(false);
   }
 
@@ -2225,6 +2591,18 @@ class MiniMusicPlayer {
   }
 
   seekToPercent(percent) {
+    if (this.isCurrentTrackYouTube()) {
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.getDuration === 'function') {
+        try {
+          const dur = this.ytPlayer.getDuration() || 0;
+          if (dur > 0) {
+            this.ytPlayer.seekTo((percent / 100) * dur, true);
+          }
+        } catch(e) {}
+      }
+      return;
+    }
+
     if (this.audio.duration && !isNaN(this.audio.duration)) {
       this.audio.currentTime = (percent / 100) * this.audio.duration;
     }
@@ -2232,6 +2610,18 @@ class MiniMusicPlayer {
   }
 
   seekRelative(seconds) {
+    if (this.isCurrentTrackYouTube()) {
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.getCurrentTime === 'function') {
+        try {
+          const cur = this.ytPlayer.getCurrentTime() || 0;
+          const dur = this.ytPlayer.getDuration() || 0;
+          const target = Math.max(0, Math.min(cur + seconds, dur));
+          this.ytPlayer.seekTo(target, true);
+        } catch (e) {}
+      }
+      return;
+    }
+
     if (this.audio.duration && !isNaN(this.audio.duration)) {
       const target = Math.max(0, Math.min(this.audio.currentTime + seconds, this.audio.duration));
       this.audio.currentTime = target;
@@ -2240,6 +2630,15 @@ class MiniMusicPlayer {
   }
 
   seekToTime(seconds) {
+    if (this.isCurrentTrackYouTube()) {
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.seekTo === 'function') {
+        try {
+          this.ytPlayer.seekTo(seconds, true);
+        } catch (e) {}
+      }
+      return;
+    }
+
     if (this.audio.duration && !isNaN(this.audio.duration)) {
       const target = Math.max(0, Math.min(seconds, this.audio.duration));
       this.audio.currentTime = target;
@@ -2253,6 +2652,12 @@ class MiniMusicPlayer {
     if (this.volumeSlider) this.volumeSlider.value = this.volume;
     localStorage.setItem('kj_volume', this.volume);
 
+    if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.setVolume === 'function') {
+      try {
+        this.ytPlayer.setVolume(this.volume * 100);
+      } catch (e) {}
+    }
+
     this.isMuted = this.volume === 0;
     this.updateVolumeIcon();
   }
@@ -2262,9 +2667,18 @@ class MiniMusicPlayer {
     if (this.isMuted) {
       this.audio.muted = true;
       if (this.volumeSlider) this.volumeSlider.value = 0;
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.mute === 'function') {
+        try { this.ytPlayer.mute(); } catch (e) {}
+      }
     } else {
       this.audio.muted = false;
       if (this.volumeSlider) this.volumeSlider.value = this.volume;
+      if (this.ytPlayer && this.ytPlayerReady && typeof this.ytPlayer.unMute === 'function') {
+        try {
+          this.ytPlayer.unMute();
+          this.ytPlayer.setVolume(this.volume * 100);
+        } catch (e) {}
+      }
     }
     this.updateVolumeIcon();
   }
@@ -2385,7 +2799,7 @@ class MiniMusicPlayer {
     if (this.isLoadingPlaylist && this.isLoadingPlaylist[this.currentPlaylistId] && (!this.playlist || this.playlist.length === 0)) {
       const isKanubai = this.currentPlaylistId === 'kanubai';
       const isAarti = this.currentPlaylistId === 'aarti';
-      const loadingText = isKanubai ? '🎤 কুমার শানুর গান লোড হচ্ছে...' : (isAarti ? '🪔 ৩ গান লোড হচ্ছে...' : '🎶 বাংলা গান লোড হচ্ছে...');
+      const loadingText = isKanubai ? '🎤 অরিজিৎ সিংয়ের গান লোড হচ্ছে...' : (isAarti ? '🪔 ৩ গান লোড হচ্ছে...' : '🎶 বাংলা গান লোড হচ্ছে...');
 
       const skeletonCount = 6;
       let skeletonsHtml = '<div class="playlist-skeleton-container" aria-label="Loading tracks">';
