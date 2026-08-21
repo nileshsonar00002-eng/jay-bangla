@@ -1319,22 +1319,23 @@ body.aarti-active .player-container.hidden-on-scroll {
   opacity: 1;
 }
 
-/* Mini Volume Box */
+/* Top-Right Action Box: Shuffle & Playlist Buttons */
 .mini-volume-box {
   display: flex;
   align-items: center;
-  gap: 0.2rem;
+  gap: 0.3rem;
   flex-shrink: 0;
 }
 
-.vol-btn {
-  width: 24px;
-  height: 24px;
-  color: var(--text-muted);
-}
-
-.vol-btn:hover {
-  color: var(--theme-accent);
+.mini-volume-box .shuffle-btn {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  min-height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Sleek Playlist Trigger Button */
@@ -1345,12 +1346,14 @@ body.aarti-active .player-container.hidden-on-scroll {
   border-radius: 50%;
   width: 26px;
   height: 26px;
+  min-width: 26px;
+  min-height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   outline: none;
-  margin-left: 0.35rem;
+  margin-left: 0;
   transition: all var(--transition-fast), border-color var(--theme-transition), box-shadow var(--theme-transition);
   box-shadow: 0 0 8px var(--theme-glow);
   flex-shrink: 0;
@@ -2604,38 +2607,43 @@ body.aarti-active .player-container.hidden-on-scroll {
     max-width: 100%;
   }
 
-  /* Volume Mute Button on Line 1 */
+  /* Top-Right Action Buttons: Shuffle & Playlist on Line 1 */
   .mini-volume-box {
     position: static;
     display: flex;
     align-items: center;
+    gap: 0.35rem;
     margin: 0;
     padding: 0;
     flex-shrink: 0;
   }
 
-  .vol-btn {
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    min-height: 32px;
+  .mini-volume-box .shuffle-btn,
+  .mini-volume-box .playlist-trigger-btn {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    color: #ffffff;
+    border: 1px solid var(--theme-player-border);
+    color: var(--theme-accent-bright);
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0;
     -webkit-tap-highlight-color: transparent;
   }
 
-  .vol-btn svg {
-    width: 16px;
-    height: 16px;
+  .mini-volume-box .shuffle-btn svg,
+  .mini-volume-box .playlist-trigger-btn svg {
+    width: 15px;
+    height: 15px;
   }
 
-  .mini-volume-slider {
-    display: none;
+  .mini-volume-box .shuffle-btn:active,
+  .mini-volume-box .playlist-trigger-btn:active {
+    transform: scale(0.92);
   }
 
   /* Line 2: Playback Buttons (Left) + Progress/Seek Bar (Center/Right) */
