@@ -820,7 +820,7 @@ body {
   max-width: 470px;
   z-index: 50;
   animation: fadeTranslateUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.65s both;
-  transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1), bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
 /* Position player in center of screen for all playlists */
@@ -832,14 +832,17 @@ body.aarti-active .player-container {
   transform: translate(-50%, -50%);
 }
 
-/* Move player to top section when scrolling down for all playlists */
-.player-container.scrolled-up,
-body.kanubai-active .player-container.scrolled-up,
-body.arjit-active .player-container.scrolled-up,
-body.aarti-active .player-container.scrolled-up {
-  top: clamp(80px, 12vh, 120px) !important;
-  bottom: auto !important;
-  transform: translateX(-50%) !important;
+/* Hide player smoothly when scrolling down */
+.player-hidden,
+.player-container.player-hidden,
+body.kanubai-active .player-container.player-hidden,
+body.arjit-active .player-container.player-hidden,
+body.aarti-active .player-container.player-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translate(-50%, calc(-50% + 20px)) !important;
+  visibility: hidden !important;
+  transition: all 0.3s ease-in-out !important;
 }
 
 .mini-player-bar {
@@ -2255,14 +2258,6 @@ body.kanubai-active .mini-player-bar {
     transform: translate(-50%, -50%);
   }
 
-  .player-container.scrolled-up,
-  body.kanubai-active .player-container.scrolled-up,
-  body.arjit-active .player-container.scrolled-up,
-  body.aarti-active .player-container.scrolled-up {
-    top: calc(clamp(85px, 12.5vh, 125px) + env(safe-area-inset-top, 0px)) !important;
-    bottom: auto !important;
-    transform: translateX(-50%) !important;
-  }
 
   .cultural-section {
     padding: 2.5rem 1.25rem 2rem;
@@ -2429,16 +2424,6 @@ body.kanubai-active .mini-player-bar {
     margin-bottom: 0;
   }
 
-  .player-container.scrolled-up,
-  body.kanubai-active .player-container.scrolled-up,
-  body.arjit-active .player-container.scrolled-up,
-  body.aarti-active .player-container.scrolled-up {
-    top: calc(clamp(80px, 11.5vh, 115px) + env(safe-area-inset-top, 0px)) !important;
-    bottom: auto !important;
-    transform: translateX(-50%) !important;
-    margin-top: 0;
-    margin-bottom: 0;
-  }
 
   .mini-player-bar {
     position: relative;
