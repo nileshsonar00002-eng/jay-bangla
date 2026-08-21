@@ -193,8 +193,9 @@ if (typeof firebase !== 'undefined' && (!firebase.apps || !firebase.apps.length)
         .then(() => {
           console.log('🔥 Firebase Connected & Authenticated (Anonymous)');
           if (window.khandeshiPlayer) {
-            window.khandeshiPlayer.loadFromFirebaseStorage('ahirani');
             window.khandeshiPlayer.loadFromFirebaseStorage('arjit');
+            window.khandeshiPlayer.loadFromFirebaseStorage('sanu');
+            window.khandeshiPlayer.loadFromFirebaseStorage('jaybangla');
           }
         })
         .catch((err) => console.info('Firebase auth notice:', err.message));
@@ -1322,6 +1323,10 @@ const defaultPlaylists = {
   ]
 };
 
+defaultPlaylists.jaybangla = defaultPlaylists.ahirani;
+defaultPlaylists.arjit = [];
+defaultPlaylists.sanu = [];
+
 const PLAYLIST_CONFIG = {
   arjit: {
     id: 'arjit',
@@ -1735,8 +1740,10 @@ class MiniMusicPlayer {
               discoveredFolders.push(pName);
             } else if (playlistId === 'sanu' && (pLower.includes('sanu') || pLower.includes('kumar'))) {
               discoveredFolders.push(pName);
-            } else if (playlistId === 'jaybangla' && (pLower.includes('jay') || pLower.includes('bangla') || pLower.includes('music') || pLower.includes('ahirani') || pLower.includes('song'))) {
-              discoveredFolders.push(pName);
+            } else if (playlistId === 'jaybangla') {
+              if (pLower.includes('jay') || pLower === 'jaybangla' || pLower === 'ahirani' || (pLower.includes('bangla') && !pLower.includes('arjit') && !pLower.includes('arijit'))) {
+                discoveredFolders.push(pName);
+              }
             }
           });
           if (discoveredFolders.length > 0) {
@@ -1781,6 +1788,9 @@ class MiniMusicPlayer {
               
               this.playlists[playlistId] = storageTracks;
               this.saveCachedPlaylist(playlistId, storageTracks);
+              if (playlistId === 'jaybangla') {
+                this.saveCachedPlaylist('ahirani', storageTracks);
+              }
               this.isLoadingPlaylist[playlistId] = false;
 
               if (this.currentPlaylistId === playlistId) {
@@ -1811,6 +1821,21 @@ class MiniMusicPlayer {
         } catch (fErr) {
           if (fErr.code === 'storage/unauthorized') {
             console.warn(`⚠️ Firebase Storage Security Rule Notice for [${folder}]: Please set Firebase Storage rules to allow read on /{allPaths=**}.`, fErr.message);
+          }
+        }
+      }
+
+      // Fallback for jaybangla if no remote files returned
+      if (playlistId === 'jaybangla' && (!this.playlists.jaybangla || this.playlists.jaybangla.length === 0)) {
+        const fallback = defaultPlaylists.jaybangla || defaultPlaylists.ahirani;
+        if (fallback && fallback.length > 0) {
+          this.playlists.jaybangla = [...fallback];
+          if (this.currentPlaylistId === 'jaybangla') {
+            this.playlist = [...fallback];
+            this.updatePlaylistCountBadge();
+            if (this.isPlaylistOpen) {
+              this.renderPlaylistItems(this.playlistSearchInput ? this.playlistSearchInput.value : '');
+            }
           }
         }
       }
