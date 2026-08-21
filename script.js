@@ -3010,7 +3010,7 @@ function initPlayerScrollHide() {
 
   const handleScroll = () => {
     const scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    if (scrollY > 80) {
+    if (scrollY > 10) {
       playerContainer.classList.add('player-hidden');
     } else {
       playerContainer.classList.remove('player-hidden');
