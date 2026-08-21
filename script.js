@@ -1515,8 +1515,8 @@ class MiniMusicPlayer {
       iconEl.textContent = config.icon;
     }
 
-    // Dynamic Theme: Silver for Arijit Express, default Amber/Gold for Hindi Melodies & Rewind
-    if (playlistId === 'arjit' || (config.name && config.name.includes('Arijit'))) {
+    // Dynamic Theme: Silver for Arijit Express & Rewind 2000s; Amber/Gold for Hindi Melodies (sanu)
+    if (playlistId === 'arjit' || playlistId === 'jaybangla' || (config.name && (config.name.includes('Arijit') || config.name.includes('Rewind')))) {
       document.body.setAttribute('data-theme', 'silver');
     } else {
       document.body.removeAttribute('data-theme');
