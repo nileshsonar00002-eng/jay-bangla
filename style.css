@@ -2307,7 +2307,7 @@ body.kanubai-active .mini-player-bar {
   }
 
   .main-top-title {
-    font-size: clamp(1.45rem, 6.2vw, 2.1rem) !important;
+    font-size: clamp(1.67rem, 7.1vw, 2.42rem) !important;
     letter-spacing: 0.08em !important;
     padding: 0 !important;
     background: linear-gradient(180deg, #FFFFFF 0%, #FFF3C4 20%, #F5C469 48%, #D4A359 75%, #9E6F24 100%) !important;
