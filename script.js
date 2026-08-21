@@ -2451,11 +2451,11 @@ class MiniMusicPlayer {
           <div style="display: flex; align-items: center; gap: 0.55rem; min-width: 0;">
             <span style="font-size: 1.25rem;">🎤</span>
             <div style="min-width: 0;">
-              <div style="font-size: 0.84rem; font-weight: 700; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">অরিজিৎ সিং (Arijit Bangla Hits)</div>
+              <div style="font-size: 0.84rem; font-weight: 700; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">অরিজিৎ সিং (Arjit Bangla Hit)</div>
               <div style="font-size: 0.7rem; color: rgba(255,255,255,0.7);">YouTube Music Playlist</div>
             </div>
           </div>
-          <a href="https://music.youtube.com/playlist?list=PLWBr-lODEy10&si=zaxyBEz32gJHpybb" 
+          <a href="https://music.youtube.com/playlist?list=PLPJfJ0_yJdzs&si=UXL-VAf8Bc0_N38x" 
              target="_blank" rel="noopener noreferrer"
              style="display: inline-flex; align-items: center; gap: 0.3rem; background: #ff0000; color: #ffffff; padding: 0.35rem 0.75rem; border-radius: 999px; font-weight: 700; font-size: 0.72rem; text-decoration: none; white-space: nowrap; box-shadow: 0 2px 8px rgba(255,0,0,0.4);">
             প্লেলিস্ট ↗
