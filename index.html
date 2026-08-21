@@ -198,41 +198,12 @@
       </div>
     </div>
 
-    <!-- Playlist Selector Dropdown (Positioned directly below Date & Time) -->
-    <div class="playlist-selector-wrapper" id="playlistSelectorWrapper" aria-label="Select Song Playlist">
-      <button class="playlist-select-pill" id="playlistSelectBtn" type="button" aria-haspopup="listbox" aria-expanded="false" title="প্লেলিস্ট নির্বাচন করুন">
+    <!-- Playlist Selector (Hidden since only single main playlist exists) -->
+    <div class="playlist-selector-wrapper" id="playlistSelectorWrapper" aria-label="Song Playlist" style="display: none;">
+      <button class="playlist-select-pill" id="playlistSelectBtn" type="button" aria-haspopup="listbox" aria-expanded="false" title="বাংলা গান">
         <span class="playlist-icon" id="currentPlaylistIcon">🎵</span>
         <span class="playlist-current-label" id="playlistCurrentLabel">বাংলা গান</span>
-        <svg class="playlist-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
       </button>
-
-      <!-- Dropdown Menu Options -->
-      <div class="playlist-dropdown-menu" id="playlistDropdownMenu" role="listbox" style="display: none;">
-        <button type="button" class="playlist-option-item active" data-playlist="ahirani" role="option" aria-selected="true">
-          <span class="option-icon">🎶</span>
-          <div class="option-text-group">
-            <span class="option-title">বাংলা গান</span>
-            <span class="option-sub">ঐতিহ্যবাহী ও লোকগীতি</span>
-          </div>
-          <span class="option-check">✓</span>
-        </button>
-        <button type="button" class="playlist-option-item" data-playlist="kanubai" role="option" aria-selected="false">
-          <span class="option-icon">🎤</span>
-          <div class="option-text-group">
-            <span class="option-title">অরিজিৎ সিং (Arijit Singh)</span>
-            <span class="option-sub">YouTube Music • বাংলা গান</span>
-          </div>
-          <span class="option-check">✓</span>
-        </button>
-        <button type="button" class="playlist-option-item" data-playlist="aarti" role="option" aria-selected="false">
-          <span class="option-icon">🪔</span>
-          <div class="option-text-group">
-            <span class="option-title">৩</span>
-            <span class="option-sub">বাংলা ভক্তি ও আরতি</span>
-          </div>
-          <span class="option-check">✓</span>
-        </button>
-      </div>
     </div>
   </div>
 
@@ -498,14 +469,6 @@
 
   <!-- Native HTML5 Audio Element for Firebase Cloud Storage Streaming -->
   <audio id="audioElement" preload="auto"></audio>
-
-  <!-- YouTube IFrame Player for YouTube Playlist Streaming -->
-  <div id="ytPlayerContainer" style="position: fixed; width: 200px; height: 200px; left: -9999px; top: -9999px; opacity: 0; pointer-events: none; z-index: -1;" aria-hidden="true">
-    <div id="ytPlayer"></div>
-  </div>
-
-  <!-- YouTube IFrame Player API -->
-  <script src="https://www.youtube.com/iframe_api"></script>
 
   <!-- Real-Time Global Presence Engine (MQTT over WebSockets) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
